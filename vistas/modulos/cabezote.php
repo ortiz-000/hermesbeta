@@ -48,6 +48,18 @@
         </a>
       </li>
 
+      <!-- user dropdown logout -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fas fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-sign-out-alt mr-2"></i> Finalizar Sesión
+          </a>
+        </div>
+      </li>
+
     </ul>
   </nav>
   <!-- /.navbar -->
