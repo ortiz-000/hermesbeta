@@ -1,3 +1,8 @@
+<?php
+  session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,22 +30,55 @@
 </head>
 
 
-<body class="hold-transition sidebar-mini">
+
+<body class="hold-transition sidebar-mini login-page">
 <!-- Site wrapper -->
-  <div class="wrapper">
-    
-    <?php
+
+
+<?php
+
+  if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") {
+    echo '<script>
+      document.addEventListener("DOMContentLoaded", function() {
+        document.body.classList.remove("login-page");
+      });
+    </script>';
+    echo '<div class="wrapper">';
     include "modulos/cabezote.php";
     include "modulos/menu.php";
-    include "modulos/inicio.php";
+
+    if (isset($_GET["ruta"])) {
+      if ($_GET["ruta"] == "inicio" ||
+          $_GET["ruta"] == "usuarios" ||
+          $_GET["ruta"] == "permisos" ||
+          $_GET["ruta"] == "inventario" ||
+          $_GET["ruta"] == "recepcion" ||
+          $_GET["ruta"] == "reservas" ||
+          $_GET["ruta"] == "inmediatas" ||
+          $_GET["ruta"] == "autorizaciones" ||
+          $_GET["ruta"] == "vencidas" ||
+          $_GET["ruta"] == "devoluciones" ||
+          $_GET["ruta"] == "salidas" ||
+          $_GET["ruta"] == "reportes" ||
+          $_GET["ruta"] == "salir") {
+
+            include "modulos/".$_GET["ruta"].".php";
+      } else {
+        include "modulos/error404.php";
+      }
+    }
+    
     include "modulos/footer.php";
+    echo '</div>';
+    echo '<!-- ./wrapper -->';
+  } else {
+    include "modulos/login.php";
+  }
     ?>
 
-  </div>
-
-  <!-- ./wrapper -->
 
 
-  <!-- <script src="vistas/js/plantilla.js"></script> -->
+
+  <script src="vistas/js/plantilla.js"></script>
 </body>
 </html>

@@ -54,7 +54,7 @@
           <i class="fas fa-user"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
+          <a href="salir" class="dropdown-item">
             <i class="fas fa-sign-out-alt mr-2"></i> Finalizar Sesión
           </a>
         </div>

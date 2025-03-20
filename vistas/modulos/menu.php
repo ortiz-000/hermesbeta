@@ -16,15 +16,34 @@
         <div class="info">
           <a href="#" class="d-block">Michel Pierce</a>
         </div>
-      </div>  
+      </div>
+
+      <!-- Sidebar user panel (optional) -->
+      <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
+        <div class="info">
+          <a href="#" class="d-block">
+            <i class="nav-icon fas fa-user"></i>
+          </a>
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">
+            <i class="nav-icon fas fa-cog"></i>
+          </a>
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">
+            <i class="nav-icon fas fa-bell"></i>
+          </a>
+        </div>
+      </div> -->
       
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="index.php" class="nav-link">
+            <a href="inicio" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Inicio
@@ -43,13 +62,13 @@
             </a>            
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="usuarios" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Usuarios</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="permisos" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Permisos</p>
                 </a>
@@ -67,13 +86,13 @@
             </a>            
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="inventario" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Inventario</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="recepcion" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Recepción</p>
                 </a>
@@ -90,13 +109,13 @@
             </a>            
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="reservas" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Reservas</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="inmediatas" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Inmediatas</p>
                 </a>
@@ -113,13 +132,13 @@
             </a>            
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="autorizaciones" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Autorizaciones</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="vencidas" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Solicitudes vencidas</p>
                 </a>
@@ -127,7 +146,7 @@
             </ul>
             
             <li class="nav-item">
-            <a href="index.php" class="nav-link">
+            <a href="devoluciones" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
               <span class="badge badge-info right">6+</span>
               <p>
@@ -137,7 +156,7 @@
           </li>
           
           <li class="nav-item">
-            <a href="index.php" class="nav-link">
+            <a href="salidas" class="nav-link">
               <i class="nav-icon fas fa-eye"></i>
               <span class="badge badge-info right">3+</span>
               <p>
@@ -147,7 +166,7 @@
           </li> 
           
           <li class="nav-item">
-            <a href="index.php" class="nav-link">
+            <a href="reportes" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
                 Reportes
