@@ -17,11 +17,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
-
-      <!-- Default box -->
-
-      <!-- /.card -->
+    <section class="content"> 
 
     </section>
     <!-- /.content -->

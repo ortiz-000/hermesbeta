@@ -42,6 +42,32 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Administrar
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="fichas" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Fichas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="sedes" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sedes</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
           <li class="nav-item">
             <a href="inicio" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
