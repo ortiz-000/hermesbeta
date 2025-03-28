@@ -28,6 +28,7 @@
                                         <th>Nombre</th>
                                         <th>Dirección</th>
                                         <th>Descripción</th>
+                                        <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
                                     </thead>
@@ -46,14 +47,17 @@
                                                 <td>' . $value["nombre_sede"] . '</td>
                                                 <td>' . $value["direccion"] . '</td>
                                                 <td>' . $value["descripcion"] . '</td>
+                                                <td>';
+                                                if ($value["estado"] == "activa") {
+                                                    echo '<button class="btn btn-success btn-xs btnActivarSede" idSede="'.$value["id_sede"].'" estadoSede="inactiva"">Activa</button>';
+                                                } else {
+                                                    echo '<button class="btn btn-danger btn-xs btnActivarSede" idSede="'.$value["id_sede"].'" estadoSede="activa">Inactiva</button>';
+                                                };
+                                                echo '</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <button class="btn btn-default btn-xs btnEditarSede" idSede="'.$value["id_sede"].'" data-toggle="modal" data-target="#modalEditSede"><i class="fas fa-edit"></i></button>';
-                                                        if ($value["estado"] == "activo") {
-                                                            echo '<button class="btn btn-success btn-xs btnActivarSede" idSede="'.$value["id_sede"].' estadoSede="inactivo""><i class="fas fa-check"></i></button>';
-                                                        } else {
-                                                            echo '<button class="btn btn-danger btn-xs btnActivarSede" idSede="'.$value["id_sede"].' estadoSede="activo"><i class="fas fa-ban"></i></button>';
-                                                        }
+
                                                         // <button class="btn btn-default btn-xs"><i class="fas fa-ban"></i></button>
                                             echo '</div>
                                                 </td>
@@ -115,7 +119,7 @@
     </div>
 
 
-    <!-- Modal Add Sede -->
+    <!-- Modal Edit Sede -->
     <div class="modal fade" id="modalEditSede" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

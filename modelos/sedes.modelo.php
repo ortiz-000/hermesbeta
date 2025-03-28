@@ -84,27 +84,20 @@ class ModeloSedes
     /*=============================================
     ACTUALIZAR SEDE
     =============================================*/
-    static public function mdlActualizarSede($tabla, $item1, $valor1, $item2, $valor2)
+    static public function mdlCambiarEstadoSede($valorId, $valorEstado)
     {
-        try {
-            $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item2 = :$item2 WHERE $item1 = :$item1");
+        $stmt = Conexion::conectar()->prepare("UPDATE sedes SET estado = :estado WHERE id_sede = :id_sede");
 
-            $stmt->bindParam(":".$item1, $valor1, PDO::PARAM_INT);
-            $stmt->bindParam(":".$item2, $valor2, PDO::PARAM_STR);
+        $stmt->bindParam(":id_sede", $valorId, PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $valorEstado, PDO::PARAM_STR);
 
-            if ($stmt->execute()) {
-                return "ok";
-            } else {
-                // Captura el error y devuélvelo para depuración
-                $errorInfo = $stmt->errorInfo();
-                return "error: " . $errorInfo[2];
-            }
-        } catch (PDOException $e) {
-            // Captura cualquier excepción y devuélvela para depuración
-            return "error: " . $e->getMessage();
-        } finally {
-            $stmt->closeCursor();
-            $stmt = null;
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
         }
+
+        $stmt->closeCursor();
+        $stmt = null;
     }
 }

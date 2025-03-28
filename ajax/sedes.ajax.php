@@ -9,8 +9,6 @@ class AjaxSedes
     EDITAR SEDE
     =============================================*/
     public $idSede;
-
-    public $idEstadoSede;
     public $estadoSede;
 
     public function ajaxEditarSede()
@@ -23,17 +21,16 @@ class AjaxSedes
         echo json_encode($respuesta);
     }
 
-    public function ajaxActivarSede()
+    public function ajaxCambiarEstadoSede()
     {
-        $tabla = "sedes";
-        $item1 = "id_sede";
-        $valor1 = $this->idEstadoSede;
-        $item2 = "estado";
-        $valor2 = $this->estadoSede;
 
-        $respuesta = ModeloSedes::mdlActualizarSede($tabla, $item1, $valor1, $item2, $valor2);
+        $valorId = $this->idSede;
+        $valorEstado = $this->estadoSede;
+        
+        $respuesta = ModeloSedes::mdlCambiarEstadoSede($valorId, $valorEstado);
 
         echo json_encode($respuesta);
+        
     }
 }
 
@@ -43,9 +40,9 @@ if (isset($_POST["idSede"])) {
     $editar->ajaxEditarSede();
 }
 
-if (isset($_POST["idEstadoSede"])) {
+if (isset($_POST["idSedeActivar"]) && isset($_POST["estadoSede"])) {
     $activarSede = new AjaxSedes();
-    $activarSede->idEstadoSede = $_POST["idEstadoSede"];
+    $activarSede->idSede = $_POST["idSedeActivar"];
     $activarSede->estadoSede = $_POST["estadoSede"];
-    $activarSede->ajaxActivarSede();
+    $activarSede->ajaxCambiarEstadoSede();
 }

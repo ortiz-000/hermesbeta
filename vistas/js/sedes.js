@@ -20,12 +20,13 @@ $(".btnEditarSede").click(function () {
     });
 });
 
-$(".btnActivarSede").click(function () {
-    var idSede = $(this).attr("idSede");
+$(document).on("click", ".btnActivarSede", function () {
+    var idSedeActivar = $(this).attr("idSede");
     var estadoSede = $(this).attr("estadoSede");
     var datos = new FormData();
-    datos.append("idEstadoSede", idSede);
+    datos.append("idSedeActivar", idSedeActivar);
     datos.append("estadoSede", estadoSede);
+    
     $.ajax({
         url: "ajax/sedes.ajax.php",
         method: "POST",
@@ -34,18 +35,18 @@ $(".btnActivarSede").click(function () {
         contentType: false,
         processData: false,
         success: function (respuesta) {
-            console.log(respuesta);
-        },
-    });
-    if (estadoSede == "inactivo") {
+            console.log("cambiado el estado", respuesta);
+        }
+    })
+    if (estadoSede == "inactiva") {
         $(this).removeClass("btn-success");
         $(this).addClass("btn-danger");
-        $(this).html('<i class="fa fa-ban"></i>');
-        $(this).attr("estadoSede", "activo");
+        $(this).html('Inactiva');
+        $(this).attr("estadoSede", "activa");
     }else {
         $(this).removeClass("btn-danger");
         $(this).addClass("btn-success");
-        $(this).html('<i class="fa fa-check"></i>');
-        $(this).attr("estadoSede", "inactivo");
+        $(this).html('Activa');
+        $(this).attr("estadoSede", "inactiva");
     }
 });

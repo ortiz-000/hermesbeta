@@ -11,13 +11,43 @@ $(".btnEditarFicha").click(function() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-            console.log("respuesta", respuesta);
-            $("idEditFicha").val(respuesta["id_ficha"]);
+            console.log("Ficha", respuesta["id_ficha"]);
             $("#editCodigoFicha").val(respuesta["codigo"]);
             $("#editDescripcionFicha").val(respuesta["descripcion"]);
             $("#editFechaInicioFicha").val(respuesta["fecha_inicio"]);
             $("#editFechaFinFicha").val(respuesta["fecha_fin"]);
             $("#editSede").val(respuesta["id_sede"]);
+            $("#idEditFicha").val(respuesta["id_ficha"]);
         },
     });
+});
+
+$(document).on("click", ".btnActivarFicha", function() {
+    var idFichaActivar = $(this).attr("idFicha");
+    var estadoFicha = $(this).attr("estadoFicha");
+    var datos = new FormData();
+    datos.append("idFichaActivar", idFichaActivar);
+    datos.append("estadoFicha", estadoFicha);
+    $.ajax({
+        url: "ajax/fichas.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(respuesta) {
+            console.log("cambiado el estado", respuesta);
+        }
+    })
+    if (estadoFicha == "inactiva") {
+        $(this).removeClass("btn-success");
+        $(this).addClass("btn-danger");
+        $(this).html('<i class="fas fa-ban">');
+        $(this).attr("estadoFicha", "activa");
+    }else {
+        $(this).removeClass("btn-danger");
+        $(this).addClass("btn-success");
+        $(this).html('<i class="fas fa-check">');
+        $(this).attr("estadoFicha", "inactiva");
+    }
 });

@@ -9,8 +9,7 @@ class ControladorSedes
     {
         if (isset($_POST["nombreSede"])  && isset($_POST["direccionSede"]) && isset($_POST["descripcionSede"])) {
             if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nombreSede"]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["direccionSede"]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["descripcionSede"])) {
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["direccionSede"])) {
 
                 // var_dump($_POST["nombreSede"]);
                 // exit();
@@ -90,8 +89,7 @@ class ControladorSedes
     {
         if (isset($_POST["nombreEditSede"]) && isset($_POST["direccionEditSede"]) && isset($_POST["descripcionEditSede"])) {
             if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nombreEditSede"]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["direccionEditSede"]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["descripcionEditSede"])) {
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["direccionEditSede"])) {
 
                 $tabla = "sedes";
                 $datos = array(

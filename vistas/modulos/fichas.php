@@ -30,6 +30,7 @@
                                         <th>Sede</th>
                                         <th>Inicio</th>
                                         <th>Fin</th>
+                                        <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
                                     </thead>
@@ -48,15 +49,17 @@
                                                     <td>' . $value["nombre_sede"] . '</td>
                                                     <td>' . $value["fecha_inicio"] . '</td>
                                                     <td>' . $value["fecha_fin"] . '</td>
+                                                    <td>' ;
+                                                        if ($value["estado"] == "activa") {
+                                                            echo '<button class="btn btn-success btn-xs btnActivarFicha" idFicha="'.$value["id_ficha"].'" estadoFicha="inactiva"><i class="fas fa-check"></i></button>';
+                                                        } else {
+                                                            echo '<button class="btn btn-danger btn-xs btnActivarFicha" idFicha="'.$value["id_ficha"].'" estadoFicha="activa"><i class="fas fa-ban"></i></button>';
+                                                        };
+                                                echo '</td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <button class="btn btn-default btn-xs btnEditarFicha" idFicha="'.$value["id_ficha"].'" data-toggle="modal" data-target="#modalEditFicha"><i class="fas fa-edit"></i></button>';
-                                                            if ($value["estado"] == "activo") {
-                                                                echo '<button class="btn btn-success btn-xs btnActivarFicha" idFicha="'.$value["id_ficha"].' estadoFicha="inactivo"><i class="fas fa-check"></i></button>';
-                                                            } else {
-                                                                echo '<button class="btn btn-danger btn-xs btnActivarFicha" idFicha="'.$value["id_ficha"].' estadoFicha="activo"><i class="fas fa-ban"></i></button>';
-                                                            }
-                                                echo '</div>
+                                                            <button class="btn btn-default btn-xs btnEditarFicha" idFicha="'.$value["id_ficha"].'" data-toggle="modal" data-target="#modalEditFicha"><i class="fas fa-edit"></i></button>
+                                                        </div>
                                                     </td>
                                                 </tr>';
                                             }
@@ -113,7 +116,7 @@
                                 echo '<option value="">Seleccione una sede</option>';
                                 // Loop through the sedes and create options
                                 foreach ($sedes as $key => $value) {
-                                    if ($value["estado"] != "inactivo") {
+                                    if ($value["estado"] != "inactiva") {
                                         echo '<option value="'.$value["id_sede"].'">'.$value["nombre_sede"].'</option>';
                                     }
                                 }
@@ -136,7 +139,7 @@
 
 
     <!-- Modal Edit Ficha -->
-    <div class="modal fade" id="modalEditFicha" tabindex="-1" role="dialog" aria-labelledby="modalEditFichaLabel" aria-hidden="true">
+    <div class="modal fade" id="modalEditFicha" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -147,7 +150,14 @@
                 </div>
                 <div class="modal-body">
                     <form id="formEditFicha" method="POST">
-                        <input type="hidden" id="idEditFicha" name="idEditFicha">
+                        <!-- <input type="number" id="idEditFicha" name="idEditFicha" hidden> -->
+                        <!-- <input type="hidden" id="idEditFicha" name="idEditFicha"> -->
+                        <div class="form-group" hidden>
+                            <label for="editCodigo">ID</label>
+                            <input type="text" class="form-control" id="idEditFicha" name="idEditFicha">
+                        </div>
+
+
                         <div class="form-group">
                             <label for="editCodigo">Ficha</label>
                             <input type="text" class="form-control" id="editCodigoFicha" name="editCodigoFicha" required>
@@ -171,7 +181,7 @@
                                 $sedes = ControladorSedes::ctrMostrarSedes($item, $valor);
                                 // Create a dropdown for sedes
                                 echo '<label for="editSede">Sede</label>';
-                                echo '<select class="form-control" id="editSede" name="editSede" required>';
+                                echo '<select class="form-control" id="editSedeFicha" name="editSedeFicha" required>';
                                 echo '<option value="">Seleccione una sede</option>';
                                 // Loop through the sedes and create options
                                 foreach ($sedes as $key => $value) {
@@ -184,8 +194,8 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                         <?php
-                            // $editarFicha = new ControladorFichas();
-                            // $editarFicha->ctrEditarFicha();
+                            $editarFicha = new ControladorFichas();
+                            $editarFicha->ctrEditarFicha();
                         ?>
                     </form>
                 </div>

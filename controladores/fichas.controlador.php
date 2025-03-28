@@ -55,16 +55,31 @@ class ControladorFichas {
 
     static public function ctrEditarFicha() {
         // Implementar la lógica para editar una ficha
-        if (isset($_POST["editCodigo"]) && isset($_POST["editDescripcion"])  && isset($_POST["editSede"]) && isset($_POST["EditFechaInicio"]) && isset($_POST["EditFechaFin"])) {
-            if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["editCodigo"]) && 
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ \s]+$/', $_POST["editDescripcion"])) {
+        if (isset($_POST["editCodigoFicha"]) && isset($_POST["editDescripcionFicha"])  && isset($_POST["editSedeFicha"]) && isset($_POST["editFechaInicioFicha"]) && isset($_POST["editFechaFinFicha"]) && isset($_POST["idEditFicha"])) {
+            if (preg_match('/^[0-9]+$/', $_POST["editCodigoFicha"]) && 
+            preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ() \s]+$/', $_POST["editDescripcionFicha"])) {
+                // var_dump($_POST);
+                // die();
 
-                // Validar que la fecha de inicio sea menor que la fecha de fin
-                if ($_POST["fechaInicio"] > $_POST["fechaFin"]) {
+                // Validar y procesar los datos de la ficha
+                $tabla = "fichas";
+                $datos = array(
+                    "id_ficha" => $_POST["idEditFicha"],
+                    "codigo" => $_POST["editCodigoFicha"],
+                    "descripcion" => $_POST["editDescripcionFicha"],
+                    "idSede" => $_POST["editSedeFicha"],
+                    "fecha_inicio" => $_POST["editFechaInicioFicha"],
+                    "fecha_fin" => $_POST["editFechaFinFicha"]
+                    
+                );            
+
+                $respuesta = ModeloFichas::mdlEditarFicha($tabla, $datos);
+
+                if ($respuesta == "ok") {
                     echo '<script>
                         Swal.fire({
-                            icon: "error",
-                            title: "¡La fecha de inicio no puede ser mayor que la fecha de fin!",
+                            icon: "success",
+                            title: "¡La ficha ha sido editada correctamente!",
                             showConfirmButton: true,
                             confirmButtonText: "Cerrar"
                         }).then((result) => {
@@ -73,51 +88,23 @@ class ControladorFichas {
                             }
                         });
                     </script>';
-                    return;
+                } else {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "¡Error al editar la ficha!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "fichas";
+                            }
+                        });
+                    </script>';
                 }
             }
-            // Validar y procesar los datos de la ficha
-            $tabla = "fichas";
-            $datos = array(
-                "id" => $_POST["idFicha"],
-                "codigo" => $_POST["editCodigo"],
-                "descripcion" => $_POST["editDescripcion"],
-                "idSede" => $_POST["editSede"],
-                "fecha_inicio" => $_POST["editFechaInicio"],
-                "fecha_fin" => $_POST["EditFechaFin"]
-            );
-
-            $respuesta = ModeloFichas::mdlActualizarFicha($tabla, $datos);
-
-            if ($respuesta == "ok") {
-                echo '<script>
-                    Swal.fire({
-                        icon: "success",
-                        title: "¡La ficha ha sido editada correctamente!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "fichas";
-                        }
-                    });
-                </script>';
-            } else {
-                echo '<script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "¡Error al editar la ficha!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "fichas";
-                        }
-                    });
-                </script>';
-            }
         }
-    }
+    } //FIN METODO ctrEditarFicha
 
     // Método para leer una ficha por su ID
     public function leerFicha($id) {
