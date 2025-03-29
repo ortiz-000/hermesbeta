@@ -18,25 +18,6 @@
         </div>
       </div>
 
-      <!-- Sidebar user panel (optional) -->
-      <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
-        <div class="info">
-          <a href="#" class="d-block">
-            <i class="nav-icon fas fa-user"></i>
-          </a>
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">
-            <i class="nav-icon fas fa-cog"></i>
-          </a>
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">
-            <i class="nav-icon fas fa-bell"></i>
-          </a>
-        </div>
-      </div> -->
-      
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
@@ -64,6 +45,13 @@
                   <p>Sedes</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="roles" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Roles</p>
+                </a>
+              </li>              
+              
             </ul>
           </li>
 

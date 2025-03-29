@@ -1,7 +1,7 @@
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <!-- <div class="content-wrapper"> -->
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <!-- <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
@@ -14,98 +14,114 @@
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-
-      <!-- Default box -->
-      <div class="card">
-        <div class="card-header">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrarUsuario">
-          Agregar Usuario</button>
-
-
-        </div>
-        <div class="card-body">
-        <!-- <table id="tblUsuarios" class="table-bordered table-striped responsive"> -->
-        <table id="tblUsuarios" class="table table-bordered table-striped">
-          <thead>
-          <tr>
-              <th>Identificación</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Rol</th>
-              <!-- Solo si es estudiante -->
-              <th>Grupo</th>
-              <th>Estado</th>
-              <th>Ultimo Acceso</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-                    <tr>
-                      <td>123456789</td>
-                      <td>Juan</td>
-                      <td>Pérez</td>
-                      <td>Administrador</td>
-                      <td>2847523</td>
-                      <td><span class="badge badge-success">Activo</span></td>
-                      <td>2023-10-01 12:00:00</td>
-                      <td>
-                        <div class="btn-group">
-                          <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
-                          <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
-                          <button class="btn btn-default btn-xs"><i class="fas fa-laptop"></i></button>
-                          <button class="btn btn-default btn-xs"><i class="fas fa-file"></i></button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>987654321</td>
-                      <td>María</td>
-                      <td>Gómez</td>
-                      <td>Estudiante</td>
-                      <td>2847523</td>
-                      <td><span class="badge badge-danger">Inactivo</span></td>
-                      <td>2023-10-01 12:00:00</td>
-                      <td>
-                        <div class="btn-group">
-                        <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
-                        <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-default btn-xs"><i class="fas fa-laptop"></i></button>
-                        <button class="btn btn-default btn-xs"><i class="fas fa-file"></i></button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>456789123</td>
-                      <td>Carlos</td>
-                      <td>Lopez</td>
-                      <td>Docente</td>
-                      <td>2847523</td>
-                      <td><span class="badge badge-success">Activo</span></td>
-                      <td>2023-10-01 12:00:00</td>
-                      <td>
-                        <div class="btn-group">
-                        <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
-                        <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-default btn-xs"><i class="fas fa-laptop"></i></button>
-                        <button class="btn btn-default btn-xs"><i class="fas fa-file"></i></button>
-                        </div>
-                      </td>
-                    </tbody>
-        </table
-                  
-        </div>
-        <!-- /.card-body -->
-
       </div>
-      <!-- /.card -->
+    </section> -->
 
-    </section>
-    <!-- /.content -->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Fichas</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#registrarUsuario">Agregar usuario</button>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+          <!-- Default box -->
+          <!-- <div class="card">
+            <div class="card-header">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrarUsuario">
+              Agregar Usuario</button> -->
+
+
+            <!-- </div> -->
+            <div class="card-body">
+            <!-- <table id="tblUsuarios" class="table-bordered table-striped responsive"> -->
+            <table id="tblUsuarios" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                  <th>Identificación</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Rol</th>
+                  <!-- Solo si es estudiante -->
+                  <th>Grupo</th>
+                  <th>Estado</th>
+                  <th>Ultimo Acceso</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                        <tr>
+                          <td>123456789</td>
+                          <td>Juan</td>
+                          <td>Pérez</td>
+                          <td>Administrador</td>
+                          <td>2847523</td>
+                          <td><span class="badge badge-success">Activo</span></td>
+                          <td>2023-10-01 12:00:00</td>
+                          <td>
+                            <div class="btn-group">
+                              <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
+                              <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
+                              <button class="btn btn-default btn-xs"><i class="fas fa-laptop"></i></button>
+                              <button class="btn btn-default btn-xs"><i class="fas fa-file"></i></button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>987654321</td>
+                          <td>María</td>
+                          <td>Gómez</td>
+                          <td>Estudiante</td>
+                          <td>2847523</td>
+                          <td><span class="badge badge-danger">Inactivo</span></td>
+                          <td>2023-10-01 12:00:00</td>
+                          <td>
+                            <div class="btn-group">
+                            <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-default btn-xs"><i class="fas fa-laptop"></i></button>
+                            <button class="btn btn-default btn-xs"><i class="fas fa-file"></i></button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>456789123</td>
+                          <td>Carlos</td>
+                          <td>Lopez</td>
+                          <td>Docente</td>
+                          <td>2847523</td>
+                          <td><span class="badge badge-success">Activo</span></td>
+                          <td>2023-10-01 12:00:00</td>
+                          <td>
+                            <div class="btn-group">
+                            <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-default btn-xs"><i class="fas fa-laptop"></i></button>
+                            <button class="btn btn-default btn-xs"><i class="fas fa-file"></i></button>
+                            </div>
+                          </td>
+                        </tbody>
+            </table
+                      
+            </div>
+            <!-- /.card-body -->
+
+          </div>
+          <!-- /.card -->
+
+        </section>
+        <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
@@ -322,10 +338,8 @@
             </div>
             <!-- modal-body  -->
             <div class="modal-footer justify-content-between">
-              <div class="col-md-6"></div>
-              <div class="col-md-6">
-                <button type="button" class="btn btn-block btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-block btn-primary btn-sm"><i class="fa fa-plus"></i> Agregar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Agregar</button>
               </div>              
 
             </div>

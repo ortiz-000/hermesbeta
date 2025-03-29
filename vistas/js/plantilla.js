@@ -2,6 +2,7 @@ window.addEventListener('load', function() {
   initializeDataTable("#tblSedes");
   initializeDataTable("#tblFichas");
   initializeDataTable("#tblUsuarios");
+  initializeDataTable("#tblRoles");
 });
 
 function initializeDataTable(selector) {
