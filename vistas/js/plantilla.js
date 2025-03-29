@@ -1,12 +1,12 @@
 window.addEventListener('load', function() {
   initializeDataTable("#tblSedes");
+  initializeDataTable("#tblFichas");
   initializeDataTable("#tblUsuarios");
 });
 
 function initializeDataTable(selector) {
   $(selector).DataTable({
     "responsive": true, 
-    "lengthChange": false, 
     "autoWidth": false,
     "lengthChange": true,
     "lengthMenu": [10, 25, 50, 100],

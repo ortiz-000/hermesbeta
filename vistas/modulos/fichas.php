@@ -21,7 +21,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <table id="fichasTable" class="table table-bordered table-striped">
+                                <table id="tblFichas" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
@@ -150,13 +150,10 @@
                 </div>
                 <div class="modal-body">
                     <form id="formEditFicha" method="POST">
-                        <!-- <input type="number" id="idEditFicha" name="idEditFicha" hidden> -->
-                        <!-- <input type="hidden" id="idEditFicha" name="idEditFicha"> -->
+
                         <div class="form-group" hidden>
-                            <label for="editCodigo">ID</label>
                             <input type="text" class="form-control" id="idEditFicha" name="idEditFicha">
                         </div>
-
 
                         <div class="form-group">
                             <label for="editCodigo">Ficha</label>
@@ -174,15 +171,17 @@
                             <label for="editFechaFin">Fecha Final</label>
                             <input type="date" class="form-control" id="editFechaFinFicha" name="editFechaFinFicha" required>
                         </div>
+
                         <div class="form-group">
+                            <label for="editSede">Sede</label>
                             <?php
                                 $item = null;
                                 $valor = null;
                                 $sedes = ControladorSedes::ctrMostrarSedes($item, $valor);
                                 // Create a dropdown for sedes
-                                echo '<label for="editSede">Sede</label>';
-                                echo '<select class="form-control" id="editSedeFicha" name="editSedeFicha" required>';
-                                echo '<option value="">Seleccione una sede</option>';
+                                echo '<select class="form-control" name="editSedeFicha">
+                                        <option id="editSedeFicha" value=""></option>';
+                                    
                                 // Loop through the sedes and create options
                                 foreach ($sedes as $key => $value) {
                                     if ($value["estado"] != "inactivo") {
@@ -192,6 +191,7 @@
                                 echo '</select>';
                             ?>
                         </div>
+
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                         <?php
                             $editarFicha = new ControladorFichas();

@@ -1,4 +1,5 @@
-$(".btnEditarFicha").click(function() {
+$(document).on("click", ".btnEditarFicha", function() {
+// $(".btnEditarFicha").click(function() {
     var idFicha = $(this).attr("idFicha");
     var datos = new FormData();
     datos.append("idFicha", idFicha);
@@ -11,13 +12,16 @@ $(".btnEditarFicha").click(function() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-            console.log("Ficha", respuesta["id_ficha"]);
+            // console.log("Ficha", respuesta["nom"]);
+            $("#idEditFicha").val(respuesta["id_ficha"]);
             $("#editCodigoFicha").val(respuesta["codigo"]);
             $("#editDescripcionFicha").val(respuesta["descripcion"]);
             $("#editFechaInicioFicha").val(respuesta["fecha_inicio"]);
             $("#editFechaFinFicha").val(respuesta["fecha_fin"]);
-            $("#editSede").val(respuesta["id_sede"]);
-            $("#idEditFicha").val(respuesta["id_ficha"]);
+            
+            $("#editSedeFicha").val(respuesta["id_sede"]);
+            $("#editSedeFicha").html(respuesta["nombre_sede"]);
+            
         },
     });
 });

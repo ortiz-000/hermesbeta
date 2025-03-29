@@ -19,12 +19,12 @@
     <link rel="stylesheet" href="vistas/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="vistas/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="vistas/plugins/datatables-buttons/css/buttons.bootstrap4.min.css"> 
-
     <!-- Theme style -->
     <link rel="stylesheet" href="vistas/dist/css/adminlte.css">
     <!-- mi css -->
     <link rel="stylesheet" href="vistas/css/plantilla.css">
-    
+
+    <!-- ================================================================================================== -->    
     
     <!-- jQuery -->
     <script src="vistas/plugins/jquery/jquery.min.js"></script>

@@ -39,6 +39,7 @@
                                         $item = null;
                                         $valor = null;
                                         $sedes = ControladorSedes::ctrMostrarSedes($item, $valor);
+                                        // var_dump($sedes); // Debugging line to check the data
 
                                         // Loop through the Sedes and display them in the table
                                         foreach ($sedes as $key => $value) {

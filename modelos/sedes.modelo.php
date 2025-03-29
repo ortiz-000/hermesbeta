@@ -39,6 +39,7 @@ class ModeloSedes
     static public function mdlMostrarSedes($tabla, $item, $valor)
     {
         if ($item != null) {
+            // continue;
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
             $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
             $stmt->execute();
