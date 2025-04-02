@@ -87,6 +87,7 @@
           $_GET["ruta"] == "sedes" ||
           $_GET["ruta"] == "usuarios" ||
           $_GET["ruta"] == "roles" ||
+          $_GET["ruta"] == "modulos" ||
           $_GET["ruta"] == "permisos" ||
           $_GET["ruta"] == "inventario" ||
           $_GET["ruta"] == "recepcion" ||
@@ -121,5 +122,6 @@
   <script src="vistas/js/fichas.js"></script>
   <script src="vistas/js/roles.js"></script>
   <script src="vistas/js/permisos.js"></script>
+  <script src="vistas/js/modulos.js"></script>
 </body>
 </html>

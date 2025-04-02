@@ -50,7 +50,13 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Roles</p>
                 </a>
-              </li>              
+              </li> 
+              <li class="nav-item">
+                <a href="modulos" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Módulos</p>
+                </a>        
+              </li>                  
               
             </ul>
           </li>
