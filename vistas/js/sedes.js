@@ -11,7 +11,7 @@ $(".btnEditarSede").click(function () {
         processData: false,
         dataType: "json",
         success: function (respuesta) {
-            console.log("respuesta", respuesta);
+            console.log("SEDEEEEEED", respuesta);
             $("#nombreEditSede").val(respuesta["nombre_sede"]);
             $("#direccionEditSede").val(respuesta["direccion"]);
             $("#descripcionEditSede").val(respuesta["descripcion"]);

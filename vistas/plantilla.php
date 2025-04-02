@@ -120,5 +120,6 @@
   <script src="vistas/js/sedes.js"></script>
   <script src="vistas/js/fichas.js"></script>
   <script src="vistas/js/roles.js"></script>
+  <script src="vistas/js/permisos.js"></script>
 </body>
 </html>
