@@ -45,72 +45,58 @@
 
       <!-- </div> -->
       <div class="card-body">
-        <!-- <table id="tblUsuarios" class="table-bordered table-striped responsive"> -->
         <table id="tblUsuarios" class="table table-bordered table-striped">
+        <!-- <table id="tblUsuarios" class="table table-bordered table-striped"> -->
           <thead>
             <tr>
-              <th>Identificación</th>
+              <th>#</th>
+              <th>Tipo de documento</th>
+              <th>Numero de documento</th>
               <th>Nombre</th>
               <th>Apellido</th>
-              <th>Rol</th>
-              <!-- Solo si es estudiante -->
-              <th>Grupo</th>
+              <th>Correo</th>
               <th>Estado</th>
-              <th>Ultimo Acceso</th>
+              <!-- <th>Rol</th> -->
+              <!-- Solo si es estudiante -->
+              <!-- <th>Ficha</th>
+              <th>Estado</th>
+              <th>Ultimo Acceso</th>-->
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>123456789</td>
-              <td>Juan</td>
-              <td>Pérez</td>
-              <td>Administrador</td>
-              <td>2847523</td>
-              <td><span class="badge badge-success">Activo</span></td>
-              <td>2023-10-01 12:00:00</td>
-              <td>
-                <div class="btn-group">
-                  <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
-                  <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
-                  <button class="btn btn-default btn-xs"><i class="fas fa-laptop"></i></button>
-                  <button class="btn btn-default btn-xs"><i class="fas fa-file"></i></button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>987654321</td>
-              <td>María</td>
-              <td>Gómez</td>
-              <td>Estudiante</td>
-              <td>2847523</td>
-              <td><span class="badge badge-danger">Inactivo</span></td>
-              <td>2023-10-01 12:00:00</td>
-              <td>
-                <div class="btn-group">
-                  <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
-                  <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
-                  <button class="btn btn-default btn-xs"><i class="fas fa-laptop"></i></button>
-                  <button class="btn btn-default btn-xs"><i class="fas fa-file"></i></button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>456789123</td>
-              <td>Carlos</td>
-              <td>Lopez</td>
-              <td>Docente</td>
-              <td>2847523</td>
-              <td><span class="badge badge-success">Activo</span></td>
-              <td>2023-10-01 12:00:00</td>
-              <td>
-                <div class="btn-group">
-                  <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
-                  <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
-                  <button class="btn btn-default btn-xs"><i class="fas fa-laptop"></i></button>
-                  <button class="btn btn-default btn-xs"><i class="fas fa-file"></i></button>
-                </div>
-              </td>
+          <?php
+          $item = null;
+          $valor = null;
+          $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+          
+          foreach ($usuarios as $key => $usuario) {
+            if ($usuario["id_usuario"] == 1) {
+              continue; // Skip the user with id_usuario = 1
+            }
+            echo '<tr>
+                <td>' . ($key + 1) . '</td>
+                <td>' . $usuario["tipo_documento"] . '</td>
+                <td>' . $usuario["numero_documento"] . '</td>                
+                <td>' . $usuario["nombre"] . '</td>
+                <td>' . $usuario["apellido"] . '</td>
+                <td>' . $usuario["correo_electronico"] . '</td>
+                <td>';
+                if ($usuario["estado"] == "activo") {
+                  echo '<button class="btn btn-success btn-xs btnActivarUsuario" idSede="'.$usuario["id_usuario"].'" estadoSede="inactivo"">Activo</button>';
+              } else {
+                  echo '<button class="btn btn-danger btn-xs btnActivarUsuario" idSede="'.$usuario["id_usuario"].'" estadoSede="activo">Inactivo</button></td>';
+              };
+              echo '<td>
+                  <div class="btn-group">
+                    <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-default btn-xs"><i class="fas fa-laptop"></i></button>
+                    <button class="btn btn-default btn-xs"><i class="fas fa-file"></i></button>
+                  </div>
+                </td>
+                </tr>';
+          }
+          ?>
           </tbody>
         </table
 
