@@ -51,7 +51,14 @@ class ModeloFichas {
             $stmt = Conexion::conectar()->prepare("SELECT f.*, s.nombre_sede FROM $tabla f JOIN sedes s ON f.id_sede = s.id_sede WHERE f.$item = :$item ORDER BY s.nombre_sede ASC");
             $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetch();
+            //determinar la cantidad de registros
+            $total = $stmt->rowCount();
+            if ($total > 1) {
+                return $stmt->fetchAll();
+            }else {
+                return $stmt->fetch();
+            }
+            
         } else {
             $stmt = Conexion::conectar()->prepare("SELECT f.*, s.nombre_sede FROM $tabla f JOIN sedes s ON f.id_sede = s.id_sede ORDER BY f.codigo ASC");
             $stmt->execute();

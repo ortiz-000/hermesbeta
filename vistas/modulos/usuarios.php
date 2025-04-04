@@ -46,7 +46,7 @@
       <!-- </div> -->
       <div class="card-body">
         <table id="tblUsuarios" class="table table-bordered table-striped">
-        <!-- <table id="tblUsuarios" class="table table-bordered table-striped"> -->
+          <!-- <table id="tblUsuarios" class="table table-bordered table-striped"> -->
           <thead>
             <tr>
               <th>#</th>
@@ -68,25 +68,26 @@
           $item = null;
           $valor = null;
           $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
-          
+
           foreach ($usuarios as $key => $usuario) {
+
             if ($usuario["id_usuario"] == 1) {
               continue; // Skip the user with id_usuario = 1
             }
             echo '<tr>
-                <td>' . ($key + 1) . '</td>
+                <td>' . ($key) . '</td>
                 <td>' . $usuario["tipo_documento"] . '</td>
                 <td>' . $usuario["numero_documento"] . '</td>                
                 <td>' . $usuario["nombre"] . '</td>
                 <td>' . $usuario["apellido"] . '</td>
                 <td>' . $usuario["correo_electronico"] . '</td>
                 <td>';
-                if ($usuario["estado"] == "activo") {
-                  echo '<button class="btn btn-success btn-xs btnActivarUsuario" idSede="'.$usuario["id_usuario"].'" estadoSede="inactivo"">Activo</button>';
-              } else {
-                  echo '<button class="btn btn-danger btn-xs btnActivarUsuario" idSede="'.$usuario["id_usuario"].'" estadoSede="activo">Inactivo</button></td>';
-              };
-              echo '<td>
+            if ($usuario["estado"] == "activo") {
+              echo '<button class="btn btn-success btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="inactivo"">Activo</button>';
+            } else {
+              echo '<button class="btn btn-danger btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="activo">Inactivo</button></td>';
+            };
+            echo '<td>
                   <div class="btn-group">
                     <button class="btn btn-default btn-xs"><i class="fas fa-eye"></i></button>
                     <button class="btn btn-default btn-xs"><i class="fas fa-edit"></i></button>
@@ -124,6 +125,8 @@
         <div class="modal-body">
           <div class="box-body">
 
+          <form id="formAddUsuario" method="POST"> 
+
             <!-- row nombre y apellido -->
             <div class="form-group">
               <div class="row">
@@ -151,18 +154,19 @@
 
                 <div class="col-lg-4">
                   <label>Tipo</label>
-                  <select class="form-control">
-                    <option>TI</option>
-                    <option>CC</option>
-                    <option>PS</option>
-                    <option>PI</option>
+                  <select class="form-control" id="nuevoTipoDocumento" name="nuevoTipoDocumento" required>
+                    <option value="">Seleccione...</option>
+                    <option value="1">TI</option>
+                    <option value="2">CC</option>
+                    <option value="3">PS</option>
+                    <option value="4">PI</option>
                   </select>
                 </div>
 
                 <div class="col-lg-8">
                   <label>Numero de documento</label>
                   <div class="input-group ">
-                    <input type="text" class="form-control" name="nuevoNumero" placeholder="Apellido" required>
+                    <input type="text" class="form-control" name="nuevoNumeroDocumento" placeholder="Numero documento" required>
                   </div>
                 </div>
               </div>
@@ -179,38 +183,19 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-key"></i></span>
                     </div>
-                    <select class="form-control">
-                      <option>Líder TIC</option>
-                      <option>Mesa de ayuda</option>
-                      <option>Almacén</option>
-                      <option>Biblioteca</option>
-                      <option>Coordinación</option>
-                      <option>Instructor</option>
-                      <option>Aprendiz</option>
-                      <option>Vigilante</option>
-                    </select>
-                  </div>
-                </div>
-
-              </div>
-              <!-- row -->
-            </div>
-            <!-- form group -->
-
-            <!-- row sede  -->
-            <div class="form-group">
-              <div class="row">
-                <div class="col-lg-12">
-                  <label>Sede</label>
-                  <div class="input-group ">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    </div>
-                    <select class="form-control">
-                      <option>Sagrado</option>
-                      <option>Salesiano</option>
-                      <option>Bicentenario</option>
-                    </select>
+                    <?php
+                      $item = null;
+                      $valor = null;
+                      $roles = ControladorRoles::ctrMostrarRoles($item, $valor);
+                      echo '<select class="form-control" id="selectRol" name="selectRol" required>';
+                      echo '<option value="">Seleccione un rol</option>';
+                      foreach ($roles as $key => $rol) {
+                        if ($rol["estado"] == "activo") {
+                          echo '<option value="' . $rol["id_rol"] . '">' . $rol["nombre_rol"] . '</option>';
+                        }
+                      }
+                      echo '</select>';
+                    ?>
                   </div>
                 </div>
               </div>
@@ -218,33 +203,62 @@
             </div>
             <!-- form group -->
 
-            <!-- row grupo y programa -->
-            <div class="form-group">
-              <div class="row">
-
-                <div class="col-lg-4">
-                  <label>Grupo</label>
-                  <select class="form-control">
-                    <option>2847523</option>
-                    <option>2823094</option>
-                    <option>1921881</option>
-                    <option>3113772</option>
-                    <option>3063989</option>
-                    <option>3113758</option>
-                  </select>
-                </div>
-
-                <div class="col-lg-8">
-                  <label>Programa</label>
-                  <div class="input-group ">
-                    <input type="text" class="form-control" name="nuevoNumero" placeholder="ANÁLISIS Y DESARROLLO DE SOFTWARE (ADSO)" disabled>
-                  </div>
-                </div>
-              </div>
-              <!-- row -->
-            </div>
-            <!-- form group -->
-
+               <!-- row sede  -->
+               <div class="form-group d-none" id="sede">
+                 <div class="row">
+                   <div class="col-lg-12">
+                     <label>Sede</label>
+                     <div class="input-group ">
+                       <div class="input-group-prepend">
+                         <span class="input-group-text"><i class="fas fa-user"></i></span>
+                       </div>
+                         <?php
+                         $item = null;
+                         $valor = null;
+                         $sedes = ControladorSedes::ctrMostrarSedes($item, $valor);
+                         // Create a dropdown for sedes
+                         echo '<select class="form-control" id="selectSede" name="id_sede" required>';
+                         echo '<option value="">Seleccione una sede</option>';
+                         // Loop through the sedes and create options
+                         foreach ($sedes as $key => $value) {
+                           if ($value["estado"] != "inactiva") {
+                             echo '<option value="' . $value["id_sede"] . '">' . $value["nombre_sede"] . '</option>';
+                           }
+                       }
+                       echo '</select>';
+   
+                       ?>
+                     </div>
+                   </div>
+                 </div>
+                 <!-- row -->
+               </div>
+               <!-- form group -->
+   
+               <!-- row grupo y programa -->
+               <div class="form-group d-none" id="ficha">
+                 <div class="row">
+   
+                   <div class="col-lg-4">
+                     <label>Ficha</label>
+                     <select class="form-control" id="id_ficha" name="id_ficha" required>
+                        <!-- aca se debe cargar la ficha o fichas segun la sede seleccionada con js -->
+                     </select>
+                   </div>
+   
+                   <div class="col-lg-8">
+                     <label>Programa</label>
+                     <div class="input-group ">
+                       <input type="text" class="form-control" id="nombre_programa"  name="nombre_programa" placeholder="No seleccionado" disabled>
+                     </div>
+                   </div>
+                 </div>
+                 <!-- row -->
+               </div>
+               <!-- form group -->             
+             
+             <!-- inputs aprendiz d-none -->
+             </div>
 
             <!-- row mail  -->
             <div class="form-group">
@@ -254,7 +268,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                     </div>
-                    <input type="text" class="form-control" name="nuevoNombre" placeholder="Email" required>
+                    <input type="email" class="form-control" name="nuevoEmail" placeholder="Email" required>
                   </div>
                 </div>
               </div>
@@ -270,7 +284,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-phone"></i></span>
                     </div>
-                    <input type="text" class="form-control" name="nuevoNombre" placeholder="celular" required>
+                    <input type="tel" class="form-control" name="nuevoTelefono" placeholder="celular" required>
                   </div>
                 </div>
               </div>
@@ -286,7 +300,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                     </div>
-                    <input type="text" class="form-control" name="nuevoNombre" placeholder="Dirección" required>
+                    <input type="text" class="form-control" name="nuevaDireccion" placeholder="Dirección" required>
                   </div>
                 </div>
               </div>
@@ -303,10 +317,11 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-transgender"></i></span>
                     </div>
-                    <select class="form-control">
-                      <option>Femenino</option>
-                      <option>Masculino</option>
-                      <option>No declara</option>
+                    <select class="form-control" name="nuevoGenero" >
+                      <option value="">Seleccione...</option>
+                      <option value="1">Femenino</option>
+                      <option value="2">Masculino</option>
+                      <option value="0">No declara</option>
                     </select>
                   </div>
                 </div>
@@ -314,19 +329,26 @@
               <!-- row -->
             </div>
             <!-- form group -->
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+
+            <?php
+
+              // Include the PHP file for handling the form submission
+              $crearUsuario = new ControladorUsuarios();
+              $crearUsuario->ctrCrearUsuario();
 
 
+            ?>
 
-
+            </form>
 
           </div>
           <!-- box-body  -->
         </div>
         <!-- modal-body  -->
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Agregar</button>
-        </div>
 
       </div>
     </div>
@@ -336,9 +358,3 @@
   </div>
   <!-- modal  -->
 
-
-  <script>
-
-
-
-  </script>

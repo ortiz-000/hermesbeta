@@ -9,6 +9,18 @@ class AjaxFichas
     =============================================*/
     public $idFicha;
     public $estadoFicha;
+    public $idSede;
+    
+    
+    public function ajaxFichasSede()
+    {
+        $item = "id_sede";
+        $valor = $this->idSede;
+
+        $respuesta = ControladorFichas::ctrMostrarFichas($item, $valor);
+
+        echo json_encode($respuesta);
+    }
 
     public function ajaxEditarFicha()
     {
@@ -44,7 +56,11 @@ if (isset($_POST["idFichaActivar"]) && isset($_POST["estadoFicha"])) {
     $activar = new AjaxFichas();
     $activar->idFicha = $_POST["idFichaActivar"];
     $activar->estadoFicha = $_POST["estadoFicha"];
-    $activar->ajaxActivarFicha();
+    $activar->ajaxActivarFicha();    
+}
 
-    
+if (isset($_POST["idSede"])) {
+    $fichas = new AjaxFichas();
+    $fichas->idSede = $_POST["idSede"];
+    $fichas->ajaxFichasSede();
 }
