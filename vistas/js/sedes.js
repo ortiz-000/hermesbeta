@@ -1,4 +1,5 @@
-$(".btnEditarSede").click(function () {
+$(document).on("click", ".btnEditarSede", function () {
+// $(".btnEditarSede").click(function () {
     var idSede = $(this).attr("idSede");
     var datos = new FormData();
     datos.append("idSede", idSede);

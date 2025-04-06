@@ -107,7 +107,7 @@ class ControladorUsuarios{
                 </script>';
             }
         }
-        var_dump($_POST);
+        // var_dump($_POST);
     }
 
 
@@ -125,4 +125,61 @@ class ControladorUsuarios{
         $respuesta = ModeloUsuarios::mdlMostrarFichasSede($tabla, $item, $valor);
         return $respuesta;
     }
+
+
+    static public function ctrEditarUsuario(){
+        if (isset($_POST["editarNombre"]) &&
+            isset($_POST["editarApellido"]) &&
+            isset($_POST["editarTipoDocumento"]) &&
+            isset($_POST["editarNumeroDocumento"]) ){
+            if (preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
+                preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["editarApellido"]) &&
+                preg_match('/^[a-zA-Z0-9]+$/', $_POST["editarNumeroDocumento"]) ) {
+                // si el usuario es aprendiz se debe validar la sede y la ficha
+                if ($_POST["selectRol"] != 6) {
+                    $sede = "";
+                    $ficha = "";
+                }else{
+                    $sede = $_POST["id_sede"];
+                    $ficha = $_POST["id_ficha"];
+                }
+
+                $tabla = "usuarios";
+                $datos = array(
+                    "id_usuario" => $_POST["idUsuario"],
+                    "nombre" => $_POST["editarNombre"],
+                    "apellido" => $_POST["editarApellido"],
+                    "tipo_documento" => $_POST["editarTipoDocumento"],
+                    "documento" => $_POST["editarNumeroDocumento"],
+                    "email" => $_POST["editarEmail"],
+                    "telefono" => $_POST["editarTelefono"],
+                    "direccion" => $_POST["editarDireccion"],
+                    "genero" => $_POST["editarGenero"],
+                    "rol" => $_POST["selectRol"],
+                    // si es aprendiz
+                    "sede" => $sede,
+                    "ficha" => $ficha
+                );
+
+                $respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $datos);
+
+                if ($respuesta == "ok") {
+                    echo '<script>
+                        swal.fire({
+                            icon: "success",
+                            title: "¡El usuario ha sido actualizado correctamente!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "usuarios";
+                            }
+                        });
+                    </script>';
+                } else {
+                    echo '<script>
+                        swal.fire({
+                            icon: "error",
+                            title: "¡Error al actualizar el usuario!",
+                            showConfirmButton:
 }

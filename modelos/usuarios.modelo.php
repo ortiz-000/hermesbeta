@@ -24,7 +24,7 @@ class ModeloUsuarios{
             $stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
 
             $stmt -> execute();
-            
+
            
             //insertar los datos en la tabla usuario_rol
             $id_usuario = $conexion->lastInsertId();
@@ -62,13 +62,48 @@ class ModeloUsuarios{
 
     static public function mdlMostrarUsuarios($tabla, $item, $valor){
 
+
+    //     SELECT 
+    //     u.id_usuario,
+    //     u.nombre,
+    //     u.apellido,
+    //     r.id_rol,
+    //     r.nombre_rol,
+    //     f.id_ficha,
+    //     f.descripcion AS descripcion_ficha
+    // FROM 
+    //     usuarios u
+    // LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario
+    // LEFT JOIN roles r ON ur.id_rol = r.id_rol
+    // LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
+    // LEFT JOIN fichas f ON af.id_ficha = f.id_ficha;
+
+
+
+
+
+
         if ($item != null) {
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
-            $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+            $stmt = Conexion::conectar()->prepare("SELECT u.*, 
+                                                            r.id_rol, r.nombre_rol, 
+                                                            f.id_ficha, f.descripcion AS descripcion_ficha, f.codigo, 
+                                                            s.id_sede, s.nombre_sede
+                                                    FROM $tabla as u      
+                                                    LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario
+                                                    LEFT JOIN roles r ON ur.id_rol = r.id_rol
+                                                    LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
+                                                    LEFT JOIN fichas f ON af.id_ficha = f.id_ficha 
+                                                    LEFT JOIN sedes s ON f.id_sede = s.id_sede
+                                                    WHERE u.id_usuario= :id_usuario");
+            $stmt -> bindParam(":id_usuario", $valor, PDO::PARAM_INT);
             $stmt -> execute();
             return $stmt -> fetch();
         }else{
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT u.*, r.id_rol, r.nombre_rol, f.id_ficha, f.descripcion AS descripcion_ficha, f.codigo
+                                                    FROM $tabla as u      LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario
+                                                    LEFT JOIN roles r ON ur.id_rol = r.id_rol
+                                                    LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
+                                                    LEFT JOIN fichas f ON af.id_ficha = f.id_ficha;");
             $stmt -> execute();
             return $stmt -> fetchAll();
         }
