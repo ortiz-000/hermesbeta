@@ -132,6 +132,7 @@ CREATE TABLE `sedes` (
 
 CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
+  'cedula' varchar(15) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `apellido` varchar(255) NOT NULL,
   `correo_electronico` varchar(255) NOT NULL,
