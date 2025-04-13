@@ -51,8 +51,9 @@ $(document).ready(function() {
 
 // =========================================================================================================
 
-$(document).on("change", "#selectRol", function() {
+$(document).on("change", "#selectRolForPermisos", function() {
     var idRol = $(this).val();
+    
     if (idRol == undefined || idRol == null || idRol == "") {
         $("#contenidoPrincipal").addClass("d-none");
         $("#contenidoPermisos").addClass("d-none");
@@ -71,14 +72,36 @@ $(document).on("change", "#selectRol", function() {
         contentType: false,
         processData: false,
         dataType: "json",
-        success: function(respuesta) {
-            // console.log("respuesta", respuesta[idRol]);
+        success: function(respuesta) { 
+            console.log("respuesta inical", respuesta);
+            //si el rol no tiene permisos
+            if (respuesta["nombre_rol"] == null) {
+                //traemos la informacion del rol para colocar la descipcion por el idRol
+                var datos = new FormData();
+                datos.append("idRolDescripcion", idRol);
+                $.ajax({
+                    url: "ajax/roles.ajax.php",
+                    method: "POST",
+                    data: datos,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function(respuesta2) {
+                        console.log("respuesta2", respuesta2);
+                        $("#descripcionRol").html("<p>" + respuesta2["descripcion"] + "</p>");      
+                    },
+                });
+            }else{
+                $("#descripcionRol").html("<p>" + respuesta[idRol]["descripcion_rol"] + "</p>");
+            }
+
             $("#activarChecks").removeClass("disabled");
-            $("#desactivarChecks").removeClass("disabled");            
-            $("#descripcionRol").html("<p>" + respuesta[idRol]["descripcion_rol"] + "</p>");
+            $("#desactivarChecks").removeClass("disabled");
             $("#descripcionRol").removeClass("d-none");
             $("input[type='checkbox']").prop("checked", false);
             const permisos = respuesta[idRol]["permisos"];
+            console.log("permisos", permisos);
             $.each(permisos, function(index, value) {
                 $("#"+value).prop("checked", true);
             });
@@ -97,7 +120,7 @@ $(document).on("click", "#desactivarChecks", function() {
 });
 
 $(document).on("click", "#guardarPermisos", function() {
-    var idRol = $("#selectRol").val();
+    var idRol = $("#selectRolForPermisos").val();
     if (idRol == undefined || idRol == null || idRol == "") {
         return;
     };

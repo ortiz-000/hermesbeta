@@ -179,7 +179,7 @@
                                 $valor = null;
                                 $sedes = ControladorSedes::ctrMostrarSedes($item, $valor);
                                 // Create a dropdown for sedes
-                                echo '<select class="form-control" name="editSedeFicha">
+                                echo '<select class="form-control" name="editSedeFicha" requiered>
                                         <option id="editSedeFicha" value=""></option>';
                                     
                                 // Loop through the sedes and create options

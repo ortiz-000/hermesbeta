@@ -24,7 +24,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Fichas</h1>
+            <h1>Usuarios</h1>
           </div>
           <div class="col-sm-6">
             <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarUsuario">Agregar usuario</button>
@@ -46,7 +46,7 @@
       <!-- </div> -->
       <div class="card-body">
         <table id="tblUsuarios" class="table table-bordered table-striped">
-          <!-- <table id="tblUsuarios" class="table table-bordered table-striped"> -->
+
           <thead>
             <tr>
               <th>#</th>
@@ -375,7 +375,7 @@
         <div class="modal-body">
           <div class="box-body">
 
-            <form id="formAddUsuario" method="POST">
+            <form id="formEditUsuario" method="POST">
 
               <input type="hidden" id="idEditUsuario" name="idEditUsuario" value="">
 
@@ -406,8 +406,8 @@
 
                   <div class="col-lg-4">
                     <label>Tipo</label>
-                    <select class="form-control" id="editTipoDocumento" name="editTipoDocumento" required>
-                      <option value="">Seleccione...</option>
+                    <select class="form-control"  name="editTipoDocumento" required>
+                      <option id="editTipoDocumento" value="">Seleccione...</option>
                       <option value="TI">TI</option>
                       <option value="CC">CC</option>
                       <option value="PS">PS</option>
@@ -435,12 +435,13 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                       </div>
+                      <input type="hidden" id="rolOriginal" name="rolOriginal" value="">
                       <?php
                       $item = null;
                       $valor = null;
                       $roles = ControladorRoles::ctrMostrarRoles($item, $valor);
-                      echo '<select class="form-control" id="selecEdittRol" name="selectEditRol"  required>';
-                      echo '<option id="selectEditRol" value="">Seleccione un rol</option>';
+                      echo '<select class="form-control" name="EditRolUsuario" id="selectEditRolUsuario" required>';
+                      echo '<option id="EditRolUsuario" value=""></option>';
                       foreach ($roles as $key => $rol) {
                         if ($rol["estado"] == "activo") {
                           echo '<option value="' . $rol["id_rol"] . '">' . $rol["nombre_rol"] . '</option>';
@@ -464,22 +465,23 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                       </div>
-                      <?php
+                      <select class="form-control" name="selectEditSede" id="selectEditSede" inicial="true" required>
+                        <option id="optionEditSede" value=""></option>
+                        <?php
                       $item = null;
                       $valor = null;
                       $sedes = ControladorSedes::ctrMostrarSedes($item, $valor);
-                      // Create a dropdown for sedes
-                      echo '<select class="form-control" name="selectEditSede" inicial="true" id="selectEditSede" required>';
-                      echo '<option id="optionEditSede" value="">Seleccione una sede</option>';
+                      
                       // Loop through the sedes and create options
-                      foreach ($sedes as $key => $value) {
-                        if ($value["estado"] != "inactiva") {
-                          echo '<option value="' . $value["id_sede"] . '">' . $value["nombre_sede"] . '</option>';
+                      foreach ($sedes as $key => $sede) {
+                        if ($sede["estado"] != "inactiva") {
+                          echo '<option value="' . $sede["id_sede"] . '">' . $sede["nombre_sede"] . '</option>';
                         }
                       }
-                      echo '</select>';
-
                       ?>
+                      </select>
+                      <!-- <div id="alerta"></div> -->
+
                     </div>
                   </div>
                 </div>
@@ -488,12 +490,14 @@
               <!-- form group -->
 
               <!-- row grupo y programa -->
+              <input type="hidden" id="fichaOriginal" name="fichaOriginal" value="">
               <div class="form-group d-none" id="EditFicha">
                 <div class="row">
 
                   <div class="col-lg-4">
                     <label>Ficha</label>
                     <select class="form-control" name="selectEditIdFicha" id="selectEditIdFicha" required>
+                      <option id="optionEditIdFicha" value=""></option>
                       <!-- aca se debe cargar la ficha o fichas segun la sede seleccionada con js -->
                     </select>
                   </div>
@@ -504,10 +508,9 @@
                       <input type="text" class="form-control" id="nombreEditPrograma" name="nombreEditPrograma" id="nombreEditPrograma" placeholder="No seleccionado" disabled>
                     </div>
                   </div>
-                </div>
-                <!-- row -->
-              </div>
-              <!-- form group -->
+
+                </div>     <!-- row -->
+              </div>      <!-- form group -->
 
 
               <!-- row mail  -->
@@ -586,9 +589,9 @@
 
               <?php
 
-              // // Include the PHP file for handling the form submission
-              $crearUsuario = new ControladorUsuarios();
-              $crearUsuario->ctrEditarUsuario();
+              // Include the PHP file for handling the form submission
+              $editarUsuario = new ControladorUsuarios();
+              $editarUsuario->ctrEditarUsuario();
 
 
               ?>

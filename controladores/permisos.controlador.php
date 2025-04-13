@@ -8,21 +8,36 @@ class ControladorPermisos
 
     static public function ctrMostrarPermisos($item, $valor)
     {
+        $resultado = array(); // Initialize the result array
+
         $respuesta = ModeloPermisos::mdlMostrarPermisos($item, $valor);
 
-        foreach ($respuesta as $key => $row) {
-            if (!isset($resultado[$row["id_rol"]])) {
-                $resultado[$row["id_rol"]] = array(
-                    "id_rol" => $row["id_rol"],
-                    "nombre_rol" => $row["nombre_rol"],
-                    "descripcion_rol" => $row["descripcion_rol"],
-                    "permisos" => array()
-                );
+        error_log("Respuesta de permisos: " . print_r($respuesta, true)); // Log the response for 
+        
+        $datos = count($respuesta);       
+        
+        if ($datos > 0) {
+            foreach ($respuesta as $key => $row) {
+                if (!isset($resultado[$row["id_rol"]])) {
+                    $resultado[$row["id_rol"]] = array(
+                        "id_rol" => $row["id_rol"],
+                        "nombre_rol" => $row["nombre_rol"],
+                        "descripcion_rol" => $row["descripcion_rol"],
+                        "permisos" => array()
+                    );
+                }
+                $resultado[$row["id_rol"]]["permisos"][] = $row["id_permiso"];
             }
-            $resultado[$row["id_rol"]]["permisos"][] = $row["id_permiso"];
-        }
-
-        return $resultado;
+            return $resultado;
+        } else {
+            $resultado[$valor] = array(
+                "id_rol" => $valor,
+                "nombre_rol" => null,
+                "descripcion_rol" => null,
+                "permisos" => array()
+            );   
+            return $resultado;         
+        }        
     }
 
     static public function ctrTraerPermisos()

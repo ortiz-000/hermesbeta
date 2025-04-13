@@ -12,6 +12,7 @@ class ControladorUsuarios{
                 $valor = $_POST["ingUsuario"];
 
                 $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
+                // var_dump($respuesta);
 
                 if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $_POST["ingPassword"]) {
 
@@ -25,7 +26,6 @@ class ControladorUsuarios{
             }
         }
     }
-
 
     static public function ctrCrearUsuario(){
         
@@ -111,9 +111,6 @@ class ControladorUsuarios{
     }
 
 
-
-
-
     static public function ctrMostrarUsuarios($item, $valor){
         $tabla = "usuarios";
         $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
@@ -127,41 +124,58 @@ class ControladorUsuarios{
     }
 
 
+      
+        
+
     static public function ctrEditarUsuario(){
-        if (isset($_POST["editarNombre"]) &&
-            isset($_POST["editarApellido"]) &&
-            isset($_POST["editarTipoDocumento"]) &&
-            isset($_POST["editarNumeroDocumento"]) ){
-            if (preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
-                preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["editarApellido"]) &&
-                preg_match('/^[a-zA-Z0-9]+$/', $_POST["editarNumeroDocumento"]) ) {
+
+        
+        if (isset($_POST["idEditUsuario"]) && isset($_POST["editNombre"]) && isset($_POST["selectEditSede"])) {   
+
+            
+            if (preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["editNombre"]) &&
+                preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["editApellido"]) &&
+                preg_match('/^[a-zA-Z0-9]+$/', $_POST["editNumeroDocumento"]) &&
+                preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $_POST["editEmail"]) &&
+                preg_match('/^[0-9]+$/', $_POST["editTelefono"]) &&
+                preg_match('/^[a-zA-Z0-9#\- ]+$/', $_POST["editDireccion"]) ){
+                    //error de rol origina y rol nuevo
+                    error_log("rol original " . $_POST["rolOriginal"]. " rol nuevo " . $_POST["EditRolUsuario"]);
+
+
                 // si el usuario es aprendiz se debe validar la sede y la ficha
-                if ($_POST["selectRol"] != 6) {
+                if ($_POST["EditRolUsuario"] != 6) {
                     $sede = "";
                     $ficha = "";
                 }else{
-                    $sede = $_POST["id_sede"];
-                    $ficha = $_POST["id_ficha"];
+                    $sede = $_POST["selectEditSede"];
+                    $ficha = $_POST["selectEditIdFicha"];
                 }
 
                 $tabla = "usuarios";
                 $datos = array(
-                    "id_usuario" => $_POST["idUsuario"],
-                    "nombre" => $_POST["editarNombre"],
-                    "apellido" => $_POST["editarApellido"],
-                    "tipo_documento" => $_POST["editarTipoDocumento"],
-                    "documento" => $_POST["editarNumeroDocumento"],
-                    "email" => $_POST["editarEmail"],
-                    "telefono" => $_POST["editarTelefono"],
-                    "direccion" => $_POST["editarDireccion"],
-                    "genero" => $_POST["editarGenero"],
-                    "rol" => $_POST["selectRol"],
+                    "id_usuario" => $_POST["idEditUsuario"],
+                    "tipo_documento" => $_POST["editTipoDocumento"],
+                    "numero_documento" => $_POST["editNumeroDocumento"],
+                    "nombre" => $_POST["editNombre"],
+                    "apellido" => $_POST["editApellido"],
+                    "correo_electronico" => $_POST["editEmail"],
+                    "telefono" => $_POST["editTelefono"],
+                    "direccion" => $_POST["editDireccion"],
+                    "genero" => $_POST["editGenero"],
+                    "id_rol" => $_POST["EditRolUsuario"],
                     // si es aprendiz
-                    "sede" => $sede,
-                    "ficha" => $ficha
+                    "id_sede" => $sede,
+                    "id_ficha" => $ficha,
+                    //datos originales ids de rol y ficha
+                    "idRolOriginal" => $_POST["rolOriginal"],
+                    "idFichaOriginal" => $_POST["fichaOriginal"]
                 );
 
-                $respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $datos);
+                error_log("Datos a enviar: " . json_encode($datos));
+
+
+                $respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
 
                 if ($respuesta == "ok") {
                     echo '<script>
@@ -181,5 +195,31 @@ class ControladorUsuarios{
                         swal.fire({
                             icon: "error",
                             title: "¡Error al actualizar el usuario!",
-                            showConfirmButton:
-}
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "usuarios";
+                            }
+                        });
+                    </script>';
+                }
+            } else {
+                echo '<script>
+                    swal.fire({
+                        icon: "error",
+                        title: "¡Revisar parametros!",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = "usuarios";
+                        }
+                    });
+                </script>';
+            }
+        }
+    }
+        
+
+}  //fin de la clase ControladorUsuarios

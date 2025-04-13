@@ -31,6 +31,16 @@
             echo json_encode($respuesta);
             
         }
+
+        public function ajaxMostrarRol()
+        {
+            $item = "id_rol";
+            $valor = $this->idRol;
+
+            $respuesta = ControladorRoles::ctrMostrarRoles($item, $valor);
+
+            echo json_encode($respuesta);
+        }
     }
 
     if (isset($_POST["idRol"])) {
@@ -44,4 +54,10 @@
         $activarRol->idRol = $_POST["idRolActivar"];
         $activarRol->estadoRol = $_POST["estadoRol"];
         $activarRol->ajaxCambiarEstadoRol();
+    }
+
+    if (isset($_POST["idRolDescripcion"])) {
+        $mostrar = new AjaxRoles();
+        $mostrar->idRol = $_POST["idRolDescripcion"];
+        $mostrar->ajaxMostrarRol();
     }

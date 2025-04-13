@@ -8,7 +8,7 @@
         public $idRol;
         public $permisos;
         
-        public function ajaxPermisosRol()
+        public function ajaxMostrarPermisosRol()
         {
             $item = "id_rol";
             $valor = $this->idRol;
@@ -36,7 +36,7 @@
     if (isset($_POST["idRol"])) {
         $permisos = new AjaxPermisos();
         $permisos->idRol = $_POST["idRol"];
-        $permisos->ajaxPermisosRol();
+        $permisos->ajaxMostrarPermisosRol();
     }
 
     if (isset($_POST["id_Rol"]) && isset($_POST["permisos"])) {

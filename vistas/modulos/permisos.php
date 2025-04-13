@@ -32,7 +32,7 @@
                                               <div class="input-group-prepend">
                                                   <span class="input-group-text"><i class="fas fa-key"></i></span>
                                               </div>
-                                              <select class="form-control" id="selectRol" name="selectRol">
+                                              <select class="form-control" id="selectRolForPermisos" name="selectRol">
                                                   <option value="">Seleccione un rol...</option>
                                                   <?php
                                                     // Fetch the list of roles
@@ -41,7 +41,9 @@
                                                     $roles = ControladorRoles::ctrMostrarRoles($item, $valor);
                                                     // Loop through the roles and display them in the select options
                                                     foreach ($roles as $key => $value) {
-                                                        echo '<option value="' . $value["id_rol"] . '">' . $value["nombre_rol"] . '</option>';
+                                                        if ($value["estado"]== "activo"){
+                                                            echo '<option value="' . $value["id_rol"] . '">' . $value["nombre_rol"] . '</option>';
+                                                        }
                                                     };
                                                     ?>
                                               </select>
