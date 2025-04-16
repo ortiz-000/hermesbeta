@@ -130,27 +130,14 @@
             </ul>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-folder"></i>
+            <a href="solicitudes" class="nav-link">
+              <i class="nav-icon fas fa-reply"></i>
+              <span class="badge badge-info right">6+</span>
               <p>
                 Solicitudes
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="reservas" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reservas</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="inmediatas" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inmediatas</p>
-                </a>
-              </li>
-            </ul>
+          </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link">
