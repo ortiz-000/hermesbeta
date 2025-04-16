@@ -1,4 +1,0 @@
-Options All -Indexes
-RewriteEngine On
-RewriteBase /Hermes-Beta/
-RewriteRule ^([-a-zA-Z0-9]+)$ index.php?ruta=$1 [L]

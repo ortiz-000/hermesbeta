@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-#template
-=======
 # Template
->>>>>>> 009849811f7440d5267dc2229e99fee3b3aa417e
 AdminLTE/
 
 # System / Log files
@@ -75,8 +71,4 @@ bower_components/
 TODO
 test.html
 ad.js
-<<<<<<< HEAD
 /.cache/
-=======
-/.cache/
->>>>>>> 009849811f7440d5267dc2229e99fee3b3aa417e
