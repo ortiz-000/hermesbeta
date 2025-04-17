@@ -60,7 +60,7 @@
 
 
 
-<body class="hold-transition sidebar-mini login-page">
+<body class="hold-transition sidebar-collapse sidebar-mini login-page">
 <!-- Site wrapper -->
 
 

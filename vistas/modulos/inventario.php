@@ -19,9 +19,6 @@
     <!-- Main content -->
     <section class="content">
       <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Inventario</h3>
-        </div>
         <!-- /.card-header -->
         <div class="card-body">
           <table id="tblEquipos" class="table table-bordered table-hover">
