@@ -1,5 +1,6 @@
 <?php
 
+//CONTROLADORES
 require_once "controladores/plantilla.controlador.php";
 require_once "controladores/usuarios.controlador.php";
 require_once "controladores/sedes.controlador.php";
@@ -8,13 +9,16 @@ require_once "controladores/roles.controlador.php";
 require_once "controladores/permisos.controlador.php";
 require_once "controladores/modulos.controlador.php";
 require_once "controladores/validacion.controlador.php";
+require_once "controladores/equipos.controlador.php";
 
+//MODULOS
 require_once "modelos/usuarios.modelo.php";
 require_once "modelos/sedes.modelo.php";
 require_once "modelos/fichas.modelo.php";
 require_once "modelos/roles.modelo.php";
 require_once "modelos/permisos.modelo.php";
 require_once "modelos/modulos.modelo.php";
+require_once "modelos/equipos.modelo.php";
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
