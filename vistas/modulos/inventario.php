@@ -28,7 +28,7 @@
                 <th>Descripción</th>
                 <th>Fecha Ingreso</th>
                 <th>Ubicación id</th>
-                <th>Categoría id</th>
+                <th>Categoría</th>
                 <th>Cuentadante id</th>
                 <th>A. Cuentadante</th>
                 <th>Estado</th>
@@ -50,7 +50,7 @@
                 echo '<td>' . $equipo['descripcion']     . '</td>';
                 echo '<td>' . $equipo['fecha_entrada']   . '</td>';
                 echo '<td>' . $equipo['ubicacion_id']    . '</td>';
-                echo '<td>' . $equipo['categoria_id']    . '</td>';
+                echo '<td>' . $equipo['categoria']       . '</td>';
                 echo '<td>' . $equipo['cuentadante_id']  . '</td>';
                 echo '<td>' . $equipo['a_cuentadante']   . '</td>';
 
@@ -110,7 +110,7 @@
           <form method="post">
             <div class="form-row">
               <div class="form-group col-lg-6">
-                <label for="etiqueta">#Número Serie</label>
+                <label for="numeroSerie">#Número Serie</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
@@ -182,11 +182,17 @@
                 </div>
               </div>
             </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+              <?php
+              
+              $item = null; $valor = null;
+              ControladorEquipos::ctrAgregarEquipos($item, $valor);
+              
+              ?>
           </form>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary">Guardar</button>
         </div>
       </div>
       <!-- /.modal-content -->
