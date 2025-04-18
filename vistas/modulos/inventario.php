@@ -143,13 +143,18 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                   </div>
-                  <select class="form-control" id="ubicacionId" name="ubicacionId" required>
-                    <option value="">--Seleccione una ubicación--</option>
-                    <option value="Biblioteca">Biblioteca</option>
-                    <option value="Coordinacion">Coordinación</option>
-                    <option value="Almacen">Almacén</option>
-                    <!-- Opciones dinámicas -->
-                  </select>
+                  <?php
+                  
+                  $item = null; $valor = null;
+                  $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
+                  echo '<select class="form-control" id="ubicacionId" name="ubicacionId" required>';
+                  echo '<option value="">--Seleccione una ubicación--</option>';
+                  foreach($ubicaciones as $key => $ubicacion){
+                    echo '<option value="' . $ubicacion["ubicacion_id"] . '">'. $ubicacion["nombre"] .'</option>';
+                  }
+                  echo '</select>';
+                  ?>
+                  
                 </div>
               </div>
               <div class="form-group col-lg-6">
