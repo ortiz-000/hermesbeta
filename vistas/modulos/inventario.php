@@ -194,3 +194,102 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
+
+  <!-- ========== Start Section ==========
+  MODAL PARA EDITAR EQUIPO
+  ========== End Section ========== -->
+
+  <div class="modal fade" id="modalEditarEquipo">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-warning">
+          <h4 class="modal-title">Editar equipo</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            <div class="form-row">
+              <div class="form-group col-lg-6">
+                <label for="etiqueta">#Número Serie</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                  </div>
+                  <input type="text" class="form-control" id="numeroSerie" name="numeroSerie" placeholder="Ej:00ks32.." required>
+                </div>
+              </div>
+              <div class="form-group col-lg-6">
+                <label for="etiqueta">Etiqueta</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                  </div>
+                  <input type="text" class="form-control" id="etiqueta" name="etiqueta" placeholder="Ej:0022338..." required>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-lg-12">
+              <label for="descripcion">Descripción</label>
+              <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
+            </div>
+            <div class="form-group col-lg-12">
+              <label for="fechaIngreso">Fecha Ingreso</label>
+              <input type="date" class="form-control" id="fechaIngreso" name="fechaIngreso" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-lg-6">
+                <label for="ubicacionId">Ubicación</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                  </div>
+                  <select class="form-control" id="ubicacionId" name="ubicacionId" required>
+                    <option value="">--Seleccione una ubicación--</option>
+                    <option value="Biblioteca">Biblioteca</option>
+                    <option value="Coordinacion">Coordinación</option>
+                    <option value="Almacen">Almacén</option>
+                    <!-- Opciones dinámicas -->
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-lg-6">
+                <label for="categoriaId">Categoría</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
+                  </div>
+                  <select class="form-control" id="categoriaId" name="categoriaId" required>
+                    <option value="">--Seleccione una categoría--</option>
+                    <option value="Computador">Computador</option>
+                    <option value="Video-beam">Video beam</option>
+                    <option value="Cable_hdmi">Cable hdmi</option>
+                    <!-- Opciones dinámicas -->
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-lg-12">
+                <label for="cuentadanteId">Cuentadante</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  </div>
+                  <select class="form-control" id="cuentadanteId" name="cuentadanteId" required>
+                    <option value="">Seleccione un cuentadante</option>
+                    <!-- Opciones dinámicas -->
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary">Editar</button>
+        </div>
+      </div>
+    </div>
+  </div>
