@@ -80,7 +80,7 @@ class ModeloUsuarios{
                 $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
             }            
             $stmt -> execute();
-            return $stmt -> fetch();
+            return $stmt -> fetch(PDO::FETCH_ASSOC);
         }else{
             $stmt = Conexion::conectar()->prepare("SELECT u.*, r.id_rol, r.nombre_rol, f.id_ficha, f.descripcion AS descripcion_ficha, f.codigo
                                                     FROM $tabla as u      LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario
