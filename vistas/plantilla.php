@@ -127,5 +127,6 @@
   <script src="vistas/js/permisos.js"></script>
   <script src="vistas/js/modulos.js"></script>
   <script src="vistas/js/usuarios.js"></script>
+  <script src="vistas/js/equipos.js"></script>
 </body>
 </html>
