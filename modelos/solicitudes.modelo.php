@@ -50,4 +50,39 @@ class ModeloSolicitudes{
         $stmt = null;
     } // fin del metodo mdlMostrarEquiposDisponible
 
+    static public function mdlGuardarSolicitud($tabla, $datos){
+
+        $conexion = Conexion::conectar();
+
+        try{
+            $conexion->beginTransaction();
+
+            $stmt = $conexion->prepare("INSERT INTO $tabla (usuario_id, tipo_prestamo, fecha_inicio, fecha_fin, estado_prestamo, motivo) VALUES (:usuario_id, :tipo_prestamo, :fechaInicio, :fechaFin, :estado_prestamo, :motivo)");
+            $stmt->bindParam(":usuario_id", $datos["idSolicitante"], PDO::PARAM_INT);
+            $stmt->bindParam(":tipo_prestamo", $datos["tipo_prestamo"], PDO::PARAM_STR);
+            $stmt->bindParam(":fechaInicio", $datos["fechaInicio"], PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFin", $datos["fechaFin"], PDO::PARAM_STR);
+            $stmt->bindParam(":estado_prestamo", $datos["estado_prestamo"], PDO::PARAM_STR);
+            $stmt->bindParam(":motivo", $datos["observaciones"], PDO::PARAM_STR);
+            $stmt->execute();
+
+            $idPrestamo = $conexion->lastInsertId();
+
+            foreach ($datos["equipos"] as $equipo) {
+                $stmt2 = $conexion->prepare("INSERT INTO detalle_prestamo (id_prestamo, equipo_id, estado) VALUES (:id_prestamo, :equipo_id, 'asignado')", );
+                $stmt2->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
+                $stmt2->bindParam(":equipo_id", $equipo, PDO::PARAM_INT);
+                $stmt2->execute();
+            }
+
+            $conexion->commit();
+            return "ok";
+
+        }catch(PDOException $e){
+            $conexion->rollBack();
+            return "error";
+        }       
+        
+    } //metodo mdlGuardarSolicitud
+
 }//ModeloSolicitudes

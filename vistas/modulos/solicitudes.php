@@ -288,8 +288,8 @@
                           <div class="card-footer">
 
                               <div class="action-buttons">
-                                  <button type="button" class="btn btn-danger ">Cancelar</button>
-                                  <button type="submit" class="btn btn-primary ">Aceptar</button>
+                                  <button type="button" class="btn btn-danger btnCancelarSolicitud">Cancelar</button>
+                                  <button type="submit" class="btn btn-primary btnGuardarSolicitud">Aceptar</button>
                               </div>
                           </div>
 </div>

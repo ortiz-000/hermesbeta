@@ -109,11 +109,13 @@ $('#reservation').on('apply.daterangepicker', function(ev, picker) {
         $(".nuevoEquipo").append(
             '<div class="row">'+
 
+
               '<div class="col-lg-4">'+
                 '<div class="input-group">'+
                  '<div class="input-group-prepend">'+
                     '<span class="input-group-text"><i class="fas fa-user"></i></span>'+
                   '</div>'+
+                  '<input type="hidden" class="equipoIdSolicitado" name="'+respuesta["equipo_id"]+'" value="'+respuesta["equipo_id"]+'">'+
                   '<input type="text" class="form-control" name="descripcion[]" placeholder="Descripción" value="'+respuesta["descripcion"]+'">'+
                 '</div>'+
               '</div>'+
@@ -194,4 +196,70 @@ $('#reservation').on('apply.daterangepicker', function(ev, picker) {
     
   });
 
+  $("#idFormularioSolicitud").on("submit", function(){
+    //obtener datos del formulario
+    let idSolicitante = $("#idSolicitante").val();
+    let fechaInicio = $("#initialDate").val();
+    let fechaFin = $("#finalDate").val();
+    let observaciones = $("#observaciones").val();
 
+    let equipos = [];
+    $(".equipoIdSolicitado").each(function(){
+      equipos.push($(this).val());
+    });
+
+    let datos = new FormData();
+    datos.append("idSolicitante", idSolicitante);
+    datos.append("fechaInicio", fechaInicio);
+    datos.append("fechaFin", fechaFin);
+    datos.append("observaciones", observaciones);
+    datos.append("equipos", equipos);
+
+    // Mostrar loading
+    Swal.fire({
+      title: 'Procesando solicitud',
+      text: 'Por favor espere...',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+      showConfirmButton: false,
+      didOpen: () => {
+          Swal.showLoading();
+      }
+  });    
+
+    $.ajax({
+      url: "ajax/solicitudes.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (respuesta) {
+        console.log(respuesta);
+        if (respuesta == "ok"){
+          Swal.fire({
+            icon: "success",
+            title: "Solicitud enviada",
+            text: "La solicitud se ha enviado correctamente",
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            willClose: () => {
+              window.location = "solicitudes";
+            }
+          });
+            }else{
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Ha ocurrido un error al enviar la solicitud",
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+              })
+            }
+        }
+      });
+    });
