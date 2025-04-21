@@ -78,7 +78,7 @@
   ========== End Section ========== -->
 
   <div class="modal fade" id="modalRegistrarEquipo">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-blue">
           <h4 class="modal-title">Agregar equipo</h4>
@@ -125,7 +125,7 @@
                   $valor = null;
                   $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
                   echo '<select class="form-control" id="ubicacionId" name="ubicacionId" required>';
-                  echo '<option value="">--Seleccione una ubicación--</option>';
+                  echo '<option value="">Seleccione una ubicación</option>';
                   foreach ($ubicaciones as $key => $ubicacion) {
                     echo '<option value="' . $ubicacion["ubicacion_id"] . '">' . $ubicacion["nombre"] . '</option>';
                   }
@@ -146,7 +146,7 @@
                   $valor = null;
                   $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
                   echo '<select class="form-control" id="ubicacionId" name="ubicacionId" required>';
-                  echo '<option value="">--Seleccione una ubicación--</option>';
+                  echo '<option value="">Seleccione una categoria</option>';
                   foreach ($categorias as $key => $categoria) {
                     echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
                   }
@@ -194,7 +194,7 @@
   ========== End Section ========== -->
 
   <div class="modal fade" id="modalEditarEquipo">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-warning">
           <h4 class="modal-title">Editar equipo</h4>
@@ -251,32 +251,52 @@
                 </div>
               </div>
               <div class="form-group col-lg-6">
-                <label for="categoriaIdEdit">Categoría</label>
+                <label for="categoriaEditId">Categoría</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
                   </div>
-                  <select class="form-control" id="categoriaIdEdit" name="categoriaIdEdit" required>
-                    <option value="">Seleccione una categoría</option>
-                    <option value="Computador">Computador</option>
-                    <option value="Video-beam">Video beam</option>
-                    <option value="Cable_hdmi">Cable hdmi</option>
-                    <!-- Opciones dinámicas -->
-                  </select>
+                  <?php
+                  $item = null;
+                  $valor = null;
+                  $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
+                  echo '<select class="form-control" id="categoriaEditId" name="categoriaEditId" required>';
+                  echo '<option value="">Seleccione una categoría</option>';
+                  foreach ($categorias as $key => $categoria) {
+                    echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
+                  }
+                  echo '</select>';
+                  ?>
                 </div>
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col-lg-12">
+              <div class="form-group col-lg-6">
                 <label for="cuentadanteIdEdit">Cuentadante</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                   </div>
-                  <select class="form-control" id="cuentadanteIdEdit" name="cuentadanteIdEdit" required>
-                    <option value="">Seleccione un cuentadante</option>
-                    <!-- Opciones dinámicas -->
-                  </select>
+                  <input type="text" class="form-control" id="cuentadanteIdEdit" name="cuentadanteIdEdit" placeholder="Ingrese el cuentadante" required>
+                </div>
+              </div>
+              <div class="form-group col-lg-6">
+                <label for="estadoEdit">Estado</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                  </div>
+                  <?php
+                    $item = null;
+                    $valor = null;
+                    $estados = ControladorEstados::ctrMostrarEstados($item, $valor);
+                    echo '<select class="form-control" id="estadoEdit" name="estadoEdit" required>';
+                    echo '<option value="">Seleccione un estado</option>';
+                    foreach ($estados as $key => $estado) {
+                      echo '<option value="' . $estado["estado_id"] . '">' . $estado["estado"] . '</option>';
+                    }
+                    echo '</select>';
+                  ?>
                 </div>
               </div>
             </div>

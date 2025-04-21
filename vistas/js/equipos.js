@@ -35,8 +35,9 @@ $(document).on("click", ".btnEditarEquipo", function() {
             $("#etiquetaEdit").val(respuesta["etiqueta"]);
             $("#descripcionEdit").val(respuesta["descripcion"]);
             $("#ubicacionEdit").val(respuesta["ubicacion_id"]);
-            $("#categoriaIdEdit").val(respuesta["categoria"]);
+            $("#categoriaEditId").val(respuesta["categoria_id"]);
             $("#cuentadanteIdEdit").val(respuesta["cuentadante_id"]);
+            $("#cuentadanteIdEdit").val(respuesta["id_estado"]);
         }
     });
 
