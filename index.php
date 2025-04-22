@@ -10,6 +10,10 @@ require_once "controladores/permisos.controlador.php";
 require_once "controladores/modulos.controlador.php";
 require_once "controladores/validacion.controlador.php";
 require_once "controladores/equipos.controlador.php";
+require_once "controladores/ubicaciones.controlador.php";
+require_once "controladores/categorias.controlador.php";
+require_once "controladores/estados.controlador.php";
+
 
 //MODULOS
 require_once "modelos/usuarios.modelo.php";
@@ -19,6 +23,11 @@ require_once "modelos/roles.modelo.php";
 require_once "modelos/permisos.modelo.php";
 require_once "modelos/modulos.modelo.php";
 require_once "modelos/equipos.modelo.php";
+require_once "modelos/ubicaciones.modelo.php";
+require_once "modelos/categorias.modelo.php";
+require_once "modelos/estados.modelo.php";
+
+
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();
