@@ -25,7 +25,7 @@ class ModeloUsuarios{
 
             $stmt -> execute();
 
-           
+        
             //insertar los datos en la tabla usuario_rol
             $id_usuario = $conexion->lastInsertId();
             $stmt2 = $conexion->prepare("INSERT INTO usuario_rol(id_usuario, id_rol) VALUES (:id_usuario, :id_rol)");

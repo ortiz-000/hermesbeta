@@ -6,14 +6,17 @@ class ControladorUsuarios{
         if (isset($_POST["ingUsuario"])) {
             if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
                 preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])) {
-                
+
+                $encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+
                 $tabla = "usuarios";
                 $item = "nombre_usuario";
                 $valor = $_POST["ingUsuario"];
 
                 $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
+                if (is_array($respuesta)) {
 
-                if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $_POST["ingPassword"]) {
+                if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $encriptar) {
                     if($respuesta["estado"] == "activo") {
                         // Iniciar sesión y guardar datos del usuario
                         $_SESSION["iniciarSesion"] = "ok";
@@ -21,7 +24,7 @@ class ControladorUsuarios{
                         $_SESSION["nombre"] = $respuesta["nombre"];
                         $_SESSION["apellido"] = $respuesta["apellido"];
                         $_SESSION["usuario"] = $respuesta["nombre_usuario"];
-                        // $_SESSION["foto"] = $respuesta["foto"];
+// $_SESSION["foto"] = $respuesta["foto"];
                         $_SESSION["rol"] = $respuesta["id_rol"];
                         $_SESSION["rol_nombre"] = $respuesta["nombre_rol"];
 
@@ -44,6 +47,7 @@ class ControladorUsuarios{
             }
         }
     }
+}
 
     static public function ctrCrearUsuario(){
         
@@ -64,6 +68,7 @@ class ControladorUsuarios{
                 }
 
                 $tabla = "usuarios";
+                $encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
                 $datos = array(
                     "nombre" => $_POST["nuevoNombre"],
                     "apellido" => $_POST["nuevoApellido"],
@@ -74,7 +79,7 @@ class ControladorUsuarios{
                     "direccion" => $_POST["nuevaDireccion"],
                     "genero" => $_POST["nuevoGenero"],
                     "usuario" => $_POST["nuevoNumeroDocumento"],
-                    "password" => $_POST["nuevoNumeroDocumento"],
+                    "password" => $encriptar,
                     "rol" => $_POST["selectRol"],
                     // si es aprendiz
                     "sede" => $sede,

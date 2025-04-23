@@ -1,0 +1,21 @@
+[
+    {
+        "id": "7b1288ac-5f79-4238-b36b-bfefe8ef0df9",
+        "canReply": true,
+        "collapsibleState": 0,
+        "messages": [
+            {
+                "role": "user",
+                "content": "no me deja entrar con un usuario nuevo",
+                "createdAt": "2025-04-23T13:26:49.854Z",
+                "context": {
+                    "selectedText": "",
+                    "currentVref": "",
+                    "relevantContextItemsFromEmbeddings": []
+                }
+            }
+        ],
+        "deleted": false,
+        "createdAt": "2025-04-23T13:26:49.883Z"
+    }
+]
