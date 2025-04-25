@@ -21,7 +21,7 @@ class ControladorUsuarios{
                         $_SESSION["nombre"] = $respuesta["nombre"];
                         $_SESSION["apellido"] = $respuesta["apellido"];
                         $_SESSION["usuario"] = $respuesta["nombre_usuario"];
-                        // $_SESSION["foto"] = $respuesta["foto"];
+                        $_SESSION["foto"] = $respuesta["foto"];
                         $_SESSION["rol"] = $respuesta["id_rol"];
                         $_SESSION["rol_nombre"] = $respuesta["nombre_rol"];
 
@@ -45,6 +45,123 @@ class ControladorUsuarios{
         }
     }
 
+    static public function ctrEditarPerfil() {
+        if (isset($_POST["editarEmail"])) {
+            
+            /*=============================================
+            OBTENER USUARIO Y NUMERO DE DOCUMENTO
+            =============================================*/
+            $usuario = self::ctrMostrarUsuarios("id_usuario", $_POST["idUsuario"]);
+            $numeroDocumento = $usuario["numero_documento"];
+            
+            /*=============================================
+            VALIDAR IMAGEN
+            =============================================*/
+            $ruta = $usuario["foto"]; // Mantener foto actual
+    
+            if (isset($_FILES["editarFoto"]["tmp_name"]) && !empty($_FILES["editarFoto"]["tmp_name"])) {
+                
+                /*=============================================
+                VALIDAR TIPO DE ARCHIVO
+                =============================================*/
+                $allowed = array('jpg', 'jpeg', 'png');
+                $fileType = strtolower(pathinfo($_FILES["editarFoto"]["name"], PATHINFO_EXTENSION));
+                
+                if (!in_array($fileType, $allowed)) {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Solo se permiten archivos JPG y PNG",
+                            confirmButtonText: "Cerrar"
+                        });
+                    </script>';
+                    return;
+                }
+    
+                /*=============================================
+                CREAR DIRECTORIO CON NÚMERO DE DOCUMENTO
+                =============================================*/
+                $directorio = "vistas/img/usuarios/".$numeroDocumento;
+                if (!file_exists($directorio)) {
+                    mkdir($directorio, 0755, true);
+                }
+    
+                /*=============================================
+                GENERAR NOMBRE ÚNICO
+                =============================================*/
+                $aleatorio = mt_rand(100, 999);
+                $ruta = $directorio."/".$aleatorio.".".$fileType;
+    
+                /*=============================================
+                MOVER ARCHIVO
+                =============================================*/
+                if (move_uploaded_file($_FILES["editarFoto"]["tmp_name"], $ruta)) {
+                    /*=============================================
+                    BORRAR FOTO ANTERIOR
+                    =============================================*/
+                    if (!empty($usuario["foto"]) && 
+                        $usuario["foto"] != "vistas/img/usuarios/default/anonymous.png" &&
+                        file_exists($usuario["foto"])) {
+                        unlink($usuario["foto"]);
+                    }
+                } else {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "No se pudo subir la imagen",
+                            confirmButtonText: "Cerrar"
+                        });
+                    </script>';
+                    return;
+                }
+            }
+    
+            /*=============================================
+            ACTUALIZAR BASE DE DATOS
+            =============================================*/
+            $tabla = "usuarios";
+            $datos = array(
+                "id_usuario" => $_POST["idUsuario"],
+                "correo_electronico" => $_POST["editarEmail"],
+                "telefono" => $_POST["editarTelefono"],
+                "direccion" => $_POST["editarDireccion"],
+                "genero" => $_POST["editarGenero"],
+                "foto" => $ruta
+            );
+    
+            $respuesta = ModeloUsuarios::mdlEditarPerfil($tabla, $datos);
+    
+            if ($respuesta == "ok") {
+                $_SESSION["foto"] = $ruta;
+                
+                echo '<script>
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Perfil actualizado!",
+                        text: "Los cambios se guardaron correctamente",
+                        confirmButtonText: "Cerrar"
+                    }).then((result) => {
+                        if (result.value) {
+                            window.location = "inicio";
+                        }
+                    });
+                </script>';
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "No se pudo actualizar el perfil",
+                        confirmButtonText: "Cerrar"
+                    });
+                </script>';
+            }
+        }
+    }
+    
+
     static public function ctrCrearUsuario(){
         
         if (isset($_POST["nuevoNombre"]) &&
@@ -63,6 +180,29 @@ class ControladorUsuarios{
                     $ficha = $_POST["id_ficha"];
                 }
 
+                $directorio = "vistas/img/usuarios/".$_POST["nuevoNumeroDocumento"];
+                if (!file_exists($directorio)) {
+                    mkdir($directorio, 0755, true);
+                }
+
+                // Imagen por defecto
+                $ruta = "vistas/img/usuarios/default/anonymous.png";
+
+                // Si se sube una imagen
+                if (isset($_FILES["nuevaFoto"]["tmp_name"]) && !empty($_FILES["nuevaFoto"]["tmp_name"])) {
+                    list($ancho, $alto) = getimagesize($_FILES["nuevaFoto"]["tmp_name"]);
+                    
+                    $nuevoAncho = 500;
+                    $nuevoAlto = 500;
+                    
+                    $aleatorio = mt_rand(100, 999);
+                    $ruta = $directorio."/".$aleatorio.".jpg";
+                    
+                    $origen = imagecreatefromjpeg($_FILES["nuevaFoto"]["tmp_name"]);
+                    $destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+                    imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
+                    imagejpeg($destino, $ruta);
+                }
                 $tabla = "usuarios";
                 $datos = array(
                     "nombre" => $_POST["nuevoNombre"],
@@ -76,6 +216,7 @@ class ControladorUsuarios{
                     "usuario" => $_POST["nuevoNumeroDocumento"],
                     "password" => $_POST["nuevoNumeroDocumento"],
                     "rol" => $_POST["selectRol"],
+                    "foto" => $ruta,
                     // si es aprendiz
                     "sede" => $sede,
                     "ficha" => $ficha
@@ -85,7 +226,7 @@ class ControladorUsuarios{
 
                 if ($respuesta == "ok") {
                     echo '<script>
-                        swal.fire({
+                        Swal.fire({
                             icon: "success",
                             title: "¡El usuario ha sido creado correctamente!",
                             showConfirmButton: true,
@@ -98,7 +239,7 @@ class ControladorUsuarios{
                     </script>';
                 } else {
                     echo '<script>
-                        swal.fire({
+                        Swal.fire({
                             icon: "error",
                             title: "¡Error al crear el usuario!",
                             showConfirmButton: true,
@@ -112,7 +253,7 @@ class ControladorUsuarios{
                 }
             } else {
                 echo '<script>
-                    swal.fire({
+                    Swal.fire({
                         icon: "error",
                         title: "¡Revisar parametros!",
                         showConfirmButton: true,
@@ -125,7 +266,6 @@ class ControladorUsuarios{
                 </script>';
             }
         }
-        // var_dump($_POST);
     }
 
 
@@ -141,12 +281,7 @@ class ControladorUsuarios{
         return $respuesta;
     }
 
-
-      
-        
-
     static public function ctrEditarUsuario(){
-
         
         if (isset($_POST["idEditUsuario"]) && isset($_POST["editNombre"]) && isset($_POST["selectEditSede"])) {   
 
@@ -170,6 +305,38 @@ class ControladorUsuarios{
                     $ficha = $_POST["selectEditIdFicha"];
                 }
 
+                // Obtener datos actuales del usuario
+                $usuario = self::ctrMostrarUsuarios("id_usuario", $_POST["idEditUsuario"]);
+                
+                // Verificar si cambió el número de documento para reubicar la carpeta de imágenes
+                $numeroDocumentoAnterior = $usuario["numero_documento"];
+                $numeroDocumentoNuevo = $_POST["editNumeroDocumento"];
+                
+                // Ruta actual de la foto
+                $rutaFoto = $usuario["foto"];
+                
+                // Si el número de documento cambió y había una foto personalizada
+                if ($numeroDocumentoAnterior != $numeroDocumentoNuevo && 
+                    $rutaFoto != "vistas/img/usuarios/default/anonymous.png" &&
+                    strpos($rutaFoto, "vistas/img/usuarios/{$numeroDocumentoAnterior}/") !== false) {
+                    
+                    // Crear nuevo directorio si no existe
+                    $nuevoDirectorio = "vistas/img/usuarios/{$numeroDocumentoNuevo}";
+                    if (!file_exists($nuevoDirectorio)) {
+                        mkdir($nuevoDirectorio, 0755, true);
+                    }
+                    
+                    // Obtener solo el nombre del archivo
+                    $nombreArchivo = basename($rutaFoto);
+                    $nuevaRutaFoto = "{$nuevoDirectorio}/{$nombreArchivo}";
+                    
+                    // Copiar la imagen al nuevo directorio
+                    if (file_exists($rutaFoto)) {
+                        copy($rutaFoto, $nuevaRutaFoto);
+                        $rutaFoto = $nuevaRutaFoto;
+                    }
+                }
+
                 $tabla = "usuarios";
                 $datos = array(
                     "id_usuario" => $_POST["idEditUsuario"],
@@ -182,6 +349,7 @@ class ControladorUsuarios{
                     "direccion" => $_POST["editDireccion"],
                     "genero" => $_POST["editGenero"],
                     "id_rol" => $_POST["EditRolUsuario"],
+                    "foto" => $rutaFoto,
                     // si es aprendiz
                     "id_sede" => $sede,
                     "id_ficha" => $ficha,
@@ -192,12 +360,11 @@ class ControladorUsuarios{
 
                 error_log("Datos a enviar: " . json_encode($datos));
 
-
                 $respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
 
                 if ($respuesta == "ok") {
                     echo '<script>
-                        swal.fire({
+                        Swal.fire({
                             icon: "success",
                             title: "¡El usuario ha sido actualizado correctamente!",
                             showConfirmButton: true,
@@ -210,7 +377,7 @@ class ControladorUsuarios{
                     </script>';
                 } else {
                     echo '<script>
-                        swal.fire({
+                        Swal.fire({
                             icon: "error",
                             title: "¡Error al actualizar el usuario!",
                             showConfirmButton: true,
@@ -224,7 +391,7 @@ class ControladorUsuarios{
                 }
             } else {
                 echo '<script>
-                    swal.fire({
+                    Swal.fire({
                         icon: "error",
                         title: "¡Revisar parametros!",
                         showConfirmButton: true,
@@ -237,7 +404,6 @@ class ControladorUsuarios{
                 </script>';
             }
         }
-    }
-        
+    } 
 
 }  //fin de la clase ControladorUsuarios
