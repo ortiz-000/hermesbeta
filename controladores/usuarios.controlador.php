@@ -47,6 +47,7 @@ class ControladorUsuarios{
             }
         }
     }
+}
 
     static public function ctrEditarPerfil() {
         if (isset($_POST["editarEmail"])) {
