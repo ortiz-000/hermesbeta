@@ -80,10 +80,11 @@
 
 
     echo '<div class="wrapper">';
-    include "modulos/cabezote.php";
-    include "modulos/menu.php";
+    include "modulos/cabezote.php"; //Cargando el cabezote de la pagina
+    include "modulos/menu.php"; //Cargando el menu de la pagina
 
-    if (isset($_GET["ruta"])) {
+    //Lista blanca
+    if (isset($_GET["ruta"])) { //Obteniendo la ruta de la pagina para cargar el controlador que llega desde el index.php
       if ($_GET["ruta"] == "inicio" ||
           $_GET["ruta"] == "fichas" ||
           $_GET["ruta"] == "sedes" ||
