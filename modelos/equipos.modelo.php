@@ -3,16 +3,21 @@
 Class ModeloEquipos{
     static public function mdlMostrarEquipos($tabla, $item, $valor){
         if($item != null){
-            $stmt = Conexion::conectar()->prepare("SELECT e.equipo_id, e.numero_serie, e.etiqueta, e.descripcion,
-                                                e.fecha_entrada, 
-                                                u.ubicacion_id AS ubicacion,
-                                                e.categoria AS categoria, 
-                                                us.id_usuario AS nombre_cuentadante,
-                                                e.a_cuentadante AS area_cuentadante, 
-                                                e.estado FROM $tabla e 
-                                                LEFT JOIN ubicaciones u ON e.ubicacion_id = u.ubicacion_id 
-                                                LEFT JOIN usuarios us ON e.cuentadante_id = us.id_usuario 
-                                                WHERE $item = :$item 
+            $stmt = Conexion::conectar()->prepare("SELECT e.equipo_id,
+                                                    e.numero_serie,
+                                                    e.etiqueta,
+                                                    e.descripcion,
+                                                    e.fecha_entrada,
+                                                    u.ubicacion_id AS ubicacion,
+                                                    c.categoria_id AS categoria,
+                                                    us.id_usuario AS nombre_cuentadante,
+                                                    es.id_estado
+                                                FROM equipos e
+                                                LEFT JOIN ubicaciones u ON e.ubicacion_id = u.ubicacion_id
+                                                LEFT JOIN categorias c ON e.categoria_id = c.categoria_id
+                                                LEFT JOIN usuarios us ON e.cuentadante_id = us.id_usuario
+                                                LEFT JOIN estados es ON e.id_estado = es.id_estado
+                                                WHERE $item = :$item
                                                 ORDER BY e.equipo_id DESC
                                                 LIMIT 1;");
             if($item == "equipo_id" && $item == "ubicacion_id" && $item == "cuentadante_id"){
