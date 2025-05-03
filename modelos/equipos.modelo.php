@@ -39,4 +39,40 @@ Class ModeloEquipos{
     static public function mdlAgregarEquipos($tabla, $datos){
         
     }
+
+    static public function mdlEditarEquipos($tabla, $datos){
+        try{
+            $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET 
+                numero_serie = :numeroSerieEdit,
+                etiqueta = :etiquetaEdit,
+                descripcion = :descripcionEdit,
+                ubicacion_id = :ubicacionEdit,
+                categoria_id = :categoriaEdit,
+                cuentadante_id = :cuentadanteIdEdit,
+                id_estado = :estadoEdit
+                WHERE equipo_id = :equipo_id");
+                
+            $stmt->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
+            $stmt->bindParam(":numeroSerieEdit", $datos["numeroSerieEdit"], PDO::PARAM_STR);
+            $stmt->bindParam(":etiquetaEdit", $datos["etiquetaEdit"], PDO::PARAM_STR);
+            $stmt->bindParam(":descripcionEdit", $datos["descripcionEdit"], PDO::PARAM_STR);
+            $stmt->bindParam(":ubicacionEdit", $datos["ubicacionEdit"], PDO::PARAM_INT);
+            $stmt->bindParam(":categoriaEdit", $datos["categoriaEdit"], PDO::PARAM_INT);
+            $stmt->bindParam(":cuentadanteIdEdit", $datos["cuentadanteIdEdit"], PDO::PARAM_INT);
+            $stmt->bindParam(":estadoEdit", $datos["estadoEdit"], PDO::PARAM_INT);
+    
+            if($stmt->execute()){
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch(PDOException $e){
+            return "error: " . $e->getMessage();
+        } finally {
+            if($stmt){
+                $stmt->closeCursor();
+                $stmt = null;
+            }
+        }
+    }
 }

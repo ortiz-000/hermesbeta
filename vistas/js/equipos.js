@@ -8,7 +8,7 @@ $(document).on("click", ".btnEditarEquipo", function() {
     // Obtenemos el valor del atributo personalizado "idEquipo" del botón que se clickeó
     var idEquipo = $(this).attr("idEquipo");
     console.log("IdEquipo: ", idEquipo); // Mostramos en consola el id para verificar
-
+    $("#idEditEquipo").val(idEquipo);
     // Creamos un nuevo objeto FormData para enviar datos tipo formulario
     var datos = new FormData();
     
