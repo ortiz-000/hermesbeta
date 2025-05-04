@@ -32,6 +32,24 @@ Class ModeloEquipos{
     }
 
     static public function mdlAgregarEquipos($tabla, $datos){
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(numero_serie, etiqueta, descripcion, fecha_entrada, ubicacion_id, categoria, cuentadante_id, a_cuentadante, estado)
+                                                VALUES (:numero_serie, :etiqueta, :descripcion, :fecha_entrada, :ubicacion_id, :categoria, :cuentadante_id, :a_cuentadante, :estado)");
+        $stmt -> bindParam(":numero_serie", $datos["numero_serie"], PDO::PARAM_STR);
+        $stmt -> bindParam(":etiqueta", $datos["etiqueta"], PDO::PARAM_STR);
+        $stmt -> bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
+        $stmt -> bindParam(":fecha_entrada", $datos["fecha_entrada"], PDO::PARAM_STR);
+        $stmt -> bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
+        $stmt -> bindParam(":categoria", $datos["categoria"], PDO::PARAM_STR);
+        $stmt -> bindParam(":cuentadante_id", $datos["cuentadante_id"], PDO::PARAM_INT);
+        $stmt -> bindParam(":a_cuentadante", $datos["a_cuentadante"], PDO::PARAM_STR);
+        $stmt -> bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
+        if($stmt -> execute()){
+            return "ok";
+        } else {
+            return "error";
+        
+        }
+
         
     }
 }
