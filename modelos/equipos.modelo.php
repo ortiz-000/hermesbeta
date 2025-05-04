@@ -44,10 +44,10 @@ Class ModeloEquipos{
         $stmt -> bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
         $stmt -> bindParam(":fecha_entrada", $datos["fecha_entrada"], PDO::PARAM_STR);
         $stmt -> bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
-        $stmt -> bindParam(":categoria", $datos["categoria"], PDO::PARAM_STR);
+        $stmt -> bindParam(":categoria_id", $datos["categoria_id"], PDO::PARAM_STR);
         $stmt -> bindParam(":cuentadante_id", $datos["cuentadante_id"], PDO::PARAM_INT);
         $stmt -> bindParam(":a_cuentadante", $datos["a_cuentadante"], PDO::PARAM_STR);
-        $stmt -> bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
+        $stmt -> bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_STR);
         if($stmt -> execute()){
             return "ok";
         } else {
