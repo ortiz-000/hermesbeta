@@ -1,5 +1,6 @@
 <?php
 
+include_once("conexion.php");
 Class ModeloEquipos{
     static public function mdlMostrarEquipos($tabla, $item, $valor){
         if($item != null){
