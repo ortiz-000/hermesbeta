@@ -56,7 +56,7 @@
                 echo '<td>
                         <div class="btn-group">
                           <button title="Editar equipo" class="btn btn-default btn-xs btnEditarEquipo bg-warning" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalEditarEquipo"><i class="fas fa-edit  mr-1 ml-1"></i></button>
-                          <button title="Traspaso equipo" class="btn btn-default btn-xs ml-2 bg-success" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalTraspaso"><i class="fas fa-share mr-1 ml-1"></i></button>
+                          <button title="Traspaso equipo" class="btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalTraspaso"><i class="fas fa-share mr-1 ml-1"></i></button>
                         </div>
                         </td>';
                 echo '</tr>';
@@ -325,51 +325,70 @@
         </div>
         <div class="modal-body">
           <form method="post">
-            <input type="hidden" id="idEditEquipo" name="idEditEquipo">
+            <input type="hidden" id="idTraspasoEquipo" name="idTraspasoEquipo">
+
             <div class="form-row ">
-              
+
+            <!-- INPUT CUENTADANTE ORIGEN -->
               <div class="form-group col-lg-5">
-                <label for="numeroSerieEdit">Cuentadante origen</label>
+                <label for="numeroSerieTraspaso">Cuentadante origen</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="numeroSerieEdit" name="numeroSerieEdit" placeholder="Ej:John Doe" required readonly>
+                  <input type="text" class="form-control" id="numeroSerieTraspaso" name="numeroSerieTraspaso" readonly>
                 </div>
               </div>
 
+              <!-- ICONO TRASPASO -->
               <div class="form-group col-lg-2 d-flex justify-content-center align-content-end">
                   <span class="input-group-text mt-4 h-80"><i class="fas fa-exchange-alt"></i></span>
               </div>
 
+              <!-- INPUT CUENTADANTE DETINO -->
               <div class="form-group col-lg-5">
-                <label for="etiquetaEdit">Cuentadante destino</label>
+                <label for="etiquetaTraspaso">Cuentadante destino</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="etiquetaEdit" name="etiquetaEdit" placeholder="Ej:Jane Doe" required>
+                  <input type="text" class="form-control" id="etiquetaTraspaso" name="etiquetaTraspaso" placeholder="Ej:Jane Doe" required>
                 </div>
               </div>
 
             </div>
-            <div class="form-group col-lg-12">
+
+            <!-- <div class="form-group col-lg-12">
               <label for="descripcionEdit">Descripción</label>
               <textarea class="form-control" id="descripcionEdit" name="descripcionEdit" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
-            </div>
-            <div class="form-row mt-2">
-              <div class="form-group col-lg-6">
-                <label for="ubicacionEdit">Ubicación</label>
+            </div> -->
+
+            <div class="form-row mt-2 d-flex justify-content-lg-between">
+
+              <!-- INPUT UBICACIÓN ACTUAL -->
+              <div class="form-group col-lg-5">
+                <label for="ubicacionTraspaso">Ubicación actual</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                  </div>
+                  <input type="text" class="form-control" id="ubicacionTraspaso" name="ubicacionTraspaso" readonly>
+                </div>
+              </div>
+
+              <!-- SELECT UBICACIÓN DESTINO -->
+              <div class="form-group col-lg-5">
+                <label for="ubicacionTraspaso">Ubicación destino</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
                   </div>
                   <?php
 
                   $item = null;
                   $valor = null;
                   $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
-                  echo '<select class="form-control" id="ubicacionEdit" name="ubicacionEdit" required>';
+                  echo '<select class="form-control" id="ubicacionTraspaso" name="ubicacionTraspaso" required>';
                   echo '<option value="">Seleccione una ubicación</option>';
                   foreach ($ubicaciones as $key => $ubicacion) {
                     echo '<option value="' . $ubicacion["ubicacion_id"] . '">' . $ubicacion["nombre"] . '</option>';
@@ -378,26 +397,10 @@
                   ?>
                 </div>
               </div>
-              <div class="form-group col-lg-6">
-                <label for="categoriaEditId">Categoría</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
-                  </div>
-                  <?php
-                  $item = null;
-                  $valor = null;
-                  $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
-                  echo '<select class="form-control" id="categoriaEditId" name="categoriaEditId" required>';
-                  echo '<option value="">Seleccione una categoría</option>';
-                  foreach ($categorias as $key => $categoria) {
-                    echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
-                  }
-                  echo '</select>';
-                  ?>
-                </div>
-              </div>
+
             </div>
+
+            <!--  -->
             <div class="form-row">
               <div class="form-group col-lg-6">
                 <label for="cuentadanteIdEdit">Cuentadante</label>

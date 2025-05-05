@@ -36,9 +36,14 @@ $(document).on("click", ".btnEditarEquipo", function() {
             $("#descripcionEdit").val(respuesta["descripcion"]);
             $("#ubicacionEdit").val(respuesta["ubicacion_id"]);
             $("#categoriaEditId").val(respuesta["categoria_id"]);
-            $("#cuentadanteIdEdit").val(respuesta["cuentadante_id"]);
             $("#cuentadanteIdEdit").val(respuesta["id_estado"]);
         }
     });
 
 });
+
+/* ==================================================
+BOTÓN PARA CAMBIAR EL EQUIPO A UN NUEVO CUENTADANTE Y ÁREA
+================================================== */
+
+
