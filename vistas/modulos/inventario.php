@@ -55,8 +55,8 @@
                 // Botón de acciones
                 echo '<td>
                         <div class="btn-group">
-                          <button class="btn btn-default btn-xs btnEditarEquipo bg-warning" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalEditarEquipo"><i class="fas fa-edit  mr-1 ml-1"></i></button>
-                          <button class="btn btn-default btn-xs ml-2 bg-danger" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalEliminarEquipo"><i class="fas fa-eraser mr-1 ml-1"></i></button>
+                          <button title="Editar equipo" class="btn btn-default btn-xs btnEditarEquipo bg-warning" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalEditarEquipo"><i class="fas fa-edit  mr-1 ml-1"></i></button>
+                          <button title="Traspaso equipo" class="btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalTraspaso"><i class="fas fa-share mr-1 ml-1"></i></button>
                         </div>
                         </td>';
                 echo '</tr>';
@@ -300,6 +300,137 @@
             $equipos=ControladorEquipos::ctrEditarEquipos();
 
             ?>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- ========== Start Section ==========
+  MODAL PARA TRASPASO EQUIPO
+  ========== End Section ========== -->
+
+  <div class="modal fade" id="modalTraspaso">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header bg-success">
+          <h4 class="modal-title">Solicitud de traspaso de equipo</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            <input type="hidden" id="idTraspasoEquipo" name="idTraspasoEquipo">
+
+            <div class="form-row ">
+
+            <!-- INPUT CUENTADANTE ORIGEN -->
+              <div class="form-group col-lg-5">
+                <label for="numeroSerieTraspaso">Cuentadante origen</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  </div>
+                  <input type="text" class="form-control" id="numeroSerieTraspaso" name="numeroSerieTraspaso" readonly>
+                </div>
+              </div>
+
+              <!-- ICONO TRASPASO -->
+              <div class="form-group col-lg-2 d-flex justify-content-center align-content-end">
+                  <span class="input-group-text mt-4 h-80"><i class="fas fa-exchange-alt"></i></span>
+              </div>
+
+              <!-- INPUT CUENTADANTE DETINO -->
+              <div class="form-group col-lg-5">
+                <label for="etiquetaTraspaso">Cuentadante destino</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
+                  </div>
+                  <input type="text" class="form-control" id="etiquetaTraspaso" name="etiquetaTraspaso" placeholder="Ej:Jane Doe" required>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- <div class="form-group col-lg-12">
+              <label for="descripcionEdit">Descripción</label>
+              <textarea class="form-control" id="descripcionEdit" name="descripcionEdit" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
+            </div> -->
+
+            <div class="form-row mt-2 d-flex justify-content-lg-between">
+
+              <!-- INPUT UBICACIÓN ACTUAL -->
+              <div class="form-group col-lg-5">
+                <label for="ubicacionTraspaso">Ubicación actual</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                  </div>
+                  <input type="text" class="form-control" id="ubicacionTraspaso" name="ubicacionTraspaso" readonly>
+                </div>
+              </div>
+
+              <!-- SELECT UBICACIÓN DESTINO -->
+              <div class="form-group col-lg-5">
+                <label for="ubicacionTraspaso">Ubicación destino</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
+                  </div>
+                  <?php
+
+                  $item = null;
+                  $valor = null;
+                  $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
+                  echo '<select class="form-control" id="ubicacionTraspaso" name="ubicacionTraspaso" required>';
+                  echo '<option value="">Seleccione una ubicación</option>';
+                  foreach ($ubicaciones as $key => $ubicacion) {
+                    echo '<option value="' . $ubicacion["ubicacion_id"] . '">' . $ubicacion["nombre"] . '</option>';
+                  }
+                  echo '</select>';
+                  ?>
+                </div>
+              </div>
+
+            </div>
+
+            <!--  -->
+            <div class="form-row">
+              <div class="form-group col-lg-6">
+                <label for="cuentadanteIdEdit">Cuentadante</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  </div>
+                  <input type="text" class="form-control" id="cuentadanteIdEdit" name="cuentadanteIdEdit" placeholder="Ingrese el cuentadante" required>
+                </div>
+              </div>
+              <div class="form-group col-lg-6">
+                <label for="estadoEdit">Estado</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                  </div>
+                  <?php
+                    $item = null;
+                    $valor = null;
+                    $estados = ControladorEstados::ctrMostrarEstados($item, $valor);
+                    echo '<select class="form-control" id="estadoEdit" name="estadoEdit" required>';
+                    echo '<option value="">Seleccione un estado</option>';
+                    foreach ($estados as $key => $estado) {
+                      echo '<option value="' . $estado["estado_id"] . '">' . $estado["estado"] . '</option>';
+                    }
+                    echo '</select>';
+                  ?>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Editar</button>
+            </div>
           </form>
         </div>
       </div>
