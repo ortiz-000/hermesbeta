@@ -95,7 +95,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="numeroSerie" name="numeroSerie" placeholder="Ej:00ks32.." required>
+                  <input type="text" class="form-control" id="numero_serie" name="numero_serie" placeholder="Ej:00ks32.." required>
                 </div>
               </div>
               <div class="form-group col-lg-6">
@@ -145,7 +145,7 @@
                   $item = null;
                   $valor = null;
                   $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
-                  echo '<select class="form-control" id="ubicacionId" name="ubicacionId" required>';
+                  echo '<select class="form-control" id="categoriaId" name="categoriaId" required>';
                   echo '<option value="">Seleccione una categoria</option>';
                   foreach ($categorias as $key => $categoria) {
                     echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
@@ -162,10 +162,9 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                   </div>
-                  <select class="form-control" id="cuentadanteId" name="cuentadanteId" required>
-                    <option value="">Seleccione un cuentadante</option>
-                    <!-- Opciones dinámicas -->
-                  </select>
+                  <input type="text" class="form-control" id="cuentadanteId" name="cuentadanteId" placeholder="Ingrese el cuentadante"/>
+                    
+                  
                 </div>
               </div>
             </div>
@@ -173,13 +172,13 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
-            <?php
 
-            $item = null;
-            $valor = null;
-            ControladorEquipos::ctrAgregarEquipos($item, $valor);
-
-            ?>
+              <?php 
+              $item = null;
+              $valor = null;
+              ControladorEquipos::ctrAgregarEquipos();
+              ?>
+            
           </form>
         </div>
       </div>
