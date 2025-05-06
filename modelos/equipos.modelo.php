@@ -38,6 +38,31 @@ Class ModeloEquipos{
         $stmt = null;
     }
 
+    static public function mdlRealizarTraspasoCuentadante($tabla, $item, $valor){
+        try{
+            // SQL CAPTURANDO LOS DATOS DEL CUENTADANTE ACTUAL A MOSTRAR EN EL MODAL
+            $stmt1 = Conexion::conectar()->prepare("SELECT e.equipo_id,
+                                                    us.nombre,
+                                                    ub.nombre
+                                                    FROM $tabla e
+                                                    LEFT JOIN usuarios us ON e.equipo_id = us.id_usuario
+                                                    LEFT JOIN ubicaciones ub ON e.equipo_id = ub.ubicacion_id
+                                                    WHERE $item = :item;");
+            if($item == "equipo_id"){
+                $stmt1 -> bindParam(":" . $item, $valor, PDO::PARAM_INT);
+            } else {
+                $stmt1 -> bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            }
+            $stmt1 -> execute();
+            return $stmt1 -> fetch();
+        } catch (Exception $e){
+            error_log("Error al editar usuario: " . $e -> getMessage());
+        } finally {
+            //Cerrar la conexión
+            $stmt1 = null;
+        }
+    }
+
     static public function mdlAgregarEquipos($tabla, $datos){
         
     }

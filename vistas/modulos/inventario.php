@@ -331,23 +331,23 @@
 
               <!-- INPUT CUENTADANTE ORIGEN -->
               <div class="form-group col-lg-6">
-                <label for="numeroSerieTraspaso">Cuentadante origen</label>
+                <label for="cuentadanteOrigenTraspaso">Cuentadante origen</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="numeroSerieTraspaso" name="numeroSerieTraspaso" readonly>
+                  <input type="text" class="form-control" id="cuentadanteOrigenTraspaso" name="cuentadanteOrigenTraspaso" readonly>
                 </div>
               </div>
 
               <!-- INPUT UBICACIÓN ACTUAL -->
               <div class="form-group col-lg-6">
-                <label for="ubicacionTraspaso">Ubicación actual</label>
+                <label for="ubicacionOrigenTraspaso">Ubicación actual</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="ubicacionTraspaso" name="ubicacionTraspaso" readonly>
+                  <input type="text" class="form-control" id="ubicacionOrigenTraspaso" name="ubicacionOrigenTraspaso" readonly>
                 </div>
               </div>
 
@@ -409,14 +409,20 @@
                   </div>
                 </div>
               </div>
-
-
             </div>
 
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary">Editar</button>
+              <button type="submit" class="btn btn-primary">Realizar traspaso</button>
             </div>
+
+            <?php
+            
+            $item = null; $valor = null;
+
+            $cuentadantes = ControladorEquipos::ctrRealizarTraspasoCuentadante($item, $valor);
+
+            ?>
           </form>
         </div>
       </div>

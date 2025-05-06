@@ -23,4 +23,11 @@ Class ControladorEquipos{
             }
         }
     }
+
+    static public function ctrRealizarTraspasoCuentadante($item, $valor){
+        $tabla = "equipos";
+        $respuesta = ModeloEquipos::mdlRealizarTraspasoCuentadante($tabla, $item, $valor);
+        var_dump($respuesta);
+        return $respuesta;
+    }
 }
