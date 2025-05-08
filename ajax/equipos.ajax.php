@@ -14,7 +14,7 @@ class AjaxEquipos {
     /* ==================================================
     MÉTODO PARA EDITAR EQUIPO
     ================================================== */
-    public function ajaxEditarEquipo() {
+    public function ajaxMostrarEquipo() {
         // Definimos el campo de la tabla por el cual haremos la búsqueda
         $item = "equipo_id";
         // Asignamos el valor que viene desde el formulario (JS)
@@ -42,5 +42,5 @@ if (isset($_POST["idEquipo"])) {
     $editar -> idEquipo = $_POST["idEquipo"];
     
     // Ejecutamos el método que consultará y devolverá los datos
-    $editar -> ajaxEditarEquipo();
+    $editar -> ajaxMostrarEquipo();
 }
