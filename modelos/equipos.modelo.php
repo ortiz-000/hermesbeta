@@ -42,12 +42,12 @@ Class ModeloEquipos{
         try{
             // SQL CAPTURANDO LOS DATOS DEL CUENTADANTE ACTUAL A MOSTRAR EN EL MODAL
             $stmt1 = Conexion::conectar()->prepare("SELECT e.equipo_id,
-                                                    us.nombre,
-                                                    ub.nombre
-                                                    FROM $tabla e
-                                                    LEFT JOIN usuarios us ON e.equipo_id = us.id_usuario
-                                                    LEFT JOIN ubicaciones ub ON e.equipo_id = ub.ubicacion_id
-                                                    WHERE $item = :item;");
+                                                us.nombre,
+                                                ub.nombre as ubicacion_nombre
+                                                FROM $tabla e
+                                                LEFT JOIN usuarios us ON e.cuentadante_id = us.id_usuario
+                                                LEFT JOIN ubicaciones ub ON e.ubicacion_id = ub.ubicacion_id
+                                                WHERE $item = :$item;");
             if($item == "equipo_id"){
                 $stmt1 -> bindParam(":" . $item, $valor, PDO::PARAM_INT);
             } else {

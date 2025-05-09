@@ -10,6 +10,7 @@ class AjaxEquipos {
     PROPIEDAD PÚBLICA PARA RECIBIR EL ID DEL EQUIPO
     ================================================== */
     public $idEquipo; // Esta propiedad recibe el id del equipo enviado desde el JS
+    public $idEquipoTraspaso;
 
     /* ==================================================
     MÉTODO PARA EDITAR EQUIPO
@@ -29,22 +30,23 @@ class AjaxEquipos {
 
     public function ajaxMostrarDatosCuentadante(){
         $item = "equipo_id";
-        $valor = $this -> idEquipo;
+        $valor = $this -> idEquipoTraspaso;
         $respuesta = ControladorEquipos::ctrRealizarTraspasoCuentadante($item, $valor);
         echo json_encode($respuesta);
     }
 
 }
 
-// if (isset($_POST["idEquipo"])) {
-//     $editar = new AjaxEquipos();
-//     $editar -> idEquipo = $_POST["idEquipo"];
-//     $editar -> ajaxMostrarDatosCuentadante();
-// }
 
 /* ==================================================
 EJECUCIÓN DEL CÓDIGO CUANDO SE ENVÍA EL FORMULARIO
 ================================================== */
+
+if (isset($_POST["idEquipoTraspaso"])) {
+    $traspaso = new AjaxEquipos();
+    $traspaso -> idEquipoTraspaso = $_POST["idEquipoTraspaso"];
+    $traspaso -> ajaxMostrarDatosCuentadante();
+}
 
 // Validamos que se haya enviado el dato "idEquipo" mediante POST desde Js
 if (isset($_POST["idEquipo"])) {
