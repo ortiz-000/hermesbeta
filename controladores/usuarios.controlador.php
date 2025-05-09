@@ -6,6 +6,8 @@ class ControladorUsuarios{
         if (isset($_POST["ingUsuario"])) {
             if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
                 preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])) {
+
+                    $encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
                 
                 $tabla = "usuarios";
                 $item = "nombre_usuario";
@@ -14,7 +16,7 @@ class ControladorUsuarios{
                 $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
                 // var_dump($respuesta);
 
-                if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $_POST["ingPassword"]) {
+                if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $encriptar) {
 
                     $_SESSION["iniciarSesion"] = "ok";
                     echo '<script>
@@ -46,6 +48,7 @@ class ControladorUsuarios{
                 }
 
                 $tabla = "usuarios";
+                $encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
                 $datos = array(
                     "nombre" => $_POST["nuevoNombre"],
                     "apellido" => $_POST["nuevoApellido"],
@@ -56,7 +59,7 @@ class ControladorUsuarios{
                     "direccion" => $_POST["nuevaDireccion"],
                     "genero" => $_POST["nuevoGenero"],
                     "usuario" => $_POST["nuevoNumeroDocumento"],
-                    "password" => $_POST["nuevoNumeroDocumento"],
+                    "password" => $encriptar,
                     "rol" => $_POST["selectRol"],
                     // si es aprendiz
                     "sede" => $sede,
