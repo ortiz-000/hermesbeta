@@ -1,7 +1,11 @@
 # Template
 AdminLTE/
 
+# Ignore all files in the root directory
 .htaccess
+
+# Ignore all files in the root directory
+conexion.php
 
 # System / Log files
 *.DS_Store
