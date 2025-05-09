@@ -1,6 +1,8 @@
 # Template
 AdminLTE/
 
+.htaccess
+
 # System / Log files
 *.DS_Store
 *.log
