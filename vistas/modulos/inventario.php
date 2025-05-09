@@ -365,12 +365,15 @@
 
               <!-- INPUT BUSCAR POR CEDULA -->
                 <div class="form-group col-lg-12">
-                  <label for="etiquetaTraspaso">Ingrese a buscar por cedula</label>
+                  <label for="etiquetaTraspaso">Ingrese a buscar por documento</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
+                      <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                     </div>
                     <input type="text" class="form-control" id="etiquetaTraspaso" name="etiquetaTraspaso" placeholder="Ej:12345..." required>
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
                   </div>
                 </div>
 
@@ -410,17 +413,13 @@
               </div>
             </div>
 
-            <div class="modal-footer justify-content-between">
+            <div class="modal-footer mt-2 justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary">Realizar traspaso</button>
             </div>
-
             <?php
-            
             $item = null; $valor = null;
-
             $cuentadantes = ControladorEquipos::ctrRealizarTraspasoCuentadante($item, $valor);
-
             ?>
           </form>
         </div>
