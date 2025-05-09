@@ -69,7 +69,8 @@ bower_components/
 
 # ETC
 TODO
-test.html
+test*.*
+.htaccess
 ad.js
 /.cache/
 /modelos/conexion.php
