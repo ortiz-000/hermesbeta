@@ -62,21 +62,31 @@ $(document).on("click", ".btnTraspasarEquipo", function(){
         contentType: false,
         processData: false,
         dataType: "json",
-
         success: function(respuesta) {
-            // Mostramos la respuesta en consola para verificar
-            console.log("datos: ", respuesta);
-
-            // Llenamos los campos del formulario del modal con los datos recibidos
-            $("#idEditEquipo").val(respuesta["equipo_id"]);
-            $("#cuentadanteOrigenTraspaso").val(respuesta["cuentadante_id"]);
-            $("#ubicacionOrigenTraspaso").val(respuesta["ubicacion_id"]);
+            try {
+                // Verificamos que la respuesta sea válida
+                if (respuesta && respuesta.equipo_id) {
+                    console.log("datos: ", respuesta);
+                    
+                    // Llenamos los campos del formulario del modal con los datos recibidos
+                    $("#idEditEquipo").val(respuesta.equipo_id);
+                    $("#cuentadanteOrigenTraspaso").val(respuesta.nombre || '');
+                    $("#ubicacionOrigenTraspaso").val(respuesta.nombre || '');
+                } else {
+                    console.error("Respuesta inválida del servidor");
+                    alert("Error: La respuesta del servidor no tiene el formato esperado");
+                }
+            } catch (e) {
+                console.error("Error al procesar la respuesta:", e);
+                alert("Error al procesar la respuesta del servidor");
+            }
         },
         error: function(xhr, status, error) {
-            console.error("Ajax request failed");
-            console.error("Status: ", status);
-            console.error("Error: ", error);
-            console.error("Response: ", xhr.responseText);
+            console.error("Error en la petición Ajax:");
+            console.error("Status:", status);
+            console.error("Error:", error);
+            console.error("Respuesta:", xhr.responseText);
+            alert("Error al comunicarse con el servidor. Por favor, intente nuevamente.");
         }
     });
 });

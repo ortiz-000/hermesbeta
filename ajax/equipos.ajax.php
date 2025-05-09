@@ -27,6 +27,19 @@ class AjaxEquipos {
         echo json_encode($respuesta);
     }
 
+    public function ajaxMostrarDatosCuentadante(){
+        $item = "equipo_id";
+        $valor = $this -> idEquipo;
+        $respuesta = ControladorEquipos::ctrRealizarTraspasoCuentadante($item, $valor);
+        echo json_encode($respuesta);
+    }
+
+}
+
+if (isset($_POST["idEquipo"])) {
+    $editar = new AjaxEquipos();
+    $editar -> idEquipo = $_POST["idEquipo"];
+    $editar -> ajaxMostrarDatosCuentadante();
 }
 
 /* ==================================================
@@ -44,3 +57,5 @@ if (isset($_POST["idEquipo"])) {
     // Ejecutamos el método que consultará y devolverá los datos
     $editar -> ajaxMostrarEquipo();
 }
+
+
