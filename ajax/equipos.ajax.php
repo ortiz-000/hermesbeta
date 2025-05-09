@@ -36,11 +36,11 @@ class AjaxEquipos {
 
 }
 
-if (isset($_POST["idEquipo"])) {
-    $editar = new AjaxEquipos();
-    $editar -> idEquipo = $_POST["idEquipo"];
-    $editar -> ajaxMostrarDatosCuentadante();
-}
+// if (isset($_POST["idEquipo"])) {
+//     $editar = new AjaxEquipos();
+//     $editar -> idEquipo = $_POST["idEquipo"];
+//     $editar -> ajaxMostrarDatosCuentadante();
+// }
 
 /* ==================================================
 EJECUCIÓN DEL CÓDIGO CUANDO SE ENVÍA EL FORMULARIO
