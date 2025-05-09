@@ -38,7 +38,50 @@ Class ModeloEquipos{
         $stmt = null;
     }
 
+    static public function mdlRealizarTraspasoCuentadante($tabla, $item, $valor){
+        try{
+            // SQL CAPTURANDO LOS DATOS DEL CUENTADANTE ACTUAL A MOSTRAR EN EL MODAL
+            $stmt1 = Conexion::conectar()->prepare("SELECT e.equipo_id,
+                                                    us.nombre,
+                                                    ub.nombre
+                                                    FROM $tabla e
+                                                    LEFT JOIN usuarios us ON e.equipo_id = us.id_usuario
+                                                    LEFT JOIN ubicaciones ub ON e.equipo_id = ub.ubicacion_id
+                                                    WHERE $item = :item;");
+            if($item == "equipo_id"){
+                $stmt1 -> bindParam(":" . $item, $valor, PDO::PARAM_INT);
+            } else {
+                $stmt1 -> bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            }
+            $stmt1 -> execute();
+            return $stmt1 -> fetch();
+        } catch (Exception $e){
+            error_log("Error al editar usuario: " . $e -> getMessage());
+        } finally {
+            //Cerrar la conexión
+            $stmt1 = null;
+        }
+    }
+
     static public function mdlAgregarEquipos($tabla, $datos){
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(numero_serie, etiqueta, descripcion, fecha_entrada, ubicacion_id, categoria, cuentadante_id, a_cuentadante, estado)
+                                                VALUES (:numero_serie, :etiqueta, :descripcion, :fecha_entrada, :ubicacion_id, :categoria, :cuentadante_id, :a_cuentadante, :estado)");
+        $stmt -> bindParam(":numero_serie", $datos["numero_serie"], PDO::PARAM_STR);
+        $stmt -> bindParam(":etiqueta", $datos["etiqueta"], PDO::PARAM_STR);
+        $stmt -> bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
+        $stmt -> bindParam(":fecha_entrada", $datos["fecha_entrada"], PDO::PARAM_STR);
+        $stmt -> bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
+        $stmt -> bindParam(":categoria_id", $datos["categoria_id"], PDO::PARAM_STR);
+        $stmt -> bindParam(":cuentadante_id", $datos["cuentadante_id"], PDO::PARAM_INT);
+        $stmt -> bindParam(":a_cuentadante", $datos["a_cuentadante"], PDO::PARAM_STR);
+        $stmt -> bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_STR);
+        if($stmt -> execute()){
+            return "ok";
+        } else {
+            return "error";
+        
+        }
+
         
     }
 
