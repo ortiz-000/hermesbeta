@@ -1,3 +1,5 @@
+  </div>
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -56,7 +58,7 @@
                 echo '<td>
                         <div class="btn-group">
                           <button title="Editar equipo" class="btn btn-default btn-xs btnEditarEquipo bg-warning" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalEditarEquipo"><i class="fas fa-edit  mr-1 ml-1"></i></button>
-                          <button title="Traspaso equipo" class="btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalTraspaso"><i class="fas fa-share mr-1 ml-1"></i></button>
+                          <button title="Traspaso equipo" class="btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success" idEquipoTraspaso="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalTraspaso"><i class="fas fa-share mr-1 ml-1"></i></button>
                         </div>
                         </td>';
                 echo '</tr>';
