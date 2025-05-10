@@ -67,9 +67,9 @@ class ModeloSolicitudes{
             $stmt->execute();
 
             $idPrestamo = $conexion->lastInsertId();
-
+           
             foreach ($datos["equipos"] as $equipo) {
-                $stmt2 = $conexion->prepare("INSERT INTO detalle_prestamo (id_prestamo, equipo_id, estado) VALUES (:id_prestamo, :equipo_id, 'asignado')", );
+                $stmt2 = $conexion->prepare("INSERT INTO detalle_prestamo (id_prestamo, equipo_id, estado) VALUES (:id_prestamo, :equipo_id, 'asignado')" );
                 $stmt2->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
                 $stmt2->bindParam(":equipo_id", $equipo, PDO::PARAM_INT);
                 $stmt2->execute();

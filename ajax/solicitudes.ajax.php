@@ -46,7 +46,7 @@
                 "fechaFin" => $this->fechaFin,
                 "observaciones" => $this->observaciones
             );
-            $respuesta = ControladorSolicitudes::ctrGuardarSolicitud($datos);
+            $respuesta = ControladorSolicitudes::ctrGuardarSolicitud();
             echo json_encode($respuesta);
         }
 
