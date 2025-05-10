@@ -14,16 +14,15 @@ class ControladorUsuarios{
                 $valor = $_POST["ingUsuario"];
 
                 $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
-                // var_dump($respuesta);
 
-                if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $encriptar) {
+                if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $_POST["ingPassword"]) {
 
                     $_SESSION["iniciarSesion"] = "ok";
                     echo '<script>
                         window.location = "inicio";
                     </script>';
                 } else {
-                    echo '<br><div class="alert alert-danger">Usuario y contraseña no coinciden</div>';
+                    echo '<br><div class="alert alert-danger">Usuario y/o contraseña incorrectos</div>';
                 }
             }
         }
