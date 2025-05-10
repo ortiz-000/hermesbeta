@@ -140,6 +140,16 @@
           </li>
 
           <li class="nav-item">
+            <a href="consultar-solicitudes" class="nav-link">
+              <i class="nav-icon fas fa-reply"></i>
+              <span class="badge badge-info right">6+</span>
+              <p>
+                Consultar
+              </p>
+            </a>
+          </li>          
+
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-check"></i>
               <p>
