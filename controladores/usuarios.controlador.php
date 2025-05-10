@@ -6,9 +6,8 @@ class ControladorUsuarios{
         if (isset($_POST["ingUsuario"])) {
             if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
                 preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])) {
-
+                
                 $encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-                //echo $encriptar;
 
                 $tabla = "usuarios";
                 $item = "nombre_usuario";
@@ -344,6 +343,7 @@ class ControladorUsuarios{
                 }
 
                 $tabla = "usuarios";
+                
                 $datos = array(
                     "id_usuario" => $_POST["idEditUsuario"],
                     "tipo_documento" => $_POST["editTipoDocumento"],
