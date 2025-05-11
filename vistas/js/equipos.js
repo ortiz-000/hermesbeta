@@ -43,7 +43,7 @@ $(document).on("click", ".btnEditarEquipo", function() {
 });
 
 /* ==================================================
-BOTÓN PARA CAMBIAR EL EQUIPO A UN NUEVO CUENTADANTE Y ÁREA
+BOTÓN PARA INSERTAR EL CUENTADANTE Y UBICACIÓN ACTUAL
 ================================================== */
 
 $(document).on("click", ".btnTraspasarEquipo", function(){
@@ -89,4 +89,36 @@ $(document).on("click", ".btnTraspasarEquipo", function(){
             alert("Error al comunicarse con el servidor. Por favor, intente nuevamente.");
         }
     });
+});
+
+/* ==================================================
+BOTÓN PARA BUSCAR EL CUENTADANTE Y SU UBICACIÓN Y AGREGARLOS EN LOS INPUTS
+================================================== */
+
+$(document).on("click", ".btnBuscarCuentadante", function (){
+    var buscarDocumentoId = $("#buscarDocumentoId").val();
+    if (buscarDocumentoId === ""){
+        alert(buscarDocumentoId);
+        alert("Por favor, ingrese un número de documento para buscar");
+        return;
+    } else {
+        let datos = new FormData();
+        datos.append("buscarDocumentoId", buscarDocumentoId);
+        $.ajax({
+            url: "ajax/equipos.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function(resultado){
+                console.log("Datos cuentadante: ", resultado["nombre"], resultado["ubicacion_nombre"]);
+                alert("Datos cuentadante: ", resultado);
+                event.preventDefault(); // Prevent form submission and page reload
+                $("#cuentadanteDestino").val(resultado["nombre"]);
+                $("#ubicacionTraspaso").val(resultado["ubicacion_nombre"]);
+            }
+        });
+    }
 });

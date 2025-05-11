@@ -11,6 +11,7 @@ class AjaxEquipos {
     ================================================== */
     public $idEquipo; // Esta propiedad recibe el id del equipo enviado desde el JS
     public $idEquipoTraspaso;
+    public $buscarDocumentoId;
 
     /* ==================================================
     MÉTODO PARA EDITAR EQUIPO
@@ -28,10 +29,17 @@ class AjaxEquipos {
         echo json_encode($respuesta);
     }
 
-    public function ajaxMostrarDatosCuentadante(){
+    public function ajaxMostrarDatosCuentadanteOrigen(){
         $item = "equipo_id";
         $valor = $this -> idEquipoTraspaso;
-        $respuesta = ControladorEquipos::ctrRealizarTraspasoCuentadante($item, $valor);
+        $respuesta = ControladorEquipos::ctrMostrarDatosCuentadanteOrigen($item, $valor);
+        echo json_encode($respuesta);
+    }
+
+    public function ajaxMostrarDatosCuentadanteTraspaso(){
+        $item = "equipo_id";
+        $valor = $this -> buscarDocumentoId;
+        $respuesta = ControladorEquipos::ctrMostrarDatosCuentadanteOrigen($item, $valor);
         echo json_encode($respuesta);
     }
 
@@ -42,10 +50,16 @@ class AjaxEquipos {
 EJECUCIÓN DEL CÓDIGO CUANDO SE ENVÍA EL FORMULARIO
 ================================================== */
 
+if(isset($_POST["buscarDocumentoId"])){
+    $datosCuentadante = new AjaxEquipos();
+    $datosCuentadante -> buscarDocumentoId = $_POST["buscarDocumentoId"];
+    $datosCuentadante -> ajaxMostrarDatosCuentadanteTraspaso();
+}
+
 if (isset($_POST["idEquipoTraspaso"])) {
     $traspaso = new AjaxEquipos();
     $traspaso -> idEquipoTraspaso = $_POST["idEquipoTraspaso"];
-    $traspaso -> ajaxMostrarDatosCuentadante();
+    $traspaso -> ajaxMostrarDatosCuentadanteOrigen();
 }
 
 // Validamos que se haya enviado el dato "idEquipo" mediante POST desde Js

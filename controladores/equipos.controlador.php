@@ -25,11 +25,17 @@ class ControladorEquipos{
         }
     }
 
-    static public function ctrRealizarTraspasoCuentadante($item, $valor){
+    static public function ctrMostrarDatosCuentadanteOrigen($item, $valor){
         $tabla = "equipos";
-        $respuesta = ModeloEquipos::mdlRealizarTraspasoCuentadante($tabla, $item, $valor);
+        $respuesta = ModeloEquipos::mdlMostrarDatosCuentadanteOrigen($tabla, $item, $valor);
         //var_dump($respuesta);
         return $respuesta;
     }
+
+    // static public function ctrMostrarDatosCuentadanteTraspaso($item, $valor){
+    //     $tabla = "equipos";
+    //     $respuesta = ModeloEquipos::mdlMostrarDatosCuentadanteOrigen($tabla, $item, $valor);
+    //     return $respuesta;
+    // }
 
 } //fin de la clase ControladorEquipos    

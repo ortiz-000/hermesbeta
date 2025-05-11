@@ -68,16 +68,17 @@ class ModeloEquipos{
     // =====================================
     //     REALIZAR TRASPASO CUENTADANTE
     // =====================================
-    public static function mdlRealizarTraspasoCuentadante($tabla, $item, $valor)
-    {
+    public static function mdlMostrarDatosCuentadanteOrigen($tabla, $item, $valor){
         try {
             // SQL CAPTURANDO LOS DATOS DEL CUENTADANTE ACTUAL A MOSTRAR EN EL MODAL
             $stmt1 = Conexion::conectar()->prepare("SELECT e.equipo_id,
                                                 us.nombre,
-                                                ub.nombre as ubicacion_nombre
+                                                ub.nombre as ubicacion_nombre,
+                                                ur.id_rol
                                                 FROM $tabla e
                                                 LEFT JOIN usuarios us ON e.cuentadante_id = us.id_usuario
                                                 LEFT JOIN ubicaciones ub ON e.ubicacion_id = ub.ubicacion_id
+                                                LEFT JOIN usuario_rol ur ON us.id_usuario = ur.id_usuario
                                                 WHERE $item = :$item;");
             if ($item == "equipo_id") {
                 $stmt1->bindParam(":" . $item, $valor, PDO::PARAM_INT);
@@ -93,6 +94,32 @@ class ModeloEquipos{
             $stmt1 = null;
         }
     } // fin del metodo mdlRealizarTraspasoCuentadante
+
+    // public static function mdlMostrarDatosCuentadanteTraspaso($tabla, $item, $valor){
+    //     try{
+    //         $stmt = Conexion::conectar()->prepare("SELECT 
+    //                                                 e.equipo_id,
+    //                                                 us.nombre,
+    //                                                 ub.nombre AS ubicacion_nombre,
+    //                                                 ur.id_rol
+    //                                             FROM 
+    //                                                 $tabla e
+    //                                             INNER JOIN  -- Cambia a INNER JOIN para filtrar
+    //                                                 usuario_rol ur ON us.id_usuario = ur.id_usuario 
+    //                                                     AND ur.id_rol IN (1, 3, 4, 5)
+    //                                             LEFT JOIN 
+    //                                                 usuarios us ON e.cuentadante_id = us.id_usuario
+    //                                             LEFT JOIN 
+    //                                                 ubicaciones ub ON e.ubicacion_id = ub.ubicacion_id
+    //                                             WHERE 
+    //                                                 $item = :$item;");
+    //         if($item){
+
+    //         }
+    //     } catch (Exception $e){
+    //         error_log("Error al cambiar de cuentadante: " . $e->getMessage());
+    //     }
+    // }
 
     // =====================================
     //     AGREGAR EQUIPOS
