@@ -1,10 +1,11 @@
 <?php
 
-Class ControladorEquipos{
+class ControladorEquipos{
 
     static public function ctrMostrarEquipos($item, $valor){
         $tabla = "equipos";
         $respuesta = ModeloEquipos::mdlMostrarEquipos($tabla, $item, $valor);
+        //var_dump($respuesta[0]);
         return $respuesta;
     }
 
@@ -23,4 +24,12 @@ Class ControladorEquipos{
             }
         }
     }
-}
+
+    static public function ctrRealizarTraspasoCuentadante($item, $valor){
+        $tabla = "equipos";
+        $respuesta = ModeloEquipos::mdlRealizarTraspasoCuentadante($tabla, $item, $valor);
+        //var_dump($respuesta);
+        return $respuesta;
+    }
+
+} //fin de la clase ControladorEquipos    

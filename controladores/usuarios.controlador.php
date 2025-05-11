@@ -26,7 +26,7 @@ class ControladorUsuarios{
                         $_SESSION["usuario"] = $respuesta["nombre_usuario"];
                         $_SESSION["foto"] = $respuesta["foto"];
                         $_SESSION["rol"] = $respuesta["id_rol"];
-                        $_SESSION["rol_nombre"] = $respuesta["nombre_rol"];
+                        $_SESSION["nombre_rol"] = $respuesta["nombre_rol"];
 
                         // Obtener permisos del rol
                         $permisos = ModeloPermisos::mdlMostrarPermisos("id_rol", $respuesta["id_rol"]);

@@ -36,9 +36,57 @@ $(document).on("click", ".btnEditarEquipo", function() {
             $("#descripcionEdit").val(respuesta["descripcion"]);
             $("#ubicacionEdit").val(respuesta["ubicacion_id"]);
             $("#categoriaEditId").val(respuesta["categoria_id"]);
-            $("#cuentadanteIdEdit").val(respuesta["cuentadante_id"]);
             $("#cuentadanteIdEdit").val(respuesta["id_estado"]);
         }
     });
 
+});
+
+/* ==================================================
+BOTÓN PARA CAMBIAR EL EQUIPO A UN NUEVO CUENTADANTE Y ÁREA
+================================================== */
+
+$(document).on("click", ".btnTraspasarEquipo", function(){
+    var idEquipoTraspaso = $(this).attr("idEquipoTraspaso");
+    console.log("Id equipo traspaso: ", idEquipoTraspaso);
+
+    var datos = new FormData();
+
+    datos.append("idEquipoTraspaso", idEquipoTraspaso);
+
+    $.ajax({
+        url: "ajax/equipos.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function(respuesta) {
+            try {
+                // Verificamos que la respuesta sea válida
+                if (respuesta) {
+                    console.log("datos: ", respuesta);
+                    
+                    // Llenamos los campos del formulario del modal con los datos recibidos
+                    $("#idEditEquipo").val(respuesta["equipo_id"]);
+                    $("#cuentadanteOrigenTraspaso").val(respuesta["nombre"]);
+                    $("#ubicacionOrigenTraspaso").val(respuesta["ubicacion_nombre"]);
+                } else {
+                    console.error("Respuesta inválida del servidor");
+                    alert("Error: La respuesta del servidor no tiene el formato esperado");
+                }
+            } catch (e) {
+                console.error("Error al procesar la respuesta:", e);
+                alert("Error al procesar la respuesta del servidor");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la petición Ajax:");
+            console.error("Status:", status);
+            console.error("Error:", error);
+            console.error("Respuesta:", xhr.responseText);
+            alert("Error al comunicarse con el servidor. Por favor, intente nuevamente.");
+        }
+    });
 });

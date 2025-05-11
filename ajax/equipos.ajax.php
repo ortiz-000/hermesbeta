@@ -10,11 +10,12 @@ class AjaxEquipos {
     PROPIEDAD PÚBLICA PARA RECIBIR EL ID DEL EQUIPO
     ================================================== */
     public $idEquipo; // Esta propiedad recibe el id del equipo enviado desde el JS
+    public $idEquipoTraspaso;
 
     /* ==================================================
     MÉTODO PARA EDITAR EQUIPO
     ================================================== */
-    public function ajaxEditarEquipo() {
+    public function ajaxMostrarEquipo() {
         // Definimos el campo de la tabla por el cual haremos la búsqueda
         $item = "equipo_id";
         // Asignamos el valor que viene desde el formulario (JS)
@@ -27,11 +28,25 @@ class AjaxEquipos {
         echo json_encode($respuesta);
     }
 
+    public function ajaxMostrarDatosCuentadante(){
+        $item = "equipo_id";
+        $valor = $this -> idEquipoTraspaso;
+        $respuesta = ControladorEquipos::ctrRealizarTraspasoCuentadante($item, $valor);
+        echo json_encode($respuesta);
+    }
+
 }
+
 
 /* ==================================================
 EJECUCIÓN DEL CÓDIGO CUANDO SE ENVÍA EL FORMULARIO
 ================================================== */
+
+if (isset($_POST["idEquipoTraspaso"])) {
+    $traspaso = new AjaxEquipos();
+    $traspaso -> idEquipoTraspaso = $_POST["idEquipoTraspaso"];
+    $traspaso -> ajaxMostrarDatosCuentadante();
+}
 
 // Validamos que se haya enviado el dato "idEquipo" mediante POST desde Js
 if (isset($_POST["idEquipo"])) {
@@ -42,5 +57,7 @@ if (isset($_POST["idEquipo"])) {
     $editar -> idEquipo = $_POST["idEquipo"];
     
     // Ejecutamos el método que consultará y devolverá los datos
-    $editar -> ajaxEditarEquipo();
+    $editar -> ajaxMostrarEquipo();
 }
+
+
