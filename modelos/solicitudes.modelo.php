@@ -85,4 +85,20 @@ class ModeloSolicitudes{
         
     } //metodo mdlGuardarSolicitud
 
+    static public function mdlMostrarSolicitudes($item, $valor){
+
+        $stmt = Conexion::conectar()->prepare("SELECT p.*  FROM prestamos p WHERE p.$item = :$item");
+        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->execute();
+        //VERIFICAMOS EL TAMAÑO DE LA RESPUESTA
+        if($stmt->rowCount() > 0){
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            return "vacio";
+        }
+
+        $stmt->close();
+        $stmt = null;                                                    
+    }
+
 }//ModeloSolicitudes

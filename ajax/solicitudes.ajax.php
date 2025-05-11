@@ -50,6 +50,14 @@
             echo json_encode($respuesta);
         }
 
+        public function ajaxMostrarSolicitudes()
+        {
+            $item = "usuario_id";
+            $valor = $this->idSolicitante;
+            $respuesta = ControladorSolicitudes::ctrMostrarSolicitudes($item, $valor);
+            echo json_encode($respuesta);
+        }
+
     }// class AjaxSolicitudes
 
 if (isset($_POST["fechaInicio"]) && isset($_POST["fechaFin"])) {
@@ -73,6 +81,12 @@ if (isset($_POST["idSolicitante"]) && isset($_POST["equipos"])) {
     $solicitud->fechaFin = $_POST["fechaFin"];
     $solicitud->observaciones = $_POST["observaciones"];
     $solicitud->ajaxGuardarSolicitud();    
+}
+
+if (isset($_POST["idUsuario"])){
+    $solicitud = new AjaxSolicitudes();
+    $solicitud->idSolicitante = $_POST["idUsuario"];
+    $solicitud->ajaxMostrarSolicitudes();
 }
     
 

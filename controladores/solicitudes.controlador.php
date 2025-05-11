@@ -33,5 +33,10 @@ class ControladorSolicitudes{
         
     }
 
+    static public function ctrMostrarSolicitudes($item, $valor){
+        $respuesta = ModeloSolicitudes::mdlMostrarSolicitudes($item, $valor);
+        return $respuesta;
+    }
+
     
 }

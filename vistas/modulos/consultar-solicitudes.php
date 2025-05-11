@@ -17,10 +17,10 @@
                         </div>
                         <div class="card-body">
                             <div class="input-group">
-                                <input type="text" id="cedula" class="form-control"
+                                <input type="text" id="cedulaUsuario" class="form-control"
                                     placeholder="Ingrese número de cédula">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" id="btn-buscar">
+                                    <button class="btn btn-primary" id="btnBuscarUsuarioConsultar">
                                         <i class="fas fa-search"></i> Buscar
                                     </button>
                                 </div>
@@ -29,7 +29,7 @@
                     </div>
 
                     <!-- User Information Card -->
-                    <div class="card card-info" id="userinfo" style="display: none;">
+                    <div class="card card-info d-none" id="userinfo">
                         <div class="card-header">
                             <h3 class="card-title">Información del Usuario</h3>
                         </div>
@@ -37,29 +37,30 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <dl class="row">
+                                        <input type="hidden" id="userId">
                                         <dt class="col-sm-4">Nombres:</dt>
-                                        <dd class="col-sm-8" id="user-names">-</dd>
+                                        <dd class="col-sm-8" id="userNames">-</dd>
 
                                         <dt class="col-sm-4">Apellidos:</dt>
-                                        <dd class="col-sm-8" id="user-lastnames">-</dd>
+                                        <dd class="col-sm-8" id="userLastName">-</dd>
                                     </dl>
                                 </div>
                                 <div class="col-md-12">
                                     <dl class="row">
                                         <dt class="col-sm-4">Dirección:</dt>
-                                        <dd class="col-sm-8" id="user-address">-</dd>
+                                        <dd class="col-sm-8" id="userAddress">-</dd>
 
                                         <dt class="col-sm-4">Teléfono:</dt>
-                                        <dd class="col-sm-8" id="user-phone">-</dd>
+                                        <dd class="col-sm-8" id="userPhone">-</dd>
                                     </dl>
                                 </div>
                                 <div class="col-md-12">
                                     <dl class="row">
                                         <dt class="col-sm-4">Correo:</dt>
-                                        <dd class="col-sm-8" id="user-address">-</dd>
+                                        <dd class="col-sm-8" id="userEmail">-</dd>
 
                                         <dt class="col-sm-4">Rol:</dt>
-                                        <dd class="col-sm-8" id="user-phone">-</dd>
+                                        <dd class="col-sm-8" id="userRole">-</dd>
                                     </dl>
                                 </div>
 
@@ -69,12 +70,13 @@
                 </div>
 
                 <!-- Tabla de Préstamos -->
+
                 <div class="card card-success col-md-8" id="resultados" style="display: none;">
                     <div class="card-header">
                         <h3 class="card-title">Préstamos del Usuario</h3>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="tblPrestamosUsuario">
                             <thead class="thead-dark">
                                 <tr>
                                     <th># Préstamo</th>
@@ -85,33 +87,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Ejemplo de datos ficticios -->
-                                <tr>
-                                    <td>#1234</td>
-                                    <td>2023-08-15</td>
-                                    <td>2023-09-15</td>
-                                    <td><span class="badge bg-success">Activo</span></td>
-                                    <td>
-                                        <button class="btn btn-info btn-detalle"
-                                            data-toggle="modal"
-                                            data-target="#modal-detalle">
-                                            <i class="fas fa-eye"></i> Ver Detalle
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#9876</td>
-                                    <td>2023-07-01</td>
-                                    <td>2023-07-15</td>
-                                    <td><span class="badge bg-secondary">Finalizado</span></td>
-                                    <td>
-                                        <button class="btn btn-info btn-detalle"
-                                            data-toggle="modal"
-                                            data-target="#modal-detalle">
-                                            <i class="fas fa-eye"></i> Ver Detalle
-                                        </button>
-                                    </td>
-                                </tr>
+                                <!-- Aquí se cargarán los datos de los préstamos -->
                             </tbody>
                         </table>
                     </div>
@@ -200,7 +176,7 @@
 <script>
     $(document).ready(function() {
         // Simular búsqueda
-        $('#btn-buscar').click(function() {
+        $('#btnBuscarUsuarioConsultar').click(function() {
             $('#resultados').fadeIn();
             $('#userinfo').fadeIn();
         });
