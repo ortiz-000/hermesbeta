@@ -3,8 +3,8 @@ window.addEventListener('load', function() {
   initializeDataTable("#tblFichas");
   initializeDataTable("#tblUsuarios");
   initializeDataTable("#tblRoles");
+  initializeDataTable("#tblEquipos");
   initializeDataTable("#tblModalHistoricoSolicitudes");
-  
   // initializeDataTable("#tblPermisos");
 });
 

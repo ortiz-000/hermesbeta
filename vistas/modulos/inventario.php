@@ -1,5 +1,3 @@
-  </div>
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -21,7 +19,7 @@
       <div class="card">
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="tblEquipos" class="table table-bordered table-hover">
+          <table id="tblEquipos" class="table table-bordered table-striped table-hover">
             <thead>
               <tr>
                 <th>Id Equipo</th>
@@ -51,9 +49,9 @@
                 echo '<td>' . $equipo['descripcion']     . '</td>';
                 echo '<td>' . $equipo['fecha_entrada']   . '</td>';
                 echo '<td>' . $equipo['ubicacion_id']    . '</td>';
-                echo '<td>' . $equipo['categoria_id']       . '</td>';
-                echo '<td>' . $equipo['cuentadante_id']  . '</td>';
-                echo '<td>' . $equipo['id_estado']   . '</td>';
+                echo '<td>' . $equipo['categoria_id']    . '</td>';
+                echo '<td>' . $equipo['id_usuario']      . '</td>';
+                echo '<td>' . $equipo['id_estado']       . '</td>';
                 // Botón de acciones
                 echo '<td>
                         <div class="btn-group">
