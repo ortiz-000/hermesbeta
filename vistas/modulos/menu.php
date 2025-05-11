@@ -27,10 +27,10 @@
         : 'vistas/img/usuarios/default/anonymous.png';
       ?>
       <img src="<?php echo $fotoUsuario; ?>" 
-         class="img-circle elevation-2" 
-         alt="User Image"
-         style="width: 45px; height: 45px; object-fit: cover; cursor: pointer; border: 2px solid #fff;"
-         data-toggle="modal" data-target="#modalEditarPerfil">
+        class="img-circle elevation-2" 
+        alt="User Image"
+        style="width: 45px; height: 45px; object-fit: cover; cursor: pointer; border: 2px solid #fff;"
+        data-toggle="modal" data-target="#modalEditarPerfil">
       </div>
       <div class="info text-center">
       <a href="#" class="d-block font-weight-bold" style="font-size: 1.1rem;"><?php echo $_SESSION["nombre"] . " " . $_SESSION["apellido"] ?></a>
@@ -42,7 +42,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
           <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+              with font-awesome or any other icon font library -->
 
           <!-- si el usuario tiene algun id_permiso entre 1 y 6 puede ver la opcion de administrar en el menu de lo contrario no -->
           <?php
@@ -99,48 +99,12 @@
                         </a>        
                       </li>' ;}                 
                       
-                   echo '</ul>
+                  echo '</ul>
                   </li>';
           }
           ?>
 
-            <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-cogs"></i>
-              <p>
-                Administrar
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="fichas" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fichas</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="sedes" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Sedes</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="roles" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Roles</p>
-                </a>
-              </li> 
-              <li class="nav-item">
-                <a href="modulos" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Módulos</p>
-                </a>        
-              </li>                  
-              
-            </ul>
-          </li>
-
+            
           <li class="nav-item">
             <a href="inicio" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
@@ -372,7 +336,7 @@
                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
               </div>
               <input type="email" class="form-control" name="editarEmail" 
-                     value="<?php echo $usuario['correo_electronico']; ?>" required>
+                    value="<?php echo $usuario['correo_electronico']; ?>" required>
             </div>
           </div>
 
@@ -384,7 +348,7 @@
                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
               </div>
               <input type="tel" class="form-control" name="editarTelefono" 
-                     value="<?php echo $usuario['telefono']; ?>" required>
+                    value="<?php echo $usuario['telefono']; ?>" required>
             </div>
           </div>
 
@@ -396,7 +360,7 @@
                 <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
               </div>
               <input type="text" class="form-control" name="editarDireccion" 
-                     value="<?php echo $usuario['direccion']; ?>" required>
+                    value="<?php echo $usuario['direccion']; ?>" required>
             </div>
           </div>
 

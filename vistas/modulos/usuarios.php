@@ -334,20 +334,9 @@
                 </div>
                 <!-- row -->
               </div>
-              <!-- row password  -->
+              
+          <!-- row password  -->
               <div class="form-group">
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="input-group ">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                      </div>
-                      <input type="password" class="form-control" name="nuevoPassword" placeholder="Password" required>
-                    </div>
-                  </div>
-                </div>
-                            <!-- row password  -->
-                            <div class="form-group">
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="input-group ">
