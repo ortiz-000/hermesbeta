@@ -1,6 +1,7 @@
 /* ==================================================
 BOTÓN PARA EDITAR EQUIPOS
 ================================================== */
+var idEquipoTraspaso;
 
 // Escuchamos el evento "click" sobre cualquier botón con clase "btnEditarEquipo"
 $(document).on("click", ".btnEditarEquipo", function() {
@@ -47,7 +48,7 @@ BOTÓN PARA INSERTAR EL CUENTADANTE Y UBICACIÓN ACTUAL
 ================================================== */
 
 $(document).on("click", ".btnTraspasarEquipo", function(){
-    var idEquipoTraspaso = $(this).attr("idEquipoTraspaso");
+    idEquipoTraspaso = $(this).attr("idEquipoTraspaso");
     console.log("Id equipo traspaso: ", idEquipoTraspaso);
 
     var datos = new FormData();
@@ -98,6 +99,8 @@ BOTÓN PARA BUSCAR EL CUENTADANTE Y SU UBICACIÓN Y AGREGARLOS EN LOS INPUTS
 $(document).on("click", ".btnBuscarCuentadante", function (event){
     event.preventDefault(); // Prevenir la recarga de la página
     // Limpiar los campos antes de buscar de nuevo
+    console.log("Id equipo traspaso: ", idEquipoTraspaso);
+
     $("#cuentadanteDestino").val("");
     $("#ubicacionTraspaso").val("");
 
@@ -107,7 +110,12 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
     datos.append("buscarDocumentoId", buscarDocumentoId);
     if (buscarDocumentoId === ""){
         alert(buscarDocumentoId);
-        alert("Por favor, ingrese un número de documento para buscar");
+        Swal.fire({
+            icon: 'info',
+            title: 'Por favor, ingrese un número de documento',
+            text: 'No se ha ingresado un número de documento a buscar',
+            confirmButtonText: 'Aceptar'
+        });
         return;
     } else {
         $.ajax({
@@ -121,7 +129,7 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
             success: function(resultado){
                 const docIngresado = String(buscarDocumentoId).trim();
                 const docEncontrado = String(resultado["numero_documento"] || '').trim();
-                console.log("Datos cuentadante: ", resultado["cuentadante_nombre"], resultado["ubicacion_nombre"], resultado["numero_documento"]);
+                console.log("Datos cuentadante: ", resultado["cuentadante_nombre"], resultado["ubicacion_nombre"], resultado["numero_documento"], "equipo id:", resultado["equipo_id"]);
                 if(docIngresado != docEncontrado){
                     Swal.fire({
                         icon: 'error',
@@ -138,11 +146,13 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
                         confirmButtonText: 'Aceptar'
                     });
                 } else {
-                    console.log("Datos cuentadante: ", "nombre: ", resultado["cuentadante_nombre"], "cuentadante_id: ", resultado["cuentadante_id"], "ubicacion: ", resultado["ubicacion_nombre"], "ubicacion_id: ", resultado["ubicacion_id"], resultado["numero_documento"]);
-                    $("#cuentadanteDestino").val(resultado["cuentadante_nombre"]);
-                    $("#ubicacionTraspaso").val(resultado["ubicacion_nombre"]);
-                    $("#cuentadanteDestino").val(resultado["cuentadante_id"]);
-                    $("#ubicacionTraspaso").val(resultado["ubicacion_id"]);
+                    console.log(resultado, "equipo id: ", resultado["equipo_id"],"Datos cuentadante: ", "nombre: ", resultado["cuentadante_nombre"], "cuentadante_id: ", resultado["cuentadante_id"], "ubicacion: ", resultado["ubicacion_nombre"], "ubicacion_id: ", resultado["ubicacion_id"], resultado["numero_documento"]);
+                    // $("#cuentadanteDestino").val(resultado["cuentadante_nombre"]);
+                    // $("#ubicacionTraspaso").val(resultado["ubicacion_nombre"]);
+                    $("#idTraspasoEquipo").val(idEquipoTraspaso);
+                    console.log("ESTE ES EL EQUIPO ID AL CUAL VOY A PASAR: ", idEquipoTraspaso);
+                    $("#cuentadanteDestino").val(resultado["cuentadante_id"] + " " + resultado["cuentadante_nombre"]);
+                    $("#ubicacionTraspaso").val(resultado["ubicacion_id"] + " " + resultado["ubicacion_nombre"]);
                 }
             }
         });

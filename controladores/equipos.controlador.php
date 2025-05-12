@@ -42,19 +42,32 @@ class ControladorEquipos{
         if(isset($_POST["idTraspasoEquipo"]) && isset($_POST["cuentadanteDestino"]) && isset($_POST["ubicacionTraspaso"])){
             $tabla = "equipos";
             $datos = array(
-                "idTraspasoEquipo" => $_POST["idTraspasoEquipo"],
+                "equipo_id" => $_POST["idTraspasoEquipo"],
                 "cuentadante_id" => $_POST["cuentadanteDestino"],
                 "ubicacion_id" => $_POST["ubicacionTraspaso"]
             );
 
             $respuesta = ModeloEquipos::mdlRealizarTraspasoCuentadante($tabla, $datos);
-            var_dump($respuesta[0]);
+            //var_dump($respuesta[0]);
 
-            if($respuesta == "ok"){
+            if($respuesta == "success"){
                 echo '<script>
                         swal.fire({
                             icon: "success",
                             title: "¡Traspaso realizado con éxito!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "inventario";
+                            }
+                        });
+                    </script>';
+            } else if($respuesta == "nochange"){
+                echo '<script>
+                        swal.fire({
+                            icon: "info",
+                            title: "Algo ha fallado. No se realizaron cambios",
                             showConfirmButton: true,
                             confirmButtonText: "Cerrar"
                         }).then((result) => {

@@ -103,6 +103,7 @@ class ModeloEquipos{
                                                     us.nombre AS cuentadante_nombre,
                                                     e.cuentadante_id,
                                                     e.ubicacion_id,
+                                                    e.equipo_id,
                                                     ub.nombre AS ubicacion_nombre,  -- ¡Aquí está la ubicación!
                                                     ur.id_rol
                                                 FROM 
@@ -115,7 +116,7 @@ class ModeloEquipos{
                                                     ubicaciones ub ON e.ubicacion_id = ub.ubicacion_id
                                                 WHERE 
                                                     $item = :$item;");
-            if($item == "id_rol"){
+            if($item == "id_rol" || $item == "equipo_id"){
                 $stmt -> bindParam(":" . $item, $valor, PDO::PARAM_INT);
             } else {
                 $stmt -> bindParam(":" . $item, $valor, PDO::PARAM_STR);
@@ -134,15 +135,17 @@ class ModeloEquipos{
             $stmt = Conexion::conectar()->prepare("UPDATE $tabla 
                                                     SET cuentadante_id = :cuentadante_id, 
                                                     ubicacion_id = :ubicacion_id
-                                                    WHERE equipo_id = :idTraspasoEquipo");
+                                                    WHERE equipo_id = :equipo_id");
             
             // Corrección en los bindParam
-            $stmt->bindParam(":idTraspasoEquipo", $datos["idTraspasoEquipo"], PDO::PARAM_INT);
+            $stmt->bindParam(":equipo_id", $datos["idTraspasoEquipo"], PDO::PARAM_INT);
             $stmt->bindParam(":cuentadante_id", $datos["cuentadante_id"], PDO::PARAM_INT);
             $stmt->bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
 
             $stmt->execute();
-            return "ok";
+            // Verificar si se actualizó realmente algún registro
+            $stmt -> fetch();
+            return ($stmt->rowCount() > 0) ? "success" : "nochange";
         } catch (Exception $e){
             error_log("Error al cambiar de cuentadante: " . $e->getMessage());
             return "error";

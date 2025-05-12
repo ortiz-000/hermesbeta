@@ -385,7 +385,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
                     </div>
-                    <input type="hidden" id="cuentadanteDestinoId" name="cuentadanteDestinoId">
+                    <!-- <input type="hidden" id="cuentadanteDestinoId" name="cuentadanteDestinoId"> -->
                     <input type="text" class="form-control" id="cuentadanteDestino" name="cuentadanteDestino" placeholder="Ej:Jane Doe" readonly>
                   </div>
                 </div>
@@ -397,7 +397,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
                     </div>
-                    <input type="hidden" id="ubicacionDestinoId" name="ubicacionDestinoId">
+                    <!-- <input type="hidden" id="ubicacionDestinoId" name="ubicacionDestinoId"> -->
                     <input type="text" class="form-control" id="ubicacionTraspaso" name="ubicacionTraspaso" placeholder="Ej:Jane Doe" readonly>
                   </div>
                 </div>
