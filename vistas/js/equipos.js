@@ -47,12 +47,12 @@ BOTÓN PARA CAMBIAR EL EQUIPO A UN NUEVO CUENTADANTE Y ÁREA
 ================================================== */
 
 $(document).on("click", ".btnTraspasarEquipo", function(){
-    let idEquipo = $(this).attr("idEquipo");
-    console.log("Id equipo: ", idEquipo);
+    var idEquipoTraspaso = $(this).attr("idEquipoTraspaso");
+    console.log("Id equipo traspaso: ", idEquipoTraspaso);
 
-    let datos = new FormData();
+    var datos = new FormData();
 
-    datos.append("idEquipo", idEquipo);
+    datos.append("idEquipoTraspaso", idEquipoTraspaso);
 
     $.ajax({
         url: "ajax/equipos.ajax.php",
@@ -65,13 +65,13 @@ $(document).on("click", ".btnTraspasarEquipo", function(){
         success: function(respuesta) {
             try {
                 // Verificamos que la respuesta sea válida
-                if (respuesta && respuesta.equipo_id) {
+                if (respuesta) {
                     console.log("datos: ", respuesta);
                     
                     // Llenamos los campos del formulario del modal con los datos recibidos
-                    $("#idEditEquipo").val(respuesta.equipo_id);
-                    $("#cuentadanteOrigenTraspaso").val(respuesta.nombre || '');
-                    $("#ubicacionOrigenTraspaso").val(respuesta.nombre || '');
+                    $("#idEditEquipo").val(respuesta["equipo_id"]);
+                    $("#cuentadanteOrigenTraspaso").val(respuesta["nombre"]);
+                    $("#ubicacionOrigenTraspaso").val(respuesta["ubicacion_nombre"]);
                 } else {
                     console.error("Respuesta inválida del servidor");
                     alert("Error: La respuesta del servidor no tiene el formato esperado");

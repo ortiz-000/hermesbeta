@@ -19,7 +19,7 @@
       <div class="card">
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="tblEquipos" class="table table-bordered table-hover">
+          <table id="tblEquipos" class="table table-bordered table-striped table-hover">
             <thead>
               <tr>
                 <th>Id Equipo</th>
@@ -49,14 +49,14 @@
                 echo '<td>' . $equipo['descripcion']     . '</td>';
                 echo '<td>' . $equipo['fecha_entrada']   . '</td>';
                 echo '<td>' . $equipo['ubicacion_id']    . '</td>';
-                echo '<td>' . $equipo['categoria_id']       . '</td>';
-                echo '<td>' . $equipo['cuentadante_id']  . '</td>';
-                echo '<td>' . $equipo['id_estado']   . '</td>';
+                echo '<td>' . $equipo['categoria_id']    . '</td>';
+                echo '<td>' . $equipo['id_usuario']      . '</td>';
+                echo '<td>' . $equipo['id_estado']       . '</td>';
                 // Botón de acciones
                 echo '<td>
                         <div class="btn-group">
                           <button title="Editar equipo" class="btn btn-default btn-xs btnEditarEquipo bg-warning" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalEditarEquipo"><i class="fas fa-edit  mr-1 ml-1"></i></button>
-                          <button title="Traspaso equipo" class="btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalTraspaso"><i class="fas fa-share mr-1 ml-1"></i></button>
+                          <button title="Traspaso equipo" class="btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success" idEquipoTraspaso="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalTraspaso"><i class="fas fa-share mr-1 ml-1"></i></button>
                         </div>
                         </td>';
                 echo '</tr>';

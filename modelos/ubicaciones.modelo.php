@@ -1,5 +1,6 @@
 <?php
 
+include_once("conexion.php");
 Class ModeloUbicaciones{
     static public function mdlMostrarUbicaciones($tabla, $item, $valor){
         if($item != null){
