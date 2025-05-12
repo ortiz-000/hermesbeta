@@ -109,13 +109,11 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
 
     datos.append("buscarDocumentoId", buscarDocumentoId);
     if (buscarDocumentoId === ""){
-        alert(buscarDocumentoId);
-        Swal.fire({
+        Toast.fire({
             icon: 'info',
-            title: 'Por favor, ingrese un número de documento',
-            text: 'No se ha ingresado un número de documento a buscar',
-            confirmButtonText: 'Aceptar'
-        });
+            title: 'Por favor ingrese un documento a buscar',
+            position: "bottom-center"
+        })
         return;
     } else {
         $.ajax({
@@ -131,20 +129,12 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
                 const docEncontrado = String(resultado["numero_documento"] || '').trim();
                 console.log("Datos cuentadante: ", resultado["cuentadante_nombre"], resultado["ubicacion_nombre"], resultado["numero_documento"], "equipo id:", resultado["equipo_id"]);
                 if(docIngresado != docEncontrado){
-                    Swal.fire({
+                    Toast.fire({
                         icon: 'error',
-                        title: 'Documento no coincide',
-                        text: 'El número ingresado no corresponde al documento del cuentadante',
-                        confirmButtonText: 'Aceptar'
-                    });
+                        title: 'No se encontró el documento del cuentadante',
+                        position: "bottom-center"
+                    })
                     $("#buscarDocumentoId").val("");
-                } else if (!resultado){
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Cuentadante no asignado o no encontrado',
-                        text: 'No se encontró el cuentadante',
-                        confirmButtonText: 'Aceptar'
-                    });
                 } else {
                     console.log(resultado, "equipo id: ", resultado["equipo_id"],"Datos cuentadante: ", "nombre: ", resultado["cuentadante_nombre"], "cuentadante_id: ", resultado["cuentadante_id"], "ubicacion: ", resultado["ubicacion_nombre"], "ubicacion_id: ", resultado["ubicacion_id"], resultado["numero_documento"]);
                     // $("#cuentadanteDestino").val(resultado["cuentadante_nombre"]);

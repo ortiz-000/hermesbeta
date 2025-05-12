@@ -372,7 +372,7 @@
                   </div>
                   <input type="number" class="form-control" id="buscarDocumentoId" name="buscarDocumentoId" placeholder="Ej:12345..." required>
                   <div class="input-group-append">
-                    <button class="bg-primary input-group-text btnBuscarCuentadante toastrDefaultError"><i class="fas fa-search"></i></button>
+                    <button class="bg-primary input-group-text btnBuscarCuentadante swalDefaultError"><i class="fas fa-search"></i></button>
                   </div>
                 </div>
               </div>
