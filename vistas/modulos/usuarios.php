@@ -334,8 +334,9 @@
                 </div>
                 <!-- row -->
               </div>
-                            <!-- row password  -->
-                            <div class="form-group">
+              
+          <!-- row password  -->
+              <div class="form-group">
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="input-group ">
