@@ -162,9 +162,9 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="cuentadanteId" name="cuentadanteId" placeholder="Ingrese el cuentadante"/>
-                    
-                  
+                  <input type="text" class="form-control" id="cuentadanteId" name="cuentadanteId" placeholder="Ingrese el cuentadante" />
+
+
                 </div>
               </div>
             </div>
@@ -173,12 +173,12 @@
               <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
 
-              <?php 
-              $item = null;
-              $valor = null;
-              ControladorEquipos::ctrAgregarEquipos();
-              ?>
-            
+            <?php
+            $item = null;
+            $valor = null;
+            ControladorEquipos::ctrAgregarEquipos();
+            ?>
+
           </form>
         </div>
       </div>
@@ -364,28 +364,29 @@
               </div>
 
               <!-- INPUT BUSCAR POR CEDULA -->
-                <div class="form-group col-lg-12">
-                  <label for="etiquetaTraspaso">Ingrese a buscar por documento</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-barcode"></i></span>
-                    </div>
-                    <input type="text" class="form-control" id="etiquetaTraspaso" name="etiquetaTraspaso" placeholder="Ej:12345..." required>
-                    <div class="input-group-append">
-                      <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    </div>
+              <div class="form-group col-lg-12">
+                <label for="buscarDocumentoId">Ingrese a buscar por documento</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                  </div>
+                  <input type="number" class="form-control" id="buscarDocumentoId" name="buscarDocumentoId" placeholder="Ej:12345..." required>
+                  <div class="input-group-append">
+                    <button class="bg-primary input-group-text btnBuscarCuentadante swalDefaultError"><i class="fas fa-search"></i></button>
                   </div>
                 </div>
+              </div>
 
               <!-- INPUT CUENTADANTE DESTINO -->
               <div class="form-row">
                 <div class="form-group col-lg-6">
-                  <label for="etiquetaTraspaso">Cuentadante destino</label>
+                  <label for="cuentadanteDestino">Cuentadante destino</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="etiquetaTraspaso" name="etiquetaTraspaso" placeholder="Ej:Jane Doe" required>
+                    <!-- <input type="hidden" id="cuentadanteDestinoId" name="cuentadanteDestinoId"> -->
+                    <input type="text" class="form-control" id="cuentadanteDestino" name="cuentadanteDestino" placeholder="Ej:Jane Doe" readonly>
                   </div>
                 </div>
 
@@ -396,18 +397,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
                     </div>
-                    <?php
-
-                    $item = null;
-                    $valor = null;
-                    $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
-                    echo '<select class="form-control" id="ubicacionTraspaso" name="ubicacionTraspaso" required>';
-                    echo '<option value="">Seleccione una ubicación</option>';
-                    foreach ($ubicaciones as $key => $ubicacion) {
-                      echo '<option value="' . $ubicacion["ubicacion_id"] . '">' . $ubicacion["nombre"] . '</option>';
-                    }
-                    echo '</select>';
-                    ?>
+                    <!-- <input type="hidden" id="ubicacionDestinoId" name="ubicacionDestinoId"> -->
+                    <input type="text" class="form-control" id="ubicacionTraspaso" name="ubicacionTraspaso" placeholder="Ej:Jane Doe" readonly>
                   </div>
                 </div>
               </div>
@@ -418,8 +409,7 @@
               <button type="submit" class="btn btn-primary">Realizar traspaso</button>
             </div>
             <?php
-            $item = null; $valor = null;
-            $cuentadantes = ControladorEquipos::ctrRealizarTraspasoCuentadante($item, $valor);
+            $cuentadantes = ControladorEquipos::ctrRealizarTraspasoCuentadante();
             ?>
           </form>
         </div>
