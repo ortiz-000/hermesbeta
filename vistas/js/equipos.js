@@ -1,6 +1,7 @@
 /* ==================================================
 BOTÓN PARA EDITAR EQUIPOS
 ================================================== */
+var idEquipoTraspaso;
 
 // Escuchamos el evento "click" sobre cualquier botón con clase "btnEditarEquipo"
 $(document).on("click", ".btnEditarEquipo", function() {
@@ -43,11 +44,11 @@ $(document).on("click", ".btnEditarEquipo", function() {
 });
 
 /* ==================================================
-BOTÓN PARA CAMBIAR EL EQUIPO A UN NUEVO CUENTADANTE Y ÁREA
+BOTÓN PARA INSERTAR EL CUENTADANTE Y UBICACIÓN ACTUAL
 ================================================== */
 
 $(document).on("click", ".btnTraspasarEquipo", function(){
-    var idEquipoTraspaso = $(this).attr("idEquipoTraspaso");
+    idEquipoTraspaso = $(this).attr("idEquipoTraspaso");
     console.log("Id equipo traspaso: ", idEquipoTraspaso);
 
     var datos = new FormData();
@@ -89,4 +90,61 @@ $(document).on("click", ".btnTraspasarEquipo", function(){
             alert("Error al comunicarse con el servidor. Por favor, intente nuevamente.");
         }
     });
+});
+
+/* ==================================================
+BOTÓN PARA BUSCAR EL CUENTADANTE Y SU UBICACIÓN Y AGREGARLOS EN LOS INPUTS
+================================================== */
+
+$(document).on("click", ".btnBuscarCuentadante", function (event){
+    event.preventDefault(); // Prevenir la recarga de la página
+    // Limpiar los campos antes de buscar de nuevo
+    console.log("Id equipo traspaso: ", idEquipoTraspaso);
+
+    $("#cuentadanteDestino").val("");
+    $("#ubicacionTraspaso").val("");
+
+    var buscarDocumentoId = $("#buscarDocumentoId").val();
+    let datos = new FormData();
+
+    datos.append("buscarDocumentoId", buscarDocumentoId);
+    if (buscarDocumentoId === ""){
+        Toast.fire({
+            icon: 'info',
+            title: 'Por favor ingrese un documento a buscar',
+            position: "bottom-center"
+        })
+        return;
+    } else {
+        $.ajax({
+            url: "ajax/equipos.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function(resultado){
+                const docIngresado = String(buscarDocumentoId).trim();
+                const docEncontrado = String(resultado["numero_documento"] || '').trim();
+                console.log("Datos cuentadante: ", resultado["cuentadante_nombre"], resultado["ubicacion_nombre"], resultado["numero_documento"], "equipo id:", resultado["equipo_id"]);
+                if(docIngresado != docEncontrado){
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'No se encontró el documento del cuentadante',
+                        position: "bottom-center"
+                    })
+                    $("#buscarDocumentoId").val("");
+                } else {
+                    console.log(resultado, "equipo id: ", resultado["equipo_id"],"Datos cuentadante: ", "nombre: ", resultado["cuentadante_nombre"], "cuentadante_id: ", resultado["cuentadante_id"], "ubicacion: ", resultado["ubicacion_nombre"], "ubicacion_id: ", resultado["ubicacion_id"], resultado["numero_documento"]);
+                    // $("#cuentadanteDestino").val(resultado["cuentadante_nombre"]);
+                    // $("#ubicacionTraspaso").val(resultado["ubicacion_nombre"]);
+                    $("#idTraspasoEquipo").val(idEquipoTraspaso);
+                    console.log("ESTE ES EL EQUIPO ID AL CUAL VOY A PASAR: ", idEquipoTraspaso);
+                    $("#cuentadanteDestino").val(resultado["cuentadante_id"] + " " + resultado["cuentadante_nombre"]);
+                    $("#ubicacionTraspaso").val(resultado["ubicacion_id"] + " " + resultado["ubicacion_nombre"]);
+                }
+            }
+        });
+    }
 });

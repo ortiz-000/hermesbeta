@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="vistas/dist/css/adminlte.css">
     <!-- mi css -->
     <link rel="stylesheet" href="vistas/css/plantilla.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="vistas/plugins/toastr/toastr.min.css">
 
     <!-- ================================================================================================== -->    
     
@@ -59,6 +61,9 @@
     <!-- SweetAlert2 -->
     <!-- <script src="vistas/plugins/sweetalert2/sweetalert2.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Toastr -->
+    <script src="vistas/plugins/toastr/toastr.min.js"></script>
     
 
     <!-- AdminLTE App -->
