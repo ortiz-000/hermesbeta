@@ -85,6 +85,7 @@
                 <td>' . $usuario["nombre_rol"] . '</td>
                 <td>' . $usuario["codigo"] . '</td>
                 <td>';
+              // botones Estado
             if ($usuario["estado"] == "activo") {
             echo '<button class="btn btn-success btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="inactivo">Activo</button>';
             } 
