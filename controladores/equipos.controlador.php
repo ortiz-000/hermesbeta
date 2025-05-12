@@ -2,18 +2,36 @@
 
 class ControladorEquipos{
 
-    static public function ctrMostrarEquipos($item, $valor){
+    static public function ctrMostrarEquipos($item, $valor)
+    {
         $tabla = "equipos";
         $respuesta = ModeloEquipos::mdlMostrarEquipos($tabla, $item, $valor);
         //var_dump($respuesta[0]);
         return $respuesta;
     }
 
-    static public function ctrAgregarEquipos(){
-        if(isset($_POST["numeroSerie"]) && isset($_POST["etiqueta"])
-            && isset($_POST["descripcion"])){
-            if(preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/',$_POST["numeroSerie"]) && preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["etiqueta"]) && preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["descripcion"])){
+    static public function ctrAgregarEquipos()
+    {
+        if (
+            isset($_POST["numero_serie"]) &&
+            isset($_POST["etiqueta"]) &&
+            isset($_POST["descripcion"]) &&
+            isset($_POST["fecha_entrada"]) &&
+            isset($_POST["ubicacion_id"]) &&
+            isset($_POST["categoria_id"]) &&
+            isset($_POST["cuentadante_id"]) &&
+            isset($_POST["a_cuentadante"]) &&
+            isset($_POST["id_estado"])
+
+        ) {
+
+            if (
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["numero_serie"]) &&
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["etiqueta"]) &&
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,() ]+$/', $_POST["descripcion"])
+            ) {
                 $tabla = "equipos";
+
                 $datos = array(
                     "numeroSerie" => $_POST["numeroSerie"],
                     "etiqueta" => $_POST["etiqueta"],
@@ -21,11 +39,77 @@ class ControladorEquipos{
                 );
 
                 $respuesta = ModeloEquipos::mdlAgregarEquipos($tabla, $datos);
+                if ($respuesta == "ok") {
+                    echo '<script>alert("Equipo agregado correctamente");</script>';
+                } else {
+                    echo '<script>alert("Error al agregar equipo");</script>';
+                }
             }
         }
     }
 
-    static public function ctrMostrarDatosCuentadanteOrigen($item, $valor){
+    public static function ctrEditarEquipos(){
+        if (isset($_POST["numeroSerieEdit"]) && isset($_POST["etiquetaEdit"]) && isset($_POST["descripcionEdit"]) && isset($_POST["ubicacionEdit"]) && isset($_POST["categoriaEditId"]) && isset($_POST["estadoEdit"])) {
+            if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["numeroSerieEdit"]) &&
+            preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["etiquetaEdit"]) &&
+            preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["descripcionEdit"])){
+                $tabla = "equipos";
+                $datos = array(
+                    "equipo_id" => $_POST["idEditEquipo"],
+                    "numeroSerieEdit" => $_POST["numeroSerieEdit"],
+                    "etiquetaEdit" => $_POST["etiquetaEdit"],
+                    "descripcionEdit" => $_POST["descripcionEdit"],
+                    "ubicacionEdit" => $_POST["ubicacionEdit"],
+                    "categoriaEdit" => $_POST["categoriaEditId"]
+                );
+                $respuesta = ModeloEquipos::mdlEditarEquipos($tabla, $datos);
+                if ($respuesta == "ok") {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡El equipo ha sido editado correctamente!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "inventario";
+                            }
+                        });
+                    </script>';
+                } else {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "¡Error al editar el equipo!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "inventario";
+                            }
+                        });
+                    </script>';
+                }
+            } else {
+                echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "¡Revisar parametros!",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = "inventario";
+                        }
+                    });
+                </script>';
+            }
+            
+        }
+    }
+
+    static public function ctrMostrarDatosCuentadanteOrigen($item, $valor)
+    {
         $tabla = "equipos";
         $respuesta = ModeloEquipos::mdlMostrarDatosCuentadanteOrigen($tabla, $item, $valor);
         //var_dump($respuesta);

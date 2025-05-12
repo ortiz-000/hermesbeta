@@ -211,7 +211,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="numeroSerieEdit" name="numeroSerieEdit" placeholder="Ej:00ks32.." required>
+                  <input type="text" class="form-control" value="<?php echo $equipo["numero_serie"]; ?>" id="numeroSerieEdit" name="numeroSerieEdit" placeholder="Ej:00ks32.." readonly>
                 </div>
               </div>
               <div class="form-group col-lg-6">
@@ -220,13 +220,13 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-tag"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="etiquetaEdit" name="etiquetaEdit" placeholder="Ej:0022338..." required>
+                  <input type="text" class="form-control" value="<?php echo $equipo["etiqueta"]; ?>" id="etiquetaEdit" name="etiquetaEdit" placeholder="Ej:0022338..." required>
                 </div>
               </div>
             </div>
             <div class="form-group col-lg-12">
               <label for="descripcionEdit">Descripción</label>
-              <textarea class="form-control" id="descripcionEdit" name="descripcionEdit" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
+              <textarea class="form-control" id="descripcionEdit" value="<?php echo $equipo["descripcion"]; ?>" name="descripcionEdit" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
             </div>
             <div class="form-row mt-2">
               <div class="form-group col-lg-6">
@@ -241,7 +241,7 @@
                   $valor = null;
                   $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
                   echo '<select class="form-control" id="ubicacionEdit" name="ubicacionEdit" required>';
-                  echo '<option value="">Seleccione una ubicación</option>';
+                  echo '<option value="' .$equipos["ubicacion_id"]. '">' .$ubicacion["nombre"]. '</option>';
                   foreach ($ubicaciones as $key => $ubicacion) {
                     echo '<option value="' . $ubicacion["ubicacion_id"] . '">' . $ubicacion["nombre"] . '</option>';
                   }
@@ -260,7 +260,7 @@
                   $valor = null;
                   $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
                   echo '<select class="form-control" id="categoriaEditId" name="categoriaEditId" required>';
-                  echo '<option value="">Seleccione una categoría</option>';
+                  echo '<option value="' .$categoria["nombre"]. '">' .$equipos["categoria_id"]. '</option>';
                   foreach ($categorias as $key => $categoria) {
                     echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
                   }
@@ -270,16 +270,7 @@
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col-lg-6">
-                <label for="cuentadanteIdEdit">Cuentadante</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                  </div>
-                  <input type="text" class="form-control" id="cuentadanteIdEdit" name="cuentadanteIdEdit" placeholder="Ingrese el cuentadante" required>
-                </div>
-              </div>
-              <div class="form-group col-lg-6">
+              <div class="form-group col-lg-12">
                 <label for="estadoEdit">Estado</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -303,6 +294,11 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary">Editar</button>
             </div>
+
+            <?php
+            $equipos=ControladorEquipos::ctrEditarEquipos();
+
+            ?>
           </form>
         </div>
       </div>
