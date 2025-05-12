@@ -2,10 +2,11 @@
 
 require_once "conexion.php";
 
-class ModeloDevoluciones {
+class ModeloDevoluciones
+{
 
     // Modelo para mostrar devoluciones
-    static public function mdlMostrarDevoluciones($tabla, $item, $valor) 
+    static public function mdlMostrarDevoluciones($tabla, $item, $valor)
     {
         if ($item != null) {
             // Consulta para un registro específico con JOIN
@@ -16,7 +17,7 @@ class ModeloDevoluciones {
                  WHERE p.$item = :$item 
                  AND (p.fecha_fin IS NOT NULL OR p.tipo_prestamo = 'Prestado' OR p.estado_prestamo = 'Autorizado')"
             );
-            
+
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetch();
@@ -30,11 +31,11 @@ class ModeloDevoluciones {
                  WHERE p.fecha_devolucion_real IS NOT NULL OR p.estado_prestamo = 'Prestado' OR p.estado_prestamo = 'Autorizado'
                  ORDER BY p.fecha_devolucion_real DESC"
             );
-            
+
             $stmt->execute();
             return $stmt->fetchAll();
         }
-        
+
         $stmt->close();
         $stmt = null;
     }

@@ -51,18 +51,23 @@
                       <td>' . $value["apellido"] . '</td>
                       <td>' . $value["telefono"] . '</td>
                       <td>' . $value["fecha_inicio"] . '</td>
-                      <td>'. $value["fecha_fin"]. '</td>
-                      <td>'. $value["estado_prestamo"]. '</td>
+                      <td>' . $value["fecha_fin"] . '</td>
+                      <td>' . $value["estado_prestamo"] . '</td>
                       <td>
-                        <div class="btn-group">
-                          <button class="btn btn-info btn-sm btnVerUsuario" data-id="'. $value["id_prestamo"]. '">
-                            <i class="fas fa-eye"></i> Ver
-                          </button>
-                        </div>
+                        <div class="btn-group">';
+                          if ($value["estado_prestamo"] == "Inmediato") {
+                            echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerUsuarioReservado">
+                                    <i class="fas fa-eye"></i> Ver
+                                  </button>';
+                          } else {
+                            echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id-reservado="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerUsuarioInmediato">
+                                    <i class="fas fa-eye"></i> Ver
+                                  </button>';
+                          }
+                  echo '</div>
                       </td>
                     </tr>'; 
                   }
-
                   ?>
                 </tbody>
               </table>
@@ -75,7 +80,7 @@
 </div>
 
 <!-- Modal Ver Usuario -->
-<div class="modal fade" id="modalVerUsuario" tabindex="-1" role="dialog" aria-labelledby="modalVerUsuarioLabel" aria-hidden="true">
+<div class="modal fade" id="modalVerUsuarioInmediato" tabindex="-1" role="dialog" aria-labelledby="modalVerUsuarioLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header bg-info">
@@ -163,7 +168,6 @@
             </div>
           </div>
         </div>
-        
         <!-- Botones de Acción -->
         <div class="text-center mt-4">
           <input type="hidden" id="tipoPrestamo" value="">
@@ -181,7 +185,7 @@
 </div>
 
 <!-- Modal Buen Estado -->
-<div class="modal fade" id="modalBuenEstado" tabindex="-1" role="dialog" aria-labelledby="modalBuenEstadoLabel" aria-hidden="true">
+<div class="modal fade" id="modalVerUsuarioReservado" tabindex="-1" role="dialog" aria-labelledby="modalBuenEstadoLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-success">
@@ -210,7 +214,6 @@
             <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal" style="width: 150px;">Cancelar</button>
             <button type="button" class="btn btn-success" id="btnConfirmarBuenEstado" style="width: 150px;">Confirmar</button>
           </div>
-
         </form>
       </div>
     </div>
