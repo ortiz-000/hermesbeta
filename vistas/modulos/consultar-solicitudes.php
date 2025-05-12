@@ -79,15 +79,17 @@
                         <table class="table table-bordered table-striped" id="tblPrestamosUsuario">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th># Préstamo</th>
-                                    <th>Fecha Solicitud</th>
-                                    <th>Fecha Devolución</th>
+                                    <th># </th>
+                                    <th>Préstamo</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Fin</th>
                                     <th>Estado</th>
+                                    <th>Motivo</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Aquí se cargarán los datos de los préstamos -->
+                                <!-- Aquí se cargarán los datos de los préstamos dinamicamente -->
                             </tbody>
                         </table>
                     </div>
@@ -103,59 +105,51 @@
 <div class="modal fade" id="modal-detalle">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Detalle del Préstamo #1234</h4>
+            <div class="modal-header bg-primary">
+                <h4 class="modal-title">Detalle del Préstamo #<span id="numeroPrestamo"></span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <dl class="row">
-                            <dt class="col-sm-4">Solicitante:</dt>
-                            <dd class="col-sm-8">Juan Pérez</dd>
+
+                            <dt class="col-sm-4">Estado:</dt>
+                            <dd class="col-sm-8" id="detalleTipoPrestamo"></dd>
 
                             <dt class="col-sm-4">Fecha Préstamo:</dt>
-                            <dd class="col-sm-8">2023-08-15</dd>
+                            <dd class="col-sm-8" id="detalleFechaInicio"></dd>
 
                             <dt class="col-sm-4">Fecha Devolución:</dt>
-                            <dd class="col-sm-8">2023-09-15</dd>
+                            <dd class="col-sm-8" id="detalleFechaFin"></dd>
 
                             <dt class="col-sm-4">Motivo:</dt>
-                            <dd class="col-sm-8">Préstamo para laboratorio de electrónica</dd>
+                            <dd class="col-sm-8" id="detalleMotivoPrestamo"></dd>
                         </dl>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title">Equipos Solicitados</h5>
                             </div>
-                            <div class="card-body p-0">
-                                <table class="table table-striped">
+                            <div class="card-body p-10">
+                                <table class="table table-bordered table-striped " id="tblDetallePrestamo">
                                     <thead>
                                         <tr>
+
+                                            <th>ID</th>
+                                            <th>Categoría</th>
                                             <th>Equipo</th>
-                                            <th>Modelo</th>
-                                            <th>Cantidad</th>
+                                            <th>etiqueta</th>
+                                            <th>Serial</th>
+                                            <th>Ubicación</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Osciloscopio Digital</td>
-                                            <td>RIGOL DS1202Z-E</td>
-                                            <td>2</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Fuente de Alimentación</td>
-                                            <td>GW INSTEK GPS-3303</td>
-                                            <td>3</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Multímetro</td>
-                                            <td>FLUKE 117</td>
-                                            <td>5</td>
-                                        </tr>
+                                        <!-- Aquí se cargarán los detalles del préstamo -->
                                     </tbody>
                                 </table>
                             </div>
@@ -169,22 +163,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-<script>
-    $(document).ready(function() {
-        // Simular búsqueda
-        $('#btnBuscarUsuarioConsultar').click(function() {
-            $('#resultados').fadeIn();
-            $('#userinfo').fadeIn();
-        });
-
-        // Simular carga de datos en el modal
-        $('.btn-detalle').click(function() {
-            // Aquí iría una llamada AJAX para cargar datos reales
-            console.log("Cargar detalles del préstamo...");
-        });
-    });
-</script>

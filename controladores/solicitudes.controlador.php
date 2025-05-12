@@ -38,5 +38,15 @@ class ControladorSolicitudes{
         return $respuesta;
     }
 
+    static public function ctrMostrarPrestamo($item, $valor){
+        $respuesta = ModeloSolicitudes::mdlMostrarPrestamo($item, $valor);
+        return $respuesta;
+    }
+
+    static public function ctrMostrarPrestamoDetalle($item, $valor){
+        $respuesta = ModeloSolicitudes::mdlMostrarPrestamoDetalle($item, $valor);
+        return $respuesta;
+    }
+
     
 }
