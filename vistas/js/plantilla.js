@@ -4,6 +4,7 @@ window.addEventListener('load', function() {
   initializeDataTable("#tblUsuarios");
   initializeDataTable("#tblRoles");
   initializeDataTable("#tblModalHistoricoSolicitudes");
+  initializeDataTable("#tblMisPrestamosUsuario");
   
   // initializeDataTable("#tblPermisos");
 });
