@@ -24,8 +24,7 @@
                                 <table id="tblSedes" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Identificación</th>
+                                        <th>Identificación</th>             
                                         <th>Nombre/Rol</th>
                                         <th>Fecha</th>
                                         <th>Estado</th>
