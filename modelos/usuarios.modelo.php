@@ -73,10 +73,14 @@ class ModeloUsuarios{
                                                     LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
                                                     LEFT JOIN fichas f ON af.id_ficha = f.id_ficha 
                                                     LEFT JOIN sedes s ON f.id_sede = s.id_sede
-                                                    WHERE u.$item= :$item");
-            $stmt -> bindParam(":".$item, $valor, PDO::PARAM_INT);
+                                                    WHERE u.$item = :$item LIMIT 1");
+            if ($item == "id_usuario") {
+                $stmt -> bindParam(":".$item, $valor, PDO::PARAM_INT);
+            } else {
+                $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+            }            
             $stmt -> execute();
-            return $stmt -> fetch();
+            return $stmt -> fetch(PDO::FETCH_ASSOC);
         }else{
             $stmt = Conexion::conectar()->prepare("SELECT u.*, r.id_rol, r.nombre_rol, f.id_ficha, f.descripcion AS descripcion_ficha, f.codigo
                                                     FROM $tabla as u      LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario
