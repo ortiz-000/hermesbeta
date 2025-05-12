@@ -23,4 +23,13 @@ WHERE id_usuario = 42;
 UPDATE equipos
 SET cuentadante_id = 42
 WHERE cuentadante_id IS NULL;
+```
 
+### 2. (11/05/2025) Actualización en la tabla de equipos añadiendo nuevos cuentadantes para realizar test del software: 50, 43, 55, 57
+
+
+
+```sql
+UPDATE equipos SET ubicacion_id = 4 WHERE cuentadante_id = 50;
+
+```

@@ -96,31 +96,36 @@ class ModeloEquipos{
         }
     } // fin del metodo mdlRealizarTraspasoCuentadante
 
-    // public static function mdlMostrarDatosCuentadanteTraspaso($tabla, $item, $valor){
-    //     try{
-    //         $stmt = Conexion::conectar()->prepare("SELECT 
-    //                                                 e.equipo_id,
-    //                                                 us.nombre,
-    //                                                 ub.nombre AS ubicacion_nombre,
-    //                                                 ur.id_rol
-    //                                             FROM 
-    //                                                 $tabla e
-    //                                             INNER JOIN  -- Cambia a INNER JOIN para filtrar
-    //                                                 usuario_rol ur ON us.id_usuario = ur.id_usuario 
-    //                                                     AND ur.id_rol IN (1, 3, 4, 5)
-    //                                             LEFT JOIN 
-    //                                                 usuarios us ON e.cuentadante_id = us.id_usuario
-    //                                             LEFT JOIN 
-    //                                                 ubicaciones ub ON e.ubicacion_id = ub.ubicacion_id
-    //                                             WHERE 
-    //                                                 $item = :$item;");
-    //         if($item){
-
-    //         }
-    //     } catch (Exception $e){
-    //         error_log("Error al cambiar de cuentadante: " . $e->getMessage());
-    //     }
-    // }
+    public static function mdlMostrarDatosCuentadanteTraspaso($tabla, $item, $valor){
+        try{
+            $stmt = Conexion::conectar()->prepare("SELECT 
+                                                    us.numero_documento,
+                                                    us.nombre AS cuentadante_nombre,
+                                                    ub.nombre AS ubicacion_nombre,  -- ¡Aquí está la ubicación!
+                                                    ur.id_rol
+                                                FROM 
+                                                    $tabla us
+                                                LEFT JOIN 
+                                                    usuario_rol ur ON us.id_usuario = ur.id_usuario
+                                                LEFT JOIN 
+                                                    equipos e ON us.id_usuario = e.cuentadante_id
+                                                LEFT JOIN 
+                                                    ubicaciones ub ON e.ubicacion_id = ub.ubicacion_id
+                                                WHERE 
+                                                    $item = :$item;");
+            if($item == "id_rol"){
+                $stmt -> bindParam(":" . $item, $valor, PDO::PARAM_INT);
+            } else {
+                $stmt -> bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            }
+            $stmt -> execute();
+            return $stmt -> fetch();
+        } catch (Exception $e){
+            error_log("Error al cambiar de cuentadante: " . $e->getMessage());
+        } finally {
+            $stmt = null;
+        }
+    }
 
     // =====================================
     //     AGREGAR EQUIPOS

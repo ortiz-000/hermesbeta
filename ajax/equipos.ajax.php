@@ -37,9 +37,9 @@ class AjaxEquipos {
     }
 
     public function ajaxMostrarDatosCuentadanteTraspaso(){
-        $item = "equipo_id";
+        $item = "numero_documento";
         $valor = $this -> buscarDocumentoId;
-        $respuesta = ControladorEquipos::ctrMostrarDatosCuentadanteOrigen($item, $valor);
+        $respuesta = ControladorEquipos::ctrMostrarDatosCuentadanteTraspaso($item, $valor);
         echo json_encode($respuesta);
     }
 

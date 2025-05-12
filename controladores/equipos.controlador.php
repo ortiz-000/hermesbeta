@@ -32,10 +32,26 @@ class ControladorEquipos{
         return $respuesta;
     }
 
-    // static public function ctrMostrarDatosCuentadanteTraspaso($item, $valor){
-    //     $tabla = "equipos";
-    //     $respuesta = ModeloEquipos::mdlMostrarDatosCuentadanteOrigen($tabla, $item, $valor);
-    //     return $respuesta;
-    // }
+    static public function ctrMostrarDatosCuentadanteTraspaso($item, $valor){
+        $tabla = "usuarios";
+        $respuesta = ModeloEquipos::mdlMostrarDatosCuentadanteTraspaso($tabla, $item, $valor);
+        return $respuesta;
+
+        if($respuesta === null) {
+            error_log("No se encontró el usuario con $item = $valor");
+            echo '<script>
+                        swal.fire({
+                            icon: "error",
+                            title: "¡No se encontró el usuario!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "inventario";
+                            }
+                        });
+                    </script>';
+        }
+    }
 
 } //fin de la clase ControladorEquipos    
