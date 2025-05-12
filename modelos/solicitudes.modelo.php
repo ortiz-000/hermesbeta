@@ -85,4 +85,51 @@ class ModeloSolicitudes{
         
     } //metodo mdlGuardarSolicitud
 
+    static public function mdlMostrarSolicitudes($item, $valor){
+
+        $stmt = Conexion::conectar()->prepare("SELECT p.*  FROM prestamos p WHERE p.$item = :$item");
+        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->execute();
+        //VERIFICAMOS EL TAMAÑO DE LA RESPUESTA
+        if($stmt->rowCount() > 0){
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            return "vacio";
+        }
+
+        $stmt->close();
+        $stmt = null;                                                    
+    }
+
+    static public function mdlMostrarPrestamo($item, $valor){
+
+        $stmt = Conexion::conectar()->prepare("SELECT p.* FROM prestamos p WHERE p.$item = :$item");
+        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt->close();
+        $stmt = null;
+
+    }
+
+    static public function mdlMostrarPrestamoDetalle($item, $valor){
+
+        $stmt = Conexion::conectar()->prepare("SELECT dp.*, e.*, u.nombre as ubicacion, c.nombre as categoria
+                                                FROM detalle_prestamo dp 
+                                                JOIN equipos e ON dp.equipo_id = e.equipo_id
+                                                JOIN ubicaciones u ON e.ubicacion_id = u.ubicacion_id
+                                                JOIN categorias c ON e.categoria_id = c.categoria_id
+                                                WHERE dp.$item = :$item");
+
+        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt->close();
+        $stmt = null;
+    }
+
 }//ModeloSolicitudes
