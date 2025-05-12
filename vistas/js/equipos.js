@@ -95,15 +95,21 @@ $(document).on("click", ".btnTraspasarEquipo", function(){
 BOTÓN PARA BUSCAR EL CUENTADANTE Y SU UBICACIÓN Y AGREGARLOS EN LOS INPUTS
 ================================================== */
 
-$(document).on("click", ".btnBuscarCuentadante", function (){
+$(document).on("click", ".btnBuscarCuentadante", function (event){
+    event.preventDefault(); // Prevenir la recarga de la página
+    // Limpiar los campos antes de buscar de nuevo
+    $("#cuentadanteDestino").val("");
+    $("#ubicacionTraspaso").val("");
+
     var buscarDocumentoId = $("#buscarDocumentoId").val();
+    let datos = new FormData();
+
+    datos.append("buscarDocumentoId", buscarDocumentoId);
     if (buscarDocumentoId === ""){
         alert(buscarDocumentoId);
         alert("Por favor, ingrese un número de documento para buscar");
         return;
     } else {
-        let datos = new FormData();
-        datos.append("buscarDocumentoId", buscarDocumentoId);
         $.ajax({
             url: "ajax/equipos.ajax.php",
             method: "POST",
@@ -113,11 +119,19 @@ $(document).on("click", ".btnBuscarCuentadante", function (){
             processData: false,
             dataType: "json",
             success: function(resultado){
-                console.log("Datos cuentadante: ", resultado["nombre"], resultado["ubicacion_nombre"]);
-                alert("Datos cuentadante: ", resultado);
-                event.preventDefault(); // Prevent form submission and page reload
-                $("#cuentadanteDestino").val(resultado["nombre"]);
-                $("#ubicacionTraspaso").val(resultado["ubicacion_nombre"]);
+                console.log("Datos cuentadante: ", resultado["nombre"], resultado["ubicacion_nombre"], resultado["numero_documento"]);
+                if(buscarDocumentoId != resultado["numero_documento"]){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Documento no coincide',
+                        text: 'El número ingresado no corresponde al documento del cuentadante',
+                        confirmButtonText: 'Aceptar'
+                    });
+                    $("#buscarDocumentoId").val("");
+                } else if (buscarDocumentoId == resultado["numero_documento"]){
+                    $("#cuentadanteDestino").val(resultado["nombre"]);
+                    $("#ubicacionTraspaso").val(resultado["ubicacion_nombre"]);
+                }
             }
         });
     }

@@ -370,9 +370,9 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="buscarDocumentoId" name="buscarDocumentoId" placeholder="Ej:12345..." required>
+                    <input type="number" class="form-control" id="buscarDocumentoId" name="buscarDocumentoId" placeholder="Ej:12345..." required>
                     <div class="input-group-append">
-                      <button class="bg-primary input-group-text btnBuscarCuentadante"><i class="fas fa-search"></i></button>
+                      <button class="bg-primary input-group-text btnBuscarCuentadante toastrDefaultError"><i class="fas fa-search"></i></button>
                     </div>
                   </div>
                 </div>

@@ -73,6 +73,7 @@ class ModeloEquipos{
             // SQL CAPTURANDO LOS DATOS DEL CUENTADANTE ACTUAL A MOSTRAR EN EL MODAL
             $stmt1 = Conexion::conectar()->prepare("SELECT e.equipo_id,
                                                 us.nombre,
+                                                us.numero_documento,
                                                 ub.nombre as ubicacion_nombre,
                                                 ur.id_rol
                                                 FROM $tabla e
