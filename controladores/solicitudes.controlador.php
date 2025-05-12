@@ -33,5 +33,9 @@ class ControladorSolicitudes{
         
     }
 
+    public static function ctrContarEquiposPorCategoria() {
+        return ModeloSolicitudes::mdlContarEquiposPorCategoria();
+    }
+
     
 }

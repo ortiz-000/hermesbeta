@@ -25,14 +25,17 @@
 
                   <div class="col-lg-3 col-6">
                       <!-- small box -->
+                       <?php
+                        $conteos = ControladorSolicitudes::ctrContarEquiposPorCategoria();
+                        ?>
                       <div class="small-box bg-info">
                           <div class="inner">
-                              <h3>150</h3>
+                             <h3><?php echo isset($conteos[1]) ? $conteos[1] : 0; ?></h3>
 
                               <p>Portátiles</p>
                           </div>
                           <div class="icon">
-                              <i class="ion ion-bag"></i>
+                              <i class="fas fa-desktop"></i>
                           </div>
                           <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                       </div>
@@ -42,12 +45,12 @@
                       <!-- small box -->
                       <div class="small-box bg-info">
                           <div class="inner">
-                              <h3>150</h3>
+                             <h3><?php echo isset($conteos[2]) ? $conteos[2] : 0; ?></h3>
 
-                              <p>Portátiles</p>
+                              <p>Sonido</p>
                           </div>
                           <div class="icon">
-                              <i class="ion ion-bag"></i>
+                              <i class="fas fa-volume-up"></i>
                           </div>
                           <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                       </div>
@@ -57,12 +60,12 @@
                       <!-- small box -->
                       <div class="small-box bg-info">
                           <div class="inner">
-                              <h3>150</h3>
+                            <h3><?php echo isset($conteos[3]) ? $conteos[3] : 0; ?></h3>
 
-                              <p>Portátiles</p>
+                              <p>Videobeam</p>
                           </div>
                           <div class="icon">
-                              <i class="ion ion-bag"></i>
+                              <i class="fas fa-video"></i>
                           </div>
                           <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                       </div>
@@ -72,12 +75,12 @@
                       <!-- small box -->
                       <div class="small-box bg-info">
                           <div class="inner">
-                              <h3>150</h3>
+                             <h3><?php echo isset($conteos[5]) ? $conteos[5] : 0; ?></h3>
 
-                              <p>Portátiles</p>
+                              <p>Control remoto</p>
                           </div>
                           <div class="icon">
-                              <i class="ion ion-bag"></i>
+                              <i class="fas fa-gamepad"></i>
                           </div>
                           <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                       </div>
