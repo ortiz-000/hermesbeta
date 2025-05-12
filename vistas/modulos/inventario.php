@@ -211,7 +211,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                   </div>
-                  <input type="text" class="form-control" value="<?php echo $equipo["numero_serie"]; ?>" id="numeroSerieEdit" name="numeroSerieEdit" placeholder="Ej:00ks32.." required>
+                  <input type="text" class="form-control" value="<?php echo $equipo["numero_serie"]; ?>" id="numeroSerieEdit" name="numeroSerieEdit" placeholder="Ej:00ks32.." readonly>
                 </div>
               </div>
               <div class="form-group col-lg-6">
