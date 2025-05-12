@@ -127,7 +127,7 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
             success: function(resultado){
                 const docIngresado = String(buscarDocumentoId).trim();
                 const docEncontrado = String(resultado["numero_documento"] || '').trim();
-                console.log("Datos cuentadante: ", resultado["cuentadante_nombre"], resultado["ubicacion_nombre"], resultado["numero_documento"], "equipo id:", resultado["equipo_id"]);
+                console.log("cuentadante id: ", resultado["id_usuario"]);
                 if(docIngresado != docEncontrado){
                     Toast.fire({
                         icon: 'error',
@@ -136,12 +136,13 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
                     })
                     $("#buscarDocumentoId").val("");
                 } else {
-                    console.log(resultado, "equipo id: ", resultado["equipo_id"],"Datos cuentadante: ", "nombre: ", resultado["cuentadante_nombre"], "cuentadante_id: ", resultado["cuentadante_id"], "ubicacion: ", resultado["ubicacion_nombre"], "ubicacion_id: ", resultado["ubicacion_id"], resultado["numero_documento"]);
+                    console.log("id_usuario: ", resultado["id_usuario"]);
                     // $("#cuentadanteDestino").val(resultado["cuentadante_nombre"]);
                     // $("#ubicacionTraspaso").val(resultado["ubicacion_nombre"]);
                     $("#idTraspasoEquipo").val(idEquipoTraspaso);
                     console.log("ESTE ES EL EQUIPO ID AL CUAL VOY A PASAR: ", idEquipoTraspaso);
-                    $("#cuentadanteDestino").val(resultado["cuentadante_id"] + " " + resultado["cuentadante_nombre"]);
+                    $("#cuentadanteDestinoId").val(resultado["id_usuario"]);
+                    $("#cuentadanteDestino").val(resultado["id_usuario"] + " " + resultado["cuentadante_nombre"]);
                     $("#ubicacionTraspaso").val(resultado["ubicacion_id"] + " " + resultado["ubicacion_nombre"]);
                 }
             }

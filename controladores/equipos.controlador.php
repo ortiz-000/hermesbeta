@@ -39,18 +39,17 @@ class ControladorEquipos{
     }
 
     static public function ctrRealizarTraspasoCuentadante(){
-        if(isset($_POST["idTraspasoEquipo"]) && isset($_POST["cuentadanteDestino"]) && isset($_POST["ubicacionTraspaso"])){
+        if(isset($_POST["idTraspasoEquipo"]) && isset($_POST["cuentadanteDestinoId"])){
             $tabla = "equipos";
             $datos = array(
                 "equipo_id" => $_POST["idTraspasoEquipo"],
-                "cuentadante_id" => $_POST["cuentadanteDestino"],
-                "ubicacion_id" => $_POST["ubicacionTraspaso"]
+                "cuentadante_id" => $_POST["cuentadanteDestinoId"],
             );
 
             $respuesta = ModeloEquipos::mdlRealizarTraspasoCuentadante($tabla, $datos);
-            //var_dump($respuesta[0]);
 
-            if($respuesta == "success"){
+
+            if($respuesta == "ok"){
                 echo '<script>
                         swal.fire({
                             icon: "success",
@@ -63,24 +62,11 @@ class ControladorEquipos{
                             }
                         });
                     </script>';
-            } else if($respuesta == "nochange"){
-                echo '<script>
-                        swal.fire({
-                            icon: "info",
-                            title: "Algo ha fallado. No se realizaron cambios",
-                            showConfirmButton: true,
-                            confirmButtonText: "Cerrar"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location = "inventario";
-                            }
-                        });
-                    </script>';
             } else {
                 echo '<script>
                         swal.fire({
                             icon: "error",
-                            title: "¡Ups! Sucedió un error en el traspaso",
+                            title: "Algo ha fallado. No se realizaron cambios",
                             showConfirmButton: true,
                             confirmButtonText: "Cerrar"
                         }).then((result) => {
