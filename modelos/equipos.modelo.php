@@ -101,6 +101,8 @@ class ModeloEquipos{
             $stmt = Conexion::conectar()->prepare("SELECT 
                                                     us.numero_documento,
                                                     us.nombre AS cuentadante_nombre,
+                                                    e.cuentadante_id,
+                                                    e.ubicacion_id,
                                                     ub.nombre AS ubicacion_nombre,  -- ¡Aquí está la ubicación!
                                                     ur.id_rol
                                                 FROM 
@@ -122,6 +124,28 @@ class ModeloEquipos{
             return $stmt -> fetch();
         } catch (Exception $e){
             error_log("Error al cambiar de cuentadante: " . $e->getMessage());
+        } finally {
+            $stmt = null;
+        }
+    }
+
+    public static function mdlRealizarTraspasoCuentadante($tabla, $datos){
+        try{
+            $stmt = Conexion::conectar()->prepare("UPDATE $tabla 
+                                                    SET cuentadante_id = :cuentadante_id, 
+                                                    ubicacion_id = :ubicacion_id
+                                                    WHERE equipo_id = :idTraspasoEquipo");
+            
+            // Corrección en los bindParam
+            $stmt->bindParam(":idTraspasoEquipo", $datos["idTraspasoEquipo"], PDO::PARAM_INT);
+            $stmt->bindParam(":cuentadante_id", $datos["cuentadante_id"], PDO::PARAM_INT);
+            $stmt->bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
+
+            $stmt->execute();
+            return "ok";
+        } catch (Exception $e){
+            error_log("Error al cambiar de cuentadante: " . $e->getMessage());
+            return "error";
         } finally {
             $stmt = null;
         }

@@ -36,13 +36,25 @@ class ControladorEquipos{
         $tabla = "usuarios";
         $respuesta = ModeloEquipos::mdlMostrarDatosCuentadanteTraspaso($tabla, $item, $valor);
         return $respuesta;
+    }
 
-        if($respuesta === null) {
-            error_log("No se encontró el usuario con $item = $valor");
-            echo '<script>
+    static public function ctrRealizarTraspasoCuentadante(){
+        if(isset($_POST["idTraspasoEquipo"]) && isset($_POST["cuentadanteDestino"]) && isset($_POST["ubicacionTraspaso"])){
+            $tabla = "equipos";
+            $datos = array(
+                "idTraspasoEquipo" => $_POST["idTraspasoEquipo"],
+                "cuentadante_id" => $_POST["cuentadanteDestino"],
+                "ubicacion_id" => $_POST["ubicacionTraspaso"]
+            );
+
+            $respuesta = ModeloEquipos::mdlRealizarTraspasoCuentadante($tabla, $datos);
+            var_dump($respuesta[0]);
+
+            if($respuesta == "ok"){
+                echo '<script>
                         swal.fire({
-                            icon: "error",
-                            title: "¡No se encontró el usuario!",
+                            icon: "success",
+                            title: "¡Traspaso realizado con éxito!",
                             showConfirmButton: true,
                             confirmButtonText: "Cerrar"
                         }).then((result) => {
@@ -51,6 +63,20 @@ class ControladorEquipos{
                             }
                         });
                     </script>';
+            } else {
+                echo '<script>
+                        swal.fire({
+                            icon: "error",
+                            title: "¡Ups! Sucedió un error en el traspaso",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "inventario";
+                            }
+                        });
+                    </script>';
+            }
         }
     }
 

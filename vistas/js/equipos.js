@@ -123,7 +123,6 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
                 const docEncontrado = String(resultado["numero_documento"] || '').trim();
                 console.log("Datos cuentadante: ", resultado["cuentadante_nombre"], resultado["ubicacion_nombre"], resultado["numero_documento"]);
                 if(docIngresado != docEncontrado){
-                    alert("No se encontró el cuentadante");
                     Swal.fire({
                         icon: 'error',
                         title: 'Documento no coincide',
@@ -139,8 +138,11 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
                         confirmButtonText: 'Aceptar'
                     });
                 } else {
+                    console.log("Datos cuentadante: ", "nombre: ", resultado["cuentadante_nombre"], "cuentadante_id: ", resultado["cuentadante_id"], "ubicacion: ", resultado["ubicacion_nombre"], "ubicacion_id: ", resultado["ubicacion_id"], resultado["numero_documento"]);
                     $("#cuentadanteDestino").val(resultado["cuentadante_nombre"]);
                     $("#ubicacionTraspaso").val(resultado["ubicacion_nombre"]);
+                    $("#cuentadanteDestino").val(resultado["cuentadante_id"]);
+                    $("#ubicacionTraspaso").val(resultado["ubicacion_id"]);
                 }
             }
         });
