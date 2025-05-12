@@ -54,7 +54,7 @@ class ControladorEquipos
         }
     }
 
-    static public function ctrEditarEquipos(){
+    public static function ctrEditarEquipos(){
         if (isset($_POST["numeroSerieEdit"]) && isset($_POST["etiquetaEdit"]) && isset($_POST["descripcionEdit"]) && isset($_POST["ubicacionEdit"]) && isset($_POST["categoriaEditId"]) && isset($_POST["estadoEdit"])) {
             if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["numeroSerieEdit"]) &&
             preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["etiquetaEdit"]) &&
