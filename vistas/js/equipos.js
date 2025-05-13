@@ -28,16 +28,24 @@ $(document).on("click", ".btnEditarEquipo", function() {
 
         success: function(respuesta) {
             // Mostramos la respuesta en consola para verificar
-            console.log("datos: ", respuesta);
-
-            // Llenamos los campos del formulario del modal con los datos recibidos
-            $("#idEditEquipo").val(respuesta["equipo_id"]);
-            $("#numeroSerieEdit").val(respuesta["numero_serie"]);
-            $("#etiquetaEdit").val(respuesta["etiqueta"]);
-            $("#descripcionEdit").val(respuesta["descripcion"]);
-            $("#ubicacionEdit").val(respuesta["ubicacion_id"]);
-            $("#categoriaEditId").val(respuesta["categoria_id"]);
-            $("#cuentadanteIdEdit").val(respuesta["id_estado"]);
+            try{
+                if(respuesta){
+                    console.log("datos: ", respuesta);
+                    // Llenamos los campos del formulario del modal con los datos recibidos
+                    // NOTA: ELIMINÉ LOS DATOS QUE YA NO SE IBAN A EDITAR COMO EL NÚMERO SERIE Y UBICACION
+                    $("#idEditEquipo").val(respuesta["equipo_id"]);
+                    $("#etiquetaEdit").val(respuesta["etiqueta"]);
+                    $("#descripcionEdit").val(respuesta["descripcion"]);
+                    $("#categoriaEditId").val(respuesta["categoria_id"]);
+                    $("#cuentadanteIdEdit").val(respuesta["id_estado"]);
+                } else {
+                    console.error("Respuesta inválida del servidor");
+                    alert("Error: La respuesta del servidor no tiene el formato esperado");
+                }
+            } catch(e){
+                console.error("Error al procesar la respuesta:", e);
+                alert("Error al procesar la respuesta del servidor");
+            }
         }
     });
 

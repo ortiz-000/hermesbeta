@@ -6,7 +6,7 @@ class ControladorEquipos{
     {
         $tabla = "equipos";
         $respuesta = ModeloEquipos::mdlMostrarEquipos($tabla, $item, $valor);
-        var_dump($respuesta[0]);
+        //var_dump($respuesta[0]);
         return $respuesta;
     }
 
@@ -49,17 +49,17 @@ class ControladorEquipos{
     }
 
     public static function ctrEditarEquipos(){
-        if (isset($_POST["numeroSerieEdit"]) && isset($_POST["etiquetaEdit"]) && isset($_POST["descripcionEdit"]) && isset($_POST["ubicacionEdit"]) && isset($_POST["categoriaEditId"]) && isset($_POST["estadoEdit"])) {
+        if (isset($_POST["numeroSerieEdit"]) && isset($_POST["etiquetaEdit"]) && isset($_POST["descripcionEdit"]) && isset($_POST["categoriaEditId"]) && isset($_POST["estadoEdit"])) {
             if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["numeroSerieEdit"]) &&
             preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["etiquetaEdit"]) &&
             preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["descripcionEdit"])){
                 $tabla = "equipos";
                 $datos = array(
                     "equipo_id" => $_POST["idEditEquipo"],
-                    "numeroSerieEdit" => $_POST["numeroSerieEdit"],
+                    // "numeroSerieEdit" => $_POST["numeroSerieEdit"],
                     "etiquetaEdit" => $_POST["etiquetaEdit"],
                     "descripcionEdit" => $_POST["descripcionEdit"],
-                    "ubicacionEdit" => $_POST["ubicacionEdit"],
+                    "estadoEdit" => $_POST["estadoEdit"], //SE AGREGÓ ESTADO
                     "categoriaEdit" => $_POST["categoriaEditId"]
                 );
                 $respuesta = ModeloEquipos::mdlEditarEquipos($tabla, $datos);

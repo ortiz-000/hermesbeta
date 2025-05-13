@@ -209,7 +209,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                   </div>
-                  <input type="text" class="form-control" value="<?php echo $equipo["numero_serie"]; ?>" id="numeroSerieEdit" name="numeroSerieEdit" placeholder="Ej:00ks32.." readonly>
+                  <input type="text" class="form-control" id="numeroSerieEdit" name="numeroSerieEdit" placeholder="Ej:00ks32.." readonly>
                 </div>
               </div>
               <div class="form-group col-lg-6">
@@ -218,13 +218,13 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-tag"></i></span>
                   </div>
-                  <input type="text" class="form-control" value="<?php echo $equipo["etiqueta"]; ?>" id="etiquetaEdit" name="etiquetaEdit" placeholder="Ej:0022338..." required>
+                  <input type="text" class="form-control" id="etiquetaEdit" name="etiquetaEdit" placeholder="Ej:0022338...">
                 </div>
               </div>
             </div>
             <div class="form-group col-lg-12">
               <label for="descripcionEdit">Descripción</label>
-              <textarea class="form-control" id="descripcionEdit" value="<?php echo $equipo["descripcion"]; ?>" name="descripcionEdit" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
+              <textarea class="form-control" id="descripcionEdit" name="descripcionEdit" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3"></textarea>
             </div>
             <div class="form-row mt-2">
             <div class="form-group col-lg-6">
@@ -237,7 +237,7 @@
                   $item = null;
                   $valor = null;
                   $estados = ControladorEstados::ctrMostrarEstados($item, $valor);
-                  echo '<select class="form-control" id="estadoEdit" name="estadoEdit" required>';
+                  echo '<select class="form-control" id="estadoEdit" name="estadoEdit">';
                   echo '<option value="">Seleccione un estado</option>';
                   foreach ($estados as $key => $estado) {
                     echo '<option value="' . $estado["estado_id"] . '">' . $estado["estado"] . '</option>';
