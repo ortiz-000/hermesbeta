@@ -56,11 +56,11 @@
                       <td>
                         <div class="btn-group">';
                           if ($value["estado_prestamo"] == "Inmediato") {
-                            echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerUsuarioReservado">
+                            echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerUsuarioInmediato">
                                     <i class="fas fa-eye"></i> Ver
                                   </button>';
                           } else {
-                            echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id-reservado="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerUsuarioInmediato">
+                            echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id-reservado="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerUsuarioReservado">
                                     <i class="fas fa-eye"></i> Ver
                                   </button>';
                           }
@@ -80,7 +80,7 @@
 </div>
 
 <!-- Modal Ver Usuario -->
-<div class="modal fade" id="modalVerUsuarioInmediato" tabindex="-1" role="dialog" aria-labelledby="modalVerUsuarioLabel" aria-hidden="true">
+<div class="modal fade" id="modalVerUsuarioReservado" tabindex="-1" role="dialog" aria-labelledby="modalVerUsuarioLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header bg-info">
@@ -108,28 +108,32 @@
                 <div class="row">
                   <div class="col-md-6">
                     <table class="table table-sm">
-                      <tr>
-                        <th style="width: 40%">Identificación:</th>
-                      </tr>
-                      <tr>
-                        <th>Ficha:</th>
-                      </tr>
-                      <tr>
-                        <th>Tipo de Préstamo:</th>
-                      </tr>
+                      <tbody class="info-prestamo">
+                        <tr>
+                          <th style="width: 40%">Identificación:</th>
+                        </tr>
+                        <tr>
+                          <th>Ficha:</th>
+                        </tr>
+                        <tr>
+                          <th>Tipo de Préstamo:</th>
+                        </tr>
+                      </tbody>
                     </table>
                   </div>
                   <div class="col-md-6">
                     <table class="table table-sm">
-                      <tr>
-                        <th style="width: 40%">Fecha de Inicio:</th>
-                      </tr>
-                      <tr>
-                        <th>Fecha de Devolución:</th>
-                      </tr>
-                      <tr>
-                        <th>Estado:</th>
-                      </tr>
+                      <tbody class="info-prestamo-2">
+                        <tr>
+                          <th style="width: 40%">Fecha de Inicio:</th>
+                        </tr>
+                        <tr>
+                          <th>Fecha de Devolución:</th>
+                        </tr>
+                        <tr>
+                          <th>Estado:</th>
+                        </tr>
+                      </tbody>
                     </table>
                   </div>
                 </div>
@@ -145,22 +149,26 @@
                 <div class="row">
                   <div class="col-md-6">
                     <table class="table table-sm">
-                      <tr>
-                        <th style="width: 40%">Serial:</th>
-                      </tr>
-                      <tr>
-                        <th>Marca:</th>
-                      </tr>
+                      <tbody class="info-equipos">
+                        <tr>
+                          <th style="width: 40%">Serial:</th>
+                        </tr>
+                        <tr>
+                          <th>Marca:</th>
+                        </tr>
+                      </tbody>
                     </table>
                   </div>
                   <div class="col-md-6">
                     <table class="table table-sm">
-                      <tr>
-                        <th style="width: 40%">Modelo:</th>
-                      </tr>
-                      <tr>
-                        <th>Categoría:</th>
-                      </tr>
+                      <tbody class="info-equipos-2">
+                        <tr>
+                          <th style="width: 40%">Modelo:</th>
+                        </tr>
+                        <tr>
+                          <th>Categoría:</th>
+                        </tr>
+                      </tbody>
                     </table>
                   </div>
                 </div>
@@ -185,7 +193,7 @@
 </div>
 
 <!-- Modal Buen Estado -->
-<div class="modal fade" id="modalVerUsuarioReservado" tabindex="-1" role="dialog" aria-labelledby="modalBuenEstadoLabel" aria-hidden="true">
+<div class="modal fade" id="modalVerUsuarioInmediato" tabindex="-1" role="dialog" aria-labelledby="modalBuenEstadoLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-success">

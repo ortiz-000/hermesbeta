@@ -4,7 +4,6 @@ require_once "conexion.php";
 
 class ModeloDevoluciones
 {
-
     // Modelo para mostrar devoluciones
     static public function mdlMostrarDevoluciones($tabla, $item, $valor)
     {
