@@ -9,7 +9,7 @@ $(document).on("click", ".btnEditarEquipo", function() {
     // Obtenemos el valor del atributo personalizado "idEquipo" del botón que se clickeó
     var idEquipo = $(this).attr("idEquipo");
     console.log("IdEquipo: ", idEquipo); // Mostramos en consola el id para verificar
-
+    $("#idEditEquipo").val(idEquipo);
     // Creamos un nuevo objeto FormData para enviar datos tipo formulario
     var datos = new FormData();
     
@@ -28,16 +28,24 @@ $(document).on("click", ".btnEditarEquipo", function() {
 
         success: function(respuesta) {
             // Mostramos la respuesta en consola para verificar
-            console.log("datos: ", respuesta);
-
-            // Llenamos los campos del formulario del modal con los datos recibidos
-            $("#idEditEquipo").val(respuesta["equipo_id"]);
-            $("#numeroSerieEdit").val(respuesta["numero_serie"]);
-            $("#etiquetaEdit").val(respuesta["etiqueta"]);
-            $("#descripcionEdit").val(respuesta["descripcion"]);
-            $("#ubicacionEdit").val(respuesta["ubicacion_id"]);
-            $("#categoriaEditId").val(respuesta["categoria_id"]);
-            $("#cuentadanteIdEdit").val(respuesta["id_estado"]);
+            try{
+                if(respuesta){
+                    console.log("datos: ", respuesta);
+                    // Llenamos los campos del formulario del modal con los datos recibidos
+                    // NOTA: ELIMINÉ LOS DATOS QUE YA NO SE IBAN A EDITAR COMO EL NÚMERO SERIE Y UBICACION
+                    $("#idEditEquipo").val(respuesta["equipo_id"]);
+                    $("#etiquetaEdit").val(respuesta["etiqueta"]);
+                    $("#descripcionEdit").val(respuesta["descripcion"]);
+                    $("#categoriaEditId").val(respuesta["categoria_id"]);
+                    $("#cuentadanteIdEdit").val(respuesta["id_estado"]);
+                } else {
+                    console.error("Respuesta inválida del servidor");
+                    alert("Error: La respuesta del servidor no tiene el formato esperado");
+                }
+            } catch(e){
+                console.error("Error al procesar la respuesta:", e);
+                alert("Error al procesar la respuesta del servidor");
+            }
         }
     });
 
@@ -127,7 +135,7 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
             success: function(resultado){
                 const docIngresado = String(buscarDocumentoId).trim();
                 const docEncontrado = String(resultado["numero_documento"] || '').trim();
-                console.log("Datos cuentadante: ", resultado["cuentadante_nombre"], resultado["ubicacion_nombre"], resultado["numero_documento"], "equipo id:", resultado["equipo_id"]);
+                console.log("cuentadante id: ", resultado["id_usuario"]);
                 if(docIngresado != docEncontrado){
                     Toast.fire({
                         icon: 'error',
@@ -136,12 +144,13 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
                     })
                     $("#buscarDocumentoId").val("");
                 } else {
-                    console.log(resultado, "equipo id: ", resultado["equipo_id"],"Datos cuentadante: ", "nombre: ", resultado["cuentadante_nombre"], "cuentadante_id: ", resultado["cuentadante_id"], "ubicacion: ", resultado["ubicacion_nombre"], "ubicacion_id: ", resultado["ubicacion_id"], resultado["numero_documento"]);
+                    console.log("id_usuario: ", resultado["id_usuario"]);
                     // $("#cuentadanteDestino").val(resultado["cuentadante_nombre"]);
                     // $("#ubicacionTraspaso").val(resultado["ubicacion_nombre"]);
                     $("#idTraspasoEquipo").val(idEquipoTraspaso);
                     console.log("ESTE ES EL EQUIPO ID AL CUAL VOY A PASAR: ", idEquipoTraspaso);
-                    $("#cuentadanteDestino").val(resultado["cuentadante_id"] + " " + resultado["cuentadante_nombre"]);
+                    $("#cuentadanteDestinoId").val(resultado["id_usuario"]);
+                    $("#cuentadanteDestino").val(resultado["id_usuario"] + " " + resultado["cuentadante_nombre"]);
                     $("#ubicacionTraspaso").val(resultado["ubicacion_id"] + " " + resultado["ubicacion_nombre"]);
                 }
             }

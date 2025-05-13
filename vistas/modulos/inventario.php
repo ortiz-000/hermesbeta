@@ -20,17 +20,16 @@
         <!-- /.card-header -->
         <div class="card-body">
           <table id="tblEquipos" class="table table-bordered table-striped table-hover">
-            <thead>
+            <thead class="bg-dark">
               <tr>
                 <th>Id Equipo</th>
                 <th>N# Serie</th>
                 <th>Etiqueta</th>
                 <th>Descripción</th>
-                <th>Fecha Ingreso</th>
-                <th>Ubicación id</th>
-                <th>Categoría id</th>
-                <th>Cuentadante id</th>
-                <th>Id Estado</th>
+                <th>Ubicación</th>
+                <th>Categoría</th>
+                <th>Cuentadante</th>
+                <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -47,11 +46,10 @@
                 echo '<td>' . $equipo['numero_serie']    . '</td>';
                 echo '<td>' . $equipo['etiqueta']        . '</td>';
                 echo '<td>' . $equipo['descripcion']     . '</td>';
-                echo '<td>' . $equipo['fecha_entrada']   . '</td>';
-                echo '<td>' . $equipo['ubicacion_id']    . '</td>';
-                echo '<td>' . $equipo['categoria_id']    . '</td>';
-                echo '<td>' . $equipo['id_usuario']      . '</td>';
-                echo '<td>' . $equipo['id_estado']       . '</td>';
+                echo '<td>' . $equipo['ubicacion_nombre']    . '</td>';
+                echo '<td>' . $equipo['categoria_nombre']    . '</td>';
+                echo '<td>' . $equipo['cuentadante_nombre']      . '</td>';
+                echo '<td>' . $equipo['estado_nombre']      . '</td>';
                 // Botón de acciones
                 echo '<td>
                         <div class="btn-group">
@@ -211,7 +209,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="numeroSerieEdit" name="numeroSerieEdit" placeholder="Ej:00ks32.." required>
+                  <input type="text" class="form-control" id="numeroSerieEdit" name="numeroSerieEdit" placeholder="Ej:00ks32.." readonly>
                 </div>
               </div>
               <div class="form-group col-lg-6">
@@ -220,30 +218,29 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-tag"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="etiquetaEdit" name="etiquetaEdit" placeholder="Ej:0022338..." required>
+                  <input type="text" class="form-control" id="etiquetaEdit" name="etiquetaEdit" placeholder="Ej:0022338...">
                 </div>
               </div>
             </div>
             <div class="form-group col-lg-12">
               <label for="descripcionEdit">Descripción</label>
-              <textarea class="form-control" id="descripcionEdit" name="descripcionEdit" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
+              <textarea class="form-control" id="descripcionEdit" name="descripcionEdit" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3"></textarea>
             </div>
             <div class="form-row mt-2">
-              <div class="form-group col-lg-6">
-                <label for="ubicacionEdit">Ubicación</label>
+            <div class="form-group col-lg-6">
+                <label for="estadoEdit">Estado</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
                   </div>
                   <?php
-
                   $item = null;
                   $valor = null;
-                  $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
-                  echo '<select class="form-control" id="ubicacionEdit" name="ubicacionEdit" required>';
-                  echo '<option value="">Seleccione una ubicación</option>';
-                  foreach ($ubicaciones as $key => $ubicacion) {
-                    echo '<option value="' . $ubicacion["ubicacion_id"] . '">' . $ubicacion["nombre"] . '</option>';
+                  $estados = ControladorEstados::ctrMostrarEstados($item, $valor);
+                  echo '<select class="form-control" id="estadoEdit" name="estadoEdit">';
+                  echo '<option value="">Seleccione un estado</option>';
+                  foreach ($estados as $key => $estado) {
+                    echo '<option value="' . $estado["estado_id"] . '">' . $estado["estado"] . '</option>';
                   }
                   echo '</select>';
                   ?>
@@ -260,39 +257,9 @@
                   $valor = null;
                   $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
                   echo '<select class="form-control" id="categoriaEditId" name="categoriaEditId" required>';
-                  echo '<option value="">Seleccione una categoría</option>';
+                  echo '<option value="' .$categoria["nombre"]. '">' .$equipos["categoria_id"]. '</option>';
                   foreach ($categorias as $key => $categoria) {
                     echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
-                  }
-                  echo '</select>';
-                  ?>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-lg-6">
-                <label for="cuentadanteIdEdit">Cuentadante</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                  </div>
-                  <input type="text" class="form-control" id="cuentadanteIdEdit" name="cuentadanteIdEdit" placeholder="Ingrese el cuentadante" required>
-                </div>
-              </div>
-              <div class="form-group col-lg-6">
-                <label for="estadoEdit">Estado</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
-                  </div>
-                  <?php
-                  $item = null;
-                  $valor = null;
-                  $estados = ControladorEstados::ctrMostrarEstados($item, $valor);
-                  echo '<select class="form-control" id="estadoEdit" name="estadoEdit" required>';
-                  echo '<option value="">Seleccione un estado</option>';
-                  foreach ($estados as $key => $estado) {
-                    echo '<option value="' . $estado["estado_id"] . '">' . $estado["estado"] . '</option>';
                   }
                   echo '</select>';
                   ?>
@@ -303,6 +270,11 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary">Editar</button>
             </div>
+
+            <?php
+            $equipos=ControladorEquipos::ctrEditarEquipos();
+
+            ?>
           </form>
         </div>
       </div>
@@ -385,7 +357,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
                     </div>
-                    <!-- <input type="hidden" id="cuentadanteDestinoId" name="cuentadanteDestinoId"> -->
+                    <input type="hidden" id="cuentadanteDestinoId" name="cuentadanteDestinoId">
                     <input type="text" class="form-control" id="cuentadanteDestino" name="cuentadanteDestino" placeholder="Ej:Jane Doe" readonly>
                   </div>
                 </div>
