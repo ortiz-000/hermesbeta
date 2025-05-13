@@ -20,7 +20,7 @@ class ControladorEquipos{
                     "descripcion" => $_POST["descripcion"]
                 );
 
-                $respuesta = ModeloEquipos::mdlAgregarEquipos($tabla, $datos);
+                //$respuesta = ModeloEquipos::mdlAgregarEquipos($tabla, $datos);
             }
         }
     }

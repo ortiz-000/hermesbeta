@@ -20,7 +20,7 @@
         <!-- /.card-header -->
         <div class="card-body">
           <table id="tblEquipos" class="table table-bordered table-striped table-hover">
-            <thead>
+            <thead class="bg-dark">
               <tr>
                 <th>Id Equipo</th>
                 <th>N# Serie</th>
