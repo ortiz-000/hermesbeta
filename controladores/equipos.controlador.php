@@ -6,7 +6,7 @@ class ControladorEquipos{
     {
         $tabla = "equipos";
         $respuesta = ModeloEquipos::mdlMostrarEquipos($tabla, $item, $valor);
-        //var_dump($respuesta[0]);
+        var_dump($respuesta[0]);
         return $respuesta;
     }
 
@@ -38,12 +38,12 @@ class ControladorEquipos{
                     "descripcion" => $_POST["descripcion"]
                 );
 
-                $respuesta = ModeloEquipos::mdlAgregarEquipos($tabla, $datos);
-                if ($respuesta == "ok") {
-                    echo '<script>alert("Equipo agregado correctamente");</script>';
-                } else {
-                    echo '<script>alert("Error al agregar equipo");</script>';
-                }
+                // $respuesta = ModeloEquipos::mdlAgregarEquipos($tabla, $datos);
+                // if ($respuesta == "ok") {
+                //     echo '<script>alert("Equipo agregado correctamente");</script>';
+                // } else {
+                //     echo '<script>alert("Error al agregar equipo");</script>';
+                // }
             }
         }
     }

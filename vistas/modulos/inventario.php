@@ -227,21 +227,20 @@
               <textarea class="form-control" id="descripcionEdit" value="<?php echo $equipo["descripcion"]; ?>" name="descripcionEdit" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
             </div>
             <div class="form-row mt-2">
-              <div class="form-group col-lg-6">
-                <label for="ubicacionEdit">Ubicación</label>
+            <div class="form-group col-lg-6">
+                <label for="estadoEdit">Estado</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
                   </div>
                   <?php
-
                   $item = null;
                   $valor = null;
-                  $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
-                  echo '<select class="form-control" id="ubicacionEdit" name="ubicacionEdit" required>';
-                  echo '<option value="' .$equipos["ubicacion_id"]. '">' .$ubicacion["nombre"]. '</option>';
-                  foreach ($ubicaciones as $key => $ubicacion) {
-                    echo '<option value="' . $ubicacion["ubicacion_id"] . '">' . $ubicacion["nombre"] . '</option>';
+                  $estados = ControladorEstados::ctrMostrarEstados($item, $valor);
+                  echo '<select class="form-control" id="estadoEdit" name="estadoEdit" required>';
+                  echo '<option value="">Seleccione un estado</option>';
+                  foreach ($estados as $key => $estado) {
+                    echo '<option value="' . $estado["estado_id"] . '">' . $estado["estado"] . '</option>';
                   }
                   echo '</select>';
                   ?>
@@ -261,27 +260,6 @@
                   echo '<option value="' .$categoria["nombre"]. '">' .$equipos["categoria_id"]. '</option>';
                   foreach ($categorias as $key => $categoria) {
                     echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
-                  }
-                  echo '</select>';
-                  ?>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-lg-12">
-                <label for="estadoEdit">Estado</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
-                  </div>
-                  <?php
-                  $item = null;
-                  $valor = null;
-                  $estados = ControladorEstados::ctrMostrarEstados($item, $valor);
-                  echo '<select class="form-control" id="estadoEdit" name="estadoEdit" required>';
-                  echo '<option value="">Seleccione un estado</option>';
-                  foreach ($estados as $key => $estado) {
-                    echo '<option value="' . $estado["estado_id"] . '">' . $estado["estado"] . '</option>';
                   }
                   echo '</select>';
                   ?>
