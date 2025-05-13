@@ -26,11 +26,10 @@
                 <th>N# Serie</th>
                 <th>Etiqueta</th>
                 <th>Descripción</th>
-                <th>Fecha Ingreso</th>
-                <th>Ubicación id</th>
-                <th>Categoría id</th>
-                <th>Cuentadante id</th>
-                <th>Id Estado</th>
+                <th>Ubicación</th>
+                <th>Categoría</th>
+                <th>Cuentadante</th>
+                <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -47,11 +46,10 @@
                 echo '<td>' . $equipo['numero_serie']    . '</td>';
                 echo '<td>' . $equipo['etiqueta']        . '</td>';
                 echo '<td>' . $equipo['descripcion']     . '</td>';
-                echo '<td>' . $equipo['fecha_entrada']   . '</td>';
-                echo '<td>' . $equipo['ubicacion_id']    . '</td>';
-                echo '<td>' . $equipo['categoria_id']    . '</td>';
-                echo '<td>' . $equipo['id_usuario']      . '</td>';
-                echo '<td>' . $equipo['id_estado']       . '</td>';
+                echo '<td>' . $equipo['ubicacion_nombre']    . '</td>';
+                echo '<td>' . $equipo['categoria_nombre']    . '</td>';
+                echo '<td>' . $equipo['cuentadante_nombre']      . '</td>';
+                echo '<td>' . $equipo['estado_nombre']      . '</td>';
                 // Botón de acciones
                 echo '<td>
                         <div class="btn-group">

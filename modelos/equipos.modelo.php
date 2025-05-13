@@ -13,8 +13,10 @@ class ModeloEquipos{
             e.fecha_entrada,
             u.ubicacion_id,
             c.categoria_id,
+            c.nombre AS categoria_nombre,
             cu.id_usuario,
             e.id_estado,
+            es.estado AS estado_nombre,
             u.nombre AS ubicacion_nombre,
             c.nombre AS categoria_nombre,
             CONCAT_WS(' ',cu.nombre,cu.apellido) AS cuentadante_nombre
@@ -26,6 +28,10 @@ class ModeloEquipos{
             categorias c ON e.categoria_id = c.categoria_id
         LEFT JOIN 
             usuarios cu ON e.cuentadante_id = cu.id_usuario
+        LEFT JOIN
+            estados es ON e.id_estado = es.id_estado
+        -- LEFT JOIN
+            
         WHERE e." . $item . " = :" . $item);
 
             if ($item = "numero_serie" || $item == "etiqueta" || $item == "descripcion") {
@@ -44,6 +50,8 @@ class ModeloEquipos{
             e.fecha_entrada,
             u.ubicacion_id,
             c.categoria_id,
+            c.nombre AS categoria_nombre,
+            es.estado AS estado_nombre,
             cu.id_usuario,
             e.id_estado,
             u.nombre AS ubicacion_nombre,
@@ -55,7 +63,9 @@ class ModeloEquipos{
             ubicaciones u ON e.ubicacion_id = u.ubicacion_id
         LEFT JOIN 
             categorias c ON e.categoria_id = c.categoria_id
-        LEFT JOIN 
+        LEFT JOIN
+            estados es ON e.id_estado = es.id_estado
+        LEFT JOIN
             usuarios cu ON e.cuentadante_id = cu.id_usuario");
             $stmt->execute();
             return $stmt->fetchAll();
