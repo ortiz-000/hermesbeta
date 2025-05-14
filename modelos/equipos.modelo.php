@@ -109,24 +109,26 @@ class ModeloEquipos{
     public static function mdlMostrarDatosCuentadanteTraspaso($tabla, $item, $valor){
         try{
             $stmt = Conexion::conectar()->prepare("SELECT 
-                                                    us.numero_documento,
-                                                    us.nombre AS cuentadante_nombre,
-                                                    e.cuentadante_id,
-                                                    e.ubicacion_id,
-                                                    us.id_usuario,
-                                                    e.equipo_id,
-                                                    ub.nombre AS ubicacion_nombre,  -- ¡Aquí está la ubicación!
-                                                    ur.id_rol
-                                                FROM 
-                                                    $tabla us
-                                                LEFT JOIN 
-                                                    usuario_rol ur ON us.id_usuario = ur.id_usuario
-                                                LEFT JOIN 
-                                                    equipos e ON us.id_usuario = e.cuentadante_id
-                                                LEFT JOIN 
-                                                    ubicaciones ub ON e.ubicacion_id = ub.ubicacion_id
-                                                WHERE 
-                                                    $item = :$item;");
+                                                us.numero_documento,
+                                                us.nombre AS cuentadante_nombre,
+                                                e.cuentadante_id,
+                                                e.ubicacion_id,
+                                                us.id_usuario,
+                                                e.equipo_id,
+                                                ro.nombre_rol,
+                                                ub.nombre AS ubicacion_nombre
+                                            FROM 
+                                                $tabla us
+                                            LEFT JOIN 
+                                                usuario_rol ur ON us.id_usuario = ur.id_usuario
+                                            LEFT JOIN 
+                                                roles ro ON ur.id_rol = ro.id_rol
+                                            LEFT JOIN
+                                                equipos e ON us.id_usuario = e.cuentadante_id
+                                            LEFT JOIN
+                                                ubicaciones ub ON e.ubicacion_id = ub.ubicacion_id
+                                            WHERE 
+                                                $item = :$item;");
             if($item == "id_rol" || $item == "equipo_id"){
                 $stmt -> bindParam(":" . $item, $valor, PDO::PARAM_INT);
             } else {

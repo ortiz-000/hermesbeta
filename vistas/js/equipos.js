@@ -120,7 +120,7 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
         Toast.fire({
             icon: 'info',
             title: 'Por favor ingrese un documento a buscar',
-            position: "bottom-center"
+            position: "center"
         })
         return;
     } else {
@@ -135,18 +135,23 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
             success: function(resultado){
                 const docIngresado = String(buscarDocumentoId).trim();
                 const docEncontrado = String(resultado["numero_documento"] || '').trim();
-                console.log("cuentadante id: ", resultado["id_usuario"]);
+                console.log("rol usuario: ", resultado["nombre_rol"]);
                 if(docIngresado != docEncontrado){
                     Toast.fire({
                         icon: 'error',
                         title: 'No se encontró el documento del cuentadante',
-                        position: "bottom-center"
-                    })
+                        position: "center"
+                    });
+                    $("#buscarDocumentoId").val("");
+                } else if(resultado["nombre_rol"] == "Aprendiz"){
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'No se puede asignar equipo a este documento',
+                        position: "center"
+                    });
                     $("#buscarDocumentoId").val("");
                 } else {
                     console.log("id_usuario: ", resultado["id_usuario"]);
-                    // $("#cuentadanteDestino").val(resultado["cuentadante_nombre"]);
-                    // $("#ubicacionTraspaso").val(resultado["ubicacion_nombre"]);
                     $("#idTraspasoEquipo").val(idEquipoTraspaso);
                     console.log("ESTE ES EL EQUIPO ID AL CUAL VOY A PASAR: ", idEquipoTraspaso);
                     $("#cuentadanteDestinoId").val(resultado["id_usuario"]);
