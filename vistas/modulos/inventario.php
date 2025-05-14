@@ -53,8 +53,9 @@
                 // Botón de acciones
                 echo '<td>
                         <div class="btn-group">
-                          <button title="Editar equipo" class="btn btn-default btn-xs btnEditarEquipo bg-warning" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalEditarEquipo"><i class="fas fa-edit  mr-1 ml-1"></i></button>
-                          <button title="Traspaso equipo" class="btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success" idEquipoTraspaso="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalTraspaso"><i class="fas fa-share mr-1 ml-1"></i></button>
+                          <button title="Editar datos equipo" class="btn btn-default btn-xs btnEditarEquipo bg-warning" idEquipo="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalEditarEquipo"><i class="fas fa-edit  mr-1 ml-1"></i></button>
+                          <button title="Traspaso de cuentadante" class="btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success" idEquipoTraspaso="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalTraspaso"><i class="fas fa-share mr-1 ml-1"></i></button>
+                          <button title="Traspaso de ubicación" class="btn btn-default btn-xs btnTraspasarUbicacion ml-2 bg-info" idEquipoTraspasoUbicacion="' . $equipo["equipo_id"] . '" data-toggle="modal" data-target="#modalTraspasoUbicacion"><i class="fas fa-map-pin mr-1 ml-1"></i></button>
                         </div>
                         </td>';
                 echo '</tr>';
@@ -308,7 +309,7 @@
   </div>
 
   <!-- ========== Start Section ==========
-  MODAL PARA TRASPASO EQUIPO
+  MODAL PARA TRASPASO EQUIPO CUENTADANTE
   ========== End Section ========== -->
 
   <div class="modal fade" id="modalTraspaso">
@@ -349,11 +350,6 @@
               </div>
 
             </div>
-
-            <!-- <div class="form-group col-lg-12">
-              <label for="descripcionEdit">Descripción</label>
-              <textarea class="form-control" id="descripcionEdit" name="descripcionEdit" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
-            </div> -->
 
             <div class="form-row mt-2 d-flex justify-content-lg-center ">
               <!-- ICONO TRASPASO -->
@@ -413,4 +409,75 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- ========== Start Section ==========
+  MODAL PARA TRASPASO EQUIPO UBICACIÓN
+  ========== End Section ========== -->
+
+  <div class="modal fade" id="modalTraspasoUbicacion">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-info">
+          <h4 class="modal-title">Solicitud de traspaso de ubicacion</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            <input type="hidden" id="idTraspasoUbicacion" name="idTraspasoUbicacion">
+
+            <div class="form-row d-flex justify-content-between align-items-center">
+              <!-- INPUT UBICACIÓN ACTUAL -->
+              <div class="form-group col-lg-5">
+                <label for="ubicacionActual">Ubicación actual</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                  </div>
+                  <input type="text" class="form-control" id="ubicacionActual" name="ubicacionActual" readonly>
+                </div>
+              </div>
+
+                <!-- ICONO TRASPASO -->
+                <div class="form-group col-lg-1 mt-4">
+                  <span class="input-group-text p-2"><i class="fas fa-exchange-alt d-flex justify-content-center w-100"></i></span>
+                </div>
+
+                <div class="form-group col-lg-5">
+                  <label for="nuevaUbicacion">Nueva ubicacion</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    </div>
+                    <?php
+
+                    $item = null;
+                    $valor = null;
+                    $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
+                    echo '<select class="form-control" id="nuevaUbicacion" name="nuevaUbicacion" required>';
+                    echo '<option value="">Seleccione una ubicación</option>';
+                    foreach ($ubicaciones as $key => $ubicacion) {
+                      echo '<option value="' . $ubicacion["ubicacion_id"] . '">' . $ubicacion["nombre"] . '</option>';
+                    }
+                    echo '</select>';
+                    ?>
+                  </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal-footer mt-2 justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary">Realizar traspaso</button>
+        </div>
+        <?php
+        //$cuentadantes = ControladorEquipos::ctrRealizarTraspasoCuentadante();
+        ?>
+        </form>
+      </div>
+    </div>
+  </div>
   </div>
