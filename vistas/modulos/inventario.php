@@ -93,7 +93,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="numeroSerie" name="numeroSerie" placeholder="Ej:00ks32.." required>
+                  <input type="text" class="form-control" id="numeroSerie" name="numero_serie" placeholder="Ej:00ks32.." required>
                 </div>
               </div>
               <div class="form-group col-lg-6">
@@ -153,12 +153,17 @@
             <div class="form-row">
               <div class="form-group col-lg-6">
                 <label for="cuentadante_id">Cuentadante</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                  </div>
-                  <input type="text" class="form-control" id="cuentadante_id" name="cuentadante_id" placeholder="Ingrese el cuentadante" required>
-                </div>
+                <?php
+                  $item = null;
+                  $valor = null;
+                  $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+                  echo '<select class="form-control" id="id_usuario" name="id_usuario" required>';
+                  echo '<option value="">Seleccione una ubicación</option>';
+                  foreach ($usuarios as $key => $usuario) {
+                    echo '<option value="' . $usuario["id_usuario"] . '">' . $usuario["nombre"] . '</option>';
+                  }
+                  echo '</select>';
+                  ?>
               </div>
 
               <div class="form-group col-lg-6">
@@ -182,7 +187,7 @@
               </div>
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default">Cerrar</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
             <?php
