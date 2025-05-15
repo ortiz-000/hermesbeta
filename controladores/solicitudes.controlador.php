@@ -8,7 +8,7 @@ class ControladorSolicitudes
         $respuesta = ModeloSolicitudes::mdlMostrarEquiposDisponible($fechaInicio, $fechaFin);
         return $respuesta;
     }
-    
+
     static public function ctrGuardarSolicitud()
     {
         echo "<pre>";
@@ -70,20 +70,33 @@ class ControladorSolicitudes
         return null;
     }
 
-    static public function ctrMostrarSolicitudes($item, $valor){
+    static public function ctrMostrarSolicitudes($item, $valor)
+    {
         $respuesta = ModeloSolicitudes::mdlMostrarSolicitudes($item, $valor);
         return $respuesta;
     }
 
-    static public function ctrMostrarPrestamo($item, $valor){
+    static public function ctrMostrarPrestamo($item, $valor)
+    {
         $respuesta = ModeloSolicitudes::mdlMostrarPrestamo($item, $valor);
         return $respuesta;
     }
 
-    static public function ctrMostrarPrestamoDetalle($item, $valor){
+    static public function ctrMostrarPrestamoDetalle($item, $valor)
+    {
         $respuesta = ModeloSolicitudes::mdlMostrarPrestamoDetalle($item, $valor);
         return $respuesta;
     }
+
+    static public function ctrMostrarHistorial($item, $valor)
+    {
+
+        $tabla = "prestamos";
+        $respuesta = ModeloSolicitudes::mdlMostrarHistorial($tabla, $item, $valor);
+        return $respuesta;
+    }
+
+    
 
 
 

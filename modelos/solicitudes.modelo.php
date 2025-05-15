@@ -2,10 +2,12 @@
 
 require_once "conexion.php";
 
-class ModeloSolicitudes{
+class ModeloSolicitudes
+{
 
-    static public function mdlMostrarEquiposDisponible($fechaInicio, $fechaFin){
-        
+    static public function mdlMostrarEquiposDisponible($fechaInicio, $fechaFin)
+    {
+
         $stmt = Conexion::conectar()->prepare("SELECT e.*,
                                                     c.nombre AS categoria_nombre,
                                                     u.nombre AS ubicacion_nombre,
@@ -33,7 +35,7 @@ class ModeloSolicitudes{
                                                         )
                                                     )
                                                 )"
-                                            );
+        );
 
         $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
         $stmt->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
@@ -50,11 +52,12 @@ class ModeloSolicitudes{
         $stmt = null;
     } // fin del metodo mdlMostrarEquiposDisponible
 
-    static public function mdlGuardarSolicitud($tabla, $datos){
+    static public function mdlGuardarSolicitud($tabla, $datos)
+    {
 
         $conexion = Conexion::conectar();
 
-        try{
+        try {
             $conexion->beginTransaction();
 
             $stmt = $conexion->prepare("INSERT INTO $tabla (usuario_id, tipo_prestamo, fecha_inicio, fecha_fin, estado_prestamo, motivo) VALUES (:usuario_id, :tipo_prestamo, :fechaInicio, :fechaFin, :estado_prestamo, :motivo)");
@@ -67,9 +70,9 @@ class ModeloSolicitudes{
             $stmt->execute();
 
             $idPrestamo = $conexion->lastInsertId();
-           
+
             foreach ($datos["equipos"] as $equipo) {
-                $stmt2 = $conexion->prepare("INSERT INTO detalle_prestamo (id_prestamo, equipo_id, estado) VALUES (:id_prestamo, :equipo_id, 'asignado')" );
+                $stmt2 = $conexion->prepare("INSERT INTO detalle_prestamo (id_prestamo, equipo_id, estado) VALUES (:id_prestamo, :equipo_id, 'asignado')");
                 $stmt2->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
                 $stmt2->bindParam(":equipo_id", $equipo, PDO::PARAM_INT);
                 $stmt2->execute();
@@ -78,33 +81,35 @@ class ModeloSolicitudes{
             $conexion->commit();
             return "ok";
 
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             $conexion->rollBack();
             return "error";
-        }       
-        
+        }
+
     } //metodo mdlGuardarSolicitud
 
-    static public function mdlMostrarSolicitudes($item, $valor){
+    static public function mdlMostrarSolicitudes($item, $valor)
+    {
 
         $stmt = Conexion::conectar()->prepare("SELECT p.*  FROM prestamos p WHERE p.$item = :$item");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
         $stmt->execute();
         //VERIFICAMOS EL TAMAÑO DE LA RESPUESTA
-        if($stmt->rowCount() > 0){
+        if ($stmt->rowCount() > 0) {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }else{
+        } else {
             return "vacio";
         }
 
         $stmt->close();
-        $stmt = null;                                                    
+        $stmt = null;
     }
 
-    static public function mdlMostrarPrestamo($item, $valor){
+    static public function mdlMostrarPrestamo($item, $valor)
+    {
 
         $stmt = Conexion::conectar()->prepare("SELECT p.* FROM prestamos p WHERE p.$item = :$item");
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -114,7 +119,8 @@ class ModeloSolicitudes{
 
     }
 
-    static public function mdlMostrarPrestamoDetalle($item, $valor){
+    static public function mdlMostrarPrestamoDetalle($item, $valor)
+    {
 
         $stmt = Conexion::conectar()->prepare("SELECT dp.*, e.*, u.nombre as ubicacion, c.nombre as categoria
                                                 FROM detalle_prestamo dp 
@@ -123,7 +129,7 @@ class ModeloSolicitudes{
                                                 JOIN categorias c ON e.categoria_id = c.categoria_id
                                                 WHERE dp.$item = :$item");
 
-        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -131,5 +137,26 @@ class ModeloSolicitudes{
         $stmt->close();
         $stmt = null;
     }
+
+    static public function mdlMostrarHistorial($tabla, $item, $valor)
+    {
+        if ($item != null) {
+            // continue;
+            $stmt = Conexion::conectar()->prepare("SELECT *  FROM $tabla WHERE $item = :$item");
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } else {
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt->execute();
+            return $stmt->fetchAll();
+        }
+        $stmt->close();
+        $stmt = null;
+    }
+
+    
+
+
 
 }//ModeloSolicitudes

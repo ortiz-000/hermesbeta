@@ -15,6 +15,7 @@
         public $equipos;
         public $observaciones;
         public $idPrestamo;
+        public $usuario_id;
 
         
         /*=============================================
@@ -73,6 +74,14 @@
             echo json_encode($respuesta);
         }
 
+        public function ajaxHistorial()
+        {
+            $item = "usuario_id";
+            $valor = $this->usuario_id;
+            $respuesta = ControladorSolicitudes::ctrMostrarHistorial($item, $valor);
+            echo json_encode($respuesta);
+        }
+
     }// class AjaxSolicitudes
 
 if (isset($_POST["fechaInicio"]) && isset($_POST["fechaFin"])) {
@@ -116,4 +125,9 @@ if (isset($_POST["idPrestamoDetalle"])){
     $solicitud->ajaxMostrarPrestamoDetalle();    
 }
 
+// if (isset($_POST["idHistorial"])) {
+//     $solicitud = new AjaxSolicitudes();
+//     $solicitud->idHistorial = $_POST["idHistorial"];
+//     $solicitud->ajaxHistorial();
+// }
 

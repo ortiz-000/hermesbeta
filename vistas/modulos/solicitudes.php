@@ -97,6 +97,7 @@
                         <div class="card-body p-10">
 
                             <!-- SOLICITANTE -->
+
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -109,7 +110,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="intput-group">
+                                        <div class="input-group">
                                             <button class="btn btn-primary" id="btnBuscarSolicitante"><i
                                                     class="fas fa-search"></i></button>
                                         </div>
@@ -117,6 +118,7 @@
                                     </div>
                                 </div>
                             </div>
+
 
 
                             <div class="infoEquiposSolicitados d-none">
@@ -217,7 +219,7 @@
                             ============================================= -->
 
                             <form action="" method="POST" id="idFormularioSolicitud">
-                                
+
 
                                 <!-- NOMBRE SOLICITANTE -->
                                 <div class="form-group">
@@ -242,8 +244,8 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control float-right" id="initialDate" name="fechaInicio"
-                                                        value="<?php echo $hoy; ?>">
+                                                    <input type="text" class="form-control float-right" id="initialDate"
+                                                        name="fechaInicio" value="<?php echo $hoy; ?>">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">
                                                             <i class="fas fa-arrow-right"></i>
@@ -258,8 +260,8 @@
                                                             <i class="far fa-calendar-alt"></i>
                                                         </span>
                                                     </div>
-                                                    <input type="text" class="form-control float-right" id="finalDate" name="fechaFin"
-                                                        value="<?php echo $hoy; ?>">
+                                                    <input type="text" class="form-control float-right" id="finalDate"
+                                                        name="fechaFin" value="<?php echo $hoy; ?>">
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
@@ -279,7 +281,8 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <label>Observaciones</label>
-                                                <textarea class="form-control" rows="3" id="observaciones" name="observaciones"></textarea>
+                                                <textarea class="form-control" rows="3" id="observaciones"
+                                                    name="observaciones"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -301,12 +304,12 @@
                         </div>
                         <!-- d-none-->
                         <?php
-                        
-                        
+
+
                         $respuesta = new ControladorSolicitudes();
-                        $respuesta ->ctrGuardarSolicitud();
-                        
-                        
+                        $respuesta->ctrGuardarSolicitud();
+
+
 
                         ?>
 
@@ -425,45 +428,41 @@
                     <table id="tblModalHistoricoSolicitudes" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Solicitud</th>
-                                <th>Fecha</th>
-                                <th>Acciones</th>
+                                
+                                    <th>ID Solicitud</th>
+                                    <th>Solicitud</th>
+                                    <th>Fecha Solicitud</th>
+                                    <th>Acciones</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#detalleSolicitudModal"><i class="fas fa-file-alt"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td><button class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td><button class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td><button class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td><button class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td><button class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></button></td>
-                            </tr>
+
+                            <?php
+                            $item = null;
+                            $valor = null;
+                            $historial = ControladorSolicitudes::ctrMostrarHistorial($item, $valor);
+                            
+                            //$historial = ControladorSolicitudes::ctrMostrarHistorial($item, $valor);
+                            
+
+
+                            foreach ($historial as $key => $value) {
+                                echo '<tr>
+                                <td>' . ($key + 1) . '</td>
+                                 <td>' . $value["tipo_prestamo"] . '</td>
+                                 <td>' . $value["fecha_solicitud"] . '</td>
+                                    
+                                 <td>';
+
+                                echo '<button class="btn btn-primary btn-sm verDetalle" idHistorial="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#detalleSolicitudModal"><i class="fas fa-file-alt"></i></button>';
+
+                                '</tr>';
+                            }
+
+
+                            ?> 
+
                         </tbody>
                     </table>
                 </div>
