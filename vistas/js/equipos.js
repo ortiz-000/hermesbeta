@@ -5,50 +5,80 @@ var idEquipoTraspaso;
 
 // Escuchamos el evento "click" sobre cualquier botón con clase "btnEditarEquipo"
 $(document).on("click", ".btnEditarEquipo", function() {
-    
-    // Obtenemos el valor del atributo personalizado "idEquipo" del botón que se clickeó
     var idEquipo = $(this).attr("idEquipo");
-    console.log("IdEquipo: ", idEquipo); // Mostramos en consola el id para verificar
+    console.log("IdEquipo: ", idEquipo);
     $("#idEditEquipo").val(idEquipo);
-    // Creamos un nuevo objeto FormData para enviar datos tipo formulario
-    var datos = new FormData();
     
-    // Agregamos al FormData el id del equipo con el nombre "idEquipo"
+    var datos = new FormData();
     datos.append("idEquipo", idEquipo);
 
-    // Hacemos una petición AJAX para traer los datos del equipo
     $.ajax({
-        url: "ajax/equipos.ajax.php", // A dónde se enviarán los datos
-        method: "POST",               // Tipo de método (enviamos datos)
-        data: datos,                  // Datos que enviamos (el FormData)
-        cache: false,                 // No queremos que se cachee la respuesta
-        contentType: false,           // No configuramos el tipo de contenido (lo maneja FormData)
-        processData: false,           // No procesamos los datos (lo maneja FormData)
-        dataType: "json",             // Esperamos recibir un JSON como respuesta
-
+        url: "ajax/equipos.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
         success: function(respuesta) {
-            // Mostramos la respuesta en consola para verificar
-            try{
-                if(respuesta){
-                    console.log("datos: ", respuesta);
-                    // Llenamos los campos del formulario del modal con los datos recibidos
-                    // NOTA: ELIMINÉ LOS DATOS QUE YA NO SE IBAN A EDITAR COMO EL NÚMERO SERIE Y UBICACION
-                    $("#idEditEquipo").val(respuesta["equipo_id"]);
-                    $("#etiquetaEdit").val(respuesta["etiqueta"]);
-                    $("#descripcionEdit").val(respuesta["descripcion"]);
-                    $("#categoriaEditId").val(respuesta["categoria_id"]);
-                    $("#cuentadanteIdEdit").val(respuesta["id_estado"]);
-                } else {
-                    console.error("Respuesta inválida del servidor");
-                    alert("Error: La respuesta del servidor no tiene el formato esperado");
+            console.log("Respuesta completa del servidor:", respuesta);
+            
+            try {
+                // Verificar si la respuesta es null o undefined
+                if (!respuesta) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Error: No se recibieron datos del servidor',
+                        position: "bottom-center"
+                    });
+                    return;
                 }
-            } catch(e){
+
+                // Verificar que los campos necesarios existan
+                if (!respuesta.hasOwnProperty("equipo_id") || 
+                    !respuesta.hasOwnProperty("etiqueta") || 
+                    !respuesta.hasOwnProperty("descripcion") || 
+                    !respuesta.hasOwnProperty("categoria_id") || 
+                    !respuesta.hasOwnProperty("id_estado")) {
+                    
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Error: Datos incompletos del servidor',
+                        position: "bottom-center"
+                    });
+                    console.error("Campos faltantes en la respuesta:", respuesta);
+                    return;
+                }
+
+                // Si todo está bien, actualizar los campos
+                $("#idEditEquipo").val(respuesta["equipo_id"]);
+                $("#etiquetaEdit").val(respuesta["etiqueta"]);
+                $("#descripcionEdit").val(respuesta["descripcion"]);
+                $("#categoriaEditId").val(respuesta["categoria_id"]);
+                $("#estadoEdit").val(respuesta["id_estado"]);
+                
+            } catch(e) {
                 console.error("Error al procesar la respuesta:", e);
-                alert("Error al procesar la respuesta del servidor");
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Error al procesar los datos recibidos',
+                    position: "bottom-center"
+                });
             }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la petición AJAX:");
+            console.error("Status:", status);
+            console.error("Error:", error);
+            console.error("Respuesta del servidor:", xhr.responseText);
+            
+            Toast.fire({
+                icon: 'error',
+                title: 'Error en la comunicación con el servidor',
+                position: "bottom-center"
+            });
         }
     });
-
 });
 
 /* ==================================================

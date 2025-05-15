@@ -171,7 +171,6 @@ class ModeloEquipos{
                 etiqueta = :etiquetaEdit,
                 descripcion = :descripcionEdit,
                 categoria_id = :categoriaEdit,
-                cuentadante_id = :cuentadanteIdEdit,
                 id_estado = :estadoEdit
                 WHERE equipo_id = :equipo_id");
                 

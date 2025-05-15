@@ -49,9 +49,8 @@ class ControladorEquipos{
     }
 
     public static function ctrEditarEquipos(){
-        if (isset($_POST["numeroSerieEdit"]) && isset($_POST["etiquetaEdit"]) && isset($_POST["descripcionEdit"]) && isset($_POST["categoriaEditId"]) && isset($_POST["estadoEdit"])) {
-            if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["numeroSerieEdit"]) &&
-            preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["etiquetaEdit"]) &&
+        if (isset($_POST["idEditEquipo"]) && isset($_POST["etiquetaEdit"]) && isset($_POST["descripcionEdit"]) && isset($_POST["categoriaEditId"]) && isset($_POST["estadoEdit"])) {
+            if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["etiquetaEdit"]) &&
             preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["descripcionEdit"])){
                 $tabla = "equipos";
                 $datos = array(
@@ -63,6 +62,7 @@ class ControladorEquipos{
                     "categoriaEdit" => $_POST["categoriaEditId"]
                 );
                 $respuesta = ModeloEquipos::mdlEditarEquipos($tabla, $datos);
+                
                 if ($respuesta == "ok") {
                     echo '<script>
                         Swal.fire({
@@ -90,20 +90,7 @@ class ControladorEquipos{
                         });
                     </script>';
                 }
-            } else {
-                echo '<script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "¡Revisar parametros!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "inventario";
-                        }
-                    });
-                </script>';
-            }
+            } 
             
         }
     }
