@@ -174,15 +174,22 @@ class ModeloEquipos{
     // =====================================
 
     public static function mdlAgregarEquipos($tabla, $datos){
-        if (!in_array($tabla, ['equipos'])) { // Asegura que la tabla es válida
-            return "error: Tabla inválida";
-        }
-    
         try {
-            $pdo = Conexion::conectar();
-            $stmt = $pdo->prepare("
-                INSERT INTO $tabla (numero_serie, etiqueta, descripcion, ubicacion_id, categoria_id, cuentadante_id) 
-                VALUES (:numero_serie, :etiqueta, :descripcion, :ubicacion_id, :categoria_id, :cuentadante_id)");
+            $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla 
+                                                    (numero_serie, 
+                                                    etiqueta, 
+                                                    descripcion, 
+                                                    ubicacion_id, 
+                                                    categoria_id, 
+                                                    cuentadante_id,
+                                                    id_estado) 
+                                                    VALUES (:numero_serie, 
+                                                    :etiqueta, 
+                                                    :descripcion, 
+                                                    :ubicacion_id, 
+                                                    :categoria_id, 
+                                                    :cuentadante_id,
+                                                    :id_estado)");
     
             $stmt->bindParam(":numero_serie", $datos["numero_serie"], PDO::PARAM_STR);
             $stmt->bindParam(":etiqueta", $datos["etiqueta"], PDO::PARAM_STR);
@@ -190,21 +197,21 @@ class ModeloEquipos{
             $stmt->bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
             $stmt->bindParam(":categoria_id", $datos["categoria_id"], PDO::PARAM_INT);
             $stmt->bindParam(":cuentadante_id", $datos["cuentadante_id"], PDO::PARAM_INT);
+            $stmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT);
     
             if ($stmt->execute()) {
                 return "ok";
             } else {
-                return "error en ejecución";
+                // Captura el error y devuélvelo para depuración
+                $errorInfo = $stmt->errorInfo();
+                return "error: " . $errorInfo[2];
             }
         } catch (PDOException $e) {
             error_log("Error en mdlAgregarEquipos: " . $e->getMessage()); // Guardar en log
-            return "error: Problema al insertar";
+            return "error";
         } finally {
-            if (isset($stmt)) {
-                $stmt->closeCursor();
-                $stmt = null;
-            }
-            $pdo = null; // Cerrar conexión
+            $stmt->closeCursor();
+            $stmt = null; // Cerrar conexión
         }
     }
 
