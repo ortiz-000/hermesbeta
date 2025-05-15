@@ -96,6 +96,10 @@ class ControladorSolicitudes
         return $respuesta;
     }
 
+    public static function ctrContarEquiposPorCategoria() {
+        return ModeloSolicitudes::mdlContarEquiposPorCategoria();
+    }
+
     
 
 
