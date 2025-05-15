@@ -75,6 +75,8 @@ class ModeloEquipos{
         $stmt = null;
     } // fin del metodo mdlMostrarEquipos
 
+
+    
     // =====================================
     //     REALIZAR TRASPASO CUENTADANTE
     // =====================================
@@ -105,6 +107,8 @@ class ModeloEquipos{
             $stmt1 = null;
         }
     } // fin del metodo mdlRealizarTraspasoCuentadante
+
+    
 
     public static function mdlMostrarDatosCuentadanteTraspaso($tabla, $item, $valor){
         try{
@@ -162,6 +166,45 @@ class ModeloEquipos{
             return "error";
         } finally {
             $stmt = null;
+        }
+    }
+
+     // =====================================
+    //    AGREGAR EQUIPOS
+    // =====================================
+
+    public static function mdlAgregarEquipos($tabla, $datos){
+        if (!in_array($tabla, ['equipos'])) { // Asegura que la tabla es válida
+            return "error: Tabla inválida";
+        }
+    
+        try {
+            $pdo = Conexion::conectar();
+            $stmt = $pdo->prepare("
+                INSERT INTO $tabla (numero_serie, etiqueta, descripcion, ubicacion_id, categoria_id, cuentadante_id) 
+                VALUES (:numero_serie, :etiqueta, :descripcion, :ubicacion_id, :categoria_id, :cuentadante_id)");
+    
+            $stmt->bindParam(":numero_serie", $datos["numero_serie"], PDO::PARAM_STR);
+            $stmt->bindParam(":etiqueta", $datos["etiqueta"], PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
+            $stmt->bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
+            $stmt->bindParam(":categoria_id", $datos["categoria_id"], PDO::PARAM_INT);
+            $stmt->bindParam(":cuentadante_id", $datos["cuentadante_id"], PDO::PARAM_INT);
+    
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                return "error en ejecución";
+            }
+        } catch (PDOException $e) {
+            error_log("Error en mdlAgregarEquipos: " . $e->getMessage()); // Guardar en log
+            return "error: Problema al insertar";
+        } finally {
+            if (isset($stmt)) {
+                $stmt->closeCursor();
+                $stmt = null;
+            }
+            $pdo = null; // Cerrar conexión
         }
     }
 

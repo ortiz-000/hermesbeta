@@ -85,7 +85,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form method="post">
+        <form method="post" action="">
             <div class="form-row">
               <div class="form-group col-lg-6">
                 <label for="numeroSerie">#Número Serie</label>
@@ -93,7 +93,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="numero_serie" name="numero_serie" placeholder="Ej:00ks32.." required>
+                  <input type="text" class="form-control" id="numeroSerie" name="numeroSerie" placeholder="Ej:00ks32.." required>
                 </div>
               </div>
               <div class="form-group col-lg-6">
@@ -112,39 +112,36 @@
             </div>
             <div class="form-row">
               <div class="form-group col-lg-6">
-                <label for="ubicacionId">Ubicación</label>
+                <label for="ubicacion_id">Ubicación</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                   </div>
                   <?php
-
                   $item = null;
                   $valor = null;
                   $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
-                  echo '<select class="form-control" id="ubicacionId" name="ubicacionId" required>';
+                  echo '<select class="form-control" id="ubicacion_id" name="ubicacion_id" required>';
                   echo '<option value="">Seleccione una ubicación</option>';
                   foreach ($ubicaciones as $key => $ubicacion) {
                     echo '<option value="' . $ubicacion["ubicacion_id"] . '">' . $ubicacion["nombre"] . '</option>';
                   }
                   echo '</select>';
                   ?>
-
                 </div>
               </div>
               <div class="form-group col-lg-6">
-                <label for="categoriaId">Categoría</label>
+                <label for="categoria_id">Categoría</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
                   </div>
                   <?php
-
                   $item = null;
                   $valor = null;
                   $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
-                  echo '<select class="form-control" id="categoriaId" name="categoriaId" required>';
-                  echo '<option value="">Seleccione una categoria</option>';
+                  echo '<select class="form-control" id="categoria_id" name="categoria_id" required>';
+                  echo '<option value="">Seleccione una categoría</option>';
                   foreach ($categorias as $key => $categoria) {
                     echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
                   }
@@ -155,36 +152,31 @@
             </div>
             <div class="form-row">
               <div class="form-group col-lg-12">
-                <label for="cuentadanteId">Cuentadante</label>
+                <label for="cuentadante_id">Cuentadante</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                   </div>
-                  <input type="text" class="form-control" id="cuentadanteId" name="cuentadanteId" placeholder="Ingrese el cuentadante" />
-
-
+                  <input type="text" class="form-control" id="cuentadante_id" name="cuentadante_id" placeholder="Ingrese el cuentadante" required>
                 </div>
               </div>
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-default">Cerrar</button>
               <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
-
             <?php
             $item = null;
             $valor = null;
             ControladorEquipos::ctrAgregarEquipos();
+            var_dump($_POST);
+            exit;
             ?>
-
           </form>
         </div>
       </div>
-      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
   </div>
-  <!-- /.modal -->
 
   <!-- ========== Start Section ==========
   MODAL PARA EDITAR EQUIPO

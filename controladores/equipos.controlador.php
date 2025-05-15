@@ -10,43 +10,60 @@ class ControladorEquipos{
         return $respuesta;
     }
 
-    static public function ctrAgregarEquipos()
-    {
-        if (
-            isset($_POST["numero_serie"]) &&
-            isset($_POST["etiqueta"]) &&
-            isset($_POST["descripcion"]) &&
-            isset($_POST["fecha_entrada"]) &&
-            isset($_POST["ubicacion_id"]) &&
-            isset($_POST["categoria_id"]) &&
-            isset($_POST["cuentadante_id"]) &&
-            isset($_POST["a_cuentadante"]) &&
-            isset($_POST["id_estado"])
-
-        ) {
-
-            if (
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["numero_serie"]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["etiqueta"]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.,() ]+$/', $_POST["descripcion"])
-            ) {
-                $tabla = "equipos";
-
-                $datos = array(
-                    "numeroSerie" => $_POST["numeroSerie"],
-                    "etiqueta" => $_POST["etiqueta"],
-                    "descripcion" => $_POST["descripcion"]
-                );
-
-                // $respuesta = ModeloEquipos::mdlAgregarEquipos($tabla, $datos);
-                // if ($respuesta == "ok") {
-                //     echo '<script>alert("Equipo agregado correctamente");</script>';
-                // } else {
-                //     echo '<script>alert("Error al agregar equipo");</script>';
-                // }
+    static public function ctrAgregarEquipos(){
+        if (!empty($_POST["numero_serie"]) && !empty($_POST["etiqueta"]) && !empty($_POST["descripcion"]) &&
+            !empty($_POST["ubicacion_id"]) && !empty($_POST["categoria_id"]) && !empty($_POST["cuentadante_id"])){ 
+            
+            // Mostrar datos antes de enviarlos al modelo
+            $datos = array(
+                "numero_serie" => $_POST["numero_serie"],
+                "etiqueta" => $_POST["etiqueta"],
+                "descripcion" => $_POST["descripcion"],
+                "ubicacion_id" => $_POST["ubicacion_id"],
+                "categoria_id" => $_POST["categoria_id"],
+                "cuentadante_id" => $_POST["cuentadante_id"]
+            );
+    
+            var_dump($datos);
+            exit;
+    
+            $tabla = "equipos";
+            $respuesta = ModeloEquipos::mdlAgregarEquipos($tabla, $datos);
+    
+            if ($respuesta == "ok") {
+                echo '<script>Swal.fire({
+                    icon: "success",
+                    title: "¡Equipo agregado correctamente!",
+                    confirmButtonText: "Cerrar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "inventario";
+                    }
+                });</script>';
+            } else {
+                echo '<script>Swal.fire({
+                    icon: "error",
+                    title: "¡Error al agregar el equipo!",
+                    confirmButtonText: "Cerrar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "inventario";
+                    }
+                });</script>';
             }
+        } else {
+            echo '<script>Swal.fire({
+                icon: "error",
+                title: "¡Error! Todos los campos son obligatorios",
+                confirmButtonText: "Cerrar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "inventario";
+                }
+            });</script>';
         }
     }
+    // End of ctrAgregarEquipos method
 
     public static function ctrEditarEquipos(){
         if (isset($_POST["numeroSerieEdit"]) && isset($_POST["etiquetaEdit"]) && isset($_POST["descripcionEdit"]) && isset($_POST["categoriaEditId"]) && isset($_POST["estadoEdit"])) {
