@@ -34,10 +34,10 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Cristian Orozco</td>
-                    <td>11/5/2025</td>
-                    <td>18/6/2025</td>
-                    <td>18/6/2025</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>
                       <div class="icheck-primary d-inline mr-2">
                         <input type="checkbox" id="auth1_1">
@@ -53,10 +53,10 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Luis Hernei</td>
-                    <td>11/5/2025</td>
-                    <td>18/6/2025</td>
-                    <td>18/6/2025</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>
                       <div class="icheck-primary d-inline mr-2">
                         <input type="checkbox" id="auth2_1">
