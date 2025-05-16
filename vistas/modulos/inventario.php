@@ -153,14 +153,20 @@
             <div class="form-row">
               <div class="form-group col-lg-6">
                 <label for="cuentadante_id">Cuentadante</label>
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
                 <?php
                   $item = null;
                   $valor = null;
                   $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
-                  echo '<select class="form-control" id="id_usuario" name="id_usuario" required>';
+                  echo '<select class="form-control" id="id_usuario" name="cuentadante_id" required>';
                   echo '<option value="">Seleccione una ubicación</option>';
                   foreach ($usuarios as $key => $usuario) {
-                    echo '<option value="' . $usuario["id_usuario"] . '">' . $usuario["nombre"] . '</option>';
+                    if ($usuario["nombre_rol"] != "Aprendiz")
+                    {
+                      echo '<option value="' . $usuario["id_usuario"] . '">' . $usuario["nombre"] . " ". "(". $usuario["nombre_rol"] .")" . '</option>';
+                    }
                   }
                   echo '</select>';
                   ?>
