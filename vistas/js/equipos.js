@@ -7,7 +7,7 @@ var idEquipoTraspaso;
 $(document).on("click", ".btnEditarEquipo", function() {
     var idEquipo = $(this).attr("idEquipo");
     console.log("IdEquipo: ", idEquipo);
-    $("#idEditEquipo").val(idEquipo);
+    // $("#idEditEquipo").val(idEquipo);
     
     var datos = new FormData();
     datos.append("idEquipo", idEquipo);
@@ -24,59 +24,32 @@ $(document).on("click", ".btnEditarEquipo", function() {
             console.log("Respuesta completa del servidor:", respuesta);
             
             try {
-                // Verificar si la respuesta es null o undefined
-                if (!respuesta) {
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Error: No se recibieron datos del servidor',
-                        position: "bottom-center"
-                    });
-                    return;
-                }
-
-                // Verificar que los campos necesarios existan
-                if (!respuesta.hasOwnProperty("equipo_id") || 
-                    !respuesta.hasOwnProperty("etiqueta") || 
-                    !respuesta.hasOwnProperty("descripcion") || 
-                    !respuesta.hasOwnProperty("categoria_id") || 
-                    !respuesta.hasOwnProperty("id_estado")) {
+                // Verificamos que la respuesta sea válida
+                if (respuesta) {
+                    console.log("datos: ", respuesta);
                     
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Error: Datos incompletos del servidor',
-                        position: "bottom-center"
-                    });
-                    console.error("Campos faltantes en la respuesta:", respuesta);
-                    return;
+                    // Llenamos los campos del formulario del modal con los datos recibidos
+                    $("#idEditEquipo").val(respuesta["equipo_id"]);
+                    $("#numeroSerieEdit").val(respuesta["numero_serie"]);
+                    $("#etiquetaEdit").val(respuesta["etiqueta"]);
+                    $("#descripcionEdit").val(respuesta["descripcion"]);
+                    $("#estadoEdit").val(respuesta["id_estado"]);
+                    $("#categoriaEditId").val(respuesta["categoria_id"]);
+                } else {
+                    console.error("Respuesta inválida del servidor");
+                    alert("Error: La respuesta del servidor no tiene el formato esperado");
                 }
-
-                // Si todo está bien, actualizar los campos
-                $("#idEditEquipo").val(respuesta["equipo_id"]);
-                $("#etiquetaEdit").val(respuesta["etiqueta"]);
-                $("#descripcionEdit").val(respuesta["descripcion"]);
-                $("#categoriaEditId").val(respuesta["categoria_id"]);
-                $("#estadoEdit").val(respuesta["id_estado"]);
-                
-            } catch(e) {
+            } catch (e) {
                 console.error("Error al procesar la respuesta:", e);
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Error al procesar los datos recibidos',
-                    position: "bottom-center"
-                });
+                alert("Error al procesar la respuesta del servidor");
             }
         },
         error: function(xhr, status, error) {
-            console.error("Error en la petición AJAX:");
+            console.error("Error en la petición Ajax:");
             console.error("Status:", status);
             console.error("Error:", error);
-            console.error("Respuesta del servidor:", xhr.responseText);
-            
-            Toast.fire({
-                icon: 'error',
-                title: 'Error en la comunicación con el servidor',
-                position: "bottom-center"
-            });
+            console.error("Respuesta:", xhr.responseText);
+            alert("Error al comunicarse con el servidor. Por favor, intente nuevamente.");
         }
     });
 });

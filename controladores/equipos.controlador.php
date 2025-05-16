@@ -7,6 +7,7 @@ class ControladorEquipos{
         $tabla = "equipos";
         $respuesta = ModeloEquipos::mdlMostrarEquipos($tabla, $item, $valor);
         //var_dump($respuesta[0]);
+        error_log(print_r($respuesta, true));
         return $respuesta;
     }
 

@@ -24,9 +24,10 @@ class AjaxEquipos {
 
         // Llamamos al controlador para obtener los datos del equipo específico
         $respuesta = ControladorEquipos::ctrMostrarEquipos($item, $valor);
-
+        
         // Devolvemos los datos en formato JSON para que el JS los pueda usar
         echo json_encode($respuesta);
+        //error_log(print_r($respuesta, true));
     }
 
     public function ajaxMostrarDatosCuentadanteOrigen(){
