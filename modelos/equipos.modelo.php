@@ -75,6 +75,8 @@ class ModeloEquipos{
         $stmt = null;
     } // fin del metodo mdlMostrarEquipos
 
+
+    
     // =====================================
     //     REALIZAR TRASPASO CUENTADANTE
     // =====================================
@@ -105,6 +107,8 @@ class ModeloEquipos{
             $stmt1 = null;
         }
     } // fin del metodo mdlRealizarTraspasoCuentadante
+
+    
 
     public static function mdlMostrarDatosCuentadanteTraspaso($tabla, $item, $valor){
         try{
@@ -167,9 +171,80 @@ class ModeloEquipos{
         }
     }
 
+     // =====================================
+    //    AGREGAR EQUIPOS
     // =====================================
-    //     AGREGAR EQUIPOS
-    // =====================================
-    public static function mdlAgregarEquipos($tabla, $datos) {} // fin del metodo mdlAgregarEquipos
 
-} // fin de la clase
+    public static function mdlAgregarEquipos($tabla, $datos){
+        try {
+            $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla 
+                                                    (numero_serie, 
+                                                    etiqueta, 
+                                                    descripcion, 
+                                                    ubicacion_id, 
+                                                    categoria_id, 
+                                                    cuentadante_id,
+                                                    id_estado) 
+                                                    VALUES (:numero_serie, 
+                                                    :etiqueta, 
+                                                    :descripcion, 
+                                                    :ubicacion_id, 
+                                                    :categoria_id, 
+                                                    :cuentadante_id,
+                                                    :id_estado)");
+    
+            $stmt->bindParam(":numero_serie", $datos["numero_serie"], PDO::PARAM_STR);
+            $stmt->bindParam(":etiqueta", $datos["etiqueta"], PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
+            $stmt->bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
+            $stmt->bindParam(":categoria_id", $datos["categoria_id"], PDO::PARAM_INT);
+            $stmt->bindParam(":cuentadante_id", $datos["cuentadante_id"], PDO::PARAM_INT);
+            $stmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT);
+    
+            if ($stmt->execute()) {
+                return "ok";
+            } else {
+                // Captura el error y devuélvelo para depuración
+                $errorInfo = $stmt->errorInfo();
+                return "error: " . $errorInfo[2];
+            }
+        } catch (PDOException $e) {
+            error_log("Error en mdlAgregarEquipos: " . $e->getMessage()); // Guardar en log
+            return "error";
+        } finally {
+            $stmt->closeCursor();
+            $stmt = null; // Cerrar conexión
+        }
+    }
+
+    static public function mdlEditarEquipos($tabla, $datos){
+        try{
+            $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET 
+                etiqueta = :etiquetaEdit,
+                descripcion = :descripcionEdit,
+                categoria_id = :categoriaEdit,
+                cuentadante_id = :cuentadanteIdEdit,
+                id_estado = :estadoEdit
+                WHERE equipo_id = :equipo_id");
+                
+            $stmt->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
+            $stmt->bindParam(":etiquetaEdit", $datos["etiquetaEdit"], PDO::PARAM_STR);
+            $stmt->bindParam(":descripcionEdit", $datos["descripcionEdit"], PDO::PARAM_STR);
+            $stmt->bindParam(":categoriaEdit", $datos["categoriaEdit"], PDO::PARAM_INT);
+            $stmt->bindParam(":estadoEdit", $datos["estadoEdit"], PDO::PARAM_INT);
+    
+            if($stmt->execute()){
+                return "ok";
+            } else {
+                return "error";
+            }
+        } catch(PDOException $e){
+            return "error: " . $e->getMessage();
+        } finally {
+            if($stmt){
+                $stmt->closeCursor();
+                $stmt = null;
+            }
+        }
+    }
+}
