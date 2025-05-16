@@ -147,6 +147,51 @@ class ModeloEquipos{
         }
     }
 
+    public static function mdlMostrarUbicacion($tabla, $item, $valor){
+        try{
+            $stmt = Conexion::conectar()->prepare("SELECT ub.ubicacion_id, 
+                                                    ub.nombre AS nombre_ubicacion
+                                                    FROM $tabla e
+                                                    JOIN ubicaciones ub ON e.ubicacion_id = ub.ubicacion_id
+                                                    WHERE $item = :$item");
+            if($item == "nombre_ubicacion"){
+                $stmt -> bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            } else {
+                $stmt -> bindParam(":" . $item, $valor, PDO::PARAM_INT);
+            }
+            $stmt -> execute();
+            return $stmt -> fetch();
+        } catch (Exception $e){
+            error_log("Error al cambiar de cuentadante: " . $e->getMessage());
+        } finally {
+            $stmt = null;
+        }
+    }
+
+    static public function mdlRealizarTraspasoUbicacion($tabla, $datos){
+        try{
+            $stmt = Conexion::conectar()->prepare("UPDATE $tabla 
+                                                    SET ubicacion_id = :ubicacion_id
+                                                    WHERE equipo_id = :equipo_id");
+            
+            $stmt -> bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
+            $stmt -> bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
+
+            if($stmt ->execute()){
+                return "ok";
+            } else {
+                $errorInfo = $stmt -> errorInfo();
+                return "error: " . $errorInfo[2];
+            }
+        } catch (PDOException $e){
+            error_log("Error al cambiar de ubicación: " . $e->getMessage());
+            return "error";
+        } finally {
+            $stmt->closeCursor();
+            $stmt = null;
+        }
+    }
+
     public static function mdlRealizarTraspasoCuentadante($tabla, $datos){
         try{
             $stmt = Conexion::conectar()->prepare("UPDATE $tabla 

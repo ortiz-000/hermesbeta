@@ -426,6 +426,7 @@
             <input type="hidden" id="idTraspasoUbicacion" name="idTraspasoUbicacion">
 
             <div class="form-row d-flex justify-content-between align-items-center">
+
               <!-- INPUT UBICACIÓN ACTUAL -->
               <div class="form-group col-lg-5">
                 <label for="ubicacionActual">Ubicación actual</label>
@@ -471,7 +472,7 @@
           <button type="submit" class="btn btn-primary">Realizar traspaso</button>
         </div>
         <?php
-        //$cuentadantes = ControladorEquipos::ctrRealizarTraspasoCuentadante();
+        $cuentadantes = ControladorEquipos::ctrRealizarTraspasoUbicacion();
         ?>
         </form>
       </div>

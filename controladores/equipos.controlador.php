@@ -144,6 +144,51 @@ class ControladorEquipos{
         return $respuesta;
     }
 
+    public static function ctrMostrarUbicacion($item, $valor){
+        $tabla = "equipos";
+        $respuesta = ModeloEquipos::mdlMostrarUbicacion($tabla, $item, $valor);
+        return $respuesta;
+    }
+
+    public static function ctrRealizarTraspasoUbicacion(){
+        if(isset($_POST["nuevaUbicacion"])){
+            $tabla = "equipos";
+            $datos = array(
+                "equipo_id" => $_POST["idTraspasoUbicacion"],
+                "nuevaUbicacion" => $_POST["nuevaUbicacion"]
+            );
+
+            $respuesta = ModeloEquipos::mdlRealizarTraspasoUbicacion($tabla, $datos);
+            if($respuesta == "ok"){
+                echo '<script>
+                        swal.fire({
+                            icon: "success",
+                            title: "¡Traspaso de ubicación realizado con éxito!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "inventario";
+                            }
+                        });
+                    </script>';
+            } else {
+                echo '<script>
+                        swal.fire({
+                            icon: "error",
+                            title: "¡Traspaso de ubicación fallido!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "inventario";
+                            }
+                        });
+                    </script>';
+            }
+        }
+    }
+
     static public function ctrRealizarTraspasoCuentadante()
     {
         if (isset($_POST["idTraspasoEquipo"]) && isset($_POST["cuentadanteDestinoId"])) {

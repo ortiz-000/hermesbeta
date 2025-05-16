@@ -101,7 +101,7 @@ $(document).on("click", ".btnTraspasarEquipo", function(){
 });
 
 /* ==================================================
-BOTÓN PARA BUSCAR EL CUENTADANTE Y SU UBICACIÓN Y AGREGARLOS EN LOS INPUTS
+BOTÓN PARA BUSCAR EL CUENTADANTE Y AGREGARLO EN EL INPUT
 ================================================== */
 
 $(document).on("click", ".btnBuscarCuentadante", function (event){
@@ -161,4 +161,26 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
             }
         });
     }
+});
+
+$(document).on("click", ".btnTraspasarUbicacion", function() {
+    let idEquipoTraspasoUbicacion = $(this).attr("idEquipoTraspasoUbicacion");
+    console.log(idEquipoTraspasoUbicacion);
+
+    let datos = new FormData();
+    datos.append("idEquipoTraspasoUbicacion", idEquipoTraspasoUbicacion);
+
+    $.ajax({
+        url: "ajax/equipos.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function(resultado){
+                console.log(resultado);
+                $("#ubicacionActual").val(resultado["ubicacion_id"] + " " + resultado["nombre_ubicacion"]);
+            }
+    });
 });
