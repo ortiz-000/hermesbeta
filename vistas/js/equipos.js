@@ -5,50 +5,53 @@ var idEquipoTraspaso;
 
 // Escuchamos el evento "click" sobre cualquier botón con clase "btnEditarEquipo"
 $(document).on("click", ".btnEditarEquipo", function() {
-    
-    // Obtenemos el valor del atributo personalizado "idEquipo" del botón que se clickeó
     var idEquipo = $(this).attr("idEquipo");
-    console.log("IdEquipo: ", idEquipo); // Mostramos en consola el id para verificar
-    $("#idEditEquipo").val(idEquipo);
-    // Creamos un nuevo objeto FormData para enviar datos tipo formulario
-    var datos = new FormData();
+    console.log("IdEquipo: ", idEquipo);
+    // $("#idEditEquipo").val(idEquipo);
     
-    // Agregamos al FormData el id del equipo con el nombre "idEquipo"
+    var datos = new FormData();
     datos.append("idEquipo", idEquipo);
 
-    // Hacemos una petición AJAX para traer los datos del equipo
     $.ajax({
-        url: "ajax/equipos.ajax.php", // A dónde se enviarán los datos
-        method: "POST",               // Tipo de método (enviamos datos)
-        data: datos,                  // Datos que enviamos (el FormData)
-        cache: false,                 // No queremos que se cachee la respuesta
-        contentType: false,           // No configuramos el tipo de contenido (lo maneja FormData)
-        processData: false,           // No procesamos los datos (lo maneja FormData)
-        dataType: "json",             // Esperamos recibir un JSON como respuesta
-
+        url: "ajax/equipos.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
         success: function(respuesta) {
-            // Mostramos la respuesta en consola para verificar
-            try{
-                if(respuesta){
+            console.log("Respuesta completa del servidor:", respuesta);
+            
+            try {
+                // Verificamos que la respuesta sea válida
+                if (respuesta) {
                     console.log("datos: ", respuesta);
+                    
                     // Llenamos los campos del formulario del modal con los datos recibidos
-                    // NOTA: ELIMINÉ LOS DATOS QUE YA NO SE IBAN A EDITAR COMO EL NÚMERO SERIE Y UBICACION
                     $("#idEditEquipo").val(respuesta["equipo_id"]);
+                    $("#numeroSerieEdit").val(respuesta["numero_serie"]);
                     $("#etiquetaEdit").val(respuesta["etiqueta"]);
                     $("#descripcionEdit").val(respuesta["descripcion"]);
+                    $("#estadoEdit").val(respuesta["id_estado"]);
                     $("#categoriaEditId").val(respuesta["categoria_id"]);
-                    $("#cuentadanteIdEdit").val(respuesta["id_estado"]);
                 } else {
                     console.error("Respuesta inválida del servidor");
                     alert("Error: La respuesta del servidor no tiene el formato esperado");
                 }
-            } catch(e){
+            } catch (e) {
                 console.error("Error al procesar la respuesta:", e);
                 alert("Error al procesar la respuesta del servidor");
             }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la petición Ajax:");
+            console.error("Status:", status);
+            console.error("Error:", error);
+            console.error("Respuesta:", xhr.responseText);
+            alert("Error al comunicarse con el servidor. Por favor, intente nuevamente.");
         }
     });
-
 });
 
 /* ==================================================

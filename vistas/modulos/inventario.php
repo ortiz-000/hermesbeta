@@ -281,7 +281,7 @@
                   $valor = null;
                   $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
                   echo '<select class="form-control" id="categoriaEditId" name="categoriaEditId" required>';
-                  echo '<option value="' . $categoria["nombre"] . '">' . $equipos["categoria_id"] . '</option>';
+                  echo '<option value="">Seleccione una categoría</option>';
                   foreach ($categorias as $key => $categoria) {
                     echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
                   }

@@ -18,7 +18,6 @@ class ModeloEquipos{
             e.id_estado,
             es.estado AS estado_nombre,
             u.nombre AS ubicacion_nombre,
-            c.nombre AS categoria_nombre,
             CONCAT_WS(' ',cu.nombre,cu.apellido) AS cuentadante_nombre
         FROM 
             $tabla e
@@ -34,7 +33,7 @@ class ModeloEquipos{
             
         WHERE e." . $item . " = :" . $item);
 
-            if ($item = "numero_serie" || $item == "etiqueta" || $item == "descripcion") {
+            if ($item == "numero_serie" || $item == "etiqueta" || $item == "descripcion" || $item == "categoria_nombre" || $item == "estado_nombre" || $item == "ubicacion_nombre" || $item == "cuentadante_nombre") {
                 $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
             } else {
                 $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
@@ -51,11 +50,10 @@ class ModeloEquipos{
             u.ubicacion_id,
             c.categoria_id,
             c.nombre AS categoria_nombre,
-            es.estado AS estado_nombre,
             cu.id_usuario,
             e.id_estado,
+            es.estado AS estado_nombre,
             u.nombre AS ubicacion_nombre,
-            c.nombre AS categoria_nombre,
             CONCAT_WS(' ',cu.nombre,cu.apellido) AS cuentadante_nombre
         FROM 
             $tabla e
@@ -63,10 +61,10 @@ class ModeloEquipos{
             ubicaciones u ON e.ubicacion_id = u.ubicacion_id
         LEFT JOIN 
             categorias c ON e.categoria_id = c.categoria_id
+        LEFT JOIN 
+            usuarios cu ON e.cuentadante_id = cu.id_usuario
         LEFT JOIN
-            estados es ON e.id_estado = es.id_estado
-        LEFT JOIN
-            usuarios cu ON e.cuentadante_id = cu.id_usuario");
+            estados es ON e.id_estado = es.id_estado");
             $stmt->execute();
             return $stmt->fetchAll();
         }
@@ -268,7 +266,6 @@ class ModeloEquipos{
                 etiqueta = :etiquetaEdit,
                 descripcion = :descripcionEdit,
                 categoria_id = :categoriaEdit,
-                cuentadante_id = :cuentadanteIdEdit,
                 id_estado = :estadoEdit
                 WHERE equipo_id = :equipo_id");
                 
