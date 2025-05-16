@@ -85,18 +85,10 @@
                 <td>' . $usuario["nombre_rol"] . '</td>
                 <td>' . $usuario["codigo"] . '</td>
                 <td>';
-              // botones Estado
             if ($usuario["estado"] == "activo") {
-            echo '<button class="btn btn-success btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="inactivo">Activo</button>';
-            } 
-            elseif ($usuario["estado"] == "inactivo") {
-            echo '<button class="btn btn-danger btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="activo">Inactivo</button>';
-            } 
-            elseif ($usuario["estado"] == "advertido") {
-            echo '<button class="btn btn-warning btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="activo">Advertido</button>';
-            } 
-            elseif ($usuario["estado"] == "penalizado") {
-            echo '<button class="btn btn-secondary btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="activo">Penalizado</button>';
+              echo '<button class="btn btn-success btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="inactivo"">Activo</button>';
+            } else {
+              echo '<button class="btn btn-danger btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="activo">Inactivo</button></td>';
             };
             echo '<td>
                   <div class="btn-group">
@@ -342,19 +334,6 @@
                 </div>
                 <!-- row -->
               </div>
-              
-          <!-- row password  -->
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="input-group ">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                      </div>
-                      <input type="password" class="form-control" name="nuevoPassword" placeholder="Password" required>
-                    </div>
-                  </div>
-                </div>
               <!-- form group -->
               <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
