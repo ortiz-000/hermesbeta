@@ -86,10 +86,10 @@
                 <td>' . $usuario["codigo"] . '</td>
                 <td>';
             if ($usuario["estado"] == "activo") {
-              echo '<button class="btn btn-success btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="inactivo"">Activo</button>';
+              echo '<button class="btn btn-success btn-xs btnActivarUsuario" data-id="' . $usuario["id_usuario"] . '" data-estado="inactivo">Activo</button>';
             } else {
-              echo '<button class="btn btn-danger btn-xs btnActivarUsuario" idSede="' . $usuario["id_usuario"] . '" estadoSede="activo">Inactivo</button></td>';
-            };
+              echo '<button class="btn btn-danger btn-xs btnActivarUsuario" data-id="' . $usuario["id_usuario"] . '" data-estado="activo">Inactivo</button>';
+            }
             echo '<td>
                   <div class="btn-group">
                     <button title="Consultar detalles de usuario" class="btn btn-default btn-xs btnConsultarUsuario" idUsuario="' . $usuario["id_usuario"] . '" data-toggle="modal" data-target="#modalConsularUsuario"><i class="fas fa-eye"></i></button>

@@ -149,6 +149,15 @@ class ModeloUsuarios{
                 }
             }
         }
+        /*=============================================
+        CAMBIAR ESTADO DE USUARIO
+        =============================================*/
+        static public function mdlCambiarEstadoUsuario($id, $estado) {
+            $stmt = Conexion::conectar()->prepare("UPDATE usuarios SET estado = :estado WHERE id_usuario = :id");
+            $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            return $stmt->execute();
+        }
 
 
     
