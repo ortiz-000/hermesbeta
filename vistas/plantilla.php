@@ -100,6 +100,7 @@
           $_GET["ruta"] == "salidas" ||
           $_GET["ruta"] == "reportes" ||
           $_GET["ruta"] == "desactivado" ||
+          $_GET["ruta"] == "auditoria" ||
           $_GET["ruta"] == "salir") {
 
             include "modulos/".$_GET["ruta"].".php";
@@ -126,5 +127,6 @@
   <script src="vistas/js/permisos.js"></script>
   <script src="vistas/js/modulos.js"></script>
   <script src="vistas/js/usuarios.js"></script>
+  <script src="vistas/js/auditoria.js"></script>
 </body>
 </html>
