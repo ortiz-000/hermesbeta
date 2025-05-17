@@ -127,6 +127,76 @@ function previewImage(event) {
     }
 }
 
+// ======================================
+// SCRIPT PARA CONSULTAR USUARIOS
+// ======================================
+$(document).on("click", ".btnConsultarUsuario", function(){
+    var idUsuario = $(this).attr("idUsuario");
+    
+    var datos = new FormData();
+    datos.append("idUsuario", idUsuario);
+
+    $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function(respuesta) {
+            $("#idConsultarUsuario").val(respuesta.id_usuario);
+            $("#consultarNombre").val(respuesta.nombre);
+            $("#consultarApellido").val(respuesta.apellido);
+            $("#consultarTipoDocumento").val(respuesta.tipo_documento);
+            $("#consultarNumeroDocumento").val(respuesta.numero_documento);
+            $("#consultarRol").val(respuesta.nombre_rol);
+            $("#consultarEmail").val(respuesta.correo_electronico);
+            $("#consultarTelefono").val(respuesta.telefono);
+            $("#consultarDireccion").val(respuesta.direccion);
+
+            // Mostrar género si existe
+            if (respuesta.genero !== undefined && respuesta.genero !== null) {
+                let generoTexto = '';
+                switch (parseInt(respuesta.genero)) {
+                    case 1:
+                        generoTexto = 'Femenino';
+                        break;
+                    case 2:
+                        generoTexto = 'Masculino';
+                        break;
+                    case 3:
+                        generoTexto = 'No definido / Prefiere no decir';
+                        break;
+                    case 0:
+                    default:
+                        generoTexto = 'No declara';
+                        break;
+                }
+                $("#consultarGenero").val(generoTexto);
+            } else if (respuesta.genero_texto !== undefined && respuesta.genero_texto !== null) {
+                $("#consultarGenero").val(respuesta.genero_texto);
+            } else {
+                $("#consultarGenero").val('');
+            }
+
+            // Mostrar sede y ficha si el rol es aprendiz 
+            if(respuesta.id_rol == 6) {
+                $("#consultarSedeFicha").removeClass("d-none");
+                $("#consultarSede").val(respuesta.nombre_sede || '');
+
+                // Mostrar ficha 
+                let ficha = respuesta.codigo_ficha || respuesta.codigo || '';
+                let programa = respuesta.nombre_programa || respuesta.descripcion || respuesta.descripcion_ficha || '';
+                $("#consultarFicha").val(ficha && programa ? ficha + " - " + programa : ficha || programa);
+                } else {
+                    $("#consultarSedeFicha").addClass("d-none");
+                    $("#consultarSede").val('');
+                    $("#consultarFicha").val('');
+                }
+        }
+    });
+});
 
 //************************************************************
 // 
