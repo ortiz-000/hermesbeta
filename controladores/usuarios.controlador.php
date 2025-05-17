@@ -49,6 +49,10 @@ class ControladorUsuarios{
         }
     }
 }
+/*=============================================
+cambiar estado de usuario
+=============================================*/
+
 
 static public function ctrCambiarEstadoUsuario($id, $estado) {
     return ModeloUsuarios::mdlCambiarEstadoUsuario($id, $estado);

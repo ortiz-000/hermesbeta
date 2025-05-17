@@ -119,6 +119,162 @@
 
 <!-- ============================================================================================================== -->
 
+  <!-- Modal para Consultar usuario -->
+  <div class="modal fade" id="modalConsularUsuario">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Consultar usuario</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="box-body">
+
+            <form id="formConsultarUsuario" method="POST">
+
+              <input type="hidden" id="idConsultarUsuario" name="idConsultarUsuario" value="">
+
+              <!-- row nombre y apellido -->
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="input-group ">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                      </div>
+                      <input type="text" class="form-control" id="consultarNombre" disabled>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="input-group ">
+                      <input type="text" class="form-control" id="consultarApellido" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- row documento -->
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label>Tipo</label>
+                    <input type="text" class="form-control" id="consultarTipoDocumento" disabled>
+                  </div>
+                  <div class="col-lg-8">
+                    <label>Numero de documento</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="consultarNumeroDocumento" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- row rol -->
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <label>Rol</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                      </div>
+                      <input type="text" class="form-control" id="consultarRol" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- row sede y ficha (solo si es aprendiz) -->
+              <div class="form-group d-none" id="consultarSedeFicha">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label>Sede</label>
+                    <input type="text" class="form-control" id="consultarSede" disabled>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Ficha</label>
+                    <input type="text" class="form-control" id="consultarFicha" disabled>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Espacio antes del row email -->
+              <div class="mb-3"></div>
+
+              <!-- row email -->
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                      </div>
+                      <input type="email" class="form-control" id="consultarEmail" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- row telefono -->
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                      </div>
+                      <input type="tel" class="form-control" id="consultarTelefono" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- row Direccion -->
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                      </div>
+                      <input type="text" class="form-control" id="consultarDireccion" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- row Genero -->
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <label>Género</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-transgender"></i></span>
+                      </div>
+                      <input type="text" class="form-control" id="consultarGenero" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              </div>
+
+            </form>
+        </div> <!-- box-body  -->
+        </div> <!-- modal-body  -->
+
+      </div> <!-- Modal content -->
+    </div> <!-- modal-dialog  -->
+  </div> <!-- modal  -->
+<!-- ============================================================================================================== -->
+
   <!-- Modal para agregar usuario -->
   <div class="modal fade" id="modalRegistrarUsuario">
     <div class="modal-dialog">
