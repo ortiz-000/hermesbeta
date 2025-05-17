@@ -50,6 +50,10 @@ class ControladorUsuarios{
     }
 }
 
+static public function ctrCambiarEstadoUsuario($id, $estado) {
+    return ModeloUsuarios::mdlCambiarEstadoUsuario($id, $estado);
+}
+
     static public function ctrEditarPerfil() {
         if (isset($_POST["editarEmail"])) {
             
