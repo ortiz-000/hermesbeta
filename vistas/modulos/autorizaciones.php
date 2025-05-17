@@ -24,10 +24,10 @@
                 <thead>
                   <tr>
                     <th>Usuario</th>
-                    <th>Fecha solicitud</th>
-                    <th>Fecha de reserva</th>
-                    <th>Fecha de entrega</th>
-                    <th>Estado</th>
+                    <th>Rol Autorizador</th>
+                    <th>Fecha de Autorización</th>
+                    <th>Estado Préstamo</th>
+                    <th>Motivo Rechazo</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -45,12 +45,21 @@
                   
                   $usuario = ControladorUsuarios::ctrMostrarUsuarios($itemUsuario, $valorUsuario);
                   
+                  // Obtener información del rol
+                  $usuarioRol = "id_rol";
+                  $valorRol = $value["id_rol"];
+                  $rol = ControladorRoles::ctrMostrarRoles($usuarioRol, $valorRol);
+                  
+                  // Verificar si los índices existen antes de usarlos
+                  $nombreRol = isset($rol["nombre"]) ? $rol["nombre"] : "No especificado";
+                  $estadoPrestamo = isset($value["estado_prestamo"]) ? $value["estado_prestamo"] : "Pendiente";
+                  
                   echo '<tr>
                           <td>'.$usuario["nombre"].' '.$usuario["apellido"].'</td>
-                          <td>'.$value["fecha_solicitud"].'</td>
-                          <td>'.$value["fecha_reserva"].'</td>
-                          <td>'.$value["fecha_entrega"].'</td>
-                          <td>'.$value["estado"].'</td>
+                          <td>'.$nombreRol.'</td>
+                          <td>'.$value["fecha_autorizacion"].'</td>
+                          <td>'.$estadoPrestamo.'</td>
+                          <td>'.$value["motivo_rechazo"].'</td>
                           <td>
                             <button class="btn btn-info btn-sm btnVerDetalles" data-toggle="modal" data-target="#modalDetalles" 
                               data-id="'.$value["id_autorizacion"].'"
