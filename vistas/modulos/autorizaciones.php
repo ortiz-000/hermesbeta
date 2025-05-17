@@ -114,13 +114,8 @@
 
 <script>
 $(document).ready(function() {
-  // Inicializar DataTable
-  $('#tblAutorizaciones').DataTable({
-    "responsive": true,
-    "lengthChange": false,
-    "autoWidth": false
-  });
-
+  // La inicialización del DataTable ya se maneja en plantilla.js
+  
   // Cargar datos en el modal
   $(document).on("click", ".btnVerDetalles", function(){
     var idAutorizacion = $(this).attr("data-id");
