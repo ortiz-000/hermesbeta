@@ -49,6 +49,68 @@ class ControladorUsuarios{
         }
     }
 }
+/*=============================================
+cambiar estado de usuario
+=============================================*/
+
+    static public function ctrConsultarUsuario() {
+        if(isset($_POST["idUsuario"])) {
+            $item = "id_usuario";
+            $valor = $_POST["idUsuario"];
+            
+            $respuesta = ModeloUsuarios::mdlMostrarUsuarios("usuarios", $item, $valor);
+
+            if ($respuesta && is_array($respuesta)) {
+
+                // Se asigna nombre genero_texto según el valor de genero para no mostrar el número
+                switch($respuesta["genero"]) {
+                    case "1":
+                        $respuesta["genero_texto"] = "Femenino";
+                        break;
+                    case "2":
+                        $respuesta["genero_texto"] = "Masculino";
+                        break;
+                    default:
+                        $respuesta["genero_texto"] = "No declara";
+                }
+
+                // Solamente si es aprendiz(id_rol = 6), obtener datos de sede y ficha
+                if(isset($respuesta["id_rol"]) && $respuesta["id_rol"] == 6) {
+                    // Obtener datos de la sede
+                    if (!empty($respuesta["id_sede"])) {
+                        $sede = ControladorSedes::ctrMostrarSedes("id_sede", $respuesta["id_sede"]);
+                        if ($sede && isset($sede["nombre_sede"])) {
+                            $respuesta["nombre_sede"] = $sede["nombre_sede"];
+                        } else {
+                            $respuesta["nombre_sede"] = "";
+                        }
+                    } else {
+                        $respuesta["nombre_sede"] = "";
+                    }
+
+                    // Obtener datos de la ficha
+                    if (!empty($respuesta["id_ficha"])) {
+                        $ficha = ModeloUsuarios::mdlMostrarFichasSede("fichas", "id_ficha", $respuesta["id_ficha"]);
+                        if($ficha && isset($ficha["codigo"]) && isset($ficha["nombre_programa"])) {
+                            $respuesta["codigo_ficha"] = $ficha["codigo"];
+                            $respuesta["nombre_programa"] = $ficha["nombre_programa"];
+                        } else {
+                            $respuesta["codigo_ficha"] = "";
+                            $respuesta["nombre_programa"] = "";
+                        }
+                    } else {
+                        $respuesta["codigo_ficha"] = "";
+                        $respuesta["nombre_programa"] = "";
+                    }
+                }
+            } else {
+                $respuesta = array("error" => "Usuario no encontrado");
+            }
+
+            echo json_encode($respuesta);
+        }
+    }
+
 
 static public function ctrCambiarEstadoUsuario($id, $estado) {
     return ModeloUsuarios::mdlCambiarEstadoUsuario($id, $estado);
@@ -330,8 +392,8 @@ static public function ctrCambiarEstadoUsuario($id, $estado) {
                     $rutaFoto != "vistas/img/usuarios/default/anonymous.png" &&
                     strpos($rutaFoto, "vistas/img/usuarios/{$numeroDocumentoAnterior}/") !== false) {
                     
-                    // Crear nuevo directorio si no existe
-                    $nuevoDirectorio = "vistas/img/usuarios/{$numeroDocumentoNuevo}";
+                // Crear nuevo directorio si no existe
+                $nuevoDirectorio = "vistas/img/usuarios/{$numeroDocumentoNuevo}";
                     if (!file_exists($nuevoDirectorio)) {
                         mkdir($nuevoDirectorio, 0755, true);
                     }
