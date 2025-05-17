@@ -8,6 +8,7 @@ class AjaxUsuarios
 
     public $sede;
     public $idUsuario;
+    public $item;
 
     public function ajaxFichasSede()
     {
@@ -20,9 +21,9 @@ class AjaxUsuarios
 
     public function ajaxMostrarUsuario()
     {
-        $item = "id_usuario";
+        // $item = "id_usuario";
         $valor = $this->idUsuario;
-        $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+        $respuesta = ControladorUsuarios::ctrMostrarUsuarios($this->item, $valor);
         echo json_encode($respuesta);
     }
 
@@ -38,6 +39,13 @@ if (isset($_POST["sede"])) {
 if (isset($_POST["idUsuario"])) {
     $usuario = new AjaxUsuarios();
     $usuario->idUsuario = $_POST["idUsuario"];
+    $usuario->item = "id_usuario";
     $usuario->ajaxMostrarUsuario();
+} 
 
+if (isset($_POST["idSolicitante"])) {
+    $solicitante = new AjaxUsuarios();
+    $solicitante->idUsuario = $_POST["idSolicitante"];
+    $solicitante->item = "numero_documento";
+    $solicitante->ajaxMostrarUsuario();
 } 
