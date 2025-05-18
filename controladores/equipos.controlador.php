@@ -150,6 +150,12 @@ class ControladorEquipos{
         return $respuesta;
     }
 
+    public static function ctrMostrarUbicacionDestino($item, $valor){
+        $tabla = "equipos";
+        $respuesta = ModeloEquipos::mdlMostrarUbicacionDestino($tabla, $item, $valor);
+        return $respuesta;
+    }
+
     public static function ctrRealizarTraspasoUbicacion(){
         if(isset($_POST["idTraspasoUbicacion"]) && isset($_POST["nuevaUbicacionId"])){
             $tabla = "equipos";
@@ -159,7 +165,8 @@ class ControladorEquipos{
             );
 
             $respuesta = ModeloEquipos::mdlRealizarTraspasoUbicacion($tabla, $datos);
-            // error_log(print_r($respuesta));
+            // var_dump($respuesta);
+            error_log(print_r($respuesta));
             if($respuesta == "ok"){
                 echo '<script>
                         swal.fire({

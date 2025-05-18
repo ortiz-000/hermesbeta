@@ -431,6 +431,7 @@
                     $item = null;
                     $valor = null;
                     $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
+                    // echo '<input type="hidden" id="nueva_ubicacion_id" name="nueva_ubicacion_id">';
                     echo '<select class="form-control" id="nuevaUbicacionId" name="nuevaUbicacionId" required>';
                     echo '<option value="">Seleccione una ubicación</option>';
                     foreach ($ubicaciones as $key => $ubicacion) {

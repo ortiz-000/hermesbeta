@@ -13,6 +13,7 @@ class AjaxEquipos {
     public $idEquipoTraspaso;
     public $buscarDocumentoId;
     public $idEquipoTraspasoUbicacion;
+    public $nuevaUbicacionId;
 
     /* ==================================================
     MÉTODO PARA EDITAR EQUIPO
@@ -51,6 +52,13 @@ class AjaxEquipos {
         echo json_encode($respuesta);
     }
 
+    public function ajaxMostrarDatosUbicacionDestino(){
+        $item = "ubicacion_id";
+        $valor = $this -> nuevaUbicacionId;
+        $respuesta = ControladorEquipos::ctrMostrarUbicacionDestino($item, $valor);
+        error_log(print_r($respuesta, true));
+        echo json_encode($respuesta);
+    }
 }
 
 
@@ -62,6 +70,12 @@ if (isset($_POST["idEquipoTraspasoUbicacion"])) {
     $traspaso = new AjaxEquipos();
     $traspaso -> idEquipoTraspasoUbicacion = $_POST["idEquipoTraspasoUbicacion"];
     $traspaso -> ajaxMostrarDatosUbicacion();
+}
+
+if (isset($_POST["nuevaUbicacionId"])) {
+    $traspaso = new AjaxEquipos();
+    $traspaso -> nuevaUbicacionId = $_POST["nuevaUbicacionId"];
+    $traspaso -> ajaxMostrarDatosUbicacionDestino();
 }
 
 
