@@ -90,7 +90,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form role="form" method="post">
+            <form id="formAutorizacion" role="form" method="post">
               <input type="hidden" id="idAutorizacion" name="idAutorizacion">
               
               <div class="form-group">
@@ -99,20 +99,15 @@
               </div>
 
               <div class="form-group">
-                <label>Motivo de rechazo:</label>
-                <textarea class="form-control" id="motivoRechazo" name="motivoRechazo" rows="3"></textarea>
+                <label for="motivoRechazo">Motivo de rechazo (opcional):</label>
+                <textarea class="form-control" id="motivoRechazo" name="motivoRechazo" rows="3" placeholder="Ingrese el motivo de rechazo si aplica"></textarea>
               </div>
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-success btnAutorizar">Autorizar</button>
-                <button type="submit" class="btn btn-danger btnRechazar">Rechazar</button>
+                <button type="button" class="btn btn-danger btnRechazar">Rechazar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
               </div>
-
-              <?php
-                $actualizarAutorizacion = new ControladorAutorizaciones();
-                $actualizarAutorizacion->ctrActualizarAutorizacion();
-              ?>
             </form>
           </div>
         </div>
@@ -120,3 +115,14 @@
     </div>
   </div>
 </div>
+
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+
+<script src="vistas/js/autorizaciones.js"></script>
