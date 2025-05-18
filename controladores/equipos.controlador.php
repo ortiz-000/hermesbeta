@@ -151,14 +151,15 @@ class ControladorEquipos{
     }
 
     public static function ctrRealizarTraspasoUbicacion(){
-        if(isset($_POST["nuevaUbicacion"])){
+        if(isset($_POST["idTraspasoUbicacion"]) && isset($_POST["nuevaUbicacionId"])){
             $tabla = "equipos";
             $datos = array(
                 "equipo_id" => $_POST["idTraspasoUbicacion"],
-                "nuevaUbicacion" => $_POST["nuevaUbicacion"]
+                "ubicacion_id" => $_POST["nuevaUbicacionId"]
             );
 
             $respuesta = ModeloEquipos::mdlRealizarTraspasoUbicacion($tabla, $datos);
+            // error_log(print_r($respuesta));
             if($respuesta == "ok"){
                 echo '<script>
                         swal.fire({
