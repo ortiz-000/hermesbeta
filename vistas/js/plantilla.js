@@ -3,12 +3,16 @@ window.addEventListener('load', function() {
   initializeDataTable("#tblFichas");
   initializeDataTable("#tblUsuarios");
   initializeDataTable("#tblRoles");
+  initializeDataTable("#tblModalHistoricoSolicitudes");
+  initializeDataTable("#tblMisPrestamosUsuario");
+  
   // initializeDataTable("#tblPermisos");
 });
 
 window.addEventListener('load', function() {
   initializeDataTableSimple("#tblPerGestionEquipos");
   initializeDataTableSimple("#tblPerSolicitudesAutorizaciones");
+  initializeDataTableSimple("#tblActivosSolicitar");
 });
 
 function initializeDataTable(selector) {
@@ -40,10 +44,10 @@ function initializeDataTableSimple(selector) {
   $(selector).DataTable({
     "responsive": true, 
     "ordering": false,
-    "searching": false,
+    "searching": true,
     "autoWidth": false,
     "lengthChange": false,
-    "paging": false,
+    "paging": true,
     "info": false,
     "language": {
       "lengthMenu": "Mostrar _MENU_ registros",
@@ -68,5 +72,7 @@ var Toast = Swal.mixin({
   showConfirmButton: false,
   timer: 2000
 });
+
+$('#reservation').daterangepicker();
 
 
