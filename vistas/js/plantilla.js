@@ -3,6 +3,7 @@ window.addEventListener('load', function() {
   initializeDataTable("#tblFichas");
   initializeDataTable("#tblUsuarios");
   initializeDataTable("#tblRoles");
+  initializeDataTable("#tblAutorizaciones");
   // initializeDataTable("#tblPermisos");
 });
 
