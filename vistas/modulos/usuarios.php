@@ -142,6 +142,24 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+
+        <!-- row foto -->
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <?php
+              // Obtener la id del usuario a consultar
+              $idUsuario = isset($_POST['idConsultarUsuario']) ? $_POST['idConsultarUsuario'] : null;
+              $fotoUsuario = "vistas/img/usuarios/default/anonymous.png";
+              if ($idUsuario) {
+                $usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $idUsuario);
+                if ($usuario && !empty($usuario["foto"])) {
+                  $fotoUsuario = $usuario["foto"];
+                }
+              }
+            ?>
+            <img src="<?php echo $fotoUsuario; ?>" class="img-thumbnail rounded-circle" alt="User Image" id="consultarFotoUsuario" style="width:150px; height:150px; object-fit:cover;">
+          </div>
+        </div>
         
         <div class="modal-body">
           <div class="box-body">
