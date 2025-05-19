@@ -11,7 +11,7 @@ class ModeloDevoluciones
             $stmt = Conexion::conectar()->prepare(
                 "SELECT p.*, u.numero_documento, u.nombre, u.apellido, u.telefono,
                         f.codigo as ficha_codigo,
-                        e.numero_serie, e.etiqueta, e.descripcion as equipo_descripcion,
+                        e.numero_serie, e.etiqueta, e.etiqueta as equipo_descripcion,
                         c.nombre as nombre_categoria, dp.estado as estado_detalle
                  FROM $tabla p
                  JOIN usuarios u ON p.usuario_id = u.id_usuario

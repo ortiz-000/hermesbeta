@@ -38,8 +38,8 @@ $(document).ready(function() {
                             <td>${respuesta.numero_serie || 'No disponible'}</td>
                         </tr>
                         <tr>
-                            <th>Marca:</th>
-                            <td>${respuesta.descripcion || 'No disponible'}</td>
+                            <th>Etiqueta:</th>
+                            <td>${respuesta.etiqueta || 'No disponible'}</td>
                         </tr>
                     `);
                     

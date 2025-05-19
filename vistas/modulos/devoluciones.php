@@ -172,7 +172,7 @@
                           <th style="width: 40%">Serial:</th>
                         </tr>
                         <tr>
-                          <th>Marca:</th>
+                          <th>Etiqueta:</th>
                         </tr>
                       </tbody>
                     </table>
