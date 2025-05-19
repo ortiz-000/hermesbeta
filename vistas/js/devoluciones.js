@@ -35,18 +35,18 @@ $(document).ready(function() {
                     $('.info-equipos').html(`
                         <tr>
                             <th style="width: 40%">Serial:</th>
-                            <td>${respuesta.serial || 'No disponible'}</td>
+                            <td>${respuesta.numero_serie || 'No disponible'}</td>
                         </tr>
                         <tr>
                             <th>Marca:</th>
-                            <td>${respuesta.marca || 'No disponible'}</td>
+                            <td>${respuesta.descripcion || 'No disponible'}</td>
                         </tr>
                     `);
                     
                     $('.info-equipos-2').html(`
                         <tr>
                             <th style="width: 40%">Modelo:</th>
-                            <td>${respuesta.modelo || 'No disponible'}</td>
+                            <td>${respuesta.equipo_descripcion || 'No disponible'}</td>
                         </tr>
                         <tr>
                             <th>Categoría:</th>
@@ -55,7 +55,7 @@ $(document).ready(function() {
                     `);
                     
                     // Habilitar o deshabilitar el botón de devolución según el estado
-                    if(respuesta.estado_prestamo === 'Prestado') {
+                    if(respuesta.tipo_prestamo === 'Inmediato' || respuesta.tipo_prestamo === 'Reservado') {
                         $('.btn-devolver').prop('disabled', false).show();
                         $('.btn-devolver').attr('data-equipo-id', respuesta.id_prestamo);
                     } else {
@@ -68,5 +68,11 @@ $(document).ready(function() {
                 alert("Error al cargar los datos del préstamo");
             }
         });
+    });
+
+    // Cuando se hace clic en el botón de devolución
+    $('.btn-devolver').click(function() {
+        // Por ahora, el botón no hace nada
+        return false;
     });
 });
