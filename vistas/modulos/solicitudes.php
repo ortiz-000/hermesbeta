@@ -23,71 +23,71 @@
             <!-- Info boxes -->
             <div class="row">
 
-                  <div class="col-lg-3 col-6">
-                      <!-- small box -->
-                       <?php
-                        $conteos = ControladorSolicitudes::ctrContarEquiposPorCategoria();
-                        ?>
-                      <div class="small-box bg-info">
-                          <div class="inner">
-                             <h3><?php echo isset($conteos[1]) ? $conteos[1] : 0; ?></h3>
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <?php
+                    $conteos = ControladorSolicitudes::ctrContarEquiposPorCategoria();
+                    ?>
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3><?php echo isset($conteos[1]) ? $conteos[1] : 0; ?></h3>
 
-                              <p>Portátiles</p>
-                          </div>
-                          <div class="icon">
-                              <i class="fas fa-desktop"></i>
-                          </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                      </div>
-                  </div>
+                            <p>Portátiles</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
 
-                  <div class="col-lg-3 col-6">
-                      <!-- small box -->
-                      <div class="small-box bg-info">
-                          <div class="inner">
-                             <h3><?php echo isset($conteos[2]) ? $conteos[2] : 0; ?></h3>
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3><?php echo isset($conteos[2]) ? $conteos[2] : 0; ?></h3>
 
-                              <p>Sonido</p>
-                          </div>
-                          <div class="icon">
-                              <i class="fas fa-volume-up"></i>
-                          </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                      </div>
-                  </div>
+                            <p>Sonido</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
 
-                  <div class="col-lg-3 col-6">
-                      <!-- small box -->
-                      <div class="small-box bg-info">
-                          <div class="inner">
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
                             <h3><?php echo isset($conteos[3]) ? $conteos[3] : 0; ?></h3>
 
-                              <p>Videobeam</p>
-                          </div>
-                          <div class="icon">
-                              <i class="fas fa-video"></i>
-                          </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                      </div>
-                  </div>
+                            <p>Videobeam</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
 
-                  <div class="col-lg-3 col-6">
-                      <!-- small box -->
-                      <div class="small-box bg-info">
-                          <div class="inner">
-                             <h3><?php echo isset($conteos[5]) ? $conteos[5] : 0; ?></h3>
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3><?php echo isset($conteos[5]) ? $conteos[5] : 0; ?></h3>
 
-                              <p>Control remoto</p>
-                          </div>
-                          <div class="icon">
-                              <i class="fas fa-gamepad"></i>
-                          </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                      </div>
-                  </div>
-              </div>
-              <!-- row  -->
-
+                            <p>Control remoto</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- row  -->
+   
             <div class="row">
                 <!-- Left side - Equipos -->
                 <div class="col-md-7">
@@ -100,27 +100,28 @@
                         <div class="card-body p-10">
 
                             <!-- SOLICITANTE -->
-
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="input-group ">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="input-group ">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control" name="NumeroIdSolicitante"
+                                                    id="NumeroIdSolicitante" placeholder="Número" required>
                                             </div>
-                                            <input type="text" class="form-control" name="NumeroIdSolicitante"
-                                                id="NumeroIdSolicitante" placeholder="Número" required>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="input-group">
-                                            <button class="btn btn-primary" id="btnBuscarSolicitante"><i
-                                                    class="fas fa-search"></i></button>
-                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="input-group">
+                                                <button class="btn btn-primary" id="btnBuscarSolicitante"><i
+                                                        class="fas fa-search"></i></button>
+                                            </div>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            
 
 
 
@@ -337,6 +338,7 @@
 
                 </div>
             </div>
+            
             <!-- row  -->
 
 
@@ -431,11 +433,11 @@
                     <table id="tblModalHistoricoSolicitudes" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                
-                                    <th>ID Solicitud</th>
-                                    <th>Solicitud</th>
-                                    <th>Fecha Solicitud</th>
-                                    <th>Acciones</th>
+
+                                <th>ID Solicitud</th>
+                                <th>Solicitud</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Acciones</th>
 
                             </tr>
                         </thead>
@@ -445,7 +447,7 @@
                             $item = null;
                             $valor = null;
                             $historial = ControladorSolicitudes::ctrMostrarHistorial($item, $valor);
-                            
+
                             //$historial = ControladorSolicitudes::ctrMostrarHistorial($item, $valor);
                             
 
@@ -464,7 +466,7 @@
                             }
 
 
-                            ?> 
+                            ?>
 
                         </tbody>
                     </table>

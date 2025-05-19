@@ -1,88 +1,94 @@
 <?php
 
-    include_once "../controladores/solicitudes.controlador.php";
-    include_once "../modelos/solicitudes.modelo.php";
+include_once "../controladores/solicitudes.controlador.php";
+include_once "../modelos/solicitudes.modelo.php";
 
-    include_once "../controladores/equipos.controlador.php";
-    include_once "../modelos/equipos.modelo.php";
+include_once "../controladores/equipos.controlador.php";
+include_once "../modelos/equipos.modelo.php";
 
-    class AjaxSolicitudes
+class AjaxSolicitudes
+{
+    public $fechaInicio;
+    public $fechaFin;
+    public $idEquipoAgregar;
+    public $idSolicitante;
+    public $equipos;
+    public $observaciones;
+    public $idPrestamo;
+    public $usuario_id;
+    public $cedula;
+
+
+    /*=============================================
+        TRAER EQUIPOS DISPONIBLES
+        EN EL RENGO DE FECHAS DE SOLICITUDES
+    =============================================*/
+    public function ajaxMostrarEquiposDisponible()
     {
-        public $fechaInicio;
-        public $fechaFin;
-        public $idEquipoAgregar;
-        public $idSolicitante;
-        public $equipos;
-        public $observaciones;
-        public $idPrestamo;
-        public $usuario_id;
 
-        
-        /*=============================================
-            TRAER EQUIPOS DISPONIBLES
-            EN EL RENGO DE FECHAS DE SOLICITUDES
-        =============================================*/
-        public function ajaxMostrarEquiposDisponible()
-        {
-            
-            $valor1 = $this->fechaInicio;
-            $valor2 = $this->fechaFin;
-            $respuesta = ControladorSolicitudes::ctrMostrarEquiposDisponible($valor1, $valor2);
-            echo json_encode($respuesta);
-        }
+        $valor1 = $this->fechaInicio;
+        $valor2 = $this->fechaFin;
+        $respuesta = ControladorSolicitudes::ctrMostrarEquiposDisponible($valor1, $valor2);
+        echo json_encode($respuesta);
+    }
 
-        public function ajaxTraerEquipo()
-        {
-            $item = "equipo_id";
-            $valor = $this->idEquipoAgregar;
-            $respuesta = ControladorEquipos::crtMostrarEquipos($item, $valor);
-            echo json_encode($respuesta);
-        }
+    public function ajaxTraerEquipo()
+    {
+        $item = "equipo_id";
+        $valor = $this->idEquipoAgregar;
+        $respuesta = ControladorEquipos::crtMostrarEquipos($item, $valor);
+        echo json_encode($respuesta);
+    }
 
-        public function ajaxGuardarSolicitud()
-        {
-            $datos = array(
-                "idSolicitante" => $this->idSolicitante,
-                "equipos" => $this->equipos,
-                "fechaInicio" => $this->fechaInicio,
-                "fechaFin" => $this->fechaFin,
-                "observaciones" => $this->observaciones
-            );
-            $respuesta = ControladorSolicitudes::ctrGuardarSolicitud();
-            echo json_encode($respuesta);
-        }
+    public function ajaxGuardarSolicitud()
+    {
+        $datos = array(
+            "idSolicitante" => $this->idSolicitante,
+            "equipos" => $this->equipos,
+            "fechaInicio" => $this->fechaInicio,
+            "fechaFin" => $this->fechaFin,
+            "observaciones" => $this->observaciones
+        );
+        $respuesta = ControladorSolicitudes::ctrGuardarSolicitud();
+        echo json_encode($respuesta);
+    }
 
-        public function ajaxMostrarSolicitudes()
-        {
-            $item = "usuario_id";
-            $valor = $this->idSolicitante;
-            $respuesta = ControladorSolicitudes::ctrMostrarSolicitudes($item, $valor);
-            echo json_encode($respuesta);
-        }
+    public function ajaxMostrarSolicitudes()
+    {
+        $item = "usuario_id";
+        $valor = $this->idSolicitante;
+        $respuesta = ControladorSolicitudes::ctrMostrarSolicitudes($item, $valor);
+        echo json_encode($respuesta);
+    }
 
-        public function ajaxMostrarPrestamo(){
-            $item = "id_prestamo";
-            $valor = $this->idPrestamo;
-            $respuesta = ControladorSolicitudes::ctrMostrarPrestamo($item, $valor);
-            echo json_encode($respuesta);
-        }
+    public function ajaxMostrarPrestamo()
+    {
+        $item = "id_prestamo";
+        $valor = $this->idPrestamo;
+        $respuesta = ControladorSolicitudes::ctrMostrarPrestamo($item, $valor);
+        echo json_encode($respuesta);
+    }
 
-        public function ajaxMostrarPrestamoDetalle(){
-            $item = "id_prestamo";
-            $valor = $this->idPrestamo;
-            $respuesta = ControladorSolicitudes::ctrMostrarPrestamoDetalle($item, $valor);
-            echo json_encode($respuesta);
-        }
+    public function ajaxMostrarPrestamoDetalle()
+    {
+        $item = "id_prestamo";
+        $valor = $this->idPrestamo;
+        $respuesta = ControladorSolicitudes::ctrMostrarPrestamoDetalle($item, $valor);
+        echo json_encode($respuesta);
+    }
 
-        public function ajaxHistorial()
-        {
-            $item = "usuario_id";
-            $valor = $this->usuario_id;
-            $respuesta = ControladorSolicitudes::ctrMostrarHistorial($item, $valor);
-            echo json_encode($respuesta);
-        }
+    public function ajaxHistorial()
+    {
+        $item = "numero_documento";
+        $valor = $this->cedula;
+        $respuesta = ControladorSolicitudes::ctrMostrarHistorial($item, $valor);
+        echo json_encode($respuesta);
+    }
 
-    }// class AjaxSolicitudes
+
+}
+
+// class AjaxSolicitudes
 
 if (isset($_POST["fechaInicio"]) && isset($_POST["fechaFin"])) {
     $solicitud = new AjaxSolicitudes();
@@ -104,30 +110,31 @@ if (isset($_POST["idSolicitante"]) && isset($_POST["equipos"])) {
     $solicitud->fechaInicio = $_POST["fechaInicio"];
     $solicitud->fechaFin = $_POST["fechaFin"];
     $solicitud->observaciones = $_POST["observaciones"];
-    $solicitud->ajaxGuardarSolicitud();    
+    $solicitud->ajaxGuardarSolicitud();
 }
 
-if (isset($_POST["idUsuario"])){
+if (isset($_POST["idUsuario"])) {
     $solicitud = new AjaxSolicitudes();
     $solicitud->idSolicitante = $_POST["idUsuario"];
     $solicitud->ajaxMostrarSolicitudes();
 }
 
-if (isset($_POST["idPrestamo"])){
+if (isset($_POST["idPrestamo"])) {
     $solicitud = new AjaxSolicitudes();
     $solicitud->idPrestamo = $_POST["idPrestamo"];
-    $solicitud->ajaxMostrarPrestamo();    
-}
-    
-if (isset($_POST["idPrestamoDetalle"])){
-    $solicitud = new AjaxSolicitudes();
-    $solicitud->idPrestamo = $_POST["idPrestamoDetalle"];
-    $solicitud->ajaxMostrarPrestamoDetalle();    
+    $solicitud->ajaxMostrarPrestamo();
 }
 
-// if (isset($_POST["idHistorial"])) {
-//     $solicitud = new AjaxSolicitudes();
-//     $solicitud->idHistorial = $_POST["idHistorial"];
-//     $solicitud->ajaxHistorial();
-// }
+if (isset($_POST["idPrestamoDetalle"])) {
+    $solicitud = new AjaxSolicitudes();
+    $solicitud->idPrestamo = $_POST["idPrestamoDetalle"];
+    $solicitud->ajaxMostrarPrestamoDetalle();
+}
+
+if (isset($_POST["NumeroIdSolicitante"])) {
+    $solicitud = new AjaxSolicitudes();
+    $solicitud->cedula = $_POST["NumeroIdSolicitante"];
+    $solicitud->ajaxHistorial();
+}
+
 
