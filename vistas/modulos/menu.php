@@ -1,52 +1,61 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link">
       <img src="vistas/img/logo.png" alt="Hermes Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Hermes</span>
     </a>
-   <!-- Sidebar -->
-   <div class="sidebar">
-        <!-- Sidebar user  -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <?php
-                // Obtener la foto del usuario desde el controlador
-                $item = "id_usuario";
-                $valor = $_SESSION["id_usuario"] ?? null;
 
-                // Verificar si el id_usuario está definido en la sesión
-                if ($valor) {
-                    $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor); 
-                } else {
-                    $usuario = null;
-                }
-
-                // Validar y asignar la ruta de la foto del usuario
-                $fotoUsuario = isset($usuario["foto"]) && !empty($usuario["foto"]) 
-                    ? $usuario["foto"] 
-                    : 'vistas/img/usuarios/default/anonymous.png';
-                ?>
-                <img src="<?php echo $fotoUsuario; ?>" class="img-circle elevation-2" alt="User Image"
-                    style="cursor: pointer;" data-toggle="modal" data-target="#modalEditarPerfil">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block"><?php echo $_SESSION["nombre"] . " " . $_SESSION["apellido"]; ?></a>
-            </div>
-        </div>
-        <div class="info">
-          <a href="#" class="d-block"><?php echo $_SESSION["nombre"] . " " . $_SESSION["apellido"] ?></a>
-          <a href="#" class="d-block"><?php echo $_SESSION["nombre_rol"] ?></a>
-        </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user (optional) -->
+      <div class="user-panel mt-4 pb-3 mb-3 d-flex flex-column align-items-center">
+      <div class="image mb-2">
+      <?php
+      // Obtener la foto del usuario desde el controlador
+      $item = "id_usuario";
+      $valor = $_SESSION["id_usuario"] ?? null;
+      // Verificar si el id_usuario está definido en la sesión
+      if ($valor) {
+        $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor); 
+      } else {
+        $usuario = null;
+      }
+      // Validar y asignar la ruta de la foto del usuario
+      $fotoUsuario = isset($usuario["foto"]) && !empty($usuario["foto"]) 
+        ? $usuario["foto"] 
+        : 'vistas/img/usuarios/default/anonymous.png';
+      ?>
+      <img src="<?php echo $fotoUsuario; ?>" 
+        class="img-circle elevation-2" 
+        alt="User Image"
+        style="width: 45px; height: 45px; object-fit: cover; cursor: pointer; border: 2px solid #fff;"
+        data-toggle="modal" data-target="#modalEditarPerfil">
+      </div>
+      <div class="info text-center">
+      <a href="#" class="d-block font-weight-bold" style="font-size: 1.1rem;"><?php echo $_SESSION["nombre"] . " " . $_SESSION["apellido"] ?></a>
+      <a href="#" class="d-block text-muted" style="font-size: 0.95rem;"><?php echo $_SESSION["nombre_rol"] ?></a>
+      </div>
       </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
           <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+              with font-awesome or any other icon font library -->
 
           <!-- si el usuario tiene algun id_permiso entre 1 y 6 puede ver la opcion de administrar en el menu de lo contrario no -->
+          
+          
+          <li class="nav-item">
+            <a href="inicio" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              <p>
+                Inicio
+              </p>
+            </a>
+          </li>
+          
           <?php
 
           if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
@@ -59,6 +68,7 @@
                       </p>
                     </a>
                     <ul class="nav nav-treeview">';
+                    
 
           if (ControladorValidacion::validarPermisoSesion([22])) {
                       echo '<li class="nav-item">
@@ -67,7 +77,8 @@
                           <p>Fichas</p>
                         </a>
                       </li>';}
-
+     
+                    
 
           if (ControladorValidacion::validarPermisoSesion([23, 24, 25])) {
                       echo '<li class="nav-item">
@@ -101,24 +112,11 @@
                         </a>        
                       </li>' ;}                 
                       
-                   echo '</ul>
+                  echo '</ul>
                   </li>';
           }
-          ?>
-
-
-
-          <li class="nav-item">
-            <a href="inicio" class="nav-link">
-              <i class="nav-icon fas fa-home"></i>
-              <p>
-                Inicio
-              </p>
-            </a>
-          </li>
-
-
-          <li class="nav-item">
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
@@ -133,20 +131,13 @@
                   <p>Usuarios</p>
                 </a>
               </li>
-              <!-- <li class="nav-item">
-                <a href="permisos" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Permisos</p>
-                </a>
-              </li> -->
-            </ul>
-
-
-          <li class="nav-item">
+              </ul>';}
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo'
+            <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-laptop"></i>
-              <p>
-                Equipos
+              <p>Equipos
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -163,7 +154,81 @@
                   <p>Recepción</p>
                 </a>
               </li>
-            </ul>
+            </ul>';
+          }
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
+            <a href="consultar-solicitudes" class="nav-link">
+              <i class="nav-icon fas fa-reply"></i>
+              <span class="badge badge-info right">6+</span>
+              <p>
+                Consultar
+              </p>
+            </a>
+          </li>        
+          ';
+          }
+          
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+                      echo '<li class="nav-item">
+                      <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-check"></i>
+                        <p>
+                          Autorizar
+                          <i class="right fas fa-angle-left"></i>
+                        </p>
+                      </a>
+                      <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                          <a href="autorizaciones" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Autorizaciones</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="vencidas" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Solicitudes vencidas</p>
+                          </a>
+                        </li>
+                      </ul>';
+                    }
+          
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
+            <a href="devoluciones" class="nav-link">
+              <i class="nav-icon fas fa-reply"></i>
+              <span class="badge badge-info right">6+</span>
+              <p>
+                Devoluciones
+              </p>
+            </a>
+          </li>';
+          }
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
+            <a href="salidas" class="nav-link">
+              <i class="nav-icon fas fa-eye"></i>
+              <span class="badge badge-info right">3+</span>
+              <p>
+                Salidas
+              </p>
+            </a>
+          </li>';
+          }
+
+
+                
+          ?>
+          
+
+            
+          
+
+          
+
+          
+                
 
           <li class="nav-item">
             <a href="solicitudes" class="nav-link">
@@ -175,48 +240,21 @@
             </a>
           </li>
 
+          
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-check"></i>
-              <p>
-                Autorizar
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="autorizaciones" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Autorizaciones</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="vencidas" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Solicitudes vencidas</p>
-                </a>
-              </li>
-            </ul>
-
-          <li class="nav-item">
-            <a href="devoluciones" class="nav-link">
+            <a href="mis-solicitudes" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
               <span class="badge badge-info right">6+</span>
               <p>
-                Devoluciones
+                Mis solicitudes
               </p>
             </a>
-          </li>
+          </li>              
 
-          <li class="nav-item">
-            <a href="salidas" class="nav-link">
-              <i class="nav-icon fas fa-eye"></i>
-              <span class="badge badge-info right">3+</span>
-              <p>
-                Salidas
-              </p>
-            </a>
-          </li>
+          
+          
+
+          
 
           <li class="nav-item">
             <a href="reportes" class="nav-link">
@@ -227,13 +265,11 @@
             </a>
           </li>
 
-
         </ul>
       </nav>
   </aside>
 
-
-<!-- Modal para Editar Perfil -->
+  <!-- Modal para Editar Perfil -->
 <div class="modal fade" id="modalEditarPerfil">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -330,7 +366,7 @@
                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
               </div>
               <input type="email" class="form-control" name="editarEmail" 
-                     value="<?php echo $usuario['correo_electronico']; ?>" required>
+                    value="<?php echo $usuario['correo_electronico']; ?>" required>
             </div>
           </div>
 
@@ -342,7 +378,7 @@
                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
               </div>
               <input type="tel" class="form-control" name="editarTelefono" 
-                     value="<?php echo $usuario['telefono']; ?>" required>
+                    value="<?php echo $usuario['telefono']; ?>" required>
             </div>
           </div>
 
@@ -354,7 +390,7 @@
                 <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
               </div>
               <input type="text" class="form-control" name="editarDireccion" 
-                     value="<?php echo $usuario['direccion']; ?>" required>
+                    value="<?php echo $usuario['direccion']; ?>" required>
             </div>
           </div>
 

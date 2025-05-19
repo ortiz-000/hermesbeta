@@ -149,47 +149,50 @@ class ModeloUsuarios{
                 }
             }
         }
+        /*=============================================
+        CAMBIAR ESTADO DE USUARIO
+        =============================================*/
+        static public function mdlCambiarEstadoUsuario($id, $estado) {
+            $stmt = Conexion::conectar()->prepare("UPDATE usuarios SET estado = :estado WHERE id_usuario = :id");
+            $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            return $stmt->execute();
+        }
 
 
+    
+       static public function mdlEditarUsuario($tabla, $datos){
 
-    static public function mdlEditarUsuario($tabla, $datos){
+        error_log("Consulta SQL: UPDATE $tabla SET tipo_documento = {$datos['tipo_documento']}, numero_documento = {$datos['numero_documento']}, nombre = {$datos['nombre']}, apellido = {$datos['apellido']}, correo_electronico = {$datos['correo_electronico']}, telefono = {$datos['telefono']}, direccion = {$datos['direccion']}, genero = {$datos['genero']} WHERE id_usuario = {$datos['id_usuario']}");
+
         try{        
             //iniciar la transacción
             $conexion = Conexion::conectar();
             $conexion->beginTransaction();
     
-            $stmt1 = $conexion->prepare("UPDATE $tabla SET 
-                tipo_documento = :tipo_documento, 
-                numero_documento = :numero_documento, 
-                nombre = :nombre, 
-                apellido = :apellido, 
-                correo_electronico = :correo_electronico, 
-                telefono = :telefono, 
-                direccion = :direccion, 
-                genero = :genero,
-                foto = :foto 
-                WHERE id_usuario = :id_usuario");
-    
-            $stmt1->bindParam(":tipo_documento", $datos["tipo_documento"], PDO::PARAM_STR);
-            $stmt1->bindParam(":numero_documento", $datos["numero_documento"], PDO::PARAM_STR);
-            $stmt1->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-            $stmt1->bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
-            $stmt1->bindParam(":correo_electronico", $datos["correo_electronico"], PDO::PARAM_STR);
-            $stmt1->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
-            $stmt1->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-            $stmt1->bindParam(":genero", $datos["genero"], PDO::PARAM_INT);
-            $stmt1->bindParam(":foto", $datos["foto"], PDO::PARAM_STR); 
-            $stmt1->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
-            $stmt1->execute();
+            $stmt1 = $conexion->prepare("UPDATE $tabla SET tipo_documento = :tipo_documento, numero_documento = :numero_documento, nombre = :nombre, apellido = :apellido, correo_electronico = :correo_electronico, telefono = :telefono, direccion = :direccion, genero = :genero, foto = :foto WHERE id_usuario = :id_usuario");
+
+            $stmt1 -> bindParam(":tipo_documento", $datos["tipo_documento"], PDO::PARAM_STR);
+            $stmt1 -> bindParam(":numero_documento", $datos["numero_documento"], PDO::PARAM_STR);
+            $stmt1 -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+            $stmt1 -> bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
+            $stmt1 -> bindParam(":correo_electronico", $datos["correo_electronico"], PDO::PARAM_STR);
+            $stmt1 -> bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+            $stmt1 -> bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+            $stmt1 -> bindParam(":genero", $datos["genero"], PDO::PARAM_INT);
+            $stmt1 -> bindParam(":genero", $datos["genero"], PDO::PARAM_INT);
+            $stmt1 -> bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+            $stmt1 -> bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+            $stmt1 -> execute();
     
             //capturar los datos del rol y la ficha anteriores y nuevos
             $rolOriginal = $datos["idRolOriginal"];
             $fichaOriginal = $datos["idFichaOriginal"];
             $rolNuevo = $datos["id_rol"];
             $fichaNueva = $datos["id_ficha"];
-    
+
             error_log("Rol original: $rolOriginal, Rol nuevo: $rolNuevo, Ficha original: $fichaOriginal, Ficha nueva: $fichaNueva");
-    
+
             // Si el rol ha cambiado, actualiza la tabla usuario_rol
             if ($rolOriginal != $rolNuevo) {
                 $stmt2 = $conexion->prepare("UPDATE usuario_rol SET id_rol = :id_rol WHERE id_usuario = :id_usuario");
@@ -197,14 +200,14 @@ class ModeloUsuarios{
                 $stmt2->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
                 $stmt2->execute();
             }
-    
+
             // Si el rol era aprendiz y ha cambiado a otro rol, elimina la relación de la tabla aprendices_ficha
             if ($rolOriginal == 6 && $rolNuevo != 6) {
                 $stmt3 = $conexion->prepare("DELETE FROM aprendices_ficha WHERE id_usuario = :id_usuario");
                 $stmt3->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
                 $stmt3->execute();
             }
-    
+
             // Si el rol anterior no era aprendiz y el nuevo rol es aprendiz, inserta en la tabla aprendices_ficha
             if ($rolOriginal != 6 && $rolNuevo == 6) {
                 $stmt4 = $conexion->prepare("INSERT INTO aprendices_ficha(id_usuario, id_ficha) VALUES (:id_usuario, :id_ficha)");
@@ -212,7 +215,7 @@ class ModeloUsuarios{
                 $stmt4->bindParam(":id_ficha", $fichaNueva, PDO::PARAM_INT);
                 $stmt4->execute();
             }
-    
+
             // Si el rol sigue siendo aprendiz pero la ficha ha cambiado, actualiza la tabla aprendices_ficha
             if ($rolNuevo == 6 && $fichaOriginal != $fichaNueva) {
                 $stmt5 = $conexion->prepare("UPDATE aprendices_ficha SET id_ficha = :id_ficha WHERE id_usuario = :id_usuario");
@@ -220,8 +223,8 @@ class ModeloUsuarios{
                 $stmt5->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
                 $stmt5->execute();
             }
-    
-              // Confirmar transacción
+
+            // Confirmar transacción
             $conexion->commit();
             return "ok";
         }  catch (Exception $e) {
@@ -236,4 +239,3 @@ class ModeloUsuarios{
     }
 
 }
-
