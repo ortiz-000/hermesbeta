@@ -62,6 +62,7 @@
               <!-- Solo si es estudiante -->
               <th>Estado</th>
               <!-- <th>Ultimo Acceso</th> -->
+              <th>Condición</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -90,6 +91,18 @@
             } else {
               echo '<button class="btn btn-danger btn-xs btnActivarUsuario" data-id="' . $usuario["id_usuario"] . '" data-estado="activo">Inactivo</button>';
             }
+            echo '</td>';
+            echo '<td>';
+            if ($usuario["condicion"] == "en_regla") {
+            echo '<button class="btn btn-success btn-xs btnCambiarCondicionUsuario" idUsuario="' . $usuario["id_usuario"] . '" condicionUsuario="advertido">En regla</button>';
+            } 
+            elseif ($usuario["condicion"] == "advertido") {
+            echo '<button class="btn btn-warning btn-xs btnCambiarCondicionUsuario" idUsuario="' . $usuario["id_usuario"] . '" condicionUsuario="penalizado">Advertido</button>';
+            } 
+            elseif ($usuario["condicion"] == "penalizado") {
+            echo '<button class="btn btn-danger btn-xs btnCambiarCondicionUsuario" idUsuario="' . $usuario["id_usuario"] . '" condicionUsuario="en_regla">Penalizado</button>';
+            } 
+            echo '</td>';
             echo '<td>
                   <div class="btn-group">
                     <button title="Consultar detalles de usuario" class="btn btn-default btn-xs btnConsultarUsuario" idUsuario="' . $usuario["id_usuario"] . '" data-toggle="modal" data-target="#modalConsularUsuario"><i class="fas fa-eye"></i></button>
