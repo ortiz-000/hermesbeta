@@ -171,18 +171,16 @@
                       </tbody>
                     </table>
                   </div>
+                  <!-- Botón de devolución para cada equipo -->
+                  <div class="col-12 text-center mt-3">
+                    <button type="button" class="btn btn-success btn-devolver" data-equipo-id="">
+                      <i class="fas fa-check-circle mr-2"></i>Marcar como Devuelto
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Botones de Acción -->
-        <div class="text-center mt-4">
-          <input type="hidden" id="tipoPrestamo" value="">
-          <input type="hidden" id="equipoId" value="">
-          <button type="button" class="btn btn-success btn-lg" id="btnBuenEstado" data-toggle="modal" data-target="#modalBuenEstado">
-            <i class="fas fa-check-circle mr-2"></i>Marcar Devolucion
-          </button>
         </div>
       </div>
       <div class="modal-footer">
