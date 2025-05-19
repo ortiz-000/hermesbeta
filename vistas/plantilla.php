@@ -2,7 +2,6 @@
   session_start();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +31,7 @@
     <script src="vistas/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     
     <!-- DataTables  & Plugins  -->
+    <script src="vistas/js/devoluciones.js"></script>
     <script src="vistas/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="vistas/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="vistas/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -113,9 +113,6 @@
     include "modulos/login.php";
   }
     ?>
-
-
-
 
   <script src="vistas/js/plantilla.js"></script>
   <script src="vistas/js/sedes.js"></script>
