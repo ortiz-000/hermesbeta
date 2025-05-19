@@ -10,7 +10,6 @@ class AjaxAutorizaciones
     =============================================*/
     public $idAutorizacion;
     public $estado;
-    public $motivoRechazo;
 
     /*=============================================
     MOSTRAR DETALLES DE AUTORIZACIÓN
@@ -31,8 +30,7 @@ class AjaxAutorizaciones
     {
         $datos = array(
             "id_autorizacion" => $this->idAutorizacion,
-            "estado" => $this->estado,
-            "motivo_rechazo" => $this->motivoRechazo
+            "estado" => $this->estado
         );
 
         $controlador = new ControladorAutorizaciones();
@@ -57,6 +55,5 @@ if (isset($_POST["idAutorizacion"]) && isset($_POST["estado"])) {
     $actualizar = new AjaxAutorizaciones();
     $actualizar->idAutorizacion = $_POST["idAutorizacion"];
     $actualizar->estado = $_POST["estado"];
-    $actualizar->motivoRechazo = isset($_POST["motivoRechazo"]) ? $_POST["motivoRechazo"] : "";
     $actualizar->ajaxActualizarAutorizacion();
 }
