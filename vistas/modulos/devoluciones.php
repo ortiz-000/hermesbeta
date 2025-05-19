@@ -37,13 +37,13 @@
                 </thead>
                 <tbody>
                   <?php
-                  
+
                   $item = null;
                   $valor = null;
                   $devoluciones = ControladorDevoluciones::ctrMostrarDevoluciones($item, $valor);
 
                   foreach ($devoluciones as $key => $value) {
-                  echo '
+                    echo '
                     <tr>
                       <td>' . ($key + 1) . '</td>
                       <td>' . $value["numero_documento"] . '</td>
@@ -55,18 +55,18 @@
                       <td>' . $value["estado_prestamo"] . '</td>
                       <td>
                         <div class="btn-group">';
-                          if ($value["estado_prestamo"] == "Inmediato") {
-                            echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerUsuarioReservado">
+                    if ($value["estado_prestamo"] == "Inmediato") {
+                      echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerUsuarioInmediato">
                                     <i class="fas fa-eye"></i> Ver
                                   </button>';
-                          } else {
-                            echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id-reservado="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerUsuarioInmediato">
+                    } else {
+                      echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id-reservado="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerUsuarioReservado">
                                     <i class="fas fa-eye"></i> Ver
                                   </button>';
-                          }
-                  echo '</div>
+                    }
+                    echo '</div>
                       </td>
-                    </tr>'; 
+                    </tr>';
                   }
                   ?>
                 </tbody>
@@ -80,7 +80,7 @@
 </div>
 
 <!-- Modal Ver Usuario -->
-<div class="modal fade" id="modalVerUsuarioInmediato" tabindex="-1" role="dialog" aria-labelledby="modalVerUsuarioLabel" aria-hidden="true">
+<div class="modal fade" id="modalVerUsuarioReservado" tabindex="-1" role="dialog" aria-labelledby="modalVerUsuarioLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header bg-info">
@@ -97,7 +97,7 @@
             <h4 id="userName">Nombre del Usuario</h4>
             <p class="text-muted" id="userRol">Rol</p>
           </div>
-          
+
           <!-- Detalles del Préstamo -->
           <div class="col-md-8">
             <div class="card card-outline card-info">
@@ -108,34 +108,56 @@
                 <div class="row">
                   <div class="col-md-6">
                     <table class="table table-sm">
-                      <tr>
-                        <th style="width: 40%">Identificación:</th>
-                      </tr>
-                      <tr>
-                        <th>Ficha:</th>
-                      </tr>
-                      <tr>
-                        <th>Tipo de Préstamo:</th>
-                      </tr>
+                      <tbody class="info-prestamo">
+                        <tr>
+                          <th style="width: 40%">Identificación:</th>
+                          <td><span id="prestamoIdentificacion"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Nombre:</th>
+                          <td><span id="prestamoNombre"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Apellido:</th>
+                          <td><span id="prestamoApellido"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Teléfono:</th>
+                          <td><span id="prestamoTelefono"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Ficha:</th>
+                          <td><span id="prestamoFicha"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Tipo de Préstamo:</th>
+                          <td><span id="prestamoTipo"></span></td>
+                        </tr>
+                      </tbody>
                     </table>
                   </div>
                   <div class="col-md-6">
                     <table class="table table-sm">
-                      <tr>
-                        <th style="width: 40%">Fecha de Inicio:</th>
-                      </tr>
-                      <tr>
-                        <th>Fecha de Devolución:</th>
-                      </tr>
-                      <tr>
-                        <th>Estado:</th>
-                      </tr>
+                      <tbody class="info-prestamo-2">
+                        <tr>
+                          <th style="width: 40%">Fecha de Inicio:</th>
+                          <td><span id="prestamoFechaInicio"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Fecha de Devolución:</th>
+                          <td><span id="prestamoFechaFin"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Estado:</th>
+                          <td><span id="prestamoEstado"></span></td>
+                        </tr>
+                      </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <!-- Detalles del Equipo -->
             <div class="card card-outline card-success">
               <div class="card-header">
@@ -145,36 +167,38 @@
                 <div class="row">
                   <div class="col-md-6">
                     <table class="table table-sm">
-                      <tr>
-                        <th style="width: 40%">Serial:</th>
-                      </tr>
-                      <tr>
-                        <th>Marca:</th>
-                      </tr>
+                      <tbody class="info-equipos">
+                        <tr>
+                          <th style="width: 40%">Serial:</th>
+                        </tr>
+                        <tr>
+                          <th>Marca:</th>
+                        </tr>
+                      </tbody>
                     </table>
                   </div>
                   <div class="col-md-6">
                     <table class="table table-sm">
-                      <tr>
-                        <th style="width: 40%">Modelo:</th>
-                      </tr>
-                      <tr>
-                        <th>Categoría:</th>
-                      </tr>
+                      <tbody class="info-equipos-2">
+                        <tr>
+                          <th style="width: 40%">Modelo:</th>
+                        </tr>
+                        <tr>
+                          <th>Categoría:</th>
+                        </tr>
+                      </tbody>
                     </table>
+                  </div>
+                  <!-- Botón de devolución para cada equipo -->
+                  <div class="col-12 text-center mt-3">
+                    <button type="button" class="btn btn-success btn-devolver" data-equipo-id="">
+                      <i class="fas fa-check-circle mr-2"></i>Marcar como Devuelto
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Botones de Acción -->
-        <div class="text-center mt-4">
-          <input type="hidden" id="tipoPrestamo" value="">
-          <input type="hidden" id="equipoId" value="">
-          <button type="button" class="btn btn-success btn-lg" id="btnBuenEstado" data-toggle="modal" data-target="#modalBuenEstado">
-            <i class="fas fa-check-circle mr-2"></i>Marcar Devolucion
-          </button>
         </div>
       </div>
       <div class="modal-footer">
@@ -185,7 +209,7 @@
 </div>
 
 <!-- Modal Buen Estado -->
-<div class="modal fade" id="modalVerUsuarioReservado" tabindex="-1" role="dialog" aria-labelledby="modalBuenEstadoLabel" aria-hidden="true">
+<div class="modal fade" id="modalVerUsuarioInmediato" tabindex="-1" role="dialog" aria-labelledby="modalBuenEstadoLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-success">
@@ -198,18 +222,18 @@
         <form id="formBuenEstado" method="POST">
           <input type="hidden" id="buenEstadoEquipoId" name="equipoId">
           <input type="hidden" id="buenEstadoTipoPrestamo" name="tipoPrestamo">
-          
+
           <div class="text-center mb-4">
             <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
           </div>
-          
+
           <p class="text-center">¿Está seguro que desea registrar la devolución de este equipo en buen estado?</p>
-          
+
           <div class="alert alert-info">
             <i class="fas fa-info-circle mr-2"></i>
             <span id="mensajeTipoPrestamo">Si confirma, el equipo será marcado como disponible en el sistema.</span>
           </div>
-          
+
           <div class="d-flex justify-content-center mt-4">
             <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal" style="width: 150px;">Cancelar</button>
             <button type="button" class="btn btn-success" id="btnConfirmarBuenEstado" style="width: 150px;">Confirmar</button>
