@@ -214,11 +214,19 @@ $(document).on("click", ".btnConsultarUsuario", function(){
                 let ficha = respuesta.codigo_ficha || respuesta.codigo || '';
                 let programa = respuesta.nombre_programa || respuesta.descripcion || respuesta.descripcion_ficha || '';
                 $("#consultarFicha").val(ficha && programa ? ficha + " - " + programa : ficha || programa);
-                } else {
-                    $("#consultarSedeFicha").addClass("d-none");
-                    $("#consultarSede").val('');
-                    $("#consultarFicha").val('');
-                }
+            } else {
+                $("#consultarSedeFicha").addClass("d-none");
+                $("#consultarSede").val('');
+                $("#consultarFicha").val('');
+            }
+
+            // Mostrar foto de usuario si existe
+            if (respuesta.foto && respuesta.foto !== "") {
+                $("#consultarFotoUsuario").attr("src", respuesta.foto).removeClass("d-none");
+            } else {
+                // Si no hay foto, puedes poner una imagen por defecto o dejarla vacía
+                $("#consultarFotoUsuario").attr("src", "vistas/img/usuarios/default/anonymous.png").removeClass("d-none");
+            }
         }
     });
 });
