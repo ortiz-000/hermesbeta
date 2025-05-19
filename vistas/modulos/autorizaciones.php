@@ -28,6 +28,7 @@
                     <th>Fecha Autorización</th>
                     <th>Fecha Entrega</th>
                     <th>Estado Préstamo</th>
+                    <th>Firmas</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -52,6 +53,20 @@
                           <td>'.$value["fecha_autorizacion"].'</td>
                           <td>'.$value["fecha_entrega"].'</td>
                           <td>'.$estadoPrestamo.'</td>
+                          <td>
+                              <div class="icheck-primary d-inline mx-1">
+                              <input type="checkbox" id="firma1_'.$value["id_autorizacion"].'">
+                              <label for="firma1_'.$value["id_autorizacion"].'"></label>
+                            </div>
+                            <div class="icheck-primary d-inline mx-1">
+                              <input type="checkbox" id="firma2_'.$value["id_autorizacion"].'">
+                              <label for="firma2_'.$value["id_autorizacion"].'"></label>
+                            </div>
+                            <div class="icheck-primary d-inline mx-1">
+                              <input type="checkbox" id="firma3_'.$value["id_autorizacion"].'">
+                              <label for="firma3_'.$value["id_autorizacion"].'"></label>
+                            </div>
+                          </td>
                           <td>
                             <button class="btn btn-info btn-sm btnVerDetalles" data-toggle="modal" data-target="#modalDetalles" 
                               data-id="'.$value["id_autorizacion"].'"
