@@ -34,15 +34,11 @@
                 <a href="#" class="d-block"><?php echo $_SESSION["nombre"] . " " . $_SESSION["apellido"]; ?></a>
             </div>
         </div>
-<<<<<<< HEAD
-
-=======
         <div class="info">
           <a href="#" class="d-block"><?php echo $_SESSION["nombre"] . " " . $_SESSION["apellido"] ?></a>
           <a href="#" class="d-block"><?php echo $_SESSION["nombre_rol"] ?></a>
         </div>
       </div>
->>>>>>> jhoan_modulo_equipos
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
