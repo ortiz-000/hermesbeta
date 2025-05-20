@@ -49,6 +49,9 @@ class ControladorUsuarios{
         }
     }
 }
+/*=============================================
+cambiar estado de usuario
+=============================================*/
 
     static public function ctrConsultarUsuario() {
         if(isset($_POST["idUsuario"])) {
@@ -107,6 +110,7 @@ class ControladorUsuarios{
             echo json_encode($respuesta);
         }
     }
+
 
 static public function ctrCambiarEstadoUsuario($id, $estado) {
     return ModeloUsuarios::mdlCambiarEstadoUsuario($id, $estado);

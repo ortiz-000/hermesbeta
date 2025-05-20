@@ -45,6 +45,26 @@
               with font-awesome or any other icon font library -->
 
           <!-- si el usuario tiene algun id_permiso entre 1 y 6 puede ver la opcion de administrar en el menu de lo contrario no -->
+          
+          
+          <li class="nav-item">
+            <a href="inicio" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              <p>
+                Inicio
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="reportes" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Reportes
+              </p>
+            </a>
+          </li>
+          
           <?php
 
           if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
@@ -57,6 +77,7 @@
                       </p>
                     </a>
                     <ul class="nav nav-treeview">';
+                    
 
           if (ControladorValidacion::validarPermisoSesion([22])) {
                       echo '<li class="nav-item">
@@ -65,7 +86,8 @@
                           <p>Fichas</p>
                         </a>
                       </li>';}
-
+    
+                    
 
           if (ControladorValidacion::validarPermisoSesion([23, 24, 25])) {
                       echo '<li class="nav-item">
@@ -110,19 +132,8 @@
                   echo '</ul>
                   </li>';
           }
-          ?>
-
-            
-          <li class="nav-item">
-            <a href="inicio" class="nav-link">
-              <i class="nav-icon fas fa-home"></i>
-              <p>
-                Inicio
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
@@ -137,19 +148,13 @@
                   <p>Usuarios</p>
                 </a>
               </li>
-              <!-- <li class="nav-item">
-                <a href="permisos" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Permisos</p>
-                </a>
-              </li> -->
-            </ul>
-
-          <li class="nav-item">
+              </ul>';}
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo'
+            <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-laptop"></i>
-              <p>
-                Equipos
+              <p>Equipos
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -166,19 +171,69 @@
                   <p>Recepción</p>
                 </a>
               </li>
-            </ul>
-
-          <li class="nav-item">
-            <a href="solicitudes" class="nav-link">
+            </ul>';
+          }
+          
+          
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+                      echo '<li class="nav-item">
+                      <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-check"></i>
+                        <p>
+                          Autorizar
+                          <i class="right fas fa-angle-left"></i>
+                        </p>
+                      </a>
+                      <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                          <a href="autorizaciones" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Autorizaciones</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="vencidas" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Solicitudes vencidas</p>
+                          </a>
+                        </li>
+                      </ul>';
+                    }
+          
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
+            <a href="devoluciones" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
               <span class="badge badge-info right">6+</span>
               <p>
-                Solicitudes
+                Devoluciones
               </p>
             </a>
-          </li>
-
-          <li class="nav-item">
+          </li>';
+          }
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
+            <a href="salidas" class="nav-link">
+              <i class="nav-icon fas fa-eye"></i>
+              <span class="badge badge-info right">3+</span>
+              <p>
+                Salidas
+              </p>
+            </a>
+          </li>';
+          }
+          if (ControladorValidacion::validarPermisoSesion([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
+                      <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-cogs"></i>
+                      <p>
+                        solicitudes
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">';
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
             <a href="consultar-solicitudes" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
               <span class="badge badge-info right">6+</span>
@@ -187,8 +242,20 @@
               </p>
             </a>
           </li>        
+          ';}
+          if (ControladorValidacion::validarPermisoSesion([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
+            <a href="solicitudes" class="nav-link">
+              <i class="nav-icon fas fa-reply"></i>
+              <span class="badge badge-info right">6+</span>
+              <p>
+                Solicitudes
+              </p>
+            </a>
+          </li>'; }
           
-          <li class="nav-item">
+          if (ControladorValidacion::validarPermisoSesion([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
             <a href="mis-solicitudes" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
               <span class="badge badge-info right">6+</span>
@@ -196,59 +263,18 @@
                 Mis solicitudes
               </p>
             </a>
-          </li>              
+          </li>'; }
+          
+        } 
+      
+          
 
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-check"></i>
-              <p>
-                Autorizar
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="autorizaciones" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Autorizaciones</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="vencidas" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Solicitudes vencidas</p>
-                </a>
-              </li>
-            </ul>
 
-          <li class="nav-item">
-            <a href="devoluciones" class="nav-link">
-              <i class="nav-icon fas fa-reply"></i>
-              <span class="badge badge-info right">6+</span>
-              <p>
-                Devoluciones
-              </p>
-            </a>
-          </li>
+                
+          ?>
+          
 
-          <li class="nav-item">
-            <a href="salidas" class="nav-link">
-              <i class="nav-icon fas fa-eye"></i>
-              <span class="badge badge-info right">3+</span>
-              <p>
-                Salidas
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="reportes" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Reportes
-              </p>
-            </a>
-          </li>
+            
 
         </ul>
       </nav>
