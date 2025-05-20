@@ -15,6 +15,7 @@ class ControladorUsuarios{
                 $valor = $_POST["ingUsuario"];
 
                 $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
+                error_log(print_r($respuesta, true));
                 if (is_array($respuesta)) {
 
                 if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $encriptar) {
