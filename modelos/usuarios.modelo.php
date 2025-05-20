@@ -159,7 +159,6 @@ class ModeloUsuarios{
             return $stmt->execute();
         }
 
-
     
        static public function mdlEditarUsuario($conexion, $tabla, $datos){
     error_log("Consulta SQL: UPDATE $tabla SET tipo_documento = {$datos['tipo_documento']}, numero_documento = {$datos['numero_documento']}, nombre = {$datos['nombre']}, apellido = {$datos['apellido']}, correo_electronico = {$datos['correo_electronico']}, telefono = {$datos['telefono']}, direccion = {$datos['direccion']}, genero = {$datos['genero']}, estado = {$datos['estado']}, condicion = {$datos['condicion']} WHERE id_usuario = {$datos['id_usuario']}");
