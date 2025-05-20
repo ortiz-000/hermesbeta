@@ -251,10 +251,33 @@ $(document).on("change", "#selectEditRolUsuario", function() {
         $("#EditFicha").addClass("d-none");
         $("#selectEditSede").removeAttr("required");
         $("#selectEditIdFicha").removeAttr("required");
-
         // $("#ficha").addClass("d-none");
     }
-})
+});
+
+// Mostrar foto de usuario al editar
+$(document).on("click", ".btnEditarUsuario", function() {
+    var idUsuario = $(this).attr("idUsuario") || $(this).attr("idusuario");
+    var datos = new FormData();
+    datos.append("idUsuario", idUsuario);
+    $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function(respuesta) {
+            // ... (otros campos)
+            if (respuesta["foto"] && respuesta["foto"].trim() !== "") {
+                $("#editFotoUsuario").attr("src", respuesta["foto"]).removeClass("d-none");
+            } else {
+                $("#editFotoUsuario").attr("src", "vistas/img/usuarios/default/anonymous.png").removeClass("d-none");
+            }
+        }
+    });
+});
 
 $(document).on("change", "#selectEditSede", function() {
 
