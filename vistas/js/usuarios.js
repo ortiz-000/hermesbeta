@@ -153,6 +153,56 @@ function previewImage(event) {
 }
 
 // ======================================
+// SOLICITUDES DE PRESTAMO DEL USUARIO
+// ======================================
+$(document).on("click", ".btnSolicitudesUsuario", function() {
+    // Obtener el número de documento del usuario seleccionado
+    var numeroDocumento = $(this).data("numero-documento");
+    var idUsuario = $(this).data("id-usuario");
+    
+    if (!numeroDocumento) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se encontró el número de documento del usuario'
+        });
+        return;
+    }
+
+    // Redirigir a consultar-solicitudes con los parámetros necesarios
+    window.location.href = "consultar-solicitudes?" + 
+        "numeroDocumento=" + encodeURIComponent(numeroDocumento) + 
+        "&autoBuscar=1";
+});
+
+// ======================================
+// AUTOCOMPLETAR BÚSQUEDA DE USUARIO
+// ======================================
+$(document).ready(function() {
+    // Obtener parámetros de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const numeroDocumento = urlParams.get('numeroDocumento');
+    const autoBuscar = urlParams.get('autoBuscar');
+
+    // Si tenemos el número de documento y autoBuscar es true
+    if (numeroDocumento && autoBuscar === "1") {
+        // Establecer el valor en el input
+        $("#cedulaUsuario").val(numeroDocumento);
+        
+        // Simular click en el botón de búsqueda después de un pequeño delay
+        setTimeout(function() {
+            const btnBuscar = $("#btnBuscarUsuarioConsultar");
+            if (btnBuscar.length) {
+                btnBuscar.trigger('click');
+            } else {
+                console.error("No se encontró el botón de búsqueda");
+            }
+        }, 500); // Esperar 500ms para asegurar que todo esté cargado
+    }
+});
+
+
+// ======================================
 // SCRIPT PARA CONSULTAR USUARIOS
 // ======================================
 $(document).on("click", ".btnConsultarUsuario", function(){
