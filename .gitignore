@@ -1,5 +1,5 @@
 # Template
-AdminLTE-3.2.0/
+AdminLTE/
 
 # .htaccess
 .htaccess
@@ -79,7 +79,7 @@ test.html
 .htaccess
 ad.js
 /.cache/
-/modelos/conexion.php
+modelos/conexion.php
 vistas/img/
 vistas/img/about.txt
 vistas/img/android-chrome-192x192.png
