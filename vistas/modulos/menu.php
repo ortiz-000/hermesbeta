@@ -47,16 +47,17 @@
           <!-- si el usuario tiene algun id_permiso entre 1 y 6 puede ver la opcion de administrar en el menu de lo contrario no -->
           
           
-          <li class="nav-item">
+          
+
+<?php  
+          echo'<li class="nav-item">
             <a href="inicio" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Inicio
               </p>
             </a>
-          </li>
-
-<?php         
+          </li>';       
 
           if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
             echo '<li class="nav-item">
@@ -164,9 +165,8 @@
               </li>
             </ul>';
           }
-            // "Consultar" solo para administradores, líder TIC, mesa de ayuda y almacén
-            // "Solicitudes" y "Mis solicitudes" para todos los roles
-            if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            
+            
             echo '<li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-file-alt"></i>
@@ -189,30 +189,28 @@
               </li>';
             }
             
-            // Excluir al vigilante 
-            if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 18) {
-              echo '<li class="nav-item">
-                <a href="solicitudes" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <span class="badge badge-info right">6+</span>
-                <p>
-                Solicitudes
-                </p>
-                </a>
-                </li>';
-              echo '<li class="nav-item">
-                <a href="mis-solicitudes" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <span class="badge badge-info right">6+</span>
-                <p>
-                Mis solicitudes
-                </p>
-                </a>
-                </li>';
-            }
+            // "Solicitudes" y "Mis solicitudes" para todos los roles
+            echo '<li class="nav-item">
+              <a href="solicitudes" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <span class="badge badge-info right">6+</span>
+              <p>
+              Solicitudes
+              </p>
+              </a>
+              </li>';
+            echo '<li class="nav-item">
+              <a href="mis-solicitudes" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <span class="badge badge-info right">6+</span>
+              <p>
+              Mis solicitudes
+              </p>
+              </a>
+              </li>';
             echo '</ul>
             </li>';
-            }
+            
 
           if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
             echo '<li class="nav-item">
@@ -264,26 +262,26 @@
           }
       
           
-
-
-                
-          ?>
-          
-
-            <li class="nav-item">
+echo'<li class="nav-item">
             <a href="reportes" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
                 Reportes
               </p>
             </a>
-          </li>
+          </li>';
           
           
 
-        </ul>
+      
+
+                
+          ?>
+          </ul>
       </nav>
   </aside>
+
+            
 
   <!-- Modal para Editar Perfil -->
 <div class="modal fade" id="modalEditarPerfil">
