@@ -572,7 +572,12 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        
+        <!-- row foto -->
+        <div class="row">
+          <div class="col-lg-12 text-center mb-3">
+            <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail rounded-circle" alt="User Image" id="editFotoUsuario" style="width:150px; height:150px; object-fit:cover;">
+          </div>
+        </div>
         <div class="modal-body">
           <div class="box-body">
 
