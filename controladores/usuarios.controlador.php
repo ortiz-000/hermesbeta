@@ -15,6 +15,7 @@ class ControladorUsuarios{
                 $valor = $_POST["ingUsuario"];
 
                 $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
+                error_log(print_r($respuesta, true));
                 if (is_array($respuesta)) {
 
                 if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $encriptar) {
@@ -49,9 +50,6 @@ class ControladorUsuarios{
         }
     }
 }
-/*=============================================
-cambiar estado de usuario
-=============================================*/
 
     static public function ctrConsultarUsuario() {
         if(isset($_POST["idUsuario"])) {
@@ -110,7 +108,6 @@ cambiar estado de usuario
             echo json_encode($respuesta);
         }
     }
-
 
 static public function ctrCambiarEstadoUsuario($id, $estado) {
     return ModeloUsuarios::mdlCambiarEstadoUsuario($id, $estado);

@@ -270,11 +270,11 @@ $(document).on("click", ".btnConsultarUsuario", function() {
                 $("#consultarFicha").val('');
             }
 
-            // Mostrar foto de usuario si existe
+
+            // Mostrar foto relacionado de la bd de datos (ruta)
             if (respuesta.foto && respuesta.foto !== "") {
                 $("#consultarFotoUsuario").attr("src", respuesta.foto).removeClass("d-none");
             } else {
-                // Si no hay foto, puedes poner una imagen por defecto o dejarla vacía
                 $("#consultarFotoUsuario").attr("src", "vistas/img/usuarios/default/anonymous.png").removeClass("d-none");
             }
         }
