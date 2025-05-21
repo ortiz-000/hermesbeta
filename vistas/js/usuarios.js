@@ -205,9 +205,9 @@ $(document).ready(function() {
 // ======================================
 // SCRIPT PARA CONSULTAR USUARIOS
 // ======================================
-$(document).on("click", ".btnConsultarUsuario", function(){
+$(document).on("click", ".btnConsultarUsuario", function() {
     var idUsuario = $(this).attr("idUsuario");
-    
+
     var datos = new FormData();
     datos.append("idUsuario", idUsuario);
 
@@ -264,11 +264,18 @@ $(document).on("click", ".btnConsultarUsuario", function(){
                 let ficha = respuesta.codigo_ficha || respuesta.codigo || '';
                 let programa = respuesta.nombre_programa || respuesta.descripcion || respuesta.descripcion_ficha || '';
                 $("#consultarFicha").val(ficha && programa ? ficha + " - " + programa : ficha || programa);
-                } else {
-                    $("#consultarSedeFicha").addClass("d-none");
-                    $("#consultarSede").val('');
-                    $("#consultarFicha").val('');
-                }
+            } else {
+                $("#consultarSedeFicha").addClass("d-none");
+                $("#consultarSede").val('');
+                $("#consultarFicha").val('');
+            }
+
+            // Mostrar foto relacionado de la bd de datos (ruta)
+            if (respuesta.foto && respuesta.foto !== "") {
+                $("#consultarFotoUsuario").attr("src", respuesta.foto).removeClass("d-none");
+            } else {
+                $("#consultarFotoUsuario").attr("src", "vistas/img/usuarios/default/anonymous.png").removeClass("d-none");
+            }
         }
     });
 });
