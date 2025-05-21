@@ -24,7 +24,7 @@ class AuditoriaModelo {
                     u.condicion,
                     u.fecha_registro,
                     a.id_usuario_editor,
-                    editor.nombre AS nombre_editor,
+                    editor.nombre_usuario AS nombre_editor,
                     a.campo_modificado,
                     a.valor_anterior,
                     a.valor_nuevo,
@@ -32,17 +32,21 @@ class AuditoriaModelo {
                 FROM auditoria_usuarios a
                 LEFT JOIN usuarios u ON a.id_usuario_afectado = u.id_usuario
                 LEFT JOIN usuarios editor ON a.id_usuario_editor = editor.id_usuario
-                ORDER BY a.fecha_cambio DESC";
+                ORDER BY a.fecha_cambio DESC
+            ";
 
             $stmt = $conexion->prepare($query);
             $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // NO json_decode aquí porque los datos vienen como texto plano
+            return $resultados;
 
         } catch (PDOException $e) {
             error_log("Error en mdlMostrarAuditoria: " . $e->getMessage());
             return false;
         }
     }
-
 }
+?>

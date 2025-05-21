@@ -30,10 +30,43 @@ $(document).ready(function () {
       { data: "estado", title: "Estado" },
       { data: "condicion", title: "Condición" },
       { data: "fecha_registro", title: "Fecha Registro" },
-      { data: "nombre_editor", title: "Editado Por" },
-      { data: "campo_modificado", title: "Campos Modificados" },
-      { data: "valor_anterior", title: "Valores Anteriores" },
-      { data: "valor_nuevo", title: "Valores Nuevos" },
+      {
+        data: "nombre_editor",
+        title: "Editado Por",
+        render: function(data) {
+          return data && data.trim() !== '' ? data : 'Sistema';
+        }
+      },
+      {
+        data: "campo_modificado",
+        title: "Campos Modificados",
+        render: function(data) {
+          if (Array.isArray(data)) {
+            return data.join(", ");
+          }
+          return data;
+        }
+      },
+      {
+        data: "valor_anterior",
+        title: "Valores Anteriores",
+        render: function(data) {
+          if (Array.isArray(data)) {
+            return data.map(v => v || '-').join(", ");
+          }
+          return data || '-';
+        }
+      },
+      {
+        data: "valor_nuevo",
+        title: "Valores Nuevos",
+        render: function(data) {
+          if (Array.isArray(data)) {
+            return data.map(v => v || '-').join(", ");
+          }
+          return data || '-';
+        }
+      },
       { data: "fecha_cambio", title: "Fecha Cambio" },
       {
         data: null,
@@ -60,10 +93,27 @@ $(document).ready(function () {
   $('#tablaAuditoria tbody').on('click', '.btn-detalle', function () {
     const detalleData = $(this).data('detalle');
 
-    // Separa usando ';' el string de campos y valores
-    let campos = detalleData.campo_modificado ? detalleData.campo_modificado.split(';').map(x => x.trim()).filter(x => x) : [];
-    let valoresAnteriores = detalleData.valor_anterior ? detalleData.valor_anterior.split(';').map(x => x.trim()).filter(x => x) : [];
-    let valoresNuevos = detalleData.valor_nuevo ? detalleData.valor_nuevo.split(';').map(x => x.trim()).filter(x => x) : [];
+    let campos = [];
+    let valoresAnteriores = [];
+    let valoresNuevos = [];
+
+    try {
+      campos = Array.isArray(detalleData.campo_modificado) ? detalleData.campo_modificado : JSON.parse(detalleData.campo_modificado);
+    } catch {
+      campos = [];
+    }
+
+    try {
+      valoresAnteriores = Array.isArray(detalleData.valor_anterior) ? detalleData.valor_anterior : JSON.parse(detalleData.valor_anterior);
+    } catch {
+      valoresAnteriores = [];
+    }
+
+    try {
+      valoresNuevos = Array.isArray(detalleData.valor_nuevo) ? detalleData.valor_nuevo : JSON.parse(detalleData.valor_nuevo);
+    } catch {
+      valoresNuevos = [];
+    }
 
     const camposAmigables = {
       'telefono': 'Teléfono',

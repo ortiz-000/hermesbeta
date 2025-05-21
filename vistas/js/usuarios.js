@@ -31,23 +31,26 @@ $(document).on('click', '.btnActivarUsuario', function() {
     var boton = $(this);
 
     $.ajax({
-        url: 'ajax/usuarios.ajax.php',
-        method: 'POST',
-        data: { idUsuarioEstado: idUsuario, estado: nuevoEstado }, // <-- CAMBIA AQUÍ
-        success: function(respuesta) {
-            if (respuesta == 'ok') {
-                if (nuevoEstado == 'activo') {
-                    boton.removeClass('btn-danger').addClass('btn-success').text('Activo');
-                    boton.data('estado', 'inactivo');
-                } else {
-                    boton.removeClass('btn-success').addClass('btn-danger').text('Inactivo');
-                    boton.data('estado', 'activo');
-                }
-            } else {
-                alert('Error al cambiar el estado');
-            }
+    url: "ajax/usuarios.ajax.php",
+    method: "POST",
+    data: {
+        idUsuarioEstado: idUsuario,
+        estado: nuevoEstado
+    },
+    success: function(respuesta) {
+        console.log("Respuesta:", respuesta);
+        if (respuesta.trim() === "ok") {
+            Swal.fire("Éxito", "Estado actualizado", "success").then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire("Error", "No se pudo cambiar el estado", "error");
         }
-    });
+    },
+    error: function() {
+        Swal.fire("Error", "Fallo de conexión con el servidor", "error");
+    }
+});
 });
 
 $(document).on("change", "#selectSede", function() {

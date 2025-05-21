@@ -15,7 +15,6 @@ class ControladorUsuarios{
                 $valor = $_POST["ingUsuario"];
 
                 $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
-                error_log(print_r($respuesta, true));
                 if (is_array($respuesta)) {
 
                 if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $encriptar) {
@@ -288,110 +287,131 @@ class ControladorUsuarios{
         return $respuesta;
     }
 
-    static public function ctrEditarUsuario(){
-        
-    if (isset($_POST["idEditUsuario"]) && isset($_POST["editNombre"]) && isset($_POST["selectEditSede"])) {   
+    static public function ctrEditarUsuario() {
+        if (isset($_POST["idEditUsuario"]) && isset($_POST["editNombre"]) && isset($_POST["selectEditSede"])) {
 
-        if (preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["editNombre"]) &&
-            preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["editApellido"]) &&
-            preg_match('/^[a-zA-Z0-9]+$/', $_POST["editNumeroDocumento"]) &&
-            preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $_POST["editEmail"]) &&
-            preg_match('/^[0-9]+$/', $_POST["editTelefono"]) &&
-            preg_match('/^[a-zA-Z0-9#\- ]+$/', $_POST["editDireccion"]) ){
+            if (
+                preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["editNombre"]) &&
+                preg_match('/^[a-zA-ZñÑáéíóÁÉÍÓÚ ]+$/', $_POST["editApellido"]) &&
+                preg_match('/^[a-zA-Z0-9]+$/', $_POST["editNumeroDocumento"]) &&
+                preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $_POST["editEmail"]) &&
+                preg_match('/^[0-9]+$/', $_POST["editTelefono"]) &&
+                preg_match('/^[a-zA-Z0-9#\- ]+$/', $_POST["editDireccion"])
+            ) {
+                // Iniciar sesión para obtener id del usuario editor
+                if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+                $idEditor = $_SESSION["id_usuario"] ?? null;
 
-            //error de rol origina y rol nuevo
-            error_log("rol original " . $_POST["rolOriginal"]. " rol nuevo " . $_POST["EditRolUsuario"]);
-
-            // si el usuario es aprendiz se debe validar la sede y la ficha
-            if ($_POST["EditRolUsuario"] != 6) {
-                $sede = "";
-                $ficha = "";
-            }else{
-                $sede = $_POST["selectEditSede"];
-                $ficha = $_POST["selectEditIdFicha"];
-            }
-
-            // Obtener datos actuales del usuario
-            $usuario = self::ctrMostrarUsuarios("id_usuario", $_POST["idEditUsuario"]);
-            
-            // Verificar si cambió el número de documento para reubicar la carpeta de imágenes
-            $numeroDocumentoAnterior = $usuario["numero_documento"];
-            $numeroDocumentoNuevo = $_POST["editNumeroDocumento"];
-            
-            // Ruta actual de la foto
-            $rutaFoto = $usuario["foto"];
-            
-            // Si el número de documento cambió y había una foto personalizada
-            if ($numeroDocumentoAnterior != $numeroDocumentoNuevo && 
-                $rutaFoto != "vistas/img/usuarios/default/anonymous.png" &&
-                strpos($rutaFoto, "vistas/img/usuarios/{$numeroDocumentoAnterior}/") !== false) {
-                
-                // Crear nuevo directorio si no existe
-                $nuevoDirectorio = "vistas/img/usuarios/{$numeroDocumentoNuevo}";
-                if (!file_exists($nuevoDirectorio)) {
-                    mkdir($nuevoDirectorio, 0755, true);
+                // Validar que haya sesión activa
+                if (!$idEditor) {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "No hay sesión iniciada",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then(() => { window.location = "login"; });
+                    </script>';
+                    return;
                 }
-                
-                // Obtener solo el nombre del archivo
-                $nombreArchivo = basename($rutaFoto);
-                $nuevaRutaFoto = "{$nuevoDirectorio}/{$nombreArchivo}";
-                
-                // Copiar la imagen al nuevo directorio
-                if (file_exists($rutaFoto)) {
-                    copy($rutaFoto, $nuevaRutaFoto);
-                    $rutaFoto = $nuevaRutaFoto;
+
+                // Si el usuario es aprendiz se debe validar la sede y la ficha
+                if ($_POST["EditRolUsuario"] != 6) {
+                    $sede = "";
+                    $ficha = "";
+                } else {
+                    $sede = $_POST["selectEditSede"];
+                    $ficha = $_POST["selectEditIdFicha"];
                 }
-            }
 
-            // Validar y asignar estado (asumiendo que viene desde un input llamado editEstado)
-            $estadoPermitidos = ['activo', 'inactivo'];
-            $estado = (isset($_POST["editEstado"]) && in_array($_POST["editEstado"], $estadoPermitidos)) ? $_POST["editEstado"] : 'inactivo';
+                // Obtener datos actuales del usuario
+                $usuario = self::ctrMostrarUsuarios("id_usuario", $_POST["idEditUsuario"]);
 
-            $tabla = "usuarios";
-            
-            $datos = array(
-                "id_usuario" => $_POST["idEditUsuario"],
-                "tipo_documento" => $_POST["editTipoDocumento"],
-                "numero_documento" => $_POST["editNumeroDocumento"],
-                "nombre" => $_POST["editNombre"],
-                "apellido" => $_POST["editApellido"],
-                "correo_electronico" => $_POST["editEmail"],
-                "telefono" => $_POST["editTelefono"],
-                "direccion" => $_POST["editDireccion"],
-                "genero" => $_POST["editGenero"],
-                "estado" => $estado,  // <-- aquí el nuevo campo estado
-                "id_rol" => $_POST["EditRolUsuario"],
-                "foto" => $rutaFoto,
-                // si es aprendiz
-                "id_sede" => $sede,
-                "id_ficha" => $ficha,
-                //datos originales ids de rol y ficha
-                "idRolOriginal" => $_POST["rolOriginal"],
-                "idFichaOriginal" => $_POST["fichaOriginal"]
-            );
+                // Verificar si cambió el número de documento para reubicar la carpeta de imágenes
+                $numeroDocumentoAnterior = $usuario["numero_documento"];
+                $numeroDocumentoNuevo = $_POST["editNumeroDocumento"];
 
-            error_log("Datos a enviar: " . json_encode($datos));
+                // Ruta actual de la foto
+                $rutaFoto = $usuario["foto"];
 
-            $respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
+                // Si el número de documento cambió y había una foto personalizada
+                if (
+                    $numeroDocumentoAnterior != $numeroDocumentoNuevo &&
+                    $rutaFoto != "vistas/img/usuarios/default/anonymous.png" &&
+                    strpos($rutaFoto, "vistas/img/usuarios/{$numeroDocumentoAnterior}/") !== false
+                ) {
+                    // Crear nuevo directorio si no existe
+                    $nuevoDirectorio = "vistas/img/usuarios/{$numeroDocumentoNuevo}";
+                    if (!file_exists($nuevoDirectorio)) {
+                        mkdir($nuevoDirectorio, 0755, true);
+                    }
 
-            if ($respuesta == "ok") {
-                echo '<script>
-                    Swal.fire({
-                        icon: "success",
-                        title: "¡El usuario ha sido actualizado correctamente!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "usuarios";
-                        }
-                    });
-                </script>';
+                    // Obtener solo el nombre del archivo
+                    $nombreArchivo = basename($rutaFoto);
+                    $nuevaRutaFoto = "{$nuevoDirectorio}/{$nombreArchivo}";
+
+                    // Copiar la imagen al nuevo directorio
+                    if (file_exists($rutaFoto)) {
+                        copy($rutaFoto, $nuevaRutaFoto);
+                        $rutaFoto = $nuevaRutaFoto;
+                    }
+                }
+
+                $tabla = "usuarios";
+
+                $datos = array(
+                    "id_usuario" => $_POST["idEditUsuario"],
+                    "tipo_documento" => $_POST["editTipoDocumento"],
+                    "numero_documento" => $_POST["editNumeroDocumento"],
+                    "nombre" => $_POST["editNombre"],
+                    "apellido" => $_POST["editApellido"],
+                    "correo_electronico" => $_POST["editEmail"],
+                    "telefono" => $_POST["editTelefono"],
+                    "direccion" => $_POST["editDireccion"],
+                    "genero" => $_POST["editGenero"],
+                    "id_rol" => $_POST["EditRolUsuario"],
+                    "foto" => $rutaFoto,
+                    "id_sede" => $sede,
+                    "id_ficha" => $ficha,
+                    "idRolOriginal" => $_POST["rolOriginal"],
+                    "idFichaOriginal" => $_POST["fichaOriginal"],
+                    "id_usuario_editor" => $idEditor
+                );
+
+                $respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
+
+                if ($respuesta == "ok") {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡El usuario ha sido actualizado correctamente!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "usuarios";
+                            }
+                        });
+                    </script>';
+                } else {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "¡Error al actualizar el usuario!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "usuarios";
+                            }
+                        });
+                    </script>';
+                }
             } else {
                 echo '<script>
                     Swal.fire({
                         icon: "error",
-                        title: "¡Error al actualizar el usuario!",
+                        title: "¡Revisar parámetros!",
                         showConfirmButton: true,
                         confirmButtonText: "Cerrar"
                     }).then((result) => {
@@ -401,25 +421,25 @@ class ControladorUsuarios{
                     });
                 </script>';
             }
-        } else {
-            echo '<script>
-                Swal.fire({
-                    icon: "error",
-                    title: "¡Revisar parametros!",
-                    showConfirmButton: true,
-                    confirmButtonText: "Cerrar"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "usuarios";
-                    }
-                });
-            </script>';
         }
     }
-}
+
     static public function ctrCambiarEstadoUsuario($id, $estado) {
-    return ModeloUsuarios::mdlCambiarEstadoUsuario("usuarios", $id, $estado);
+        if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+        $idEditor = $_SESSION["id_usuario"] ?? null;
+
+        if (!$idEditor) {
+            return false; // O manejar error sesión no iniciada
+        }
+
+        $tabla = "usuarios";
+        $datos = [
+            "id_usuario" => $id,
+            "estado" => $estado,
+            "id_usuario_editor" => $idEditor
+        ];
+
+        return ModeloUsuarios::mdlCambiarEstadoUsuario($tabla, $datos);
+    }
 }
-
-
-}//FIN DE LA CLASE CONTROLADOR
+?>

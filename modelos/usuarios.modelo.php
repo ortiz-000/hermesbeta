@@ -152,92 +152,111 @@ class ModeloUsuarios{
 
 
     
-       static public function mdlEditarUsuario($tabla, $datos){
+       // Editar usuario con auditoría
+    static public function mdlEditarUsuario($tabla, $datos) {
+        try {
+            $conexion = Conexion::conectar();
+            $conexion->beginTransaction();
 
-    error_log("Consulta SQL: UPDATE $tabla SET tipo_documento = {$datos['tipo_documento']}, numero_documento = {$datos['numero_documento']}, nombre = {$datos['nombre']}, apellido = {$datos['apellido']}, correo_electronico = {$datos['correo_electronico']}, telefono = {$datos['telefono']}, direccion = {$datos['direccion']}, genero = {$datos['genero']}, estado = {$datos['estado']} WHERE id_usuario = {$datos['id_usuario']}");
+            // Setear el id del usuario que realiza la edición para auditoría (variable sesión MySQL)
+            $conexion->exec("SET @id_usuario_editor = " . intval($datos["id_usuario_editor"]));
 
-    try{        
-        //iniciar la transacción
-        $conexion = Conexion::conectar();
-        $conexion->beginTransaction();
+            // Actualizar datos básicos del usuario
+            $stmt = $conexion->prepare(
+                "UPDATE $tabla SET 
+                    tipo_documento = :tipo_documento, 
+                    numero_documento = :numero_documento, 
+                    nombre = :nombre, 
+                    apellido = :apellido, 
+                    correo_electronico = :correo_electronico, 
+                    telefono = :telefono, 
+                    direccion = :direccion, 
+                    genero = :genero, 
+                    foto = :foto 
+                WHERE id_usuario = :id_usuario"
+            );
 
-        $stmt1 = $conexion->prepare("UPDATE $tabla SET tipo_documento = :tipo_documento, numero_documento = :numero_documento, nombre = :nombre, apellido = :apellido, correo_electronico = :correo_electronico, telefono = :telefono, direccion = :direccion, genero = :genero, estado = :estado, foto = :foto WHERE id_usuario = :id_usuario");
+            $stmt->bindParam(":tipo_documento", $datos["tipo_documento"], PDO::PARAM_STR);
+            $stmt->bindParam(":numero_documento", $datos["numero_documento"], PDO::PARAM_STR);
+            $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+            $stmt->bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
+            $stmt->bindParam(":correo_electronico", $datos["correo_electronico"], PDO::PARAM_STR);
+            $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+            $stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+            $stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_INT);
+            $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
 
-        $stmt1 -> bindParam(":tipo_documento", $datos["tipo_documento"], PDO::PARAM_STR);
-        $stmt1 -> bindParam(":numero_documento", $datos["numero_documento"], PDO::PARAM_STR);
-        $stmt1 -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt1 -> bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
-        $stmt1 -> bindParam(":correo_electronico", $datos["correo_electronico"], PDO::PARAM_STR);
-        $stmt1 -> bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
-        $stmt1 -> bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-        $stmt1 -> bindParam(":genero", $datos["genero"], PDO::PARAM_INT);
-        $stmt1 -> bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
-        $stmt1 -> bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
-        $stmt1 -> bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
-        $stmt1 -> execute();
+            $stmt->execute();
 
-        //capturar los datos del rol y la ficha anteriores y nuevos
-        $rolOriginal = $datos["idRolOriginal"];
-        $fichaOriginal = $datos["idFichaOriginal"];
-        $rolNuevo = $datos["id_rol"];
-        $fichaNueva = $datos["id_ficha"];
+            // Actualizar rol si cambió
+            if ($datos["idRolOriginal"] != $datos["id_rol"]) {
+                $stmt2 = $conexion->prepare("UPDATE usuario_rol SET id_rol = :id_rol WHERE id_usuario = :id_usuario");
+                $stmt2->bindParam(":id_rol", $datos["id_rol"], PDO::PARAM_INT);
+                $stmt2->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+                $stmt2->execute();
+            }
 
-        error_log("Rol original: $rolOriginal, Rol nuevo: $rolNuevo, Ficha original: $fichaOriginal, Ficha nueva: $fichaNueva");
+            // Si cambia de aprendiz a otro rol, eliminar ficha
+            if ($datos["idRolOriginal"] == 6 && $datos["id_rol"] != 6) {
+                $stmt3 = $conexion->prepare("DELETE FROM aprendices_ficha WHERE id_usuario = :id_usuario");
+                $stmt3->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+                $stmt3->execute();
+            }
 
-        // Si el rol ha cambiado, actualiza la tabla usuario_rol
-        if ($rolOriginal != $rolNuevo) {
-            $stmt2 = $conexion->prepare("UPDATE usuario_rol SET id_rol = :id_rol WHERE id_usuario = :id_usuario");
-            $stmt2->bindParam(":id_rol", $rolNuevo, PDO::PARAM_INT);
-            $stmt2->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
-            $stmt2->execute();
+            // Si cambia a aprendiz, insertar ficha
+            if ($datos["idRolOriginal"] != 6 && $datos["id_rol"] == 6) {
+                $stmt4 = $conexion->prepare("INSERT INTO aprendices_ficha(id_usuario, id_ficha) VALUES (:id_usuario, :id_ficha)");
+                $stmt4->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+                $stmt4->bindParam(":id_ficha", $datos["id_ficha"], PDO::PARAM_INT);
+                $stmt4->execute();
+            }
+
+            // Si sigue siendo aprendiz y cambia ficha, actualizar
+            if ($datos["id_rol"] == 6 && $datos["idFichaOriginal"] != $datos["id_ficha"]) {
+                $stmt5 = $conexion->prepare("UPDATE aprendices_ficha SET id_ficha = :id_ficha WHERE id_usuario = :id_usuario");
+                $stmt5->bindParam(":id_ficha", $datos["id_ficha"], PDO::PARAM_INT);
+                $stmt5->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+                $stmt5->execute();
+            }
+
+            $conexion->commit();
+            return "ok";
+
+        } catch (Exception $e) {
+            $conexion->rollBack();
+            error_log("Error al editar usuario: " . $e->getMessage());
+            return "Error: " . $e->getMessage();
+        } finally {
+            $conexion = null;
         }
-
-        // Si el rol era aprendiz y ha cambiado a otro rol, elimina la relación de la tabla aprendices_ficha
-        if ($rolOriginal == 6 && $rolNuevo != 6) {
-            $stmt3 = $conexion->prepare("DELETE FROM aprendices_ficha WHERE id_usuario = :id_usuario");
-            $stmt3->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
-            $stmt3->execute();
-        }
-
-        // Si el rol anterior no era aprendiz y el nuevo rol es aprendiz, inserta en la tabla aprendices_ficha
-        if ($rolOriginal != 6 && $rolNuevo == 6) {
-            $stmt4 = $conexion->prepare("INSERT INTO aprendices_ficha(id_usuario, id_ficha) VALUES (:id_usuario, :id_ficha)");
-            $stmt4->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
-            $stmt4->bindParam(":id_ficha", $fichaNueva, PDO::PARAM_INT);
-            $stmt4->execute();
-        }
-
-        // Si el rol sigue siendo aprendiz pero la ficha ha cambiado, actualiza la tabla aprendices_ficha
-        if ($rolNuevo == 6 && $fichaOriginal != $fichaNueva) {
-            $stmt5 = $conexion->prepare("UPDATE aprendices_ficha SET id_ficha = :id_ficha WHERE id_usuario = :id_usuario");
-            $stmt5->bindParam(":id_ficha", $fichaNueva, PDO::PARAM_INT);
-            $stmt5->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
-            $stmt5->execute();
-        }
-
-        // Confirmar transacción
-        $conexion->commit();
-        return "ok";
-    }  catch (Exception $e) {
-        // Si ocurre un error, se revierte la transacción
-        $conexion->rollBack();
-        error_log("Error al editar usuario: " . $e->getMessage());
-        return "Error: " . $e->getMessage();
-    } finally {
-        // Cerrar la conexión
-        $conexion = null;
     }
-}
-    static public function mdlCambiarEstadoUsuario($tabla, $idUsuario, $nuevoEstado) {
-    try {
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado WHERE id_usuario = :id_usuario");
-        $stmt->bindParam(":estado", $nuevoEstado, PDO::PARAM_STR);
-        $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
-        return $stmt->execute() ? true : false;
-    } catch (Exception $e) {
-        error_log("Error al cambiar estado del usuario: " . $e->getMessage());
-        return false;
+
+    // Cambiar estado usuario con auditoría
+    static public function mdlCambiarEstadoUsuario($tabla, $datos) {
+        try {
+            $conexion = Conexion::conectar();
+
+            // Setear id del usuario editor para auditoría
+            $conexion->exec("SET @id_usuario_editor = " . intval($datos["id_usuario_editor"]));
+
+            $stmt = $conexion->prepare("UPDATE $tabla SET estado = :estado WHERE id_usuario = :id_usuario");
+            $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception $e) {
+            error_log("Error al cambiar estado usuario: " . $e->getMessage());
+            return false;
+        } finally {
+            $conexion = null;
+        }
     }
-}
 
 }
+?>
