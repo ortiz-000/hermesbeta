@@ -169,7 +169,7 @@
             if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
             echo '<li class="nav-item">
                 <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-cogs"></i>
+                <i class="nav-icon fas fa-file-alt"></i>
                 <p>
                 Solicitudes
                 <i class="right fas fa-angle-left"></i>
