@@ -11,8 +11,9 @@ class ModeloDevoluciones
             $stmt = Conexion::conectar()->prepare(
                 "SELECT p.*, u.numero_documento, u.nombre, u.apellido, u.telefono,
                         f.codigo as ficha_codigo,
-                        e.numero_serie, e.etiqueta, e.descripcion as equipo_descripcion,
-                        c.nombre as nombre_categoria, dp.estado as estado_detalle
+                        GROUP_CONCAT(e.numero_serie SEPARATOR ', ') AS series,
+                        GROUP_CONCAT(e.descripcion SEPARATOR ', ') AS descripciones,
+                        GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias
                  FROM $tabla p
                  JOIN usuarios u ON p.usuario_id = u.id_usuario
                  LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
@@ -21,7 +22,8 @@ class ModeloDevoluciones
                  LEFT JOIN equipos e ON dp.equipo_id = e.equipo_id
                  LEFT JOIN categorias c ON e.categoria_id = c.categoria_id
                  WHERE p.$item = :$item 
-                 AND p.estado_prestamo IN ('Prestado', 'Autorizado')"
+                 AND p.estado_prestamo IN ('Prestado', 'Autorizado')
+                 GROUP BY p.id_prestamo"
             );
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
@@ -30,7 +32,7 @@ class ModeloDevoluciones
         } else {
             // Consulta para todos los registros con JOIN
             $stmt = Conexion::conectar()->prepare(
-                "SELECT DISTINCT p.id_prestamo, u.numero_documento, u.nombre, u.apellido, u.telefono,
+                "SELECT p.id_prestamo, u.numero_documento, u.nombre, u.apellido, u.telefono,
                         f.codigo as ficha_codigo,
                         p.fecha_inicio, p.fecha_fin, p.tipo_prestamo,
                         CASE 
