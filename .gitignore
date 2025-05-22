@@ -5,7 +5,7 @@ AdminLTE/
 .htaccess
 
 # Ignore all files in the root directory
-conexion.php
+.conexion.php
 
 # System / Log files
 *.DS_Store
