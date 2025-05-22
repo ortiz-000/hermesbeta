@@ -109,25 +109,6 @@ $(document).ready(function() {
             // La funcionalidad de devolución/cambio de estado se implementará más adelante.
             // Aquí iría la llamada AJAX para procesar la devolución en buen estado o la reserva devuelta
             console.log("Procesando devolución en buen estado o reserva devuelta...");
-            // Ejemplo (comentado):
-            /*
-            $.ajax({
-                url: "ajax/devoluciones.ajax.php", // O un nuevo archivo AJAX
-                method: "POST",
-                data: {
-                    action: 'procesarDevolucion', // Indicar la acción
-                    prestamoId: prestamoId,
-                    estado: estado // 'buen_estado' o 'devuelto'
-                },
-                success: function(response) {
-                    console.log("Respuesta del servidor:", response);
-                    // Manejar la respuesta (ej: recargar tabla, mostrar mensaje)
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error al procesar devolución:", error);
-                }
-            });
-            */
         }
 
 
@@ -154,29 +135,6 @@ $(document).ready(function() {
         // insertar el registro en la tabla 'mantenimiento' con el motivo,
         // y actualizar el estado del préstamo si todos los equipos han sido procesados.
         // Esta lógica de backend es donde se simularía o se usaría el trigger.
-
-        // Ejemplo (comentado):
-        /*
-        $.ajax({
-            url: "ajax/devoluciones.ajax.php", // O un nuevo archivo AJAX
-            method: "POST",
-            data: {
-                action: 'registrarMalEstado', // Indicar la acción
-                prestamoId: prestamoId,
-                motivo: motivo
-                // Podrías necesitar enviar también el/los equipo_id afectado/s
-            },
-            success: function(response) {
-                console.log("Respuesta del servidor:", response);
-                // Manejar la respuesta (ej: cerrar modal, recargar tabla, mostrar mensaje)
-                $('#modalMalEstado').modal('hide');
-                $('#formMalEstado')[0].reset(); // Limpiar el formulario
-            },
-            error: function(xhr, status, error) {
-                console.error("Error al registrar mal estado:", error);
-            }
-        });
-        */
 
         // Por ahora, solo cerramos la modal y limpiamos el formulario
         // sin enviar datos al backend, como solicitaste.
