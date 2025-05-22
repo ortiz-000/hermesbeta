@@ -13,7 +13,8 @@ class ModeloDevoluciones
                         f.codigo as ficha_codigo,
                         GROUP_CONCAT(e.numero_serie SEPARATOR ', ') AS series,
                         GROUP_CONCAT(e.descripcion SEPARATOR ', ') AS descripciones,
-                        GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias
+                        GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias,
+                        GROUP_CONCAT(e.etiqueta SEPARATOR ', ') AS etiqueta
                  FROM $tabla p
                  JOIN usuarios u ON p.usuario_id = u.id_usuario
                  LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
