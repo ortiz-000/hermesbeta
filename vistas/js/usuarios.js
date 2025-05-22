@@ -31,23 +31,26 @@ $(document).on('click', '.btnActivarUsuario', function() {
     var boton = $(this);
 
     $.ajax({
-        url: 'ajax/usuarios.ajax.php',
-        method: 'POST',
-        data: { idUsuarioEstado: idUsuario, estado: nuevoEstado }, // <-- CAMBIA AQUÍ
-        success: function(respuesta) {
-            if (respuesta == 'ok') {
-                if (nuevoEstado == 'activo') {
-                    boton.removeClass('btn-danger').addClass('btn-success').text('Activo');
-                    boton.data('estado', 'inactivo');
-                } else {
-                    boton.removeClass('btn-success').addClass('btn-danger').text('Inactivo');
-                    boton.data('estado', 'activo');
-                }
-            } else {
-                alert('Error al cambiar el estado');
-            }
+    url: "ajax/usuarios.ajax.php",
+    method: "POST",
+    data: {
+        idUsuarioEstado: idUsuario,
+        estado: nuevoEstado
+    },
+    success: function(respuesta) {
+        console.log("Respuesta:", respuesta);
+        if (respuesta.trim() === "ok") {
+            Swal.fire("Éxito", "Estado actualizado", "success").then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire("Error", "No se pudo cambiar el estado", "error");
         }
-    });
+    },
+    error: function() {
+        Swal.fire("Error", "Fallo de conexión con el servidor", "error");
+    }
+});
 });
 
 $(document).on("change", "#selectSede", function() {
@@ -301,10 +304,33 @@ $(document).on("change", "#selectEditRolUsuario", function() {
         $("#EditFicha").addClass("d-none");
         $("#selectEditSede").removeAttr("required");
         $("#selectEditIdFicha").removeAttr("required");
-
         // $("#ficha").addClass("d-none");
     }
-})
+});
+
+// Mostrar foto de usuario al editar
+$(document).on("click", ".btnEditarUsuario", function() {
+    var idUsuario = $(this).attr("idUsuario") || $(this).attr("idusuario");
+    var datos = new FormData();
+    datos.append("idUsuario", idUsuario);
+    $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function(respuesta) {
+            // ... (otros campos)
+            if (respuesta["foto"] && respuesta["foto"].trim() !== "") {
+                $("#editFotoUsuario").attr("src", respuesta["foto"]).removeClass("d-none");
+            } else {
+                $("#editFotoUsuario").attr("src", "vistas/img/usuarios/default/anonymous.png").removeClass("d-none");
+            }
+        }
+    });
+});
 
 $(document).on("change", "#selectEditSede", function() {
 
