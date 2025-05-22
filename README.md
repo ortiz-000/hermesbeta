@@ -53,7 +53,7 @@ CREATE TABLE auditoria_aprendices
   ```
   -Esto permite rastrear qué acciones se han ejecutado sobre los datos de los aprendices, cuándo ocurrieron y en qué consistieron
 
-### 6. Agregar tabla  `auditoria_usuarios`
+### 6. Agregar trigger a la tabla  `auditoria_usuarios`
 ```sql 
   DELIMITER $$
 
