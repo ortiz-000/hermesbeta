@@ -12,8 +12,6 @@ $(document).ready(function() {
             },
             dataType: "json",
             success: function(respuesta) {
-                console.log("Respuesta del servidor:", respuesta);
-                
                 if(respuesta) {
                     // Imagen y datos básicos del usuario
                     $('#userImage').attr('src', respuesta.foto ? respuesta.foto : 'vistas/img/usuarios/default/anonymous.png');
@@ -34,23 +32,19 @@ $(document).ready(function() {
                     // Información del equipo
                     $('.info-equipos').html(`
                         <tr>
-                            <th style="width: 40%">Serial:</th>
-                            <td>${respuesta.numero_serie || 'No disponible'}</td>
+                            <th style="width: 40%">Seriales:</th>
+                            <td>${respuesta.series || 'No disponible'}</td>
                         </tr>
                         <tr>
-                            <th>Etiqueta:</th>
-                            <td>${respuesta.etiqueta || 'No disponible'}</td>
+                            <th>Descripciones:</th>
+                            <td>${respuesta.descripciones || 'No disponible'}</td>
                         </tr>
                     `);
                     
                     $('.info-equipos-2').html(`
                         <tr>
-                            <th style="width: 40%">Modelo:</th>
-                            <td>${respuesta.equipo_descripcion || 'No disponible'}</td>
-                        </tr>
-                        <tr>
-                            <th>Categoría:</th>
-                            <td>${respuesta.nombre_categoria || 'No disponible'}</td>
+                            <th style="width: 40%">Categorías:</th>
+                            <td>${respuesta.categorias || 'No disponible'}</td>
                         </tr>
                     `);
                     
@@ -61,6 +55,58 @@ $(document).ready(function() {
                     } else {
                         $('.btn-devolver').prop('disabled', true).hide();
                     }
+                    
+                    // Limpiar el contenedor de equipos
+                    $('.equipos-container').empty();
+                    
+                    // Crear una tabla por cada equipo
+                    respuesta.equipos.forEach(function(equipo, index) {
+                        var equipoHtml = `
+                            <div class="card card-outline card-success mb-3">
+                                <div class="card-header">
+                                    <h3 class="card-title">Equipo ${index + 1}</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <table class="table table-sm">
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="width: 40%">Serial:</th>
+                                                        <td>${equipo.numero_serie || 'No disponible'}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Marca:</th>
+                                                        <td>${equipo.descripcion || 'No disponible'}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <table class="table table-sm">
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="width: 40%">Modelo:</th>
+                                                        <td>${equipo.equipo_descripcion || 'No disponible'}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Categoría:</th>
+                                                        <td>${equipo.nombre_categoria || 'No disponible'}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-12 text-center mt-3">
+                                            <button type="button" class="btn btn-success btn-devolver" data-equipo-id="${equipo.equipo_id}">
+                                                <i class="fas fa-check-circle mr-2"></i>Marcar como Devuelto
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        $('.equipos-container').append(equipoHtml);
+                    });
                 }
             },
             error: function(xhr, status, error) {
