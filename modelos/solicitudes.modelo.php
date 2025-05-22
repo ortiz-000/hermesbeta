@@ -52,27 +52,34 @@ class ModeloSolicitudes
         $stmt = null;
     } // fin del metodo mdlMostrarEquiposDisponible
 
-    static public function mdlGuardarSolicitud($tabla, $datos)
-    {
+    static public function mdlGuardarSolicitud($tabla, $datos){
 
         $conexion = Conexion::conectar();
 
-        try {
+        try{
             $conexion->beginTransaction();
+            $sql = "INSERT INTO $tabla (usuario_id, tipo_prestamo, fecha_inicio, fecha_fin, estado_prestamo, motivo) VALUES (:usuario_id, :tipo_prestamo, :fechaInicio, :fechaFin, :estado_prestamo, :motivo)";
 
-            $stmt = $conexion->prepare("INSERT INTO $tabla (usuario_id, tipo_prestamo, fecha_inicio, fecha_fin, estado_prestamo, motivo) VALUES (:usuario_id, :tipo_prestamo, :fechaInicio, :fechaFin, :estado_prestamo, :motivo)");
-            $stmt->bindParam(":usuario_id", $datos["idSolicitante"], PDO::PARAM_INT);
+            // error log de la consulta SQL con los datos enviados para debuggear
+            error_log("INSERT INTO $tabla (usuario_id, tipo_prestamo, fecha_inicio, fecha_fin, estado_prestamo, motivo) VALUES ({$datos['usuario_id']}, {$datos['tipo_prestamo']}, {$datos['fecha_inicio']}, {$datos['fecha_fin']}, {$datos['estado_prestamo']}, {$datos['motivo']})");
+
+            // error_log("SQL: $sql", 0);
+            error_log("Datos: " . print_r($datos, true), 0); 
+            
+
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindParam(":usuario_id", $datos["usuario_id"], PDO::PARAM_INT);
             $stmt->bindParam(":tipo_prestamo", $datos["tipo_prestamo"], PDO::PARAM_STR);
-            $stmt->bindParam(":fechaInicio", $datos["fechaInicio"], PDO::PARAM_STR);
-            $stmt->bindParam(":fechaFin", $datos["fechaFin"], PDO::PARAM_STR);
+            $stmt->bindParam(":fechaInicio", $datos["fecha_inicio"], PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFin", $datos["fecha_fin"], PDO::PARAM_STR);
             $stmt->bindParam(":estado_prestamo", $datos["estado_prestamo"], PDO::PARAM_STR);
-            $stmt->bindParam(":motivo", $datos["observaciones"], PDO::PARAM_STR);
+            $stmt->bindParam(":motivo", $datos["motivo"], PDO::PARAM_STR);
             $stmt->execute();
 
             $idPrestamo = $conexion->lastInsertId();
 
             foreach ($datos["equipos"] as $equipo) {
-                $stmt2 = $conexion->prepare("INSERT INTO detalle_prestamo (id_prestamo, equipo_id, estado) VALUES (:id_prestamo, :equipo_id, 'asignado')");
+                $stmt2 = $conexion->prepare("INSERT INTO detalle_prestamo (id_prestamo, equipo_id, estado) VALUES (:id_prestamo, :equipo_id, 'asignado')", );
                 $stmt2->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
                 $stmt2->bindParam(":equipo_id", $equipo, PDO::PARAM_INT);
                 $stmt2->execute();
@@ -81,11 +88,11 @@ class ModeloSolicitudes
             $conexion->commit();
             return "ok";
 
-        } catch (PDOException $e) {
+        }catch(PDOException $e){
             $conexion->rollBack();
             return "error";
-        }
-
+        }       
+        
     } //metodo mdlGuardarSolicitud
 
    
