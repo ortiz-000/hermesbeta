@@ -18,14 +18,17 @@ $(document).ready(function () {
       { data: "direccion", title: "Dirección" },
       { data: "genero", title: "Género" },
       {
-        data: "foto",
-        title: "Foto",
-        render: function (data) {
-          if (data && data.trim() !== "") {
-            return `<img src="uploads/${data}" style="width:40px;height:40px;border-radius:50%" alt="Foto Usuario">`;
-          }
-          return 'Sin foto';
-        }
+  
+  data: "foto",
+  title: "Foto",
+  render: function (data) {
+    if (data && data.trim() !== "") {
+      // data ya es ruta completa, úsala tal cual
+      return `<img src="${data}" style="width:40px;height:40px;border-radius:50%" alt="Foto Usuario">`;
+    } else {
+      // ruta fija a imagen por defecto
+      return `<img src="vistas/img/usuarios/default/anonymous.png" style="width:40px;height:40px;border-radius:50%" alt="Sin foto">`;
+    }}
       },
       { data: "estado", title: "Estado" },
       { data: "condicion", title: "Condición" },
@@ -68,16 +71,6 @@ $(document).ready(function () {
         }
       },
       { data: "fecha_cambio", title: "Fecha Cambio" },
-      {
-        data: null,
-        title: "Detalle",
-        orderable: false,
-        searchable: false,
-        render: function (data, type, row) {
-          const detalleJSON = JSON.stringify(row).replace(/'/g, "&apos;");
-          return `<button class="btn btn-info btn-sm btn-detalle" data-detalle='${detalleJSON}'>Ver Detalle</button>`;
-        }
-      }
     ],
     responsive: true,
     dom: 'Bfrtip',
@@ -87,82 +80,6 @@ $(document).ready(function () {
     },
     order: [[18, 'desc']], // Ordenar por fecha_cambio descendente
     pageLength: 10
-  });
-
-  // Evento para botón "Ver Detalle"
-  $('#tablaAuditoria tbody').on('click', '.btn-detalle', function () {
-    const detalleData = $(this).data('detalle');
-
-    let campos = [];
-    let valoresAnteriores = [];
-    let valoresNuevos = [];
-
-    try {
-      campos = Array.isArray(detalleData.campo_modificado) ? detalleData.campo_modificado : JSON.parse(detalleData.campo_modificado);
-    } catch {
-      campos = [];
-    }
-
-    try {
-      valoresAnteriores = Array.isArray(detalleData.valor_anterior) ? detalleData.valor_anterior : JSON.parse(detalleData.valor_anterior);
-    } catch {
-      valoresAnteriores = [];
-    }
-
-    try {
-      valoresNuevos = Array.isArray(detalleData.valor_nuevo) ? detalleData.valor_nuevo : JSON.parse(detalleData.valor_nuevo);
-    } catch {
-      valoresNuevos = [];
-    }
-
-    const camposAmigables = {
-      'telefono': 'Teléfono',
-      'direccion': 'Dirección',
-      'genero': 'Género',
-      'nombre': 'Nombre',
-      'apellido': 'Apellido',
-      'correo_electronico': 'Correo Electrónico',
-      'nombre_usuario': 'Nombre de Usuario',
-      'estado': 'Estado',
-      'condicion': 'Condición',
-      'foto': 'Foto',
-      'tipo_documento': 'Tipo de Documento',
-      'numero_documento': 'Número de Documento',
-      'fecha_registro': 'Fecha de Registro'
-    };
-
-    let contenido = `
-      <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-          <thead class="thead-light">
-            <tr>
-              <th>Campo</th>
-              <th>Valor Anterior</th>
-              <th>Valor Nuevo</th>
-            </tr>
-          </thead>
-          <tbody>
-    `;
-
-    for (let i = 0; i < campos.length; i++) {
-      const campoLegible = camposAmigables[campos[i]] || campos[i];
-      contenido += `
-        <tr>
-          <td><strong>${campoLegible}</strong></td>
-          <td class="text-danger">${valoresAnteriores[i] || '-'}</td>
-          <td class="text-success">${valoresNuevos[i] || '-'}</td>
-        </tr>
-      `;
-    }
-
-    contenido += `
-          </tbody>
-        </table>
-      </div>
-    `;
-
-    $('#modalDetalleBody').html(contenido);
-    $('#modalDetalle').modal('show');
   });
 });
 
