@@ -75,8 +75,7 @@
   <!-- Fin de la tabla -->
 
   <!-- Modal Finalizar Mantenimiento -->
-  <!-- Modal Finalizar Mantenimiento -->
-  <div class="modal fade" id="modalFinalizarMantenimiento" tabindex="-1" role="dialog" aria-labelledby="modalFinalizarMantenimientoLabel" aria-hidden="true">
+  <div class="modal fade" id="modalFinalizarMantenimiento">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header bg-info">
@@ -87,7 +86,7 @@
         </div>
         <div class="modal-body p-0">
           <!-- Información del Equipo -->
-          <div class="p-3">
+            <div class="p-3">
             <div class="row">
               <div class="col-md-4 text-center mb-3">
                 <i class="fas fa-laptop text-info" style="font-size: 4rem;"></i>
