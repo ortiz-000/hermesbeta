@@ -1,5 +1,6 @@
 # Template
 AdminLTE/
+modelos/conexion.php
 
 # Ignore all files in the root directory
 .htaccess
@@ -80,9 +81,7 @@ bower_components/
 
 # ETC
 TODO
-test.html
+test*.*
 
-.htaccess
-ad.js
-/.cache/
-modelos/conexion.php
+
+
