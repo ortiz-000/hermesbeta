@@ -28,6 +28,7 @@
                     <th>Fecha Autorización</th>
                     <th>Fecha Entrega</th>
                     <th>Estado Préstamo</th>
+                    <th>Firmas</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -52,6 +53,20 @@
                           <td>'.$value["fecha_autorizacion"].'</td>
                           <td>'.$value["fecha_entrega"].'</td>
                           <td>'.$estadoPrestamo.'</td>
+                          <td>
+                              <div class="icheck-primary d-inline mx-1">
+                              <input type="checkbox" id="firma1_'.$value["id_autorizacion"].'">
+                              <label for="firma1_'.$value["id_autorizacion"].'"></label>
+                            </div>
+                            <div class="icheck-primary d-inline mx-1">
+                              <input type="checkbox" id="firma2_'.$value["id_autorizacion"].'">
+                              <label for="firma2_'.$value["id_autorizacion"].'"></label>
+                            </div>
+                            <div class="icheck-primary d-inline mx-1">
+                              <input type="checkbox" id="firma3_'.$value["id_autorizacion"].'">
+                              <label for="firma3_'.$value["id_autorizacion"].'"></label>
+                            </div>
+                          </td>
                           <td>
                             <button class="btn btn-info btn-sm btnVerDetalles" data-toggle="modal" data-target="#modalDetalles" 
                               data-id="'.$value["id_autorizacion"].'"
@@ -81,7 +96,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form role="form" method="post">
+            <form id="formAutorizacion" role="form" method="post">
               <input type="hidden" id="idAutorizacion" name="idAutorizacion">
               
               <div class="form-group">
@@ -89,15 +104,16 @@
                 <input type="text" class="form-control" id="nombreUsuario" readonly>
               </div>
 
-              <div class="modal-footer">
-                <button type="button" class="btn btn-success btnAutorizar">Autorizar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <div class="form-group">
+                <label>Motivo de rechazo:</label>
+                <textarea class="form-control" id="motivoRechazo" name="motivoRechazo" rows="3"></textarea>
               </div>
 
-              <?php
-                $actualizarAutorizacion = new ControladorAutorizaciones();
-                $actualizarAutorizacion->ctrActualizarAutorizacion();
-              ?>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success btnAutorizar">Autorizar</button>
+                <button type="submit" class="btn btn-danger btnRechazar">Rechazar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              </div>
             </form>
           </div>
         </div>
@@ -105,3 +121,14 @@
     </div>
   </div>
 </div>
+
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+
+<script src="vistas/js/autorizaciones.js"></script>
