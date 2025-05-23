@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-05-2025 a las 07:44:15
+-- Tiempo de generación: 23-05-2025 a las 20:11:18
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `hermesbetaprueba`
+-- Base de datos: `hermesbeta`
 --
 
 -- --------------------------------------------------------
@@ -712,6 +712,23 @@ INSERT INTO `usuario_rol` (`id_usuario`, `id_rol`, `fecha_asignacion`) VALUES
 (72, 6, '2025-04-04 16:16:32'),
 (73, 6, '2025-05-15 15:59:20');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vencidas`
+--
+
+CREATE TABLE `vencidas` (
+  `id_vencida` int(11) NOT NULL,
+  `id_prestamo` int(11) NOT NULL,
+  `fecha_vencimiento` date NOT NULL,
+  `estado_notificacion` enum('pendiente','notificado','resuelto') DEFAULT 'pendiente',
+  `fecha_notificacion` datetime DEFAULT NULL,
+  `observaciones` text DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Índices para tablas volcadas
 --
@@ -846,6 +863,15 @@ ALTER TABLE `usuario_rol`
   ADD KEY `id_rol` (`id_rol`);
 
 --
+-- Indices de la tabla `vencidas`
+--
+ALTER TABLE `vencidas`
+  ADD PRIMARY KEY (`id_vencida`),
+  ADD KEY `idx_prestamo` (`id_prestamo`),
+  ADD KEY `idx_fecha_vencimiento` (`fecha_vencimiento`),
+  ADD KEY `idx_estado` (`estado_notificacion`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -934,6 +960,12 @@ ALTER TABLE `usuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
+-- AUTO_INCREMENT de la tabla `vencidas`
+--
+ALTER TABLE `vencidas`
+  MODIFY `id_vencida` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Restricciones para tablas volcadas
 --
 
@@ -1013,6 +1045,12 @@ ALTER TABLE `ubicaciones`
 ALTER TABLE `usuario_rol`
   ADD CONSTRAINT `usuario_rol_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`),
   ADD CONSTRAINT `usuario_rol_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`);
+
+--
+-- Filtros para la tabla `vencidas`
+--
+ALTER TABLE `vencidas`
+  ADD CONSTRAINT `vencidas_ibfk_1` FOREIGN KEY (`id_prestamo`) REFERENCES `prestamos` (`id_prestamo`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
