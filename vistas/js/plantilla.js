@@ -6,7 +6,7 @@ window.addEventListener('load', function() {
   initializeDataTable("#tblAutorizaciones");
   initializeDataTable("#tblModalHistoricoSolicitudes");
   initializeDataTable("#tblMisPrestamosUsuario");
- 
+  initializeDataTable("#tblvencidas");
   // initializeDataTable("#tblPermisos");
 });
 
