@@ -11,6 +11,11 @@ require_once "controladores/equipos.controlador.php";
 require_once "controladores/solicitudes.controlador.php";
 require_once "controladores/devoluciones.controlador.php";
 require_once "controladores/mantenimiento.controlador.php";
+require_once "controladores/ubicaciones.controlador.php";
+require_once "controladores/categorias.controlador.php";
+require_once "controladores/estados.controlador.php";
+
+
 
 require_once "controladores/validacion.controlador.php";
 
@@ -24,6 +29,10 @@ require_once "modelos/equipos.modelo.php";
 require_once "modelos/solicitudes.modelo.php";
 require_once "modelos/devoluciones.modelo.php";
 require_once "modelos/mantenimiento.modelo.php";
+require_once "modelos/ubicaciones.modelo.php";
+require_once "modelos/categorias.modelo.php";
+require_once "modelos/estados.modelo.php";
+
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

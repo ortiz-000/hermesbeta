@@ -62,6 +62,7 @@
               <!-- Solo si es estudiante -->
               <th>Estado</th>
               <!-- <th>Ultimo Acceso</th> -->
+              <th>Condición</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -90,6 +91,18 @@
             } else {
               echo '<button class="btn btn-danger btn-xs btnActivarUsuario" data-id="' . $usuario["id_usuario"] . '" data-estado="activo">Inactivo</button>';
             }
+            echo '</td>';
+            echo '<td>';
+            if ($usuario["condicion"] == "en_regla") {
+            echo '<button class="btn btn-success btn-xs btnCambiarCondicionUsuario" idUsuario="' . $usuario["id_usuario"] . '" condicionUsuario="advertido">En regla</button>';
+            } 
+            elseif ($usuario["condicion"] == "advertido") {
+            echo '<button class="btn btn-warning btn-xs btnCambiarCondicionUsuario" idUsuario="' . $usuario["id_usuario"] . '" condicionUsuario="penalizado">Advertido</button>';
+            } 
+            elseif ($usuario["condicion"] == "penalizado") {
+            echo '<button class="btn btn-danger btn-xs btnCambiarCondicionUsuario" idUsuario="' . $usuario["id_usuario"] . '" condicionUsuario="en_regla">Penalizado</button>';
+            } 
+            echo '</td>';
             echo '<td>
                   <div class="btn-group">
                     <button title="Consultar detalles de usuario" class="btn btn-default btn-xs btnConsultarUsuario" idUsuario="' . $usuario["id_usuario"] . '" data-toggle="modal" data-target="#modalConsularUsuario"><i class="fas fa-eye"></i></button>
@@ -638,16 +651,32 @@
                   </div>
                 </div>
               </div>
+              <!--- row -->
+
+              <!-- row password  -->
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="input-group ">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                      </div>
+                      <input type="password" class="form-control" name="nuevoPassword" placeholder="Password" required>
+                    </div>
+                  </div>
+                </div>
+
               <!-- form group -->
               <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary">Agregar</button>
               </div>
+              
 
               <?php
 
               // Include the PHP file for handling the form submission
-              $crearUsuario = new ControladorUsuarios();
+              $crearUsuario = new ControladorUsuarios() ;
               $crearUsuario->ctrCrearUsuario();
 
 
@@ -908,4 +937,3 @@
       </div> <!-- Modal content -->
     </div> <!-- modal-dialog  -->
   </div> <!-- modal  -->
-

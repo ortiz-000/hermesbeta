@@ -102,6 +102,7 @@
           $_GET["ruta"] == "reportes" ||
           $_GET["ruta"] == "Mantenimiento" ||
           $_GET["ruta"] == "desactivado" ||
+          $_GET["ruta"] == "auditoria" ||
           $_GET["ruta"] == "salir") {
 
             include "modulos/".$_GET["ruta"].".php";
@@ -125,7 +126,9 @@
   <script src="vistas/js/modulos.js"></script>
   <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/solicitudes.js"></script>
+  <script src="vistas/js/equipos.js"></script>
   <script src="vistas/js/consultar-solicitudes.js"></script>
   <script src="vistas/js/devoluciones.js"></script>
+  <script src="vistas/js/auditoria.js"></script>
 </body>
 </html>

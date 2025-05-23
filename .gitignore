@@ -6,6 +6,11 @@ AdminLTE/
 
 # Ignore all files in the root directory
 .conexion.php
+# .htaccess
+.htaccess
+
+# Error log
+log.php
 
 # System / Log files
 *.DS_Store
@@ -76,10 +81,11 @@ bower_components/
 # ETC
 TODO
 test.html
+
 .htaccess
 ad.js
 /.cache/
-/modelos/conexion.php
+modelos/conexion.php
 vistas/img/
 vistas/img/about.txt
 vistas/img/android-chrome-192x192.png

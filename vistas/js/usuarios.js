@@ -364,7 +364,8 @@ $(document).on("change", "#selectEditIdFicha", function() {
 })
 
 $(document).on("click", ".btnEditarUsuario", function() {
-    var idUsuario = $(this).attr("idUsuario");
+    
+    var idUsuario = $(this).attr("idUsuario") || $(this).attr("idusuario");
     var datos = new FormData();
     datos.append("idUsuario", idUsuario);
     $.ajax({
@@ -402,6 +403,7 @@ $(document).on("click", ".btnEditarUsuario", function() {
             $("#selectEditSede").attr("idSede", respuesta["id_sede"]);
             $("#optionEditSede").val(respuesta["id_sede"]);
             $("#optionEditSede").html(respuesta["nombre_sede"]);
+            //$("#selectEditSede").trigger("change");
             //disparar el evento change para cargar las fichas de la sede seleccionada
             // $("#selectEditSede").trigger("change");
 
@@ -411,12 +413,18 @@ $(document).on("click", ".btnEditarUsuario", function() {
             $("#editTelefono").val(respuesta["telefono"]);
             $("#editDireccion").val(respuesta["direccion"]);
             $("#nombreEditPrograma").prop("placeholder", respuesta["descripcion_ficha"]);
+
+            // Aquí agregamos estado y condicion
+            $("#editEstado").val(respuesta["estado"]);
+            $("#editCondicion").val(respuesta["condicion"]);
         }
     });
 });
 
-// Clear modal inputs when the modal is hidden
+// Limpiar inputs al cerrar modal (opcional)
 $('#modalEditarUsuario').on('hidden.bs.modal', function() {
+    $(this).find('form')[0].reset();
+    // También puedes limpiar select2 u otros componentes si usas
     //recargar las vista de usuarios
     // location.reload();
     // Clear all input fields inside the modal

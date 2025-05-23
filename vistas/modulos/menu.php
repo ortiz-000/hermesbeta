@@ -55,6 +55,15 @@
               </p>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a href="reportes" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Reportes
+              </p>
+            </a>
+          </li>
           
           <?php
 
@@ -77,7 +86,7 @@
                           <p>Fichas</p>
                         </a>
                       </li>';}
-     
+    
                     
 
           if (ControladorValidacion::validarPermisoSesion([23, 24, 25])) {
@@ -97,12 +106,20 @@
                       </li>';} 
 
           if (ControladorValidacion::validarPermisoSesion([30])) {                       
-                      echo'<li class="nav-item">
-                      <a href="permisos" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Permisos</p>
-                      </a>
-                    </li>';}
+    echo '<li class="nav-item">
+            <a href="permisos" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Permisos</p>
+            </a>
+          </li>';
+
+    echo '<li class="nav-item">
+            <a href="auditoria" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Auditoría</p>
+            </a>
+          </li>';
+}
 
           if (ControladorValidacion::validarPermisoSesion([29])) {    
                       echo'<li class="nav-item">
@@ -156,18 +173,7 @@
               </li>
             </ul>';
           }
-          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
-            echo '<li class="nav-item">
-            <a href="consultar-solicitudes" class="nav-link">
-              <i class="nav-icon fas fa-reply"></i>
-              <span class="badge badge-info right">6+</span>
-              <p>
-                Consultar
-              </p>
-            </a>
-          </li>        
-          ';
-          }
+          
           
           if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
                       echo '<li class="nav-item">
@@ -216,21 +222,29 @@
             </a>
           </li>';
           }
-
-
-                
-          ?>
-          
-
-            
-          
-
-          
-
-          
-                
-
-          <li class="nav-item">
+          if (ControladorValidacion::validarPermisoSesion([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
+                      <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-cogs"></i>
+                      <p>
+                        solicitudes
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">';
+          if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
+            <a href="consultar-solicitudes" class="nav-link">
+              <i class="nav-icon fas fa-reply"></i>
+              <span class="badge badge-info right">6+</span>
+              <p>
+                Consultar
+              </p>
+            </a>
+          </li>        
+          ';}
+          if (ControladorValidacion::validarPermisoSesion([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
             <a href="solicitudes" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
               <span class="badge badge-info right">6+</span>
@@ -238,10 +252,10 @@
                 Solicitudes
               </p>
             </a>
-          </li>
-
+          </li>'; }
           
-          <li class="nav-item">
+          if (ControladorValidacion::validarPermisoSesion([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+            echo '<li class="nav-item">
             <a href="mis-solicitudes" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
               <span class="badge badge-info right">6+</span>
@@ -249,11 +263,15 @@
                 Mis solicitudes
               </p>
             </a>
-          </li>              
-
+          </li>'; }
           
+        } 
+      
           
 
+
+                
+          ?>
           
 
           <li class="nav-item">
