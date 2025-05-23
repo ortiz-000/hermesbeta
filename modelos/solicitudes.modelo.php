@@ -157,7 +157,7 @@ class ModeloSolicitudes
 
         //verificamos el tamaño de la respuesta
         if($stmt->rowCount() == 1){
-            return $stmt->fetch(PDO::FETCH_ASSOC);            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);            
         }else{
             return $stmt->fetchAll(PDO::FETCH_ASSOC);            
         }

@@ -51,6 +51,7 @@ $('#reservation').on('apply.daterangepicker', function (ev, picker) {
   datos = new FormData();
   datos.append("fechaInicio", fechaInicio);
   datos.append("fechaFin", fechaFin);
+  
   $.ajax({
     url: "ajax/solicitudes.ajax.php",
     method: "POST",
@@ -93,6 +94,7 @@ $("#tblActivosSolicitar").on("click", ".btnAgregarEquipo", function () {
   console.log(idEquipoAgregar);
   $(this).removeClass("btn-primary").addClass("btn-success").html('<i class="fas fa-check"></i> Agregado').prop("disabled", true);
   var datos = new FormData();
+  datos.append("accion", "traerEquipo");
   datos.append("idEquipoAgregar", idEquipoAgregar);
 
   $.ajax({
@@ -215,7 +217,7 @@ $("#idFormularioSolicitud").on("submit", function (event) {
   //converitomos la lista de equipos en json
   equipos = JSON.stringify(equipos);
 
-  console.log(equipos);
+  
   //detenemos la ejecucion para debuguear
   // Debug: Stop execution here to inspect variables
   // debugger;
@@ -227,17 +229,19 @@ $("#idFormularioSolicitud").on("submit", function (event) {
   datos.append("fechaFin", fechaFin);
   datos.append("motivoSolicitud", motivo);
   datos.append("equipos", equipos);
+  datos.append("accion", "guardarSolicitud");
+
 
   // Mostrar loading
-  Swal.fire({
-    icon: "success",
-    title: "Solicitud guardada correctamente",
-    showConfirmButton: true,
-    confirmButtonText: "Cerrar"
-  }).then((result) => {
-    if (result.isConfirmed) {
-      window.location = "solicitudes";
-    }
+    Swal.fire({
+      title: 'Procesando solicitud',
+      text: 'Por favor espere...',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showConfirmButton: false,
+      didOpen: () => {
+          Swal.showLoading();
+      }
   });
 
 
@@ -251,7 +255,7 @@ $("#idFormularioSolicitud").on("submit", function (event) {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      console.log(respuesta);
+      console.log("Respuesta recibida:", respuesta, "Tipo:", typeof respuesta);
       if (respuesta == "ok") {
         Swal.fire({
           icon: "success",
