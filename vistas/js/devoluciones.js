@@ -149,36 +149,5 @@ $(document).ready(function() {
             console.log(`Procesando devolución del equipo ${equipoId} en estado: ${estado}...`);
             // TODO: Implementar llamada AJAX para actualizar el estado del equipo y/o préstamo
         }
-
-        // Evitar que el botón realice su acción por defecto (si la tuviera)
-        return false;
-    });
-
-    // Evento para el botón "Guardar Motivo y Enviar a Mantenimiento" dentro de la modal
-    $(document).on('click', '#btnGuardarMalEstado', function() {
-        var prestamoId = $('#malEstadoPrestamoId').val();
-        var equipoId = $('#malEstadoEquipoId').val(); // Obtener el ID del equipo
-        var motivo = $('#motivoMalEstado').val();
-
-        if (motivo.trim() === '') {
-            alert('Por favor, ingrese el motivo del mal estado.');
-            return;
-        }
-
-        console.log("Guardando motivo de mal estado:");
-        console.log("ID del Préstamo:", prestamoId);
-        console.log("ID del Equipo:", equipoId);
-        console.log("Motivo:", motivo);
-
-        // Aquí iría la llamada AJAX para enviar el ID del préstamo, el ID del equipo y el motivo al backend.
-        // El backend se encargaría de actualizar el estado de ESE equipo a 'Mantenimiento',
-        // insertar el registro en la tabla 'mantenimiento' con el motivo,
-        // y verificar si todos los equipos del préstamo han sido procesados para actualizar el estado del préstamo.
-
-        // Por ahora, solo mostramos en consola, cerramos la modal y limpiamos el formulario
-        // sin enviar datos al backend.
-        alert("Funcionalidad de guardar motivo no implementada aún."); // Notificar al usuario
-        $('#modalMalEstado').modal('hide');
-        $('#formMalEstado')[0].reset(); // Limpiar el formulario
     });
 });
