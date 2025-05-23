@@ -171,27 +171,13 @@
           
           if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
                       echo '<li class="nav-item">
-                      <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-check"></i>
-                        <p>
-                          Autorizar
-                          <i class="right fas fa-angle-left"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">
                         <li class="nav-item">
                           <a href="autorizaciones" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fas fa-check"></i>
+                            <span class="badge badge-info right">4+</span>
                             <p>Autorizaciones</p>
                           </a>
-                        </li>
-                        <li class="nav-item">
-                          <a href="vencidas" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Solicitudes vencidas</p>
-                          </a>
-                        </li>
-                      </ul>';
+                        </li>';
                     }
           
           if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {

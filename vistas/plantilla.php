@@ -106,7 +106,6 @@
           $_GET["ruta"] == "consultar-solicitudes" ||
           $_GET["ruta"] == "mis-solicitudes" ||
           $_GET["ruta"] == "autorizaciones" ||
-          $_GET["ruta"] == "vencidas" ||
           $_GET["ruta"] == "devoluciones" ||
           $_GET["ruta"] == "salidas" ||
           $_GET["ruta"] == "reportes" ||
@@ -138,7 +137,6 @@
   <script src="vistas/js/modulos.js"></script>
   <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/autorizaciones.js"></script>
-  <script src="vistas/js/vencidas.js"></script>
   <script src="vistas/js/solicitudes.js"></script>
   <script src="vistas/js/consultar-solicitudes.js"></script>
 </body>
