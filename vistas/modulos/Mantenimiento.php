@@ -122,6 +122,10 @@
               <div class="form-group">
                 <label>Nivel de Gravedad:</label>
                 <div class="d-flex">
+                <div class="custom-control custom-radio mr-4">
+                    <input type="radio" id="sinNovedad" name="gravedad" value="ninguno" class="custom-control-input" checked>
+                    <label class="custom-control-label" for="sinNovedad">Sin novedad</label>
+                  </div>
                   <div class="custom-control custom-radio mr-4">
                     <input type="radio" id="problemaLeve" name="gravedad" value="leve" class="custom-control-input" checked>
                     <label class="custom-control-label" for="problemaLeve">Problema leve</label>
