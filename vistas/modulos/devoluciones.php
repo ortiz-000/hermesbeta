@@ -158,9 +158,9 @@
               <div class="card-header">
                 <h3 class="card-title">Equipos en Préstamo</h3>
               </div>
-              <div class="card-body" id="equiposListContainer">
+            </div>
+            <div id="equiposListContainer">
                 <!-- Aquí se cargarán los detalles de cada equipo individualmente con JavaScript -->
-              </div>
             </div>
           </div>
         </div>
