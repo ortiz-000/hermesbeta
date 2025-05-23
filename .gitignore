@@ -1,6 +1,9 @@
 # Template
 AdminLTE/
 
+.project/
+.vscode/
+
 # .htaccess
 .htaccess
 
