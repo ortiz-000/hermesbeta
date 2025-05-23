@@ -7,7 +7,7 @@ class ControladorEquipos{
         $tabla = "equipos";
         $respuesta = ModeloEquipos::mdlMostrarEquipos($tabla, $item, $valor);
         //var_dump($respuesta[0]);
-        error_log(print_r($respuesta, true));
+        // error_log($respuesta);
         return $respuesta;
     }
 
@@ -152,7 +152,7 @@ class ControladorEquipos{
 
             $respuesta = ModeloEquipos::mdlRealizarTraspasoUbicacion($tabla, $datos);
             // var_dump($respuesta);
-            error_log(print_r($respuesta));
+            error_log($respuesta);
             if($respuesta == "ok"){
                 echo '<script>
                         swal.fire({
