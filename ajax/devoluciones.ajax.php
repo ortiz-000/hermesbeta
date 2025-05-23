@@ -9,9 +9,10 @@ class AjaxDevoluciones {
     public function ajaxObtenerDatosPrestamo() {
         $item = "id_prestamo";
         $valor = $this->idPrestamo;
-        
+
+        // La respuesta ahora será un array de equipos si el préstamo tiene varios
         $respuesta = ControladorDevoluciones::ctrMostrarDevoluciones($item, $valor);
-        
+
         echo json_encode($respuesta);
     }
 }
