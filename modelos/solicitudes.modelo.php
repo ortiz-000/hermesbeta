@@ -130,7 +130,12 @@ class ModeloSolicitudes
         $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        //verificamos el tamaño de la respuesta
+        if($stmt->rowCount() == 1){
+            return $stmt->fetch(PDO::FETCH_ASSOC);  
+        }else{
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
 
         $stmt->close();
         $stmt = null;
@@ -150,7 +155,13 @@ class ModeloSolicitudes
         $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //verificamos el tamaño de la respuesta
+        if($stmt->rowCount() == 1){
+            return $stmt->fetch(PDO::FETCH_ASSOC);            
+        }else{
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);            
+        }
+
 
         $stmt->close();
         $stmt = null;
