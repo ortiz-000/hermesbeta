@@ -1,3 +1,9 @@
+<?php
+    $item = null;
+    $valor = null;
+    $solicitudesVencidas = ControladorVencidas::ctrMostrarSolicitudesVencidas($item, $valor);
+?>
+
 <div class="wrapper">
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -35,33 +41,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>#1234567</td>
-                                        <td>Alejo Claro<br>Aprendiz</td>
-                                        <td>11/5/2025</td>
-                                        <td>#8756483</td>
-                                        <td>Video Beam</td>
-                                        <td>02</td>
-                                        <td>11/5/2025</td>
-                                    </tr>
-                                    <tr>
-                                        <td>#1234568</td>
-                                        <td>Zelda Millan<br>Instructor</td>
-                                        <td>11/5/2025</td>
-                                        <td>#8756483</td>
-                                        <td>Equipo</td>
-                                        <td>02</td>
-                                        <td>11/5/2025</td>
-                                    </tr>
-                                    <tr>
-                                        <td>#1234569</td>
-                                        <td>Vegeto Osorio<br>Aprendiz</td>
-                                        <td>11/5/2025</td>
-                                        <td>#8756483</td>
-                                        <td>Video Beam</td>
-                                        <td>02</td>
-                                        <td>11/5/2025</td>
-                                    </tr>
+                                    <?php
+                                    if($solicitudesVencidas != "vacio") {
+                                        foreach ($solicitudesVencidas as $key => $value) {
+                                            echo '<tr>
+                                                    <td>#'.$value["id_prestamo"].'</td>
+                                                    <td>'.$value["nombre"].' '.$value["apellido"].'<br>'.$value["nombre_rol"].'</td>
+                                                    <td>'.$value["fecha_inicio"].'</td>
+                                                    <td>#'.$value["numero_serie"].'</td>
+                                                    <td>'.$value["tipo"].'</td>
+                                                    <td>01</td>
+                                                    <td>'.$value["fecha_fin"].'</td>
+                                                </tr>';
+                                        }
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
