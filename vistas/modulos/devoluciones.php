@@ -156,39 +156,10 @@
             <!-- Detalles del Equipo -->
             <div class="card card-outline card-success">
               <div class="card-header">
-                <h3 class="card-title">Información del Equipo</h3>
+                <h3 class="card-title">Equipos en Préstamo</h3>
               </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <table class="table table-sm">
-                      <tbody class="info-equipos">
-                        <tr>
-                          <th style="width: 40%">Serial:</th>
-                        </tr>
-                        <tr>
-                          <th>Marca:</th>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="col-md-6">
-                    <table class="table table-sm">
-                      <tbody class="info-equipos-2">
-                        <tr>
-                          <th style="width: 40%">Modelo:</th>
-                        </tr>
-                        <tr>
-                          <th>Categoría:</th>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- Contenedor para los botones de devolución -->
-                  <div class="col-12 text-center mt-3" id="devolucionButtonsContainer">
-                    <!-- Los botones se cargarán aquí con JavaScript -->
-                  </div>
-                </div>
+              <div class="card-body" id="equiposListContainer">
+                <!-- Aquí se cargarán los detalles de cada equipo individualmente con JavaScript -->
               </div>
             </div>
           </div>
@@ -214,8 +185,8 @@
             <div class="modal-body">
                 <form id="formMalEstado">
                     <input type="hidden" id="malEstadoPrestamoId">
-                    <!-- Podrías necesitar el ID del equipo específico si el préstamo tiene varios -->
-                    <!-- <input type="hidden" id="malEstadoEquipoId"> -->
+                    <!-- Necesitaremos el ID del equipo específico -->
+                    <input type="hidden" id="malEstadoEquipoId">
                     <div class="form-group">
                         <label for="motivoMalEstado">Describe el motivo del mal estado:</label>
                         <textarea class="form-control" id="motivoMalEstado" rows="4" required></textarea>
