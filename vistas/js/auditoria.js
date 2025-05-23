@@ -1,5 +1,6 @@
 let tablaAuditoria;
 
+
 $(document).ready(function() {
     tablaAuditoria = $('#tablaAuditoria').DataTable({
         ajax: {
@@ -18,13 +19,17 @@ $(document).ready(function() {
             { data: "direccion", title: "Dirección" },
             { data: "genero", title: "Género" },
             {
+
                 data: "foto",
                 title: "Foto",
                 render: function(data) {
                     if (data && data.trim() !== "") {
-                        return `<img src="uploads/${data}" style="width:40px;height:40px;border-radius:50%" alt="Foto Usuario">`;
+                        // data ya es ruta completa, úsala tal cual
+                        return `<img src="${data}" style="width:40px;height:40px;border-radius:50%" alt="Foto Usuario">`;
+                    } else {
+                        // ruta fija a imagen por defecto
+                        return `<img src="vistas/img/usuarios/default/anonymous.png" style="width:40px;height:40px;border-radius:50%" alt="Sin foto">`;
                     }
-                    return 'Sin foto';
                 }
             },
             { data: "estado", title: "Estado" },
@@ -67,7 +72,7 @@ $(document).ready(function() {
                     return data || '-';
                 }
             },
-            { data: "fecha_cambio", title: "Fecha Cambio" }
+            { data: "fecha_cambio", title: "Fecha Cambio" },
         ],
         responsive: true,
         dom: 'Bfrtip',
