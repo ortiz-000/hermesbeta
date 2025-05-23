@@ -176,7 +176,7 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">';
-            // Solo administradores, líder TIC, mesa de ayuda y almacén (ajusta los IDs según tus roles)
+            // Solo administradores, líder TIC, mesa de ayuda y almacén 
             if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22])) {
               echo '<li class="nav-item">
               <a href="consultar-solicitudes" class="nav-link">
