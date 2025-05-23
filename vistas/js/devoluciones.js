@@ -21,7 +21,7 @@ $(document).ready(function() {
                     // Imagen y datos básicos del usuario
                     $('#userImage').attr('src', datosPrestamo.foto ? datosPrestamo.foto : 'vistas/img/usuarios/default/anonymous.png');
                     $('#userName').text(datosPrestamo.nombre + ' ' + datosPrestamo.apellido);
-                    $('#userRol').text(datosPrestamo.rol || 'No especificado');
+                    $('#userRol').text(datosPrestamo.idrRol || 'No especificado');
 
                     // Información del préstamo
                     $('#prestamoIdentificacion').text(datosPrestamo.numero_documento || 'No disponible');
@@ -66,8 +66,8 @@ $(document).ready(function() {
                                                         <td>${equipo.categoria_nombre || 'No disponible'}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>ID Equipo:</th>
-                                                        <td>${equipo.equipo_id || 'No disponible'}</td>
+                                                        <th>Descripción:</th>
+                                                        <td>${equipo.descripcion || 'No disponible'}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
