@@ -6,7 +6,6 @@ class Conexion{
 
         $link = new PDO("mysql:host=localhost;dbname=hermesbeta", "root", "root");
 
-        
         $link -> exec("set names utf8");
         return $link;
     }
