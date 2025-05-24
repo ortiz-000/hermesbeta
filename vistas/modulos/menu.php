@@ -228,12 +228,6 @@
                 <p>Autorizaciones</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="vencidas" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Solicitudes vencidas</p>
-                </a>
-              </li>
               </ul>
             </li>';
           }
