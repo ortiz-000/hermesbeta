@@ -1,6 +1,8 @@
 Options All -Indexes
 RewriteEngine On
 RewriteBase /hermesbeta/
+RewriteBase /hermes-german/hermesbeta/
+RewriteBase /proyecto/
 RewriteRule ^([-a-zA-Z0-9]+)$ index.php?ruta=$1 [L]
 
 <IfModule mod_headers.c>
