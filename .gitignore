@@ -1,5 +1,6 @@
 # Template
 AdminLTE/
+modelos/conexion.php
 
 # .htaccess
 .htaccess
@@ -74,13 +75,11 @@ bower_components/
 .jekyll-metadata
 
 # ETC
-TODO
-test.html
 
-.htaccess
+test*.*
+
 ad.js
 /.cache/
-modelos/conexion.php
 vistas/img/
 vistas/img/about.txt
 vistas/img/android-chrome-192x192.png
