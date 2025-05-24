@@ -148,6 +148,54 @@ $(document).ready(function() {
             // Aquí iría la llamada AJAX para procesar la devolución de este equipo específico
             console.log(`Procesando devolución del equipo ${equipoId} en estado: ${estado}...`);
             // TODO: Implementar llamada AJAX para actualizar el estado del equipo y/o préstamo
+
+            // Added AJAX call for 'Marcar como Devuelto' (estado === 'devuelto')
+            if (estado === 'devuelto') { // Asumimos que 'devuelto' aquí significa 'marcar para mantenimiento'
+                $.ajax({
+                    url: "ajax/devoluciones.ajax.php", 
+                    method: "POST",
+                    data: {
+                        accion: "marcarMantenimientoDetalle", 
+                        idPrestamo: prestamoId,
+                        idEquipo: equipoId
+                    },
+                    dataType: "json",
+                    success: function(respuesta) {
+                        if (respuesta.success) { 
+                            Swal.fire({
+                                icon: "success",
+                                title: "¡Equipo marcado para mantenimiento!",
+                                text: respuesta.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                // Eliminar el contenedor del equipo de la modal
+                                // Buscamos el botón que fue clickeado, subimos a su contenedor de tarjeta y lo eliminamos.
+                                $(`.btn-devolver-equipo[data-equipo-id='${equipoId}'][data-prestamo-id='${prestamoId}']`).closest('.card.card-outline.card-secondary').remove();
+                                
+                                // Opcional: Verificar si no quedan más equipos y mostrar un mensaje
+                                if ($('#equiposListContainer .card').length === 0) {
+                                    $('#equiposListContainer').html('<p>Todos los equipos de este préstamo han sido procesados.</p>');
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error al marcar para mantenimiento",
+                                text: respuesta.message || "Hubo un problema al procesar la solicitud."
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error en la petición AJAX:", error);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error de comunicación",
+                            text: "No se pudo comunicar con el servidor."
+                        });
+                    }
+                });
+            }
         }
     });
 });
