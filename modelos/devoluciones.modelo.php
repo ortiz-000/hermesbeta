@@ -91,4 +91,51 @@ class ModeloDevoluciones
 
 	 } 
 
+	/*============================================= 
+	VERIFICAR SI TODOS LOS EQUIPOS DE UN PRÉSTAMO HAN SIDO DEVUELTOS (MARCADOS PARA MANTENIMIENTO)
+	=============================================*/
+	static public function mdlVerificarTodosEquiposDevueltos($idPrestamo){
+
+		$stmt = Conexion::conectar()->prepare(
+			"SELECT COUNT(*) as total_equipos, 
+					SUM(CASE WHEN id_estado = 4 THEN 1 ELSE 0 END) as equipos_en_mantenimiento 
+			 FROM detalle_prestamo 
+			 WHERE id_prestamo = :id_prestamo"
+		);
+
+		$stmt->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
+		$stmt->execute();
+		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if($resultado && $resultado["total_equipos"] > 0 && $resultado["total_equipos"] == $resultado["equipos_en_mantenimiento"]){
+			return true; // Todos los equipos están en mantenimiento
+		} else {
+			return false; // No todos los equipos están en mantenimiento o no hay equipos
+		}
+
+		$stmt = null;
+	}
+
+	/*=============================================
+	ACTUALIZAR ESTADO DEL PRÉSTAMO A DEVUELTO Y REGISTRAR FECHA REAL DE DEVOLUCIÓN
+	=============================================*/
+	static public function mdlActualizarPrestamoDevuelto($idPrestamo){
+
+		$stmt = Conexion::conectar()->prepare(
+			"UPDATE prestamos 
+			 SET estado_prestamo = 'Devuelto', fecha_devolucion_real = NOW() 
+			 WHERE id_prestamo = :id_prestamo"
+		);
+
+		$stmt->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
+
+		if($stmt->execute()){
+			return "ok";
+		} else {
+			return "error";
+		}
+
+		$stmt = null;
+	}
+
 }

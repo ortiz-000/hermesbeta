@@ -21,9 +21,26 @@
 					   "equipo_id" => $idEquipo,
 					   "id_estado" => 4); // Cambiado de "estado" => "Mantenimiento"
 
-		$respuesta = ModeloDevoluciones::mdlMarcarMantenimientoDetalle($tabla, $datos);
+		$respuestaMarcado = ModeloDevoluciones::mdlMarcarMantenimientoDetalle($tabla, $datos);
 
-		return $respuesta;
+		if($respuestaMarcado == "ok"){
+			// Verificar si todos los equipos del préstamo han sido devueltos
+			$todosDevueltos = ModeloDevoluciones::mdlVerificarTodosEquiposDevueltos($idPrestamo);
+
+			if($todosDevueltos){
+				// Si todos han sido devueltos, actualizar el estado del préstamo
+				$respuestaActualizacionPrestamo = ModeloDevoluciones::mdlActualizarPrestamoDevuelto($idPrestamo);
+				if($respuestaActualizacionPrestamo == "ok"){
+					return "ok_prestamo_actualizado"; // Éxito al marcar equipo y actualizar préstamo
+				} else {
+					return "error_actualizando_prestamo"; // Error al actualizar el préstamo
+				}
+			} else {
+				return "ok"; // Éxito al marcar el equipo, pero no todos han sido devueltos aún
+			}
+		} else {
+			return $respuestaMarcado; // Retorna "no_change" o "error" del marcado inicial
+		}
 
 	}
 
