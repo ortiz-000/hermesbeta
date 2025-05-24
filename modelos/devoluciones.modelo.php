@@ -8,11 +8,13 @@ class ModeloDevoluciones
     {
         if ($item != null) {
             // Consulta para un registro específico con JOIN, devolviendo cada equipo por separado
+            // Se añade la condición para que solo muestre equipos con detalle_prestamo.id_estado = 2 (Prestado)
             $stmt = Conexion::conectar()->prepare(
-                "SELECT p.*, u.numero_documento, u.nombre, u.apellido, u.telefono,
-                        f.codigo as ficha_codigo,
-                        e.equipo_id, e.numero_serie, e.descripcion, e.etiqueta,
-                        c.nombre AS categoria_nombre
+                "SELECT p.*, u.numero_documento, u.nombre, u.apellido, u.telefono, 
+                        f.codigo as ficha_codigo, 
+                        e.equipo_id, e.numero_serie, e.descripcion, e.etiqueta, 
+                        c.nombre AS categoria_nombre, 
+                        dp.id_estado AS estado_del_equipo_en_prestamo 
                  FROM $tabla p
                  JOIN usuarios u ON p.usuario_id = u.id_usuario
                  LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
@@ -21,13 +23,12 @@ class ModeloDevoluciones
                  LEFT JOIN equipos e ON dp.equipo_id = e.equipo_id
                  LEFT JOIN categorias c ON e.categoria_id = c.categoria_id
                  WHERE p.$item = :$item
-                 AND p.estado_prestamo IN ('Prestado', 'Autorizado')"
-                // Eliminamos GROUP_CONCAT y GROUP BY para obtener una fila por equipo
+                 AND p.estado_prestamo IN ('Prestado', 'Autorizado')
+                 AND dp.id_estado = 2" // Condición agregada aquí para filtrar equipos en estado 'Prestado'
             );
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
             $stmt->execute();
-            // Cambiamos fetch() a fetchAll() para obtener todos los equipos del préstamo
             return $stmt->fetchAll();
         } else {
             // Consulta para todos los registros con JOIN (sin cambios aquí)
@@ -51,7 +52,43 @@ class ModeloDevoluciones
             return $stmt->fetchAll();
         }
 
-        $stmt->close();
+        // $stmt->close(); // PDOStatement::closeCursor() is called automatically when the statement is no longer referenced.
         $stmt = null;
     }
+
+
+	/*============================================= 
+	MARCAR EQUIPO EN DETALLE_PRESTAMO COMO MANTENIMIENTO (ACTUALIZANDO ID_ESTADO)
+	=============================================*/
+	static public function mdlMarcarMantenimientoDetalle($tabla, $datos){
+
+	 	 // Ahora actualizamos la columna id_estado en lugar de la columna estado
+	 	 // Asumimos que el id_estado para 'Mantenimiento' es 4.
+	 	 // Si el id_estado para 'Mantenimiento' es diferente, debes cambiar el valor :id_estado aquí.
+	 	 $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET id_estado = :id_estado WHERE id_prestamo = :id_prestamo AND equipo_id = :equipo_id");
+
+	 	 $stmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT); // Cambiado de :estado a :id_estado y de PARAM_STR a PARAM_INT
+	 	 $stmt->bindParam(":id_prestamo", $datos["id_prestamo"], PDO::PARAM_INT);
+	 	 $stmt->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
+
+	 	 if($stmt->execute()){ 
+            error_log("MODELO: Update ejecutado con éxito. Filas afectadas: " . $stmt->rowCount()); 
+            // Verificar si realmente se afectaron filas 
+            if ($stmt->rowCount() > 0) { 
+                return "ok"; 
+            } else { 
+                error_log("MODELO: Update ejecutado pero no afectó filas. ¿Coinciden id_prestamo y equipo_id?"); 
+                return "no_change"; // O algún otro indicador 
+            } 
+	 	 }else{ 
+            error_log("MODELO: Error en execute(): " . json_encode($stmt->errorInfo())); 
+	 	 	 return "error"; 
+	 	 
+	 	 } 
+
+	 	 // $stmt->closeCursor(); // No es necesario con $stmt = null; 
+	 	 $stmt = null; 
+
+	 } 
+
 }
