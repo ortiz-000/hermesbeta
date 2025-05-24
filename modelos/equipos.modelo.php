@@ -152,7 +152,7 @@ class ModeloEquipos{
     public static function mdlMostrarUbicacion($tabla, $item, $valor){
         try{
             $stmt = Conexion::conectar()->prepare("SELECT ub.ubicacion_id, 
-                                                    ub.nombre AS nombre_ubicacion,
+                                                    ub.nombre AS nombre_ubicacion
                                                     FROM $tabla e
                                                     JOIN ubicaciones ub ON e.ubicacion_id = ub.ubicacion_id
                                                     WHERE $item = :$item");
