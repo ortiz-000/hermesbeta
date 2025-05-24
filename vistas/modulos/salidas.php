@@ -8,9 +8,6 @@
                 <div class="col-sm-6">
                     <h1>Salidas</h1>
                 </div>
-                <div class="col-sm-6">
-                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalAddSede">Agregar Sede</button>
-                </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
