@@ -316,9 +316,9 @@ echo'<li class="nav-item">
           
           <!-- Nombre y Apellido (No editable) -->
           <div class="form-group">
-            <label>Nombre y Apellido</label>
             <div class="row">
               <div class="col-lg-6">
+                <label>Nombre</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -327,6 +327,7 @@ echo'<li class="nav-item">
                 </div>
               </div>
               <div class="col-lg-6">
+                <label>Apellido</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -351,9 +352,9 @@ echo'<li class="nav-item">
           
           <!-- Información de Identificación (No editable) -->
           <div class="form-group">
-            <label>Identificación</label>
             <div class="row">
               <div class="col-lg-6">
+                <label>Tipo</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
@@ -362,6 +363,7 @@ echo'<li class="nav-item">
                 </div>
               </div>
               <div class="col-lg-6">
+                <label>Número de documento</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
