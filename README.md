@@ -40,5 +40,28 @@ UPDATE usuarios
 SET foto = 'vistas/img/usuarios/default/anonymous.png'
 WHERE id_usuario = 1;
 ```
+### 5. Creación de la tabla 'Autorizaciones'
 
+-- Creación de la tabla 'autorizaciones'
+```sql
+CREATE TABLE `autorizaciones` (
+  `id_autorizacion` int(11) NOT NULL,
+  `id_prestamo` int(11) NOT NULL,
+  `id_rol` int(11) NOT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
+  `fecha_accion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `motivo_rechazo` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
 
+### 6. Insert de los datos de prueba en la tabla 'autorizaciones'
+
+```sql
+-- Insert de datos en la tabla 'autorizaciones'
+INSERT INTO `autorizaciones` (`id_autorizacion`, `id_prestamo`, `id_rol`, `id_usuario`, `fecha_accion`, `motivo_rechazo`) VALUES
+(11, 1, 3, 50, '2025-05-25 04:25:08', NULL),
+(12, 2, 5, 46, '2025-05-25 04:25:08', NULL),
+(13, 4, 7, 1, '2025-05-25 04:25:08', NULL),
+(14, 5, 2, 52, '2025-05-25 04:25:08', NULL),
+(15, 6, 1, 53, '2025-05-25 04:25:08', NULL);
+```
