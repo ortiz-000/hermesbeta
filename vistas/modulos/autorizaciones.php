@@ -24,10 +24,10 @@
                 <thead>
                   <tr>
                     <th>Usuario</th>
-                    <th>Fecha Solicitud</th>
-                    <th>Fecha Autorización</th>
-                    <th>Fecha Entrega</th>
                     <th>Estado Préstamo</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Fecha Solicitud</th>
                     <th>Firmas</th>
                     <th>Acciones</th>
                   </tr>
@@ -49,10 +49,10 @@
                   
                   echo '<tr>
                           <td>'.$usuario["nombre"].' '.$usuario["apellido"].'</td>
-                          <td>'.$value["fecha_solicitud"].'</td>
-                          <td>'.$value["fecha_autorizacion"].'</td>
-                          <td>'.$value["fecha_entrega"].'</td>
                           <td>'.$estadoPrestamo.'</td>
+                          <td>'.date('Y-m-d H:i', strtotime($value["fecha_inicio"])).'</td>
+                          <td>'.date('Y-m-d H:i', strtotime($value["fecha_fin"])).'</td>
+                          <td>'.date('Y-m-d H:i', strtotime($value["fecha_solicitud"])).'</td>
                           <td>
                               <div class="icheck-primary d-inline mx-1">
                               <input type="checkbox" id="firma1_'.$value["id_autorizacion"].'">
@@ -69,7 +69,7 @@
                           </td>
                           <td>
                             <button class="btn btn-info btn-sm btnVerDetalles" data-toggle="modal" data-target="#modalDetalles" 
-                              data-id="'.$value["id_autorizacion"].'"
+                              data-id="'.$value["id_autorizacion"].'" 
                               data-usuario="'.$usuario["nombre"].' '.$usuario["apellido"].'">
                               <i class="fas fa-eye"></i>
                             </button>
