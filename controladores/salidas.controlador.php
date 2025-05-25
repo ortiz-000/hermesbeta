@@ -7,8 +7,8 @@ class ControladorSalidas {
             $tabla = "salidas"; // Asegúrate de reemplazar con el nombre correcto de tu tabla
             
             $stmt = Conexion::conectar()->prepare("SELECT id, nombre_rol, fecha, estado, acciones 
-                                                 FROM $tabla 
-                                                 ORDER BY fecha DESC");
+                                            FROM $tabla 
+                                            ORDER BY fecha DESC");
             
             $stmt->execute();
             

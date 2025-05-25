@@ -59,10 +59,27 @@
                                                 $claseBoton = "btn-info";
                                                 $textoBoton = "Aprobado";
                                                 break;
+                                            case "Prestado":
+                                                $claseBoton = "btn-primary";
+                                                $textoBoton = "Prestado";
+                                                break;
+                                            case "Autorizado":
+                                                $claseBoton = "btn-success";
+                                                $textoBoton = "Autorizado";
+                                                break;
+                                            case "Pendiente":
+                                                $claseBoton = "btn-secondary";
+                                                $textoBoton = "Pendiente";
+                                                break;
+                                            case "Devuelto":
+                                                $claseBoton = "btn-dark";
+                                                $textoBoton = "Devuelto";
+                                                break;
                                             default:
                                                 $claseBoton = "btn-warning";
                                                 $textoBoton = "En Trámite";
                                         }
+                                        
 
                                         echo '<tr>
                                             <td>' . $prestamo["id_prestamo"] . '</td>
