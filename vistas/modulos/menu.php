@@ -158,9 +158,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="recepcion" class="nav-link">
+                <a href="reporte-equipos" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Recepción</p>
+                  <p>Reportes</p>
                 </a>
               </li>
             </ul>';
