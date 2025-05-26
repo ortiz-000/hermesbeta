@@ -8,86 +8,68 @@ class ControladorSolicitudes
         $respuesta = ModeloSolicitudes::mdlMostrarEquiposDisponible($fechaInicio, $fechaFin);
         return $respuesta;
     }
-    
-    static public function ctrGuardarSolicitud()
-    {
-        // echo "<pre>";
-        // print_r($_POST);
-        // echo "</pre>";
 
-        if (
-            isset($_POST["idSolicitante"]) &&
-            isset($_POST["equipos"])
+     static public function ctrGuardarSolicitud($datos){
 
-        ) {
-
-
-
-            $datos = array(
-                "idSolicitante" => $_POST["idSolicitante"],
-                "equipos" => $_POST["equipos"],
-                "fechaInicio" => $_POST["fechaInicio"],
-                "fechaFin" => $_POST["fechaFin"],
-                "observaciones" => $_POST["observaciones"],
-                "estado_prestamo" => "pendiente"
-
-            );
-
-
-            // Determinar tipo de préstamo
-            $datos["tipo_prestamo"] = ($_POST["fechaInicio"] === $_POST["fechaFin"]) ? "inmediato" : "reservado";
-
-            $tabla = "prestamos";
-            $respuesta = ModeloSolicitudes::mdlGuardarSolicitud($tabla, $datos);
-
-            if ($respuesta == "ok") {
-                echo '<script>
-                Swal.fire({
-                    icon: "success",
-                    title: "Solicitud guardada correctamente",
-                    showConfirmButton: true,
-                    confirmButtonText: "Cerrar"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "solicitudes";
-                    }
-                });
-            </script>';
-                return $respuesta;
-            } else {
-                echo '<script>
-                Swal.fire({
-                    icon: "error",
-                    title: "Error al guardar la solicitud",
-                    text: "Intente nuevamente.",
-                    confirmButtonText: "Cerrar"
-                });
-            </script>';
-                return "error";
-            }
+        //si la fecha inicio es igual a la fecha fin el tipo_prestamo es "imediata"
+        if($datos["fechaInicio"] == $datos["fechaFin"]){
+            $tipo_prestamo = "Inmediato";
+        }else{
+            $tipo_prestamo = "Reservado";
         }
 
-        return null;
+        $datos = array(
+            "fecha_inicio" => $datos["fechaInicio"],
+            "fecha_fin" => $datos["fechaFin"],
+            "tipo_prestamo" => $tipo_prestamo,
+            "motivo" => $datos["motivo"],
+            "estado_prestamo" => "pendiente",
+            "usuario_id" => $datos["idSolicitante"],
+            "equipos" => $datos["equipos"]
+        );
+
+
+
+        $tabla = "prestamos";
+        $respuesta = ModeloSolicitudes::mdlGuardarSolicitud($tabla, $datos);
+        return $respuesta;
+        
     }
 
-    static public function ctrMostrarSolicitudes($item, $valor){
+        
+    
+
+    static public function ctrMostrarSolicitudes($item, $valor)
+    {
         $respuesta = ModeloSolicitudes::mdlMostrarSolicitudes($item, $valor);
         return $respuesta;
     }
 
-    static public function ctrMostrarPrestamo($item, $valor){
+    static public function ctrMostrarPrestamo($item, $valor)
+    {
         $respuesta = ModeloSolicitudes::mdlMostrarPrestamo($item, $valor);
         return $respuesta;
     }
 
-    static public function ctrMostrarPrestamoDetalle($item, $valor){
+    static public function ctrMostrarPrestamoDetalle($item, $valor)
+    {
         $respuesta = ModeloSolicitudes::mdlMostrarPrestamoDetalle($item, $valor);
+        return $respuesta;
+    }
+
+    static public function ctrMostrarHistorial($item, $valor)
+    {
+
+        $tabla = "prestamos";
+        $respuesta = ModeloSolicitudes::mdlMostrarHistorial($tabla, $item, $valor);
         return $respuesta;
     }
 
     public static function ctrContarEquiposPorCategoria() {
         return ModeloSolicitudes::mdlContarEquiposPorCategoria();
     }
+
+    
 
 
 

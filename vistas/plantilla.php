@@ -104,12 +104,15 @@
           $_GET["ruta"] == "recepcion" ||
           $_GET["ruta"] == "solicitudes" ||
           $_GET["ruta"] == "consultar-solicitudes" ||
+          $_GET["ruta"] == "mis-solicitudes" ||
           $_GET["ruta"] == "autorizaciones" ||
           $_GET["ruta"] == "vencidas" ||
           $_GET["ruta"] == "devoluciones" ||
           $_GET["ruta"] == "salidas" ||
           $_GET["ruta"] == "reportes" ||
+          $_GET["ruta"] == "reporte-equipos" ||
           $_GET["ruta"] == "desactivado" ||
+          $_GET["ruta"] == "auditoria" ||
           $_GET["ruta"] == "salir") {
 
             include "modulos/".$_GET["ruta"].".php";
@@ -137,6 +140,10 @@
   <script src="vistas/js/modulos.js"></script>
   <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/solicitudes.js"></script>
+  <script src="vistas/js/equipos.js"></script>
   <script src="vistas/js/consultar-solicitudes.js"></script>
+  <script src="vistas/js/auditoria.js"></script>
+    <script src="vistas/js/mis-solicitudes.js"></script>
+
 </body>
 </html>

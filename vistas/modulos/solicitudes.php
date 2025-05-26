@@ -23,71 +23,70 @@
               <!-- Info boxes -->
               <div class="row">
 
-                  <div class="col-lg-3 col-6">
-                      <!-- small box -->
-                       <?php
-                        $conteos = ControladorSolicitudes::ctrContarEquiposPorCategoria();
-                        ?>
-                      <div class="small-box bg-info">
-                          <div class="inner">
-                             <h3><?php echo isset($conteos[1]) ? $conteos[1] : 0; ?></h3>
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <?php
+                    $conteos = ControladorSolicitudes::ctrContarEquiposPorCategoria();
+                    ?>
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3><?php echo isset($conteos[1]) ? $conteos[1] : 0; ?></h3>
 
-                              <p>Portátiles</p>
-                          </div>
-                          <div class="icon">
-                              <i class="fas fa-desktop"></i>
-                          </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                      </div>
-                  </div>
+                            <p>Portátiles</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
 
-                  <div class="col-lg-3 col-6">
-                      <!-- small box -->
-                      <div class="small-box bg-info">
-                          <div class="inner">
-                             <h3><?php echo isset($conteos[3]) ? $conteos[3] : 0; ?></h3>
-
-                              <p>Sonido</p>
-                          </div>
-                          <div class="icon">
-                              <i class="fas fa-volume-up"></i>
-                          </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                      </div>
-                  </div>
-
-                  <div class="col-lg-3 col-6">
-                      <!-- small box -->
-                      <div class="small-box bg-info">
-                          <div class="inner">
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
                             <h3><?php echo isset($conteos[2]) ? $conteos[2] : 0; ?></h3>
 
-                              <p>Equipos de video</p>
-                          </div>
-                          <div class="icon">
-                              <i class="fas fa-video"></i>
-                          </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                      </div>
-                  </div>
+                            <p>Sonido</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
 
-                  <div class="col-lg-3 col-6">
-                      <!-- small box -->
-                      <div class="small-box bg-info">
-                          <div class="inner">
-                             <h3><?php echo isset($conteos[5]) ? $conteos[5] : 0; ?></h3>
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3><?php echo isset($conteos[3]) ? $conteos[3] : 0; ?></h3>
 
-                              <p>Control remoto</p>
-                          </div>
-                          <div class="icon">
-                              <i class="fas fa-gamepad"></i>
-                          </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                      </div>
-                  </div>
-              </div>
-              <!-- row  -->
+                            <p>Videobeam</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
 
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3><?php echo isset($conteos[5]) ? $conteos[5] : 0; ?></h3>
+
+                            <p>Control remoto</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- row  -->
 
             <div class="row">
                 <!-- Left side - Equipos -->
@@ -101,6 +100,7 @@
                         <div class="card-body p-10">
 
                             <!-- SOLICITANTE -->
+
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -113,7 +113,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="intput-group">
+                                        <div class="input-group">
                                             <button class="btn btn-primary" id="btnBuscarSolicitante"><i
                                                     class="fas fa-search"></i></button>
                                         </div>
@@ -121,6 +121,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
 
 
                             <div class="infoEquiposSolicitados d-none">
@@ -221,7 +223,7 @@
                             ============================================= -->
 
                             <form action="" method="POST" id="idFormularioSolicitud">
-                                
+
 
                                 <!-- NOMBRE SOLICITANTE -->
                                 <div class="form-group">
@@ -246,8 +248,8 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control float-right" id="initialDate" name="fechaInicio"
-                                                        value="<?php echo $hoy; ?>">
+                                                    <input type="text" class="form-control float-right" id="initialDate"
+                                                        name="fechaInicio" value="<?php echo $hoy; ?>">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">
                                                             <i class="fas fa-arrow-right"></i>
@@ -262,8 +264,8 @@
                                                             <i class="far fa-calendar-alt"></i>
                                                         </span>
                                                     </div>
-                                                    <input type="text" class="form-control float-right" id="finalDate" name="fechaFin"
-                                                        value="<?php echo $hoy; ?>">
+                                                    <input type="text" class="form-control float-right" id="finalDate"
+                                                        name="fechaFin" value="<?php echo $hoy; ?>">
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
@@ -283,7 +285,7 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <label>Observaciones</label>
-                                                <textarea class="form-control" rows="3" id="observaciones" name="observaciones"></textarea>
+                                                <textarea class="form-control" id="motivoSolicitud" rows="3"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -304,15 +306,7 @@
                             </div>
                         </div>
                         <!-- d-none-->
-                        <?php
-                        
-                        
-                        $respuesta = new ControladorSolicitudes();
-                        $respuesta ->ctrGuardarSolicitud();
-                        
-                        
 
-                        ?>
 
 
 
@@ -335,236 +329,13 @@
 
                 </div>
             </div>
+
             <!-- row  -->
 
 
         </div>
-</div>
-</div>
-</section>
+    </section>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</section>
-<!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
-
-
-<!-- Modal para historico de solicitudes -->
-
-<div class="modal fade" id="modalHistoricoSolicitudes">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Header -->
-            <div class="modal-header bg-primary">
-                <h4 class="modal-title">Historical solicitudes</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table id="tblModalHistoricoSolicitudes" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Solicitud</th>
-                                <th>Fecha</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#detalleSolicitudModal"><i class="fas fa-file-alt"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td><button class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td><button class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td><button class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td><button class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>11/11/2024</td>
-                                <td><button class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Salir</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!-- ############################################################################################################### -->
-
-
-<!-- Modal Detalle Solicitud -->
-<div class="modal fade" id="detalleSolicitudModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Header -->
-            <div class="modal-header bg-primary">
-                <h4 class="modal-title">Solicitud #1234567</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
-                        <tbody>
-                            <tr>
-                                <td class="font-weight-bold" style="width: 30%">Desde</td>
-                                <td style="width: 70%">[Fecha desde]</td>
-                            </tr>
-                            <tr>
-                                <td class="font-weight-bold">Hasta</td>
-                                <td>[Fecha hasta]</td>
-                            </tr>
-                            <tr>
-                                <td class="font-weight-bold">Descripción</td>
-                                <td>[Descripción del solicitante]</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="card mt-3">
-                    <div class="card-header">
-                        <h3 class="card-title">Materiales solicitados</h3>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover mb-0">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 60%">Artículo</th>
-                                        <th style="width: 40%">Serial</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Portatil</td>
-                                        <td>325462</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Portatil</td>
-                                        <td>325462</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Video Beam</td>
-                                        <td>654789851</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cable HDMI</td>
-                                        <td>006</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group mt-3">
-                    <label class="font-weight-bold">Observaciones</label>
-                    <textarea class="form-control" rows="3" style="min-height: 100px;"></textarea>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger p-10" data-dismiss="modal">Salir</button>
-            </div>
-        </div>
-    </div>
-</div>
