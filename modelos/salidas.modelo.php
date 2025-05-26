@@ -1,5 +1,6 @@
 <?php
 
+
 class Modelosalida
 {
     static public function mdlMostrarsalida($tabla, $item, $valor)
@@ -35,6 +36,7 @@ class Modelosalida
                     f.codigo as ficha_codigo,
                     p.fecha_inicio, p.fecha_fin, p.tipo_prestamo,
                     p.estado_prestamo
+                  
              FROM $tabla p
              JOIN usuarios u ON p.usuario_id = u.id_usuario
              LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
