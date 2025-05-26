@@ -130,7 +130,7 @@
             <i class="nav-icon fas fa-file-alt"></i>
             
             <p>
-              Reservas
+              Solicitar
             </p>
           </a>
         </li>
