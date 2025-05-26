@@ -320,8 +320,9 @@
                     <div class="infoEquiposSolicitados d-none">
 
                         <div class="card">
-                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
-                                data-target="#modalHistoricoSolicitudes">Historial</button>
+                            <button type="button" class="btn btn-primary btn-block btnHistorial" id="btnHistorial">
+                                <i class="fas fa-history"></i> Historial
+                            </button>
                         </div>
 
                     </div>
