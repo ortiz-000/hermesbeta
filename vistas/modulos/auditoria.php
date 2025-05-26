@@ -61,6 +61,6 @@
 </div>
 <!-- /.content-wrapper -->
 <!-- Tu archivo JS con la tabla y modal -->
-<script src="/hermesbeta/vistas/js/auditoria.js"></script>
+<!-- <script src="/hermesbeta/vistas/js/auditoria.js"></script> -->
 
 
