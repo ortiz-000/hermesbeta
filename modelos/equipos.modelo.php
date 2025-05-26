@@ -247,21 +247,27 @@ class ModeloEquipos{
     public static function mdlAgregarEquipos($tabla, $datos){
         try {
             // Preparar la consulta con los valores por defecto definidos en la base de datos
-            $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla 
-                                                    (numero_serie, etiqueta, descripcion, categoria_id, ubicacion_id, cuentadante_id, id_estado)  
-                                                    VALUES (:numero_serie, :etiqueta, :descripcion, :categoria_id, 
-                                                    (SELECT ubicacion_id FROM ubicaciones WHERE nombre = 'Almacen' LIMIT 1), 
-                                                    (SELECT ur.id_usuario  
-                                                    FROM usuario_rol ur 
-                                                    JOIN roles r ON ur.id_rol = r.id_rol 
-                                                    WHERE r.nombre_rol = 'Almacen' LIMIT 1),  
-                                                    (SELECT id_estado FROM estados WHERE estado = 'Disponible' LIMIT 1))");
+            $stmt = Conexion::conectar()->prepare("INSERT INTO equipos (numero_serie,
+                                                                etiqueta,
+                                                                descripcion,
+                                                                categoria_id,
+                                                                ubicacion_id,
+                                                                cuentadante_id,
+                                                                id_estado) 
+                                                                VALUES (:numero_serie, 
+                                                                :etiqueta, 
+                                                                :descripcion, 
+                                                                :categoria_id, 
+                                                                (SELECT ubicacion_id FROM ubicaciones WHERE nombre = 'Almacen' LIMIT 1), 
+                                                                :cuentadante_id, 
+                                                                (SELECT id_estado FROM estados WHERE estado = 'Disponible' LIMIT 1));");
     
             // Vincular los parámetros con los datos del formulario
             $stmt->bindParam(":numero_serie", $datos["numero_serie"], PDO::PARAM_STR);
             $stmt->bindParam(":etiqueta", $datos["etiqueta"], PDO::PARAM_STR);
             $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
             $stmt->bindParam(":categoria_id", $datos["categoria_id"], PDO::PARAM_INT);
+            $stmt->bindParam(":cuentadante_id", $datos["cuentadante_id"], PDO::PARAM_INT);
     
             // Ejecutar la consulta
             if ($stmt->execute()) {

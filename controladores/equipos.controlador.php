@@ -12,7 +12,7 @@ class ControladorEquipos{
     }
 
     public static function ctrAgregarEquipos() {
-        if (isset($_POST["numero_serie"]) && isset($_POST["etiqueta"]) && isset($_POST["descripcion"]) && isset($_POST["categoria_id"])) {
+        if (isset($_POST["numero_serie"]) && isset($_POST["etiqueta"]) && isset($_POST["descripcion"]) && isset($_POST["categoria_id"]) && isset($_POST["cuentadante_id"])) {
     
             // Validación de caracteres
             if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["numero_serie"]) &&
@@ -23,6 +23,7 @@ class ControladorEquipos{
                 $tabla = "equipos";
                 $datos = array(
                     "numero_serie" => $_POST["numero_serie"],
+                    "cuentadante_id" => $_POST["cuentadante_id"],
                     "etiqueta" => $_POST["etiqueta"],
                     "descripcion" => $_POST["descripcion"],
                     "categoria_id" => $_POST["categoria_id"] // Solo enviamos categoría, los demás valores se asignan en el modelo
