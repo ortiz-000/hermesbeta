@@ -160,8 +160,7 @@ Fecha del cambio
 ### 7. Agregar trigger a la bd
 -- Este trigger se ejecutará después de cada actualización en la tabla prestamos.
 ```sql
-DELIMITER $$
-
+DELIMITER //
 
 CREATE TRIGGER actualizar_estado_detalle_prestamo
 AFTER UPDATE ON prestamos
@@ -171,7 +170,7 @@ BEGIN
     IF NEW.estado_prestamo = 'Autorizado' AND (OLD.estado_prestamo != 'Autorizado' OR OLD.estado_prestamo IS NULL) THEN
         -- Actualizar el estado en detalle_prestamo a 'Asignado' para este préstamo
         UPDATE detalle_prestamo
-        SET estado = 'Asignado'
+        SET estado = 'Prestado'
         WHERE id_prestamo = NEW.id_prestamo;
     END IF;
 END//
