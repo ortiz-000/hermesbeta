@@ -19,15 +19,10 @@
     <!-- Main content -->
     <section class="content">
 
-        <div class="container-fluid">
-            <!-- Info boxes -->
-            <div class="row">
+         <div class="container-fluid">
+              <!-- Info boxes -->
+              <div class="row">
 
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3>150</h3>
                   <div class="col-lg-3 col-6">
                       <!-- small box -->
                        <?php
@@ -37,14 +32,6 @@
                           <div class="inner">
                              <h3><?php echo isset($conteos[1]) ? $conteos[1] : 0; ?></h3>
 
-                            <p>Portátiles</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
                               <p>Portátiles</p>
                           </div>
                           <div class="icon">
@@ -54,25 +41,12 @@
                       </div>
                   </div>
 
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3>150</h3>
                   <div class="col-lg-3 col-6">
                       <!-- small box -->
                       <div class="small-box bg-info">
                           <div class="inner">
-                             <h3><?php echo isset($conteos[2]) ? $conteos[2] : 0; ?></h3>
+                             <h3><?php echo isset($conteos[3]) ? $conteos[3] : 0; ?></h3>
 
-                            <p>Portátiles</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
                               <p>Sonido</p>
                           </div>
                           <div class="icon">
@@ -82,26 +56,13 @@
                       </div>
                   </div>
 
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3>150</h3>
                   <div class="col-lg-3 col-6">
                       <!-- small box -->
                       <div class="small-box bg-info">
                           <div class="inner">
-                            <h3><?php echo isset($conteos[3]) ? $conteos[3] : 0; ?></h3>
+                            <h3><?php echo isset($conteos[2]) ? $conteos[2] : 0; ?></h3>
 
-                            <p>Portátiles</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                              <p>Videobeam</p>
+                              <p>Equipos de video</p>
                           </div>
                           <div class="icon">
                               <i class="fas fa-video"></i>
@@ -110,27 +71,12 @@
                       </div>
                   </div>
 
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3>150</h3>
                   <div class="col-lg-3 col-6">
                       <!-- small box -->
                       <div class="small-box bg-info">
                           <div class="inner">
                              <h3><?php echo isset($conteos[5]) ? $conteos[5] : 0; ?></h3>
 
-                            <p>Portátiles</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <!-- row  -->
                               <p>Control remoto</p>
                           </div>
                           <div class="icon">
@@ -141,6 +87,7 @@
                   </div>
               </div>
               <!-- row  -->
+
 
             <div class="row">
                 <!-- Left side - Equipos -->

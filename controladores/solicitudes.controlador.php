@@ -11,9 +11,9 @@ class ControladorSolicitudes
     
     static public function ctrGuardarSolicitud()
     {
-        echo "<pre>";
-        print_r($_POST);
-        echo "</pre>";
+        // echo "<pre>";
+        // print_r($_POST);
+        // echo "</pre>";
 
         if (
             isset($_POST["idSolicitante"]) &&
