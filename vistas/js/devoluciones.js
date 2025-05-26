@@ -199,3 +199,100 @@ $(document).ready(function() {
         }
     });
 });
+
+/*=============================================            
+Marcar equipo como devuelto
+=============================================*/
+
+$(".tablaDevoluciones tbody").on("click", ".btnMarcarDevuelto", function(){
+
+    var idDetallePrestamo = $(this).attr("idDetallePrestamo");
+    var idPrestamo = $(this).attr("idPrestamo"); // Asegúrate de que este atributo se esté pasando correctamente
+
+    console.log("idDetallePrestamo", idDetallePrestamo);
+    console.log("idPrestamo", idPrestamo);
+
+    Swal.fire({
+        title: '¿Está seguro de marcar este equipo como devuelto?',
+        text: "¡Si no lo está puede cancelar la acción!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, marcar devuelto!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            var datos = new FormData();
+            datos.append("idDetallePrestamoMarcar", idDetallePrestamo);
+            datos.append("idPrestamoMarcar", idPrestamo); // Enviar también idPrestamo
+
+            $.ajax({
+                url: "ajax/devoluciones.ajax.php",
+                method: "POST",
+                data: datos,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json", // Esperamos una respuesta JSON
+                success: function(respuesta){
+                    console.log("Respuesta AJAX:", respuesta);
+                    if(respuesta.status == "success_prestamo_actualizado"){
+                        Swal.fire(
+                            '¡Hecho!',
+                            'El equipo ha sido marcado como devuelto y el préstamo ha sido actualizado.',
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "devoluciones";
+                            }
+                        });
+                    } else if (respuesta.status == "success"){
+                        Swal.fire(
+                            '¡Hecho!',
+                            'El equipo ha sido marcado como devuelto.',
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "devoluciones";
+                            }
+                        });
+                    } else if (respuesta.status == "no_change"){
+                        Swal.fire(
+                            'Información',
+                            'No se realizaron cambios en el estado del equipo.',
+                            'info'
+                        );
+                    } else if (respuesta.status == "error_actualizando_prestamo"){
+                        Swal.fire(
+                            'Error',
+                            'El equipo fue marcado como devuelto, pero hubo un error al actualizar el estado del préstamo.',
+                            'error'
+                        );
+                    } else if (respuesta.status == "error"){
+                        Swal.fire(
+                            'Error',
+                            'No se pudo marcar el equipo como devuelto.',
+                            'error'
+                        );
+                    } else {
+                        Swal.fire(
+                            'Error',
+                            'Respuesta desconocida del servidor.',
+                            'error'
+                        );
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error en AJAX: ", textStatus, errorThrown);
+                    Swal.fire(
+                        'Error de Comunicación',
+                        'No se pudo conectar con el servidor: ' + textStatus,
+                        'error'
+                    );
+                }
+            });
+        }
+    })
+})

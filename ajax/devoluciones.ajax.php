@@ -23,14 +23,18 @@ class AjaxDevoluciones {
     =============================================*/
     public function ajaxMarcarMantenimientoDetalle() {
         // No se necesita pasar id_estado desde aquí, ya que se define en el controlador
-        $respuestaModelo = ControladorDevoluciones::ctrMarcarMantenimientoDetalle($this->idPrestamo, $this->idEquipo);
+        $respuestaControlador = ControladorDevoluciones::ctrMarcarMantenimientoDetalle($this->idPrestamo, $this->idEquipo);
         
-        if ($respuestaModelo == "ok") {
-            echo json_encode(array("success" => true, "message" => "Equipo marcado para mantenimiento correctamente."));
-        } else if ($respuestaModelo == "no_change") {
-            echo json_encode(array("success" => false, "message" => "El equipo ya estaba en el estado deseado o no se encontró."));
-        } else {
-            echo json_encode(array("success" => false, "message" => "Error al actualizar el estado del equipo en el modelo."));
+        if ($respuestaControlador == "ok") {
+            echo json_encode(array("success" => true, "status" => "equipo_marcado", "message" => "Equipo marcado para mantenimiento correctamente."));
+        } else if ($respuestaControlador == "ok_prestamo_actualizado") {
+            echo json_encode(array("success" => true, "status" => "prestamo_actualizado", "message" => "Equipo marcado y préstamo actualizado a devuelto."));
+        } else if ($respuestaControlador == "no_change") {
+            echo json_encode(array("success" => false, "status" => "sin_cambios", "message" => "El equipo ya estaba en el estado deseado o no se encontró."));
+        } else if ($respuestaControlador == "error_actualizando_prestamo") {
+            echo json_encode(array("success" => false, "status" => "error_prestamo", "message" => "Equipo marcado, pero hubo un error al actualizar el préstamo."));
+        } else { // Cubre el caso 'error' del marcado inicial y cualquier otro inesperado
+            echo json_encode(array("success" => false, "status" => "error_marcado", "message" => "Error al actualizar el estado del equipo."));
         }
     }
 }
