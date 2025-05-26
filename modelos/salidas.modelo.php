@@ -1,10 +1,9 @@
 <?php
 
-class modeloSalidas
+
+class Modelosalida
 {
-
-
-    static public function mdlMostrarsalidas($tabla, $item, $valor)
+    static public function mdlMostrarsalida($tabla, $item, $valor)
     {
         if ($item != null) {
             // Consulta para un registro específico con JOIN, devolviendo cada equipo por separado
@@ -36,15 +35,13 @@ class modeloSalidas
                 "SELECT p.id_prestamo, u.numero_documento, u.nombre, u.apellido, u.telefono,
                     f.codigo as ficha_codigo,
                     p.fecha_inicio, p.fecha_fin, p.tipo_prestamo,
-                    CASE
-                        WHEN p.tipo_prestamo = 'Inmediato' THEN 'Inmediato'
-                        ELSE 'Reservado'
-                    END as estado_prestamo
+                    p.estado_prestamo
+                  
              FROM $tabla p
              JOIN usuarios u ON p.usuario_id = u.id_usuario
              LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
              LEFT JOIN fichas f ON af.id_ficha = f.id_ficha
-             WHERE p.estado_prestamo IN ('Prestado', 'Autorizado')
+             WHERE p.estado_prestamo IN ('Autorizado', 'Tramite')
              ORDER BY p.fecha_inicio DESC"
             );
 
