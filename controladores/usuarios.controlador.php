@@ -7,8 +7,8 @@ class ControladorUsuarios{
             if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
                 preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])) {
                 
-                $encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-                echo $encriptar;
+                //$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+                //echo $encriptar;
 
                 $tabla = "usuarios";
                 $item = "nombre_usuario";
@@ -18,7 +18,7 @@ class ControladorUsuarios{
                 error_log(print_r($respuesta, true));
                 if (is_array($respuesta)) {
 
-                if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $encriptar) {
+                if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $_POST["ingPassword"]){//$respuesta["clave"] == $encriptar) {
                     if($respuesta["estado"] == "activo") {
                         // Iniciar sesión y guardar datos del usuario
                         $_SESSION["iniciarSesion"] = "ok";
