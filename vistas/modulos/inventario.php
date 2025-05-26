@@ -78,137 +78,72 @@
 
   <div class="modal fade" id="modalRegistrarEquipo">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-blue">
-          <h4 class="modal-title">Agregar equipo</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header bg-blue">
+                <h4 class="modal-title">Agregar equipo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="form-row">
+                        <div class="form-group col-lg-6">
+                            <label for="numeroSerie">#Número Serie</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="numeroSerie" name="numero_serie" placeholder="Ej:00ks32.." required>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="etiqueta">Etiqueta</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="etiqueta" name="etiqueta" placeholder="Ej:0022338..." required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="descripcion">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-lg-6">
+                            <label for="categoria_id">Categoría</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
+                                </div>
+                                <?php
+                                $item = null;
+                                $valor = null;
+                                $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
+                                echo '<select class="form-control" id="categoria_id" name="categoria_id" required>';
+                                echo '<option value="">Seleccione una categoría</option>';
+                                foreach ($categorias as $key => $categoria) {
+                                    echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
+                                }
+                                echo '</select>';
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                    <?php
+                    ControladorEquipos::ctrAgregarEquipos();
+                    ?>
+                </form>
+            </div>
         </div>
-        <div class="modal-body">
-          <form method="post">
-            <div class="form-row">
-              <div class="form-group col-lg-6">
-                <label for="numeroSerie">#Número Serie</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-barcode"></i></span>
-                  </div>
-                  <input type="text" class="form-control" id="numeroSerie" name="numero_serie" placeholder="Ej:00ks32.." required>
-                </div>
-              </div>
-              <div class="form-group col-lg-6">
-                <label for="etiqueta">Etiqueta</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-tag"></i></span>
-                  </div>
-                  <input type="text" class="form-control" id="etiqueta" name="etiqueta" placeholder="Ej:0022338..." required>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-lg-12">
-              <label for="descripcion">Descripción</label>
-              <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Ej: El equipo se encuentra en perfecto estado..." rows="3" required></textarea>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-lg-6">
-                <label for="ubicacion_id">Ubicación</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                  </div>
-                  <?php
-                  $item = null;
-                  $valor = null;
-                  $ubicaciones = ControladorUbicaciones::ctrMostrarUbicaciones($item, $valor);
-                  echo '<select class="form-control" id="ubicacion_id" name="ubicacion_id" required>';
-                  echo '<option value="">Seleccione una ubicación</option>';
-                  foreach ($ubicaciones as $key => $ubicacion) {
-                    echo '<option value="' . $ubicacion["ubicacion_id"] . '">' . $ubicacion["nombre"] . '</option>';
-                  }
-                  echo '</select>';
-                  ?>
-                </div>
-              </div>
-              <div class="form-group col-lg-6">
-                <label for="categoria_id">Categoría</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
-                  </div>
-                  <?php
-                  $item = null;
-                  $valor = null;
-                  $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
-                  echo '<select class="form-control" id="categoria_id" name="categoria_id" required>';
-                  echo '<option value="">Seleccione una categoría</option>';
-                  foreach ($categorias as $key => $categoria) {
-                    echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
-                  }
-                  echo '</select>';
-                  ?>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-lg-6">
-                <label for="cuentadante_id">Cuentadante</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                  </div>
-                  <?php
-                  $item = null;
-                  $valor = null;
-                  $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
-                  echo '<select class="form-control" id="id_usuario" name="cuentadante_id" required>';
-                  echo '<option value="">Seleccione una ubicación</option>';
-                  foreach ($usuarios as $key => $usuario) {
-                    if ($usuario["nombre_rol"] != "Aprendiz") {
-                      echo '<option value="' . $usuario["id_usuario"] . '">' . $usuario["nombre"] . " " . "(" . $usuario["nombre_rol"] . ")" . '</option>';
-                    }
-                  }
-                  echo '</select>';
-                  ?>
-                </div>
-              </div>
-
-              <div class="form-group col-lg-6">
-                <label for="id_estado">Estado</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
-                  </div>
-                  <?php
-                  $item = null;
-                  $valor = null;
-                  $estados = ControladorEstados::ctrMostrarEstados($item, $valor);
-                  echo '<select class="form-control" id="id_estado" name="id_estado">';
-                  echo '<option value="">Seleccione un estado</option>';
-                  foreach ($estados as $key => $estado) {
-                    echo '<option value="' . $estado["id_estado"] . '">' . $estado["estado"] . '</option>';
-                  }
-                  echo '</select>';
-                  ?>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-            <?php
-            // $item = null; NO SON NECESARIAS YA QUE SE ESTÁ CREANDO A A PARTIR DED ALGO NUEVO
-            // $valor = null;
-            ControladorEquipos::ctrAgregarEquipos();
-            //exit;
-            ?>
-          </form>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
   <!-- ========== Start Section ==========
   MODAL PARA EDITAR EQUIPO
