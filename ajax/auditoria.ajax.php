@@ -1,15 +1,10 @@
 <?php
-// Se incluye el archivo de conexión a la base de datos
 require_once "../modelos/conexion.php";
-
-// Se define que la respuesta será en formato JSON
 header('Content-Type: application/json');
 
 try {
-    // Se establece la conexión con la base de datos usando el método estático conectar()
     $conexion = Conexion::conectar();
 
-    // Consulta SQL que obtiene información de la auditoría y datos del usuario afectado y del editor
     $query = "
         SELECT 
             a.id_usuario_afectado,
@@ -37,19 +32,61 @@ try {
         LEFT JOIN usuarios editor ON a.id_usuario_editor = editor.id_usuario
         ORDER BY a.fecha_cambio DESC";
 
-    // Se prepara y ejecuta la consulta
     $stmt = $conexion->prepare($query);
     $stmt->execute();
 
-    // Se inicializa un array para almacenar los resultados
     $data = [];
 
-    // Se recorren los resultados fila por fila
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        // Se formatea el cambio mostrando valor anterior y nuevo con una flecha
-        $valor_formateado = $row['valor_anterior'] . " → " . $row['valor_nuevo'];
 
-        // Se construye un array asociativo con los datos de cada fila
+        // Traducción del género actual para la tabla
+        switch ($row['genero']) {
+            case 1: $generoTexto = 'Femenino'; break;
+            case 2: $generoTexto = 'Masculino'; break;
+            case 3: $generoTexto = 'No declara'; break;
+            default: $generoTexto = 'Desconocido';
+        }
+
+        $campoModificado = $row['campo_modificado'];
+        $valorAnterior = $row['valor_anterior'];
+        $valorNuevo = $row['valor_nuevo'];
+
+        // Detectar múltiples campos modificados
+        $campos = explode(";", $campoModificado);
+        $valoresAnteriores = explode(";", $valorAnterior);
+        $valoresNuevos = explode(";", $valorNuevo);
+
+        // Limpiar espacios
+        $campos = array_map('trim', $campos);
+        $valoresAnteriores = array_map('trim', $valoresAnteriores);
+        $valoresNuevos = array_map('trim', $valoresNuevos);
+
+        // Recorremos los campos para traducir valores si es necesario
+        foreach ($campos as $index => $campo) {
+            if (strtolower($campo) === 'genero') {
+                // Traducir valor anterior
+                switch ($valoresAnteriores[$index]) {
+                    case '1': $valoresAnteriores[$index] = 'Femenino'; break;
+                    case '2': $valoresAnteriores[$index] = 'Masculino'; break;
+                    case '3': $valoresAnteriores[$index] = 'No declara'; break;
+                    default: $valoresAnteriores[$index] = 'Desconocido';
+                }
+
+                // Traducir valor nuevo
+                switch ($valoresNuevos[$index]) {
+                    case '1': $valoresNuevos[$index] = 'Femenino'; break;
+                    case '2': $valoresNuevos[$index] = 'Masculino'; break;
+                    case '3': $valoresNuevos[$index] = 'No declara'; break;
+                    default: $valoresNuevos[$index] = 'Desconocido';
+                }
+            }
+        }
+
+        // Convertimos los arrays en strings nuevamente
+        $valorAnteriorFormateado = implode("; ", $valoresAnteriores);
+        $valorNuevoFormateado = implode("; ", $valoresNuevos);
+        $valor_formateado = $valorAnteriorFormateado . " → " . $valorNuevoFormateado;
+
         $data[] = [
             "id_usuario" => $row['id_usuario_afectado'],
             "tipo_documento" => $row['tipo_documento'],
@@ -60,27 +97,24 @@ try {
             "nombre_usuario" => $row['nombre_usuario'],
             "telefono" => $row['telefono'],
             "direccion" => $row['direccion'],
-            "genero" => $row['genero'],
+            "genero" => $generoTexto,
             "foto" => $row['foto'],
             "estado" => $row['estado'],
             "condicion" => $row['condicion'],
             "fecha_registro" => $row['fecha_registro'],
             "id_usuario_editor" => $row['id_usuario_editor'],
-            // Si hay un editor, se muestra su nombre; si no, se indica "Sistema"
             "nombre_editor" => !empty($row['id_usuario_editor']) ? $row['editor_nombre'] : 'Sistema',
-            "campo_modificado" => $row['campo_modificado'],
-            "valor_anterior" => $row['valor_anterior'],
-            "valor_nuevo" => $row['valor_nuevo'],
+            "campo_modificado" => $campoModificado,
+            "valor_anterior" => $valorAnteriorFormateado,
+            "valor_nuevo" => $valorNuevoFormateado,
             "valor_formateado" => $valor_formateado,
             "fecha_cambio" => $row['fecha_cambio']
         ];
     }
 
-    // Se devuelve el resultado en formato JSON
     echo json_encode(["data" => $data]);
 
 } catch (PDOException $e) {
-    // En caso de error en la base de datos, se devuelve un array vacío con el mensaje de error
     echo json_encode([
         "data" => [],
         "error" => $e->getMessage()
