@@ -150,7 +150,6 @@ class ModeloUsuarios{
             }
         }
 
-
     
        // Editar usuario con auditoría
     static public function mdlEditarUsuario($tabla, $datos) {

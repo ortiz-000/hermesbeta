@@ -1,5 +1,6 @@
 # Template
 AdminLTE/
+modelos/conexion.php
 
 # .htaccess
 .htaccess
@@ -75,8 +76,7 @@ bower_components/
 
 # ETC
 TODO
-test.html
-.htaccess
-ad.js
-/.cache/
-modelos/conexion.php
+test*.*
+
+
+

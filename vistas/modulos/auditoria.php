@@ -44,6 +44,7 @@
                                         <th>Valores Anteriores</th>
                                         <th>Valores Nuevos</th>
                                         <th>Fecha Cambio</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>

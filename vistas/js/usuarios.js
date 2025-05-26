@@ -162,7 +162,7 @@ $(document).on("click", ".btnSolicitudesUsuario", function() {
     // Obtener el número de documento del usuario seleccionado
     var numeroDocumento = $(this).data("numero-documento");
     var idUsuario = $(this).data("id-usuario");
-    
+
     if (!numeroDocumento) {
         Swal.fire({
             icon: 'error',
@@ -173,8 +173,8 @@ $(document).on("click", ".btnSolicitudesUsuario", function() {
     }
 
     // Redirigir a consultar-solicitudes con los parámetros necesarios
-    window.location.href = "consultar-solicitudes?" + 
-        "numeroDocumento=" + encodeURIComponent(numeroDocumento) + 
+    window.location.href = "consultar-solicitudes?" +
+        "numeroDocumento=" + encodeURIComponent(numeroDocumento) +
         "&autoBuscar=1";
 });
 
@@ -191,7 +191,7 @@ $(document).ready(function() {
     if (numeroDocumento && autoBuscar === "1") {
         // Establecer el valor en el input
         $("#cedulaUsuario").val(numeroDocumento);
-        
+
         // Simular click en el botón de búsqueda después de un pequeño delay
         setTimeout(function() {
             const btnBuscar = $("#btnBuscarUsuarioConsultar");
@@ -259,7 +259,7 @@ $(document).on("click", ".btnConsultarUsuario", function() {
             }
 
             // Mostrar sede y ficha si el rol es aprendiz 
-            if(respuesta.id_rol == 6) {
+            if (respuesta.id_rol == 6) {
                 $("#consultarSedeFicha").removeClass("d-none");
                 $("#consultarSede").val(respuesta.nombre_sede || '');
 
@@ -272,6 +272,7 @@ $(document).on("click", ".btnConsultarUsuario", function() {
                 $("#consultarSede").val('');
                 $("#consultarFicha").val('');
             }
+
 
             // Mostrar foto relacionado de la bd de datos (ruta)
             if (respuesta.foto && respuesta.foto !== "") {
@@ -447,7 +448,7 @@ $(document).on("change", "#selectEditIdFicha", function() {
 })
 
 $(document).on("click", ".btnEditarUsuario", function() {
-    
+
     var idUsuario = $(this).attr("idUsuario") || $(this).attr("idusuario");
     var datos = new FormData();
     datos.append("idUsuario", idUsuario);
