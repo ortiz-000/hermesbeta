@@ -26,8 +26,8 @@ class ModeloDevoluciones
                  LEFT JOIN equipos e ON dp.equipo_id = e.equipo_id
                  LEFT JOIN categorias c ON e.categoria_id = c.categoria_id
                  WHERE p.$item = :$item
-                 AND p.estado_prestamo IN ('Prestado', 'Autorizado')
-                 AND dp.id_estado = 2" // Condición agregada aquí para filtrar equipos en estado 'Prestado'
+                 AND p.estado_prestamo IN ('Prestado')
+                 AND e.id_estado = 2" // Condición agregada aquí para filtrar equipos en estado 'Prestado'
             );
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
@@ -51,7 +51,7 @@ class ModeloDevoluciones
                  LEFT JOIN roles r ON ur.id_rol = r.id_rol -- JOIN para obtener el nombre del rol
                  LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
                  LEFT JOIN fichas f ON af.id_ficha = f.id_ficha
-                 WHERE p.estado_prestamo IN ('Prestado', 'Autorizado')
+                 WHERE p.estado_prestamo IN ('Prestado')
                  ORDER BY p.fecha_inicio DESC"
             );
 
