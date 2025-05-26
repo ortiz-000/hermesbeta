@@ -47,12 +47,12 @@
                     <tr>
                       <td>' . ($key + 1) . '</td>
                       <td>' . $value["numero_documento"] . '</td>
-                      <td>' . $value["nombre"] . '</td>
-                      <td>' . $value["apellido"] . '</td>
+                      <td>' . $value["nombre_usuario"] . '</td>
+                      <td>' . $value["apellido_usuario"] . '</td>
                       <td>' . $value["telefono"] . '</td>
                       <td>' . $value["fecha_inicio"] . '</td>
                       <td>' . $value["fecha_fin"] . '</td>
-                      <td>' . $value["estado_prestamo"] . '</td>
+                      <td>' . $value["tipo_prestamo"] . '</td>
                       <td>
                         <div class="btn-group">';
                     // Modificamos para usar una sola modal y pasar el ID del préstamo
