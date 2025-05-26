@@ -157,3 +157,51 @@ Valores nuevos.
 Fecha del cambio
 
 
+### 7. Agregar trigger a la bd
+-- Este trigger se ejecutará después de cada actualización en la tabla prestamos.
+```sql
+DELIMITER $$
+
+
+CREATE TRIGGER actualizar_estado_detalle_prestamo
+AFTER UPDATE ON prestamos
+FOR EACH ROW
+BEGIN
+    -- Verificar si el estado_prestamo ha cambiado a 'Autorizado'
+    IF NEW.estado_prestamo = 'Autorizado' AND (OLD.estado_prestamo != 'Autorizado' OR OLD.estado_prestamo IS NULL) THEN
+        -- Actualizar el estado en detalle_prestamo a 'Asignado' para este préstamo
+        UPDATE detalle_prestamo
+        SET estado = 'Asignado'
+        WHERE id_prestamo = NEW.id_prestamo;
+    END IF;
+END//
+
+DELIMITER ;
+```
+--trigger para cuando el préstamo se marque como "Devuelto", actualizando el estado en detalle_prestamo a "Devuelto"
+```sql
+DELIMITER $$
+
+DELIMITER //
+
+CREATE TRIGGER actualizar_estado_detalle_prestamo_devuelto
+AFTER UPDATE ON prestamos
+FOR EACH ROW
+BEGIN
+    -- Verificar si el estado_prestamo ha cambiado a 'Devuelto'
+    IF NEW.estado_prestamo = 'Devuelto' AND (OLD.estado_prestamo != 'Devuelto' OR OLD.estado_prestamo IS NULL) THEN
+        -- Actualizar el estado en detalle_prestamo a 'Devuelto' para este préstamo
+        UPDATE detalle_prestamo
+        SET estado = 'Devuelto'
+        WHERE id_prestamo = NEW.id_prestamo;
+    END IF;
+END//
+
+DELIMITER ;
+```
+    
+
+
+
+
+
