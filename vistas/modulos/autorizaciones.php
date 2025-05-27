@@ -21,7 +21,7 @@
           <div class="col-12">
             <div class="table-responsive">
               <table id="tblAutorizaciones" class="table table-bordered table-striped">
-                <thead>
+                <thead class="bg-dark">
                   <tr>
                     <th>Usuario</th>
                     <th>Estado Préstamo</th>
@@ -68,7 +68,7 @@
                             </div>
                           </td>
                           <td>
-                            <button class="btn btn-info btn-sm btnVerDetalles" data-toggle="modal" data-target="#modalDetalles" 
+                            <button class="btn btn-info btn-sm btnVerDetalles" data-toggle="modal" data-target="#modal-detalle" 
                               data-id="'.$value["id_autorizacion"].'" 
                               data-usuario="'.$usuario["nombre"].' '.$usuario["apellido"].'">
                               <i class="fas fa-eye"></i>
@@ -85,50 +85,81 @@
       </div>
     </section>
 
-    <!-- Modal Detalles -->
-    <div class="modal fade" id="modalDetalles" tabindex="-1" role="dialog" aria-labelledby="modalDetallesLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+    <!-- Modal Detalle Préstamo -->
+    <div class="modal fade" id="modalDetalle">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5>Equipo: <span id="detalle-equipo"></span></h5>
+                    <p>Fecha préstamo: <span id="detalle-fecha"></span></p>
+                    <p>Estado: <span id="detalle-estado"></span></p>
+                    <p>Observaciones: <span id="detalle-observaciones"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-detalle">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalDetallesLabel">Detalles de Autorización</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form id="formAutorizacion" role="form" method="post">
-              <input type="hidden" id="idAutorizacion" name="idAutorizacion">
-              
-              <div class="form-group">
-                <label>Usuario:</label>
-                <input type="text" class="form-control" id="nombreUsuario" readonly>
-              </div>
+            <div class="modal-header bg-primary">
+                <h4 class="modal-title">Detalle del Préstamo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <dl class="row">
 
-              <div class="form-group">
-                <label>Motivo de rechazo:</label>
-                <textarea class="form-control" id="motivoRechazo" name="motivoRechazo" rows="3"></textarea>
-              </div>
+                            <dt class="col-sm-4">Estado:</dt>
+                            <dd class="col-sm-8" id="detalleTipoPrestamo"></dd>
 
-              <div class="modal-footer">
-                <button type="button" class="btn btn-success btnAutorizar">Autorizar</button>
-                <button type="submit" class="btn btn-danger btnRechazar">Rechazar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              </div>
-            </form>
-          </div>
+                            <dt class="col-sm-4">Fecha Préstamo:</dt>
+                            <dd class="col-sm-8" id="detalleFechaInicio"></dd>
+
+                            <dt class="col-sm-4">Fecha Devolución:</dt>
+                            <dd class="col-sm-8" id="detalleFechaFin"></dd>
+
+                            <dt class="col-sm-4">Motivo:</dt>
+                            <dd class="col-sm-8" id="detalleMotivoPrestamo"></dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Equipos Solicitados</h5>
+                            </div>
+                            <div class="card-body p-10">
+                                <table class="table table-bordered table-striped" id="tblDetallePrestamo">
+                                    <thead>
+                                        <tr>
+
+                                            <th>ID</th>
+                                            <th>Categoría</th>
+                                            <th>Equipo</th>
+                                            <th>etiqueta</th>
+                                            <th>Serial</th>
+                                            <th>Ubicación</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Aquí se cargarán los detalles del préstamo -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnAutorizar">Autorizar</button>
+                <button type="button" class ="btn btn-danger" id="btnRechazar">Rechazar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
-<!-- SweetAlert2 -->
-<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-
-<script src="vistas/js/autorizaciones.js"></script>
