@@ -207,18 +207,4 @@ END$$
 
 DELIMITER ;
 ```
--Este trigger compara los valores antiguos y nuevos de varios campos (como tipo_documento, nombre, apellido, correo_electronico, etc.) y, si detecta algún cambio, inserta un registro en la tabla auditoria_usuarios con los siguientes datos:
-
-ID del usuario afectado.
-
-ID del usuario que realizó el cambio.
-
-Campos modificados.
-
-Valores anteriores.
-
-Valores nuevos.
-
-Fecha del cambio
-
 

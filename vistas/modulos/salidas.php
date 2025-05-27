@@ -25,69 +25,29 @@
                                         <th>ID Préstamo</th>
                                         <th>Usuario</th>
                                         <th>Tipo de Préstamo</th>
-                                        <th>Fecha</th>
                                         <th>Estado De Préstamo</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    require_once "controladores/prestamos.controlador.php";
-                                    require_once "modelos/prestamos.modelo.php";
+                                    $item = null;
+                                    $valor = null;
+                                    $salidas = Controladorsalidas::ctrMostrarsalidas($item, $valor);
 
-                                    $prestamos = ControladorPrestamos::ctrMostrarPrestamos();
 
-                                    foreach ($prestamos as $prestamo) {
-                                        if ($prestamo["tipo_prestamo"] !== "Reservado") {
-                                            continue;
-                                        }
-                                        $estadoActual = $prestamo["estado_prestamo"];
-
-                                        // Determinar la clase y texto según el estado actual
-                                        $claseBoton = "";
-                                        $textoBoton = "";
-                                        switch ($estadoActual) {
-                                            case "En Trámite":
-                                                $claseBoton = "btn-warning";
-                                                $textoBoton = "En Trámite";
-                                                break;
-                                            
-                                            case "Autorizado":
-                                                $claseBoton = "btn-info";
-                                                $textoBoton = "Autorizado";
-                                                break;
-                                            
-                                            default:
-                                                $claseBoton = "btn-warning";
-                                                $textoBoton = "En Trámite";
-                                        }
+                                    foreach ($salidas as $key => $value)   {
+                                        echo '
+                                        <tr> 
                                         
+                                            <td>'.$value["id_prestamo"].'</td>
+                                            <td>'.$value["nombre"].'</td>
+                                            <td>'.$value["tipo_prestamo"].'</td>
+                                            <td>'.$value["estado_prestamo"].'</td>
 
-                                        echo '<tr>
-                                            <td>' . $prestamo["id_prestamo"] . '</td>
-                                            <td>' . $prestamo["usuario_id"] . '</td>
-                                            <td>' . $prestamo["tipo_prestamo"] . '</td>
-                                            <td>' . $prestamo["fecha_inicio"] . '</td>
                                             <td>
-                                                <button type="button" 
-                                                        class="btn btn-sm ' . $claseBoton . '" 
-                                                        onclick="cambiarEstadoSolicitud(this, ' . $prestamo["id_prestamo"] . ', \'' . $estadoActual . '\')"
-                                                        data-estado="' . $estadoActual . '">
-                                                    ' . $textoBoton . '
-                                                </button>
-                                            </td>
-                                            <td class="text-center">
-                                                <input type="checkbox" name="accion1" value="' . $prestamo["id_prestamo"] . '">
-                                                <input type="checkbox" name="accion2" value="' . $prestamo["id_prestamo"] . '">
-                                                <input type="checkbox" name="accion3" value="' . $prestamo["id_prestamo"] . '">
-                                                <button class="btn btn-info btn-sm"
-                                                            data-toggle="modal"
-                                                            data-target="#modalDetallesPrestamo"
-                                                            onclick="cargarDetallesPrestamo(' . $prestamo["id_prestamo"] . ')">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>';
+                                                <div class="btn-group">';
+                                                echo '<button class="btn btn-info btn-sm btnVerDetalles" data-id="'.$value["id_prestamo"].'" data-toggle = "modal"></button>';
                                     }
                                     ?>
                                 </tbody>

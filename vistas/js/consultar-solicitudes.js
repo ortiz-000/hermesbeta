@@ -38,6 +38,7 @@ $(document).on("click", "#btnBuscarUsuarioConsultar", function () {
       let idUsuario = respuesta["id_usuario"];
       console.log("idUsuario :", idUsuario);
       datos = new FormData();
+      datos.append("accion", "mostrarSolicitudes"); 
       datos.append("idUsuario", idUsuario);
       $.ajax({
         url: "ajax/solicitudes.ajax.php",
@@ -105,6 +106,7 @@ $(document).on("click", ".btnVerDetallePrestamo", function () {
   let idPrestamo = $(this).attr("idPrestamo");
 //   console.log("idPrestamo :", idPrestamo);
   datos = new FormData();
+  datos.append("accion", "mostrarPrestamo");
   datos.append("idPrestamo", idPrestamo);
   $.ajax({
     url: "ajax/solicitudes.ajax.php",
@@ -123,6 +125,7 @@ $(document).on("click", ".btnVerDetallePrestamo", function () {
       $("#detalleMotivoPrestamo").text(respuesta["motivo"]);
        
       datosDetalle = new FormData();
+      datosDetalle.append("accion", "mostrarPrestamoDetalle");
         datosDetalle.append("idPrestamoDetalle", respuesta["id_prestamo"]);
         $.ajax({
           url: "ajax/solicitudes.ajax.php",
@@ -172,4 +175,23 @@ $(document).on("click", ".btnVerDetallePrestamo", function () {
         })
     },
   });
+});
+//Historial de solicitudes
+$(document).ready(function() {
+    // Obtener cédula de la URL
+    let params = new URLSearchParams(window.location.search);
+    let cedula = params.get('cedula');
+    let tabla_prestamo = params.get('tabla_prestamo');
+    
+    if(cedula) {
+        // Colocar la cédula en el input
+        $("#cedulaUsuario").val(cedula);
+        // Simular click en el botón de búsqueda
+        $("#btnBuscarUsuarioConsultar").trigger('click');
+    }
+    if(tabla_prestamo) {
+        // Mostrar la tabla de préstamos
+        $("#resultados").fadeIn();
+        $("#tblPrestamosUsuario").fadeIn();
+    }
 });
