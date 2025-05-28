@@ -32,16 +32,16 @@ $('#tblUsuarios').DataTable({
             "targets": [8],
             "render": function(data, type, row) {
                 if (data === "activo") {
-                    return "<button class='btn btn-success btn-xs btnActivarUsuario' data-id='" + row[0] + "' data-estado='inactivo'>Activo</button>";
+                    return "<button title='Inactivar usuario' class='btn btn-success btnActivarUsuario' data-id='" + row[0] + "' data-estado='inactivo'>Activo</button>";
                 } else {
-                    return "<button class='btn btn-danger btn-xs btnActivarUsuario' data-id='" + row[0] + "' data-estado='activo'>Inactivo</button>";                    
+                    return "<button title='Activar usuario' class='btn btn-danger btnActivarUsuario' data-id='" + row[0] + "' data-estado='activo'>Inactivo</button>";                    
                 }
             }
         },
         {
             "targets": [-1],
             "render": function(data, type, row) {
-            return "<div class='btn-group'><button title='Consultar detalles de usuario' class='btn btn-default btn-xs btnConsultarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalConsularUsuario'><i class='fas fa-eye'></i></button><button title='Editar usuario' class='btn btn-default btn-xs btnEditarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fas fa-edit'></i></button><button title='Solicitudes del usuario' class='btn btn-default btn-xs btnSolicitudesUsuario' idUsuario='" + row[0] + "' data-numero-documento='"+ row[2] +"' data-toggle='modal' data-target='#modalSolicitudesUsuario'><i class='fas fa-laptop'></i></button></div>"
+            return "<div class='btn-group'><button title='Consultar detalles de usuario' class='btn btn-default btnConsultarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalConsularUsuario'><i class='fas fa-eye'></i></button><button title='Editar usuario' class='btn btn-default btnEditarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fas fa-edit'></i></button><button title='Solicitudes del usuario' class='btn btn-default btnSolicitudesUsuario' idUsuario='" + row[0] + "' data-numero-documento='"+ row[2] +"' data-toggle='modal' data-target='#modalSolicitudesUsuario'><i class='fas fa-laptop'></i></button></div>"
             }
         }
     ],
@@ -64,7 +64,7 @@ $('#tblUsuarios').DataTable({
         },
     },
     "buttons": ["csv", "excel", "pdf"],
-    "dom": "lBfrtip"
+    "dom": "lfBrtip"
 });   
 
 

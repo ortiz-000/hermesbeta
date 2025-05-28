@@ -37,46 +37,44 @@
     <section class="content">
 
       <!-- Default box -->
-      <!-- <div class="card">
-            <div class="card-header">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrarUsuario">
-              Agregar Usuario</button> -->
+      <div class="card">
 
 
-      <!-- </div> -->
-      <div class="card-body">
-        <table id="tblUsuarios" class="table table-bordered table-striped">
 
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Tipo de documento</th>
-              <th>Numero de documento</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Correo</th>
-              <th>Rol</th>
-              <th>Ficha</th>
-              <th>Estado</th>
-              <th>Condición</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
+        <div class="card-body">
+          <table id="tblUsuarios" class="table table-bordered table-striped table-hover">
 
-        </table
+            <thead class="bg-dark">
+              <tr>
+                <th>#</th>
+                <th>Tipo de documento</th>
+                <th>Numero de documento</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Ficha</th>
+                <th>Estado</th>
+                <th>Condición</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+          </table
+
+            </div>
+          <!-- /.card-body -->
 
         </div>
         <!-- /.card-body -->
-
       </div>
-      <!-- /.card -->
 
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
-<!-- ============================================================================================================== -->
+  <!-- ============================================================================================================== -->
 
   <!-- Modal para Consultar usuario -->
   <div class="modal fade" id="modalConsularUsuario">
@@ -93,20 +91,20 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <?php
-              // Obtener la id del usuario a consultar
-              $idUsuario = isset($_POST['idConsultarUsuario']) ? $_POST['idConsultarUsuario'] : null;
-              $fotoUsuario = "vistas/img/usuarios/default/anonymous.png";
-              if ($idUsuario) {
-                $usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $idUsuario);
-                if ($usuario && !empty($usuario["foto"])) {
-                  $fotoUsuario = $usuario["foto"];
-                }
+            // Obtener la id del usuario a consultar
+            $idUsuario = isset($_POST['idConsultarUsuario']) ? $_POST['idConsultarUsuario'] : null;
+            $fotoUsuario = "vistas/img/usuarios/default/anonymous.png";
+            if ($idUsuario) {
+              $usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $idUsuario);
+              if ($usuario && !empty($usuario["foto"])) {
+                $fotoUsuario = $usuario["foto"];
               }
+            }
             ?>
             <img src="<?php echo $fotoUsuario; ?>" class="img-thumbnail rounded-circle" alt="User Image" id="consultarFotoUsuario" style="width:150px; height:150px; object-fit:cover;">
           </div>
         </div>
-        
+
         <div class="modal-body">
           <div class="box-body">
 
@@ -244,7 +242,7 @@
               </div>
 
             </form>
-        </div> <!-- box-body  -->
+          </div> <!-- box-body  -->
         </div> <!-- modal-body  -->
 
       </div> <!-- Modal content -->
@@ -263,7 +261,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        
+
         <div class="modal-body">
           <div class="box-body">
 
@@ -507,7 +505,7 @@
   </div> <!-- modal  -->
 
 
-<!-- ============================================================================================================== -->
+  <!-- ============================================================================================================== -->
 
   <!-- Modal para Editar usuario -->
   <div class="modal fade" id="modalEditarUsuario">
@@ -559,7 +557,7 @@
 
                   <div class="col-lg-4">
                     <label>Tipo</label>
-                    <select class="form-control"  name="editTipoDocumento" required>
+                    <select class="form-control" name="editTipoDocumento" required>
                       <option id="editTipoDocumento" value="">Seleccione...</option>
                       <option value="TI">TI</option>
                       <option value="CC">CC</option>
@@ -621,17 +619,17 @@
                       <select class="form-control" name="selectEditSede" id="selectEditSede" inicial="true" required>
                         <option id="optionEditSede" value=""></option>
                         <?php
-                      $item = null;
-                      $valor = null;
-                      $sedes = ControladorSedes::ctrMostrarSedes($item, $valor);
-                      
-                      // Loop through the sedes and create options
-                      foreach ($sedes as $key => $sede) {
-                        if ($sede["estado"] != "inactiva") {
-                          echo '<option value="' . $sede["id_sede"] . '">' . $sede["nombre_sede"] . '</option>';
+                        $item = null;
+                        $valor = null;
+                        $sedes = ControladorSedes::ctrMostrarSedes($item, $valor);
+
+                        // Loop through the sedes and create options
+                        foreach ($sedes as $key => $sede) {
+                          if ($sede["estado"] != "inactiva") {
+                            echo '<option value="' . $sede["id_sede"] . '">' . $sede["nombre_sede"] . '</option>';
+                          }
                         }
-                      }
-                      ?>
+                        ?>
                       </select>
                       <!-- <div id="alerta"></div> -->
 
@@ -662,8 +660,8 @@
                     </div>
                   </div>
 
-                </div>     <!-- row -->
-              </div>      <!-- form group -->
+                </div> <!-- row -->
+              </div> <!-- form group -->
 
 
               <!-- row mail  -->
@@ -674,7 +672,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                       </div>
-                      <input type="email" class="form-control" name="editEmail" id="editEmail"  placeholder="Email" required>
+                      <input type="email" class="form-control" name="editEmail" id="editEmail" placeholder="Email" required>
                     </div>
                   </div>
                 </div>
