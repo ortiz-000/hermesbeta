@@ -1,5 +1,75 @@
 //************************************************************
 // 
+//  SERVERSIDE USUARIOS
+// 
+//************************************************************/
+$('#tblUsuarios').DataTable({
+    // destroy: true,
+    "processing": true,
+    "serverSide": true,
+    "sAjaxSource": "ajax/serverside/serverside.usuarios.php",
+    "columns": [
+        { "data": null},
+        { "data": "1" },
+        { "data": "2" },
+        { "data": "3" },
+        { "data": "4" },
+        { "data": "5" },
+        { "data": "6" },
+        { "data": "7" },
+        { "data": "8" },
+        { "data": "9" },
+        { "data": null}      
+    ],
+    "columnDefs": [
+        {
+            "targets": [0],
+            "render": function(data, type, row, meta) {
+                return meta.row + 1;
+            }
+        },
+        {
+            "targets": [8],
+            "render": function(data, type, row) {
+                if (data === "activo") {
+                    return "<button class='btn btn-success btn-xs btnActivarUsuario' data-id='" + row[0] + "' data-estado='inactivo'>Activo</button>";
+                } else {
+                    return "<button class='btn btn-danger btn-xs btnActivarUsuario' data-id='" + row[0] + "' data-estado='activo'>Inactivo</button>";                    
+                }
+            }
+        },
+        {
+            "targets": [-1],
+            "render": function(data, type, row) {
+            return "<div class='btn-group'><button title='Consultar detalles de usuario' class='btn btn-default btn-xs btnConsultarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalConsularUsuario'><i class='fas fa-eye'></i></button><button title='Editar usuario' class='btn btn-default btn-xs btnEditarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fas fa-edit'></i></button><button title='Solicitudes del usuario' class='btn btn-default btn-xs btnSolicitudesUsuario' idUsuario='" + row[0] + "' data-numero-documento='"+ row[2] +"' data-toggle='modal' data-target='#modalSolicitudesUsuario'><i class='fas fa-laptop'></i></button></div>"
+            }
+        }
+    ],
+    "responsive": true,
+    "autoWidth": false,
+    "lengthChange": true,
+    "lengthMenu":[10, 25, 50, 100],
+    "language": {
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "zeroRecords": "No se encontraron resultados",
+        "info": "Mostrando pagina _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay registros disponibles",
+        "infoFiltered": "(filtrado de _MAX_ total registros)",
+        "search": "Buscar:",
+        "paginate": {
+          "first":      "Primero",
+          "last":       "Ultimo",
+          "next":       "Siguiente",
+          "previous":   "Anterior"
+        },
+    },
+    "buttons": ["csv", "excel", "pdf"],
+    "dom": "lBfrtip"
+});   
+
+
+//************************************************************
+// 
 //  SCRIPT PARA AGREGAR USUARIOS
 // 
 //************************************************************/
