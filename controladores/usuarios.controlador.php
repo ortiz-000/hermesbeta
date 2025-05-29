@@ -16,7 +16,8 @@ class ControladorUsuarios{
                 $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
                 if (is_array($respuesta)) {
 
-                if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $encriptar) {
+                if ($respuesta["nombre_usuario"] == $_POST["ingUsuario"] && $respuesta["clave"] == $encriptar) 
+                {
                     if($respuesta["estado"] == "activo") {
                         // Iniciar sesión y guardar datos del usuario
                         $_SESSION["iniciarSesion"] = "ok";
