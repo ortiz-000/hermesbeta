@@ -43,6 +43,36 @@
 		}
 
 	}
+	/*============================================= 
+MARCAR EQUIPO EN DETALLE_PRESTAMO COMO DEVUELTO EN BUEN ESTADO
+=============================================*/
+static public function ctrMarcarDevueltoBuenEstado($idPrestamo, $idEquipo){
+    $tabla = "detalle_prestamo";
+    $datos = array(
+        "id_prestamo" => $idPrestamo,
+        "equipo_id" => $idEquipo,
+        "id_estado" => 1 // 1 = Disponible
+    );
+
+    $respuestaMarcado = ModeloDevoluciones::mdlMarcarDevueltoBuenEstado($tabla, $datos);
+
+    if($respuestaMarcado == "ok"){
+        $todosDevueltos = ModeloDevoluciones::mdlVerificarTodosEquiposDevueltos($idPrestamo);
+
+        if($todosDevueltos){
+            $respuestaActualizacionPrestamo = ModeloDevoluciones::mdlActualizarPrestamoDevuelto($idPrestamo);
+            if($respuestaActualizacionPrestamo == "ok"){
+                return "ok_prestamo_actualizado";
+            } else {
+                return "error_actualizando_prestamo";
+            }
+        } else {
+            return "ok";
+        }
+    } else {
+        return $respuestaMarcado;
+    }
+}
 
 }
 ?>
