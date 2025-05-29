@@ -27,7 +27,7 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
             $("#nombreSolicitante").addClass("bg-danger");
             $(".infoEquiposSolicitados").addClass("d-none");
           } else {
-            $("#nombreSolicitante").addClass("bg-success");
+            $("#nombreSolicitante").removeClass("bg-danger").addClass("bg-success");
             $(".infoEquiposSolicitados").removeClass("d-none");
           }
 
@@ -51,6 +51,7 @@ $('#reservation').on('apply.daterangepicker', function (ev, picker) {
   datos = new FormData();
   datos.append("fechaInicio", fechaInicio);
   datos.append("fechaFin", fechaFin);
+  datos.append("accion", "mostrarEquipos");
   
   $.ajax({
     url: "ajax/solicitudes.ajax.php",
@@ -280,4 +281,34 @@ $("#idFormularioSolicitud").on("submit", function (event) {
       }
     }
   });
+});
+//##*****Historial de solicitudes
+$(document).on("click", ".btnHistorial", function() {
+    let cedula = $("#NumeroIdSolicitante").val();
+    
+    if(cedula) {
+        window.location.href = "index.php?ruta=consultar-solicitudes&cedula=" + cedula;
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No hay un solicitante seleccionado'
+        });
+    }
+});
+// ---------------------//
+// Consultar solicitudes//
+// ---------------------//
+$(document).on("click", "#btnHistorialSolicitud", function() {
+    let numeroDocumento = $("#NumeroIdSolicitante").val();
+    
+    if(numeroDocumento != "") {
+        window.location.href = "index.php?ruta=consultar-solicitudes&documento=" + numeroDocumento;
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Debe seleccionar un solicitante primero'
+        });
+    }
 });
