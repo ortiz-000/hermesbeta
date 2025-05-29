@@ -145,4 +145,43 @@ class ModeloDevoluciones
 		$stmt = null;
 	}
 
+        /*============================================= 
+    MARCAR EQUIPO EN DETALLE_PRESTAMO COMO DEVUELTO EN BUEN ESTADO (ACTUALIZANDO ID_ESTADO)
+    =============================================*/
+    static public function mdlMarcarDevueltoBuenEstado($tabla, $datos){
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE $tabla SET id_estado = :id_estado 
+            WHERE id_prestamo = :id_prestamo AND equipo_id = :equipo_id"
+        );
+
+        $stmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_prestamo", $datos["id_prestamo"], PDO::PARAM_INT);
+        $stmt->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
+
+        if($stmt->execute()){
+            if($stmt->rowCount() > 0){
+                // También actualizar el estado del equipo en la tabla equipos
+                $stmtEquipo = Conexion::conectar()->prepare(
+                    "UPDATE equipos SET id_estado = :id_estado 
+                    WHERE equipo_id = :equipo_id"
+                );
+                $stmtEquipo->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT);
+                $stmtEquipo->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
+                
+                if($stmtEquipo->execute()){
+                    return "ok";
+                } else {
+                    return "error_actualizando_equipo";
+                }
+            } else {
+                return "no_change";
+            }
+        } else {
+            return "error";
+        }
+
+        $stmt = null;
+        $stmtEquipo = null;
+    }
+
 }
