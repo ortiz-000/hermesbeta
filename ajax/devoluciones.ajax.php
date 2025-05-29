@@ -37,7 +37,7 @@ class AjaxDevoluciones {
             echo json_encode(array("success" => false, "status" => "error_marcado", "message" => "Error al actualizar el estado del equipo."));
         }
     }
-<<<<<<< HEAD
+
     /*=============================================
 MARCAR EQUIPO EN DETALLE_PRESTAMO COMO DEVUELTO (BUEN ESTADO)
 =============================================*/
@@ -54,7 +54,7 @@ public function ajaxMarcarDevueltoBuenEstado() {
         echo json_encode(array("success" => false, "status" => "error_marcado", "message" => "Error al actualizar el estado del equipo."));
     }
 }
-=======
+
 
     /*=============================================
     MARCAR EQUIPO COMO ROBADO (BAJA)
@@ -70,7 +70,6 @@ public function ajaxMarcarDevueltoBuenEstado() {
             echo json_encode(array("success" => false, "status" => "error_marcado", "message" => "Error al marcar el equipo como robado."));
         }
     }
->>>>>>> 30cf366a7896fab31e4f176e8e3a7a704e40946c
 }
 
 // Obtener datos del préstamo
@@ -88,19 +87,18 @@ if(isset($_POST["accion"]) && $_POST["accion"] === "marcarMantenimientoDetalle")
     $devolucion->ajaxMarcarMantenimientoDetalle();
 }
 
-<<<<<<< HEAD
+
 // Marcar equipo como devuelto en buen estado
 if(isset($_POST["accion"]) && $_POST["accion"] === "marcarBuenEstado") {
     $devolucion = new AjaxDevoluciones();
     $devolucion->idPrestamo = $_POST["idPrestamo"];
     $devolucion->idEquipo = $_POST["idEquipo"];
     $devolucion->ajaxMarcarDevueltoBuenEstado();
-=======
+}
 // Agregar en la sección de condiciones POST
 if(isset($_POST["accion"]) && $_POST["accion"] === "marcarEquipoRobado") {
     $devolucion = new AjaxDevoluciones();
     $devolucion->idPrestamo = $_POST["idPrestamo"];
     $devolucion->idEquipo = $_POST["idEquipo"];
     $devolucion->ajaxMarcarEquipoRobado();
->>>>>>> 30cf366a7896fab31e4f176e8e3a7a704e40946c
 }
