@@ -47,12 +47,12 @@
                     <tr>
                       <td>' . ($key + 1) . '</td>
                       <td>' . $value["numero_documento"] . '</td>
-                      <td>' . $value["nombre"] . '</td>
-                      <td>' . $value["apellido"] . '</td>
+                      <td>' . $value["nombre_usuario"] . '</td>
+                      <td>' . $value["apellido_usuario"] . '</td>
                       <td>' . $value["telefono"] . '</td>
                       <td>' . $value["fecha_inicio"] . '</td>
                       <td>' . $value["fecha_fin"] . '</td>
-                      <td>' . $value["estado_prestamo"] . '</td>
+                      <td>' . $value["tipo_prestamo"] . '</td>
                       <td>
                         <div class="btn-group">';
                     // Modificamos para usar una sola modal y pasar el ID del préstamo
@@ -152,17 +152,14 @@
                 </div>
               </div>
             </div>
-
-            <!-- Detalles del Equipo -->
-            <div class="card card-outline card-success">
-              <div class="card-header">
-                <h3 class="card-title">Equipos en Préstamo</h3>
-              </div>
-            </div>
-            <div id="equiposListContainer">
-                <!-- Aquí se cargarán los detalles de cada equipo individualmente con JavaScript -->
-            </div>
+            <!-- Detalles del Equipo -->  
           </div>
+        </div>
+        <div class="card card-header  card-success">
+          <h3 class="card-title">Equipos en Préstamo</h3>
+        </div>
+        <div id="equiposListContainer">
+          <!-- Aquí se cargarán los detalles de cada equipo individualmente con JavaScript -->
         </div>
       </div>
       <div class="modal-footer">
@@ -174,30 +171,29 @@
 
 <!-- Modal para registrar motivo de mal estado -->
 <div class="modal fade" id="modalMalEstado">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger">
-                <h4 class="modal-title">Registrar Motivo de Mal Estado</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="formMalEstado">
-                    <input type="hidden" id="malEstadoPrestamoId">
-                    <!-- Necesitaremos el ID del equipo específico -->
-                    <input type="hidden" id="malEstadoEquipoId">
-                    <div class="form-group">
-                        <label for="motivoMalEstado">Describe el motivo del mal estado:</label>
-                        <textarea class="form-control" id="motivoMalEstado" rows="4" required></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnGuardarMalEstado">Guardar Motivo y Enviar a Mantenimiento</button>
-            </div>
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h4 class="modal-title">Registrar Motivo de Mal Estado</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formMalEstado">
+          <input type="hidden" id="malEstadoPrestamoId">
+          <!-- Necesitaremos el ID del equipo específico -->
+          <input type="hidden" id="malEstadoEquipoId">
+          <div class="form-group">
+            <label for="motivoMalEstado">Describe el motivo del mal estado:</label>
+            <textarea class="form-control" id="motivoMalEstado" rows="4" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="btnGuardarMalEstado">Guardar Motivo y Enviar a Mantenimiento</button>
+      </div>
     </div>
+  </div>
 </div>
-

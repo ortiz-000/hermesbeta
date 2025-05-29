@@ -21,7 +21,7 @@ $(document).ready(function() {
                     // Imagen y datos básicos del usuario
                     $('#userImage').attr('src', datosPrestamo.foto ? datosPrestamo.foto : 'vistas/img/usuarios/default/anonymous.png');
                     $('#userName').text(datosPrestamo.nombre + ' ' + datosPrestamo.apellido);
-                    $('#userRol').text(datosPrestamo.idrRol || 'No especificado');
+                    $('#userRol').text(datosPrestamo.nombre_rol || 'No especificado'); // Updated to use nombre_rol
 
                     // Información del préstamo
                     $('#prestamoIdentificacion').text(datosPrestamo.numero_documento || 'No disponible');
@@ -34,72 +34,56 @@ $(document).ready(function() {
                     $('#prestamoFechaFin').text(datosPrestamo.fecha_fin || 'No especificada');
                     $('#prestamoEstado').text(datosPrestamo.estado_prestamo || 'No especificado');
 
-                    // Información de los equipos (iterar sobre el array)
-                    var equiposHtml = '';
+                    // Información de los equipos en una tabla
+                    var equiposTableHtml = `
+                        <table class="table table-bordered table-striped dt-responsive tablaDevolucionesEquipos" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Categoría</th>
+                                    <th>Marca</th>
+                                    <th>Placa</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
                     respuesta.forEach(function(equipo) {
-                        equiposHtml += `
-                            <div class="card card-outline card-secondary mb-3">
-                                <div class="card-header">
-                                    <h5 class="card-title">Equipo: ${equipo.descripcion || 'Sin descripción'}</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <table class="table table-sm">
-                                                <tbody>
-                                                    <tr>
-                                                        <th style="width: 40%">Serial:</th>
-                                                        <td>${equipo.numero_serie || 'No disponible'}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Etiqueta:</th>
-                                                        <td>${equipo.etiqueta || 'No disponible'}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <table class="table table-sm">
-                                                <tbody>
-                                                    <tr>
-                                                        <th style="width: 40%">Categoría:</th>
-                                                        <td>${equipo.categoria_nombre || 'No disponible'}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Descripción:</th>
-                                                        <td>${equipo.descripcion || 'No disponible'}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <!-- Contenedor para los botones de devolución de este equipo -->
-                                    <div class="col-12 text-center mt-3 equipo-buttons-container">`;
+                        equiposTableHtml += `
+                            <tr>
+                                <td>${equipo.categoria_nombre || 'No disponible'}</td>
+                                <td>${equipo.marca_equipo || 'No disponible'}</td> 
+                                <td>${equipo.placa_equipo || 'No disponible'}</td>
+                                <td class="equipo-buttons-container">`;
 
                         // Lógica para mostrar los botones de devolución según el tipo de préstamo
                         if (datosPrestamo.tipo_prestamo === 'Inmediato') {
-                            equiposHtml += `
-                                <button type="button" class="btn btn-success btn-devolver-equipo mr-2" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="buen_estado">
-                                    <i class="fas fa-check-circle mr-2"></i>Buen Estado
+                            equiposTableHtml += `
+                                <button type="button" class="btn btn-success btn-sm btn-devolver-equipo mr-1" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="buen_estado">
+                                    <i class="fas fa-check-circle"></i> B. Estado
                                 </button>
-                                <button type="button" class="btn btn-danger btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="mal_estado">
-                                    <i class="fas fa-times-circle mr-2"></i>Mal Estado
+                                <button type="button" class="btn btn-danger btn-sm btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="mal_estado">
+                                    <i class="fas fa-times-circle"></i> M. Estado
                                 </button>
                             `;
                         } else if (datosPrestamo.tipo_prestamo === 'Reservado') {
-                            equiposHtml += `
-                                <button type="button" class="btn btn-success btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="devuelto">
-                                    <i class="fas fa-check-circle mr-2"></i>Marcar como Devuelto
+                            // Para préstamos 'Reservado', el botón es para marcar como devuelto y enviar a mantenimiento
+                            // El estado 'devuelto' se maneja en el backend para cambiar el estado del equipo a 'En Mantenimiento'
+                            equiposTableHtml += `
+                                <button type="button" class="btn btn-info btn-sm btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="devuelto">
+                                    <i class="fas fa-undo-alt"></i> Devolver
                                 </button>
                             `;
                         }
-                        equiposHtml += `
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                        equiposTableHtml += `</td></tr>`;
                     });
-                    $('#equiposListContainer').html(equiposHtml); // Insertar los detalles de los equipos en el contenedor
+
+                    equiposTableHtml += `
+                            </tbody>
+                        </table>
+                    `;
+                    
+                    $('#equiposListContainer').html(equiposTableHtml); // Insertar la tabla de equipos en el contenedor
 
                     // Mostrar la modal consolidada
                     $('#modalVerDetallesPrestamo').modal('show');
@@ -131,6 +115,9 @@ $(document).ready(function() {
         var prestamoId = $(this).attr('data-prestamo-id');
         var equipoId = $(this).attr('data-equipo-id'); // Obtener el ID del equipo
         var estado = $(this).attr('data-estado'); // 'buen_estado', 'mal_estado', 'devuelto'
+
+        // Guardar el botón presionado para poder modificar su fila después
+        var $buttonPressed = $(this);
 
         console.log("Botón de devolución de equipo clickeado:");
         console.log("ID del Préstamo:", prestamoId);
@@ -164,19 +151,26 @@ $(document).ready(function() {
                         if (respuesta.success) { 
                             Swal.fire({
                                 icon: "success",
-                                title: "¡Equipo marcado para mantenimiento!",
+                                title: respuesta.title || "¡Acción completada!",
                                 text: respuesta.message,
                                 showConfirmButton: false,
-                                timer: 1500
+                                timer: 2000
                             }).then(() => {
-                                // Eliminar el contenedor del equipo de la modal
-                                // Buscamos el botón que fue clickeado, subimos a su contenedor de tarjeta y lo eliminamos.
-                                $(`.btn-devolver-equipo[data-equipo-id='${equipoId}'][data-prestamo-id='${prestamoId}']`).closest('.card.card-outline.card-secondary').remove();
-                                
-                                // Opcional: Verificar si no quedan más equipos y mostrar un mensaje
-                                if ($('#equiposListContainer .card').length === 0) {
-                                    $('#equiposListContainer').html('<p>Todos los equipos de este préstamo han sido procesados.</p>');
-                                }
+                                $buttonPressed.closest('tr').fadeOut(500, function() {
+                                    $(this).remove();
+                                    if ($('#equiposListContainer tbody tr').length === 0) {
+                                        $('#equiposListContainer').html('<p class="text-center">Todos los equipos de este préstamo han sido procesados.</p>');
+                                        // Check if the specific status indicates the loan is fully updated
+                                        if (respuesta.status === "ok_prestamo_actualizado") {
+                                            $('#modalVerDetallesPrestamo').modal('hide');
+                                            if (typeof tablaDevoluciones !== 'undefined') {
+                                                tablaDevoluciones.ajax.reload();
+                                            } else {
+                                                window.location.reload(); 
+                                            }
+                                        }
+                                    }
+                                });
                             });
                         } else {
                             Swal.fire({

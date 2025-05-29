@@ -10,59 +10,6 @@ Este archivo contiene instrucciones y consultas SQL que deben ejecutarse en la b
 
 ## Consultas y Procedimientos
 
-///--------------------------------------------------------------------------------------------------------------------------------///
-///INICIO DEL MODULO DE DEVOLUCIONES///
-
-### 1. Hacer modificaciones en la tabla `prestamos`
-
-```sql
-ALTER TABLE prestamos
-MODIFY COLUMN estado_prestamo ENUM('Prestado','Mantenimiento','Rechazado','Autorizado','Pendiente','Tramite','Disponible') NOT NULL DEFAULT 'Disponible';
-```
-
-### 2. Hacer modificaciones en la tabla `detalle_prestamos`
-/// Agrega una nueva columna llamada id_estado a la tabla detalle_prestamos, la cual sirve para saber el estado del prestamo y es IMPORTANTE para el trigger///
-
-```sql
-ALTER TABLE detalle_prestamo
-ADD COLUMN id_estado INT NULL; 
-```
-
-```sql
-UPDATE detalle_prestamo dp
-JOIN equipos e ON dp.equipo_id = e.equipo_id
-SET dp.id_estado = e.id_estado;
-```
-
-```sql
-ALTER TABLE detalle_prestamo
-ADD CONSTRAINT fk_detalle_prestamo_estado
-FOREIGN KEY (id_estado) REFERENCES estados(id_estado);
-```
-
-### 3. Crear un trigger para actualizar el estado del equipo cuando se devuelve
-
-```sql
-DELIMITER //
-CREATE TRIGGER trg_actualizar_estado_equipo_desde_detalle
-AFTER UPDATE ON detalle_prestamo
-FOR EACH ROW
-BEGIN
-    -- Verificar si el id_estado en detalle_prestamo se actualizó a 4 (Mantenimiento)
-    -- y si el valor realmente cambió para evitar ejecuciones innecesarias o recursión.
-    IF NEW.id_estado = 4 AND NEW.id_estado <> OLD.id_estado THEN
-        -- Actualizar el id_estado en la tabla equipos
-        UPDATE equipos
-        SET id_estado = 4 -- Mantenimiento
-        WHERE equipo_id = NEW.equipo_id; -- Usar NEW.equipo_id de la fila actualizada en detalle_prestamo
-    END IF;
-END //
-DELIMITER ;
-```
-
-///FIN DEL MODULO DE DEVOLUCIONES///
-///--------------------------------------------------------------------------------------------------------------------------------///
-
 ### 1.Agregar una nueva tabla 'mantenimiento' en la base de datos hermes002
 
 ```sql

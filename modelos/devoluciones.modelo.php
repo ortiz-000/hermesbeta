@@ -10,41 +10,48 @@ class ModeloDevoluciones
             // Consulta para un registro específico con JOIN, devolviendo cada equipo por separado
             // Se añade la condición para que solo muestre equipos con detalle_prestamo.id_estado = 2 (Prestado)
             $stmt = Conexion::conectar()->prepare(
-                "SELECT p.*, u.numero_documento, u.nombre, u.apellido, u.telefono, 
+                "SELECT p.*, u.numero_documento, u.nombre AS nombre_usuario, u.apellido AS apellido_usuario, u.telefono, 
+                        r.nombre_rol,  -- Añadido para obtener el nombre del rol
                         f.codigo as ficha_codigo, 
-                        e.equipo_id, e.numero_serie, e.descripcion, e.etiqueta, 
+                        e.equipo_id, e.numero_serie, e.descripcion AS marca_equipo, e.etiqueta AS placa_equipo, -- Modificado para marca y placa
                         c.nombre AS categoria_nombre, 
                         dp.id_estado AS estado_del_equipo_en_prestamo 
                  FROM $tabla p
                  JOIN usuarios u ON p.usuario_id = u.id_usuario
+                 LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario -- JOIN para obtener el id_rol del usuario
+                 LEFT JOIN roles r ON ur.id_rol = r.id_rol -- JOIN para obtener el nombre del rol
                  LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
                  LEFT JOIN fichas f ON af.id_ficha = f.id_ficha
                  LEFT JOIN detalle_prestamo dp ON p.id_prestamo = dp.id_prestamo
                  LEFT JOIN equipos e ON dp.equipo_id = e.equipo_id
                  LEFT JOIN categorias c ON e.categoria_id = c.categoria_id
                  WHERE p.$item = :$item
-                 AND p.estado_prestamo IN ('Prestado', 'Autorizado')
-                 AND dp.id_estado = 2" // Condición agregada aquí para filtrar equipos en estado 'Prestado'
+                 AND p.estado_prestamo IN ('Prestado')
+                 AND e.id_estado = 2" // Condición agregada aquí para filtrar equipos en estado 'Prestado'
             );
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll();
         } else {
-            // Consulta para todos los registros con JOIN (sin cambios aquí)
+            // Consulta para todos los registros con JOIN
             $stmt = Conexion::conectar()->prepare(
-                "SELECT p.id_prestamo, u.numero_documento, u.nombre, u.apellido, u.telefono,
+                "SELECT p.id_prestamo, u.numero_documento, u.nombre AS nombre_usuario, u.apellido AS apellido_usuario, u.telefono,
+                        r.nombre_rol, -- Añadido para obtener el nombre del rol
                         f.codigo as ficha_codigo,
                         p.fecha_inicio, p.fecha_fin, p.tipo_prestamo,
                         CASE
                             WHEN p.tipo_prestamo = 'Inmediato' THEN 'Inmediato'
                             ELSE 'Reservado'
-                        END as estado_prestamo
+                        END as estado_prestamo_display, -- Renombrado para evitar conflicto con p.estado_prestamo
+                        p.estado_prestamo -- Se mantiene el estado_prestamo original para lógica interna si es necesario
                  FROM $tabla p
                  JOIN usuarios u ON p.usuario_id = u.id_usuario
+                 LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario -- JOIN para obtener el id_rol del usuario
+                 LEFT JOIN roles r ON ur.id_rol = r.id_rol -- JOIN para obtener el nombre del rol
                  LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
                  LEFT JOIN fichas f ON af.id_ficha = f.id_ficha
-                 WHERE p.estado_prestamo IN ('Prestado', 'Autorizado')
+                 WHERE p.estado_prestamo IN ('Prestado')
                  ORDER BY p.fecha_inicio DESC"
             );
 
