@@ -73,6 +73,9 @@ $(document).ready(function() {
                                 <button type="button" class="btn btn-info btn-sm btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="devuelto">
                                     <i class="fas fa-undo-alt"></i> Devolver
                                 </button>
+                                <button type="button" class="btn btn-danger btn-sm btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="robado">
+                                    <i class="fas fa-times-circle"></i> Robado
+                                </button>
                             `;
                         }
                         equiposTableHtml += `</td></tr>`;

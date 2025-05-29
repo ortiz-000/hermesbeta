@@ -7,19 +7,18 @@ class ModeloDevoluciones
     static public function mdlMostrarDevoluciones($tabla, $item, $valor)
     {
         if ($item != null) {
-            // Consulta para un registro específico con JOIN, devolviendo cada equipo por separado
-            // Se añade la condición para que solo muestre equipos con detalle_prestamo.id_estado = 2 (Prestado)
             $stmt = Conexion::conectar()->prepare(
                 "SELECT p.*, u.numero_documento, u.nombre AS nombre_usuario, u.apellido AS apellido_usuario, u.telefono, 
-                        r.nombre_rol,  -- Añadido para obtener el nombre del rol
+                        r.nombre_rol,
                         f.codigo as ficha_codigo, 
-                        e.equipo_id, e.numero_serie, e.descripcion AS marca_equipo, e.etiqueta AS placa_equipo, -- Modificado para marca y placa
+                        e.equipo_id, e.numero_serie, e.descripcion AS marca_equipo, e.etiqueta AS placa_equipo,
                         c.nombre AS categoria_nombre, 
-                        dp.id_estado AS estado_del_equipo_en_prestamo 
+                        e.id_estado AS estado_del_equipo,
+                        dp.estado AS estado_detalle_prestamo
                  FROM $tabla p
                  JOIN usuarios u ON p.usuario_id = u.id_usuario
-                 LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario -- JOIN para obtener el id_rol del usuario
-                 LEFT JOIN roles r ON ur.id_rol = r.id_rol -- JOIN para obtener el nombre del rol
+                 LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario
+                 LEFT JOIN roles r ON ur.id_rol = r.id_rol
                  LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
                  LEFT JOIN fichas f ON af.id_ficha = f.id_ficha
                  LEFT JOIN detalle_prestamo dp ON p.id_prestamo = dp.id_prestamo
@@ -64,18 +63,16 @@ class ModeloDevoluciones
     }
 
 
-	/*============================================= 
+	/*=============================================
 	MARCAR EQUIPO EN DETALLE_PRESTAMO COMO MANTENIMIENTO (ACTUALIZANDO ID_ESTADO)
 	=============================================*/
-	static public function mdlMarcarMantenimientoDetalle($tabla, $datos){
+	static public function mdlMarcarMantenimientoDetalle($datos){
 
-	 	 // Ahora actualizamos la columna id_estado en lugar de la columna estado
+	 	 // Ahora actualizamos la columna id_estado en la tabla `equipos`.
 	 	 // Asumimos que el id_estado para 'Mantenimiento' es 4.
-	 	 // Si el id_estado para 'Mantenimiento' es diferente, debes cambiar el valor :id_estado aquí.
-	 	 $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET id_estado = :id_estado WHERE id_prestamo = :id_prestamo AND equipo_id = :equipo_id");
+	 	 $stmt = Conexion::conectar()->prepare("UPDATE equipos SET id_estado = :id_estado WHERE equipo_id = :equipo_id");
 
-	 	 $stmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT); // Cambiado de :estado a :id_estado y de PARAM_STR a PARAM_INT
-	 	 $stmt->bindParam(":id_prestamo", $datos["id_prestamo"], PDO::PARAM_INT);
+	 	 $stmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT);
 	 	 $stmt->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
 
 	 	 if($stmt->execute()){ 
@@ -84,40 +81,39 @@ class ModeloDevoluciones
             if ($stmt->rowCount() > 0) { 
                 return "ok"; 
             } else { 
-                error_log("MODELO: Update ejecutado pero no afectó filas. ¿Coinciden id_prestamo y equipo_id?"); 
+                error_log("MODELO: Update ejecutado pero no afectó filas. ¿Coincide equipo_id?"); 
                 return "no_change"; // O algún otro indicador 
             } 
 	 	 }else{ 
             error_log("MODELO: Error en execute(): " . json_encode($stmt->errorInfo())); 
 	 	 	 return "error"; 
 	 	 
-	 	 } 
+	 	 }
+	 	 $stmt = null;
 
-	 	 // $stmt->closeCursor(); // No es necesario con $stmt = null; 
-	 	 $stmt = null; 
+	 }
 
-	 } 
-
-	/*============================================= 
+	/*=============================================
 	VERIFICAR SI TODOS LOS EQUIPOS DE UN PRÉSTAMO HAN SIDO DEVUELTOS (MARCADOS PARA MANTENIMIENTO)
 	=============================================*/
 	static public function mdlVerificarTodosEquiposDevueltos($idPrestamo){
 
 		$stmt = Conexion::conectar()->prepare(
-			"SELECT COUNT(*) as total_equipos, 
-					SUM(CASE WHEN id_estado = 4 THEN 1 ELSE 0 END) as equipos_en_mantenimiento 
-			 FROM detalle_prestamo 
-			 WHERE id_prestamo = :id_prestamo"
+			"SELECT COUNT(dp.equipo_id) as total_equipos_prestamo,
+					SUM(CASE WHEN e.id_estado = 4 THEN 1 ELSE 0 END) as equipos_en_mantenimiento
+			 FROM detalle_prestamo dp
+			 JOIN equipos e ON dp.equipo_id = e.equipo_id
+			 WHERE dp.id_prestamo = :id_prestamo"
 		);
 
 		$stmt->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
 		$stmt->execute();
 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		if($resultado && $resultado["total_equipos"] > 0 && $resultado["total_equipos"] == $resultado["equipos_en_mantenimiento"]){
-			return true; // Todos los equipos están en mantenimiento
+		if($resultado && $resultado["total_equipos_prestamo"] > 0 && $resultado["total_equipos_prestamo"] == $resultado["equipos_en_mantenimiento"]){
+			return true; // Todos los equipos asociados a este préstamo están en mantenimiento
 		} else {
-			return false; // No todos los equipos están en mantenimiento o no hay equipos
+			return false; // No todos los equipos están en mantenimiento o no hay equipos asociados
 		}
 
 		$stmt = null;
