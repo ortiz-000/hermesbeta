@@ -514,7 +514,7 @@
                         <option value="">Seleccione...</option>
                         <option value="1">Femenino</option>
                         <option value="2">Masculino</option>
-                        <option value="0">No declara</option>
+                        <option value="3">No declara</option>
                       </select>
                     </div>
                   </div>
@@ -780,7 +780,7 @@
                         <option value="">Seleccione...</option>
                         <option value="1">Femenino</option>
                         <option value="2">Masculino</option>
-                        <option value="0">No declara</option>
+                        <option value="3">No declara</option>
                       </select>
                     </div>
                   </div>
