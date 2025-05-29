@@ -20,7 +20,7 @@ $(document).ready(function() {
 
                     // Imagen y datos básicos del usuario
                     $('#userImage').attr('src', datosPrestamo.foto ? datosPrestamo.foto : 'vistas/img/usuarios/default/anonymous.png');
-                    $('#userName').text(datosPrestamo.nombre + ' ' + datosPrestamo.apellido);
+                    $('#userName').text(datosPrestamo.nombre_usuario + ' ' + datosPrestamo.apellido_usuario);
                     $('#userRol').text(datosPrestamo.nombre_rol || 'No especificado'); // Updated to use nombre_rol
 
                     // Información del préstamo
