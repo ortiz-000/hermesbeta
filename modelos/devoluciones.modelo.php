@@ -63,19 +63,18 @@ class ModeloDevoluciones
     }
 
 
-	/*=============================================
-	MARCAR EQUIPO EN DETALLE_PRESTAMO COMO MANTENIMIENTO (ACTUALIZANDO ID_ESTADO)
-	=============================================*/
-	static public function mdlMarcarMantenimientoDetalle($datos){
+    /*=============================================
+    MARCAR EQUIPO EN DETALLE_PRESTAMO COMO MANTENIMIENTO (ACTUALIZANDO ID_ESTADO)
+    =============================================*/
+    static public function mdlMarcarMantenimientoDetalle($datos){
 
-	 	 // Ahora actualizamos la columna id_estado en la tabla `equipos`.
-	 	 // Asumimos que el id_estado para 'Mantenimiento' es 4.
-	 	 $stmt = Conexion::conectar()->prepare("UPDATE equipos SET id_estado = :id_estado WHERE equipo_id = :equipo_id");
+        // ... existing code ...
+        $stmt = Conexion::conectar()->prepare("UPDATE equipos SET id_estado = :id_estado WHERE equipo_id = :equipo_id");
 
-	 	 $stmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT);
-	 	 $stmt->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
 
-	 	 if($stmt->execute()){ 
+        if($stmt->execute()){ 
             error_log("MODELO: Update ejecutado con éxito. Filas afectadas: " . $stmt->rowCount()); 
             // Verificar si realmente se afectaron filas 
             if ($stmt->rowCount() > 0) { 
@@ -84,61 +83,59 @@ class ModeloDevoluciones
                 error_log("MODELO: Update ejecutado pero no afectó filas. ¿Coincide equipo_id?"); 
                 return "no_change"; // O algún otro indicador 
             } 
-	 	 }else{ 
+        }else{ 
             error_log("MODELO: Error en execute(): " . json_encode($stmt->errorInfo())); 
-	 	 	 return "error"; 
-	 	 
-	 	 }
-	 	 $stmt = null;
+        }
+        $stmt = null;
 
-	 }
+    }
 
-	/*=============================================
-	VERIFICAR SI TODOS LOS EQUIPOS DE UN PRÉSTAMO HAN SIDO DEVUELTOS (MARCADOS PARA MANTENIMIENTO)
-	=============================================*/
-	static public function mdlVerificarTodosEquiposDevueltos($idPrestamo){
+    /*=============================================
+    VERIFICAR SI TODOS LOS EQUIPOS DE UN PRÉSTAMO HAN SIDO DEVUELTOS (MARCADOS PARA MANTENIMIENTO)
+    =============================================*/
+    static public function mdlVerificarTodosEquiposDevueltos($idPrestamo){
 
-		$stmt = Conexion::conectar()->prepare(
-			"SELECT COUNT(dp.equipo_id) as total_equipos_prestamo,
-					SUM(CASE WHEN e.id_estado = 4 THEN 1 ELSE 0 END) as equipos_en_mantenimiento
-			 FROM detalle_prestamo dp
-			 JOIN equipos e ON dp.equipo_id = e.equipo_id
-			 WHERE dp.id_prestamo = :id_prestamo"
-		);
+        $stmt = Conexion::conectar()->prepare(
+            "SELECT COUNT(dp.equipo_id) as total_equipos_prestamo,
+                    SUM(CASE WHEN e.id_estado = 4 THEN 1 ELSE 0 END) as equipos_en_mantenimiento
+             FROM detalle_prestamo dp
+             JOIN equipos e ON dp.equipo_id = e.equipo_id
+             WHERE dp.id_prestamo = :id_prestamo"
+        );
 
-		$stmt->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
-		$stmt->execute();
-		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		if($resultado && $resultado["total_equipos_prestamo"] > 0 && $resultado["total_equipos_prestamo"] == $resultado["equipos_en_mantenimiento"]){
-			return true; // Todos los equipos asociados a este préstamo están en mantenimiento
-		} else {
-			return false; // No todos los equipos están en mantenimiento o no hay equipos asociados
-		}
+        if($resultado && $resultado["total_equipos_prestamo"] > 0 && $resultado["total_equipos_prestamo"] == $resultado["equipos_en_mantenimiento"]){
+            return true; // Todos los equipos asociados a este préstamo están en mantenimiento
+        } else {
+            return false; // No todos los equipos están en mantenimiento o no hay equipos asociados
+        }
 
-		$stmt = null;
-	}
+        $stmt = null;
+    }
 
-	/*=============================================
-	ACTUALIZAR ESTADO DEL PRÉSTAMO A DEVUELTO Y REGISTRAR FECHA REAL DE DEVOLUCIÓN
-	=============================================*/
-	static public function mdlActualizarPrestamoDevuelto($idPrestamo){
+    /*=============================================
+    ACTUALIZAR ESTADO DEL PRÉSTAMO A DEVUELTO Y REGISTRAR FECHA REAL DE DEVOLUCIÓN
+    =============================================*/
+    static public function mdlActualizarPrestamoDevuelto($idPrestamo){
 
-		$stmt = Conexion::conectar()->prepare(
-			"UPDATE prestamos 
-			 SET estado_prestamo = 'Devuelto', fecha_devolucion_real = NOW() 
-			 WHERE id_prestamo = :id_prestamo"
-		);
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE prestamos 
+             SET estado_prestamo = 'Devuelto', fecha_devolucion_real = NOW() 
+             WHERE id_prestamo = :id_prestamo"
+        );
 
-		$stmt->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
+        $stmt->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
 
-		if($stmt->execute()){
-			return "ok";
-		} else {
-			return "error";
-		}
+        if($stmt->execute()){
+            return "ok";
+        } else {
+            return "error";
+        }
 
-		$stmt = null;
-	}
+        $stmt = null;
+    }
 
 }

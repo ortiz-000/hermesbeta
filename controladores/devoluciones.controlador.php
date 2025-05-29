@@ -43,5 +43,27 @@
 
 	}
 
+/*=============================================
+MARCAR EQUIPO COMO ROBADO (BAJA)
+=============================================*/
+static public function ctrMarcarEquipoRobado($idPrestamo, $idEquipo){
+    $datos = array(
+        "equipo_id" => $idEquipo,
+        "id_estado" => 7 // Estado 'baja' para equipos robados
+    );
+
+    $respuestaMarcado = ModeloDevoluciones::mdlMarcarMantenimientoDetalle($datos);
+
+    if($respuestaMarcado == "ok"){
+        $todosDevueltos = ModeloDevoluciones::mdlVerificarTodosEquiposDevueltos($idPrestamo);
+
+        if($todosDevueltos){
+            $respuestaActualizacionPrestamo = ModeloDevoluciones::mdlActualizarPrestamoDevuelto($idPrestamo);
+            return ($respuestaActualizacionPrestamo == "ok") ? "ok_prestamo_actualizado" : "error_actualizando_prestamo";
+        }
+        return "ok";
+    }
+    return $respuestaMarcado;
+}
 }
 ?>
