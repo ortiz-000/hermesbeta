@@ -123,7 +123,7 @@ $(document).ready(function() {
                 },
                 dataType: "json",
                 success: function(respuesta) {
-                    if (respuesta.success) { 
+                    if (respuesta && respuesta.success) { 
                         Swal.fire({
                             icon: "success",
                             title: respuesta.title || "¡Acción completada!",
@@ -150,7 +150,7 @@ $(document).ready(function() {
                         Swal.fire({
                             icon: "error",
                             title: "Error al marcar para mantenimiento",
-                            text: respuesta.message || "Hubo un problema al procesar la solicitud."
+                            text: (respuesta && respuesta.message) || "Hubo un problema al procesar la solicitud."
                         });
                     }
                 },
@@ -176,7 +176,7 @@ $(document).ready(function() {
                 },
                 dataType: "json",
                 success: function(respuesta) {
-                    if (respuesta.success) {
+                    if (respuesta && respuesta.success) {
                         Swal.fire({
                             icon: "success",
                             title: "¡Equipo devuelto!",
@@ -203,7 +203,7 @@ $(document).ready(function() {
                         Swal.fire({
                             icon: "error",
                             title: "Error al devolver equipo",
-                            text: respuesta.message || "Hubo un problema al procesar la solicitud."
+                            text: (respuesta && respuesta.message) || "Hubo un problema al procesar la solicitud."
                         });
                     }
                 },
@@ -229,7 +229,7 @@ $(document).ready(function() {
                 },
                 dataType: "json",
                 success: function(respuesta) {
-                    if (respuesta.success) {
+                    if (respuesta && respuesta.success) {
                         Swal.fire({
                             icon: "success",
                             title: respuesta.title || "¡Acción completada!",
@@ -256,7 +256,7 @@ $(document).ready(function() {
                         Swal.fire({
                             icon: "error",
                             title: "Error al marcar como robado",
-                            text: respuesta.message || "Hubo un problema al procesar la solicitud."
+                            text: (respuesta && respuesta.message) || "Hubo un problema al procesar la solicitud."
                         });
                     }
                 },
@@ -270,6 +270,111 @@ $(document).ready(function() {
                 }
             });
         }
+    });
+
+    // Evento para el botón "Guardar Motivo y Enviar a Mantenimiento" (VERSIÓN MEJORADA)
+    $(document).on('click', '#btnGuardarMalEstado', function() {
+        var prestamoId = $('#malEstadoPrestamoId').val();
+        var equipoId = $('#malEstadoEquipoId').val();
+        var motivo = $('#motivoMalEstado').val().trim();
+        
+        // Validación del motivo
+        if(motivo === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campo requerido',
+                text: 'Por favor describe el problema o motivo del mantenimiento',
+                didOpen: () => {
+                    $('#motivoMalEstado').addClass('is-invalid').focus();
+                }
+            });
+            return;
+        }
+
+        // Mostrar indicador de carga
+        const boton = $(this);
+        const textoOriginal = boton.html();
+        boton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Procesando...');
+
+        // Enviar petición AJAX
+        $.ajax({
+            url: "ajax/devoluciones.ajax.php",
+            method: "POST",
+            data: {
+                accion: "marcarMantenimientoConMotivo",
+                idPrestamo: prestamoId,
+                idEquipo: equipoId,
+                motivo: motivo
+            },
+            dataType: "json",
+            success: function(respuesta) {
+                if(respuesta && respuesta.success) {
+                    // Resetear el formulario
+                    $('#formMalEstado')[0].reset();
+                    
+                    Swal.fire({
+                        icon: "success",
+                        title: respuesta.status === "ok_prestamo_actualizado" 
+                            ? "¡Préstamo completado!" 
+                            : "¡Equipo en mantenimiento!",
+                        text: respuesta.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        $('#modalMalEstado').modal('hide');
+                        
+                        // Eliminar la fila del equipo procesado
+                        const filaEquipo = $(`button[data-prestamo-id="${prestamoId}"][data-equipo-id="${equipoId}"]`).closest('tr');
+                        filaEquipo.fadeOut(400, function() {
+                            $(this).remove();
+                            
+                            // Actualizar la interfaz si no hay más equipos
+                            if ($('#equiposListContainer tbody tr').length === 0) {
+                                $('#equiposListContainer').html(
+                                    '<div class="alert alert-info text-center">' +
+                                    'Todos los equipos han sido procesados</div>'
+                                );
+                                
+                                if (respuesta.status === "ok_prestamo_actualizado") {
+                                    setTimeout(() => {
+                                        $('#modalVerDetallesPrestamo').modal('hide');
+                                        if (typeof tablaDevoluciones !== 'undefined') {
+                                            tablaDevoluciones.ajax.reload(null, false);
+                                        }
+                                    }, 500);
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    let errorMsg = "Hubo un problema al procesar la solicitud.";
+                    if (respuesta && respuesta.message) {
+                        errorMsg = respuesta.message;
+                    } else if (!respuesta) {
+                        errorMsg = "No se recibió respuesta del servidor.";
+                    }
+                    
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        html: `<p>${errorMsg}</p><small>Intente nuevamente o contacte al administrador</small>`,
+                        confirmButtonText: "Entendido"
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error en la petición AJAX:", error, xhr.responseText);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error de conexión",
+                    text: "No se pudo completar la operación. Detalle: " + (xhr.responseText || error),
+                    confirmButtonText: "Reintentar"
+                });
+            },
+            complete: function() {
+                boton.prop('disabled', false).html(textoOriginal);
+            }
+        });
     });
 });
 
@@ -305,7 +410,7 @@ $(".tablaDevoluciones tbody").on("click", ".btnMarcarDevuelto", function(){
                 dataType: "json",
                 success: function(respuesta){
                     console.log("Respuesta AJAX:", respuesta);
-                    if(respuesta.status == "success_prestamo_actualizado"){
+                    if(respuesta && respuesta.status == "success_prestamo_actualizado"){
                         Swal.fire(
                             '¡Hecho!',
                             'El equipo ha sido marcado como devuelto y el préstamo ha sido actualizado.',
@@ -315,7 +420,7 @@ $(".tablaDevoluciones tbody").on("click", ".btnMarcarDevuelto", function(){
                                 window.location = "devoluciones";
                             }
                         });
-                    } else if (respuesta.status == "success"){
+                    } else if (respuesta && respuesta.status == "success"){
                         Swal.fire(
                             '¡Hecho!',
                             'El equipo ha sido marcado como devuelto.',
@@ -325,28 +430,22 @@ $(".tablaDevoluciones tbody").on("click", ".btnMarcarDevuelto", function(){
                                 window.location = "devoluciones";
                             }
                         });
-                    } else if (respuesta.status == "no_change"){
+                    } else if (respuesta && respuesta.status == "no_change"){
                         Swal.fire(
                             'Información',
                             'No se realizaron cambios en el estado del equipo.',
                             'info'
                         );
-                    } else if (respuesta.status == "error_actualizando_prestamo"){
+                    } else if (respuesta && respuesta.status == "error_actualizando_prestamo"){
                         Swal.fire(
                             'Error',
                             'El equipo fue marcado como devuelto, pero hubo un error al actualizar el estado del préstamo.',
                             'error'
                         );
-                    } else if (respuesta.status == "error"){
-                        Swal.fire(
-                            'Error',
-                            'No se pudo marcar el equipo como devuelto.',
-                            'error'
-                        );
                     } else {
                         Swal.fire(
                             'Error',
-                            'Respuesta desconocida del servidor.',
+                            (respuesta && respuesta.message) || 'Respuesta desconocida del servidor.',
                             'error'
                         );
                     }

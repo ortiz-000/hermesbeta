@@ -7,6 +7,7 @@ class AjaxDevoluciones {
     public $idPrestamo;
     public $idEquipo;
     public $accion;
+    public $motivo; // Nueva propiedad para el motivo
 
     public function ajaxObtenerDatosPrestamo() {
         $item = "id_prestamo";
@@ -39,22 +40,54 @@ class AjaxDevoluciones {
     }
 
     /*=============================================
-MARCAR EQUIPO EN DETALLE_PRESTAMO COMO DEVUELTO (BUEN ESTADO)
-=============================================*/
-public function ajaxMarcarDevueltoBuenEstado() {
-    $respuestaControlador = ControladorDevoluciones::ctrMarcarDevueltoBuenEstado($this->idPrestamo, $this->idEquipo);
-    
-    if ($respuestaControlador == "ok") {
-        echo json_encode(array("success" => true, "status" => "equipo_marcado", "message" => "Equipo marcado como devuelto en buen estado."));
-    } else if ($respuestaControlador == "ok_prestamo_actualizado") {
-        echo json_encode(array("success" => true, "status" => "prestamo_actualizado", "message" => "Equipo marcado y préstamo actualizado a devuelto."));
-    } else if ($respuestaControlador == "no_change") {
-        echo json_encode(array("success" => false, "status" => "sin_cambios", "message" => "El equipo ya estaba en el estado deseado o no se encontró."));
-    } else {
-        echo json_encode(array("success" => false, "status" => "error_marcado", "message" => "Error al actualizar el estado del equipo."));
+    MARCAR EQUIPO EN DETALLE_PRESTAMO COMO MANTENIMIENTO CON MOTIVO
+    =============================================*/
+    public function ajaxMarcarMantenimientoConMotivo() {
+        $respuestaControlador = ControladorDevoluciones::ctrMarcarMantenimientoConMotivo($this->idPrestamo, $this->idEquipo, $this->motivo);
+        
+        // Asegurarse de que la respuesta sea consistente
+        if (is_array($respuestaControlador)) {
+            echo json_encode($respuestaControlador);
+        } else {
+            // Si el controlador devuelve un string simple, convertirlo a formato esperado
+            if ($respuestaControlador == "ok") {
+                echo json_encode(array(
+                    "success" => true, 
+                    "status" => "equipo_marcado", 
+                    "message" => "Equipo enviado a mantenimiento con motivo registrado."
+                ));
+            } else if ($respuestaControlador == "ok_prestamo_actualizado") {
+                echo json_encode(array(
+                    "success" => true, 
+                    "status" => "prestamo_actualizado", 
+                    "message" => "Equipo en mantenimiento y préstamo actualizado a devuelto."
+                ));
+            } else {
+                echo json_encode(array(
+                    "success" => false, 
+                    "status" => "error_marcado", 
+                    "message" => $respuestaControlador
+                ));
+            }
+        }
     }
-}
 
+    /*=============================================
+    MARCAR EQUIPO EN DETALLE_PRESTAMO COMO DEVUELTO (BUEN ESTADO)
+    =============================================*/
+    public function ajaxMarcarDevueltoBuenEstado() {
+        $respuestaControlador = ControladorDevoluciones::ctrMarcarDevueltoBuenEstado($this->idPrestamo, $this->idEquipo);
+        
+        if ($respuestaControlador == "ok") {
+            echo json_encode(array("success" => true, "status" => "equipo_marcado", "message" => "Equipo marcado como devuelto en buen estado."));
+        } else if ($respuestaControlador == "ok_prestamo_actualizado") {
+            echo json_encode(array("success" => true, "status" => "prestamo_actualizado", "message" => "Equipo marcado y préstamo actualizado a devuelto."));
+        } else if ($respuestaControlador == "no_change") {
+            echo json_encode(array("success" => false, "status" => "sin_cambios", "message" => "El equipo ya estaba en el estado deseado o no se encontró."));
+        } else {
+            echo json_encode(array("success" => false, "status" => "error_marcado", "message" => "Error al actualizar el estado del equipo."));
+        }
+    }
 
     /*=============================================
     MARCAR EQUIPO COMO ROBADO (BAJA)
@@ -87,7 +120,6 @@ if(isset($_POST["accion"]) && $_POST["accion"] === "marcarMantenimientoDetalle")
     $devolucion->ajaxMarcarMantenimientoDetalle();
 }
 
-
 // Marcar equipo como devuelto en buen estado
 if(isset($_POST["accion"]) && $_POST["accion"] === "marcarBuenEstado") {
     $devolucion = new AjaxDevoluciones();
@@ -95,10 +127,20 @@ if(isset($_POST["accion"]) && $_POST["accion"] === "marcarBuenEstado") {
     $devolucion->idEquipo = $_POST["idEquipo"];
     $devolucion->ajaxMarcarDevueltoBuenEstado();
 }
-// Agregar en la sección de condiciones POST
+
+// Marcar equipo como robado
 if(isset($_POST["accion"]) && $_POST["accion"] === "marcarEquipoRobado") {
     $devolucion = new AjaxDevoluciones();
     $devolucion->idPrestamo = $_POST["idPrestamo"];
     $devolucion->idEquipo = $_POST["idEquipo"];
     $devolucion->ajaxMarcarEquipoRobado();
+}
+
+// Marcar equipo para mantenimiento con motivo
+if(isset($_POST["accion"]) && $_POST["accion"] === "marcarMantenimientoConMotivo") {
+    $devolucion = new AjaxDevoluciones();
+    $devolucion->idPrestamo = $_POST["idPrestamo"];
+    $devolucion->idEquipo = $_POST["idEquipo"];
+    $devolucion->motivo = $_POST["motivo"];
+    $devolucion->ajaxMarcarMantenimientoConMotivo();
 }

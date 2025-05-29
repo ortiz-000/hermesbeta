@@ -175,4 +175,46 @@ MARCAR EQUIPO EN DETALLE_PRESTAMO COMO DEVUELTO EN BUEN ESTADO (ACTUALIZANDO ID_
         $stmtDetalle = null;
     }
 
+    /*=============================================
+REGISTRAR MOTIVO DE MANTENIMIENTO (adaptado a tu estructura de tabla)
+=============================================*/
+    static public function mdlRegistrarMotivoMantenimiento($equipoId, $motivo) {
+        try {
+            // Verificar si ya existe un registro de mantenimiento para este equipo
+            $stmtCheck = Conexion::conectar()->prepare(
+                "SELECT Id_mantenimiento FROM mantenimiento WHERE equipo_id = :equipo_id"
+            );
+            $stmtCheck->bindParam(":equipo_id", $equipoId, PDO::PARAM_INT);
+            $stmtCheck->execute();
+            
+            if($stmtCheck->rowCount() > 0) {
+                // Actualizar registro existente
+                $stmt = Conexion::conectar()->prepare(
+                    "UPDATE mantenimiento SET detalles = :detalles WHERE equipo_id = :equipo_id"
+                );
+            } else {
+                // Crear nuevo registro (sin especificar Id_mantenimiento ya que es AUTO_INCREMENT)
+                $stmt = Conexion::conectar()->prepare(
+                    "INSERT INTO mantenimiento (equipo_id, detalles) VALUES (:equipo_id, :detalles)"
+                );
+            }
+            
+            $stmt->bindParam(":equipo_id", $equipoId, PDO::PARAM_INT);
+            $stmt->bindParam(":detalles", $motivo, PDO::PARAM_STR);
+            
+            if($stmt->execute()) {
+                return "ok";
+            } else {
+                error_log("Error SQL: " . json_encode($stmt->errorInfo()));
+                return "error";
+            }
+        } catch (PDOException $e) {
+            error_log("Excepción en mdlRegistrarMotivoMantenimiento: " . $e->getMessage());
+            return "error";
+        } finally {
+            $stmt = null;
+            $stmtCheck = null;
+        }
+    }
+
 }
