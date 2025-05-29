@@ -87,7 +87,7 @@
                 </div>
             </div>
             <!-- row  -->
-   
+
             <div class="row">
                 <!-- Left side - Equipos -->
                 <div class="col-md-7">
@@ -100,28 +100,28 @@
                         <div class="card-body p-10">
 
                             <!-- SOLICITANTE -->
-                            
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="input-group ">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                                </div>
-                                                <input type="text" class="form-control" name="NumeroIdSolicitante"
-                                                    id="NumeroIdSolicitante" placeholder="Número" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="input-group">
-                                                <button class="btn btn-primary" id="btnBuscarSolicitante"><i
-                                                        class="fas fa-search"></i></button>
-                                            </div>
 
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="input-group ">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" name="NumeroIdSolicitante"
+                                                id="NumeroIdSolicitante" placeholder="Número" required>
                                         </div>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <button class="btn btn-primary" id="btnBuscarSolicitante"><i
+                                                    class="fas fa-search"></i></button>
+                                        </div>
+
+                                    </div>
                                 </div>
-                            
+                            </div>
+
 
 
 
@@ -285,8 +285,7 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <label>Observaciones</label>
-                                                <textarea class="form-control" id="motivoSolicitud" rows="3" 
-                                                    ></textarea>
+                                                <textarea class="form-control" id="motivoSolicitud" rows="3"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -307,7 +306,7 @@
                             </div>
                         </div>
                         <!-- d-none-->
-                        
+
 
 
 
@@ -330,233 +329,13 @@
 
                 </div>
             </div>
-            
+
             <!-- row  -->
 
 
         </div>
-</div>
-</div>
-</section>
+    </section>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</section>
-<!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
-
-
-<!-- Modal para historico de solicitudes -->
-
-<div class="modal fade" id="modalHistoricoSolicitudes">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Header -->
-            <div class="modal-header bg-primary">
-                <h4 class="modal-title">Historical solicitudes</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table id="tblModalHistoricoSolicitudes" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-
-                                <th>ID Solicitud</th>
-                                <th>Solicitud</th>
-                                <th>Fecha Solicitud</th>
-                                <th>Acciones</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <?php
-                            $item = null;
-                            $valor = null;
-                            $historial = ControladorSolicitudes::ctrMostrarHistorial($item, $valor);
-
-                            //$historial = ControladorSolicitudes::ctrMostrarHistorial($item, $valor);
-                            
-
-
-                            foreach ($historial as $key => $value) {
-                                echo '<tr>
-                                <td>' . ($key + 1) . '</td>
-                                 <td>' . $value["tipo_prestamo"] . '</td>
-                                 <td>' . $value["fecha_solicitud"] . '</td>
-                                    
-                                 <td>';
-
-                                echo '<button class="btn btn-primary btn-sm verDetalle" idHistorial="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#detalleSolicitudModal"><i class="fas fa-file-alt"></i></button>';
-
-                                '</tr>';
-                            }
-
-
-                            ?>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Salir</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!-- ############################################################################################################### -->
-
-
-<!-- Modal Detalle Solicitud -->
-<div class="modal fade" id="detalleSolicitudModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Header -->
-            <div class="modal-header bg-primary">
-                <h4 class="modal-title">Solicitud #1234567</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
-                        <tbody>
-                            <tr>
-                                <td class="font-weight-bold" style="width: 30%">Desde</td>
-                                <td style="width: 70%">[Fecha desde]</td>
-                            </tr>
-                            <tr>
-                                <td class="font-weight-bold">Hasta</td>
-                                <td>[Fecha hasta]</td>
-                            </tr>
-                            <tr>
-                                <td class="font-weight-bold">Descripción</td>
-                                <td>[Descripción del solicitante]</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="card mt-3">
-                    <div class="card-header">
-                        <h3 class="card-title">Materiales solicitados</h3>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover mb-0">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 60%">Artículo</th>
-                                        <th style="width: 40%">Serial</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Portatil</td>
-                                        <td>325462</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Portatil</td>
-                                        <td>325462</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Video Beam</td>
-                                        <td>654789851</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cable HDMI</td>
-                                        <td>006</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group mt-3">
-                    <label class="font-weight-bold">Observaciones</label>
-                    <textarea class="form-control" rows="3" style="min-height: 100px;"></textarea>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger p-10" data-dismiss="modal">Salir</button>
-            </div>
-        </div>
-    </div>
-</div>
