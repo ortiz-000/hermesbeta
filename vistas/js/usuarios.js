@@ -22,6 +22,110 @@ $(document).on("change", "#selectRol", function() {
         // $("#ficha").addClass("d-none");
     }
 });
+
+//************************************************************
+// 
+//  Condicion de los usuarios (solo admin puede cambiar)
+// 
+//************************************************************/
+
+$(document).on('click', '.btnCambiarCondicionUsuario', function() {
+    const boton = $(this);
+    const datos = {
+        idUsuarioCondicion: boton.attr("idUsuario"),
+        condicion: boton.attr("condicionUsuario")
+    };
+
+    $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        method: "POST",
+        data: datos,
+        success: response => manejarRespuestaCondicion(response, boton),
+        error: () => manejarErrorCondicion(boton)
+    });
+});
+
+// Función para mostrar feedback visual más estético al cambiar condición
+
+function toggleBotonLoading(boton, estado) {
+    if (estado) {
+        // Mostrar spinner y desactivar botón temporalmente
+        boton.data('original-html', boton.html());
+        boton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+    } else {
+        // Queda en el estado original el boton si se da click y no es administrador
+        const originalHtml = boton.data('original-html');
+        if (originalHtml !== undefined) {
+            boton.html(originalHtml);
+            boton.removeData('original-html');
+        }
+        boton.prop('disabled', false);
+    }
+}
+
+// Función para manejar la respuesta de la condición del usuario
+
+function manejarRespuestaCondicion(respuesta, boton) {
+    if (respuesta.trim() === "ok") {
+        actualizarBotonCondicion(boton, boton.attr("condicionUsuario"));
+    } else if (respuesta.trim() === "acceso_denegado") {
+        Toast.fire({
+            icon: 'error',
+            title: 'Acceso denegado'
+        });
+        toggleBotonLoading(boton, false);
+    } else {
+        toggleBotonLoading(boton, false);
+    }
+}
+
+// Función para manejar errores de conexión
+
+function manejarErrorCondicion(boton) {
+    Toast.fire({
+        icon: 'error',
+        title: 'Error de conexión'
+    });
+    toggleBotonLoading(boton, false);
+}
+
+// constantes para los estados de condición del usuario
+
+const ESTADOS_CONDICION = {
+    en_regla: {
+        removeClasses: 'btn-warning btn-danger',
+        addClass: 'btn-success',
+        texto: 'En regla',
+        siguiente: 'advertido'
+    },
+    advertido: {
+        removeClasses: 'btn-success btn-danger',
+        addClass: 'btn-warning',
+        texto: 'Advertido',
+        siguiente: 'penalizado'
+    },
+    penalizado: {
+        removeClasses: 'btn-success btn-warning',
+        addClass: 'btn-danger',
+        texto: 'Penalizado',
+        siguiente: 'en_regla'
+    }
+};
+
+// Función para actualizar el botón de condición del usuario
+
+function actualizarBotonCondicion(boton, nuevaCondicion) {
+    const estado = ESTADOS_CONDICION[nuevaCondicion];
+    if (!estado) return;
+
+    boton
+        .removeClass(estado.removeClasses)
+        .addClass(estado.addClass)
+        .html(estado.texto)
+        .attr('condicionUsuario', estado.siguiente)
+        .prop('disabled', false);
+}
+
 //************************************************************
 // script para cambiar los estados de los usuarios
 //************************************************************/
