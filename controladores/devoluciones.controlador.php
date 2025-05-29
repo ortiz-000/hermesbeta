@@ -9,19 +9,18 @@
             return $respuesta;
         }
 
-	/*============================================= 
+	/*=============================================
 	MARCAR EQUIPO EN DETALLE_PRESTAMO COMO MANTENIMIENTO (ACTUALIZANDO ID_ESTADO)
 	=============================================*/
 	static public function ctrMarcarMantenimientoDetalle($idPrestamo, $idEquipo){
 
-		$tabla = "detalle_prestamo";
+		$tabla = "equipos"; // Cambiado de "detalle_prestamo" a "equipos"
 		// Asumimos que el id_estado para 'Mantenimiento' es 4.
 		// Si es diferente, ajusta este valor.
-		$datos = array("id_prestamo" => $idPrestamo,
-					   "equipo_id" => $idEquipo,
-					   "id_estado" => 4); // Cambiado de "estado" => "Mantenimiento"
+		$datos = array("equipo_id" => $idEquipo,
+					   "id_estado" => 4); // Eliminado id_prestamo de los datos para mdlMarcarMantenimientoDetalle
 
-		$respuestaMarcado = ModeloDevoluciones::mdlMarcarMantenimientoDetalle($tabla, $datos);
+		$respuestaMarcado = ModeloDevoluciones::mdlMarcarMantenimientoDetalle($datos);
 
 		if($respuestaMarcado == "ok"){
 			// Verificar si todos los equipos del préstamo han sido devueltos
@@ -74,5 +73,27 @@ static public function ctrMarcarDevueltoBuenEstado($idPrestamo, $idEquipo){
     }
 }
 
+/*=============================================
+MARCAR EQUIPO COMO ROBADO (BAJA)
+=============================================*/
+static public function ctrMarcarEquipoRobado($idPrestamo, $idEquipo){
+    $datos = array(
+        "equipo_id" => $idEquipo,
+        "id_estado" => 7 // Estado 'baja' para equipos robados
+    );
+
+    $respuestaMarcado = ModeloDevoluciones::mdlMarcarMantenimientoDetalle($datos);
+
+    if($respuestaMarcado == "ok"){
+        $todosDevueltos = ModeloDevoluciones::mdlVerificarTodosEquiposDevueltos($idPrestamo);
+
+        if($todosDevueltos){
+            $respuestaActualizacionPrestamo = ModeloDevoluciones::mdlActualizarPrestamoDevuelto($idPrestamo);
+            return ($respuestaActualizacionPrestamo == "ok") ? "ok_prestamo_actualizado" : "error_actualizando_prestamo";
+        }
+        return "ok";
+    }
+    return $respuestaMarcado;
+}
 }
 ?>

@@ -68,6 +68,9 @@ $(document).ready(function() {
                                 <button type="button" class="btn btn-info btn-sm btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="devuelto">
                                     <i class="fas fa-undo-alt"></i> Devolver
                                 </button>
+                                <button type="button" class="btn btn-danger btn-sm btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="robado">
+                                    <i class="fas fa-times-circle"></i> Robado
+                                </button>
                             `;
                         }
                         equiposTableHtml += `</td></tr>`;
@@ -107,6 +110,7 @@ $(document).ready(function() {
             $('#malEstadoPrestamoId').val(prestamoId);
             $('#malEstadoEquipoId').val(equipoId);
             $('#modalMalEstado').modal('show');
+<<<<<<< HEAD
         } 
         // 2. Caso para "Devolver" (Reservado -> Mantenimiento)
         else if (estado === 'devuelto') {
@@ -138,6 +142,43 @@ $(document).ready(function() {
                                             tablaDevoluciones.ajax.reload();
                                         } else {
                                             window.location.reload(); 
+=======
+        } else {
+            // Lógica para procesar la devolución en buen estado o la reserva devuelta
+            console.log(`Procesando devolución del equipo ${equipoId} en estado: ${estado}...`);
+
+            if (estado === 'devuelto') {
+                $.ajax({
+                    url: "ajax/devoluciones.ajax.php", 
+                    method: "POST",
+                    data: {
+                        accion: "marcarMantenimientoDetalle", 
+                        idPrestamo: prestamoId,
+                        idEquipo: equipoId
+                    },
+                    dataType: "json",
+                    success: function(respuesta) {
+                        if (respuesta.success) { 
+                            Swal.fire({
+                                icon: "success",
+                                title: respuesta.title || "¡Acción completada!",
+                                text: respuesta.message,
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                $buttonPressed.closest('tr').fadeOut(500, function() {
+                                    $(this).remove();
+                                    if ($('#equiposListContainer tbody tr').length === 0) {
+                                        $('#equiposListContainer').html('<p class="text-center">Todos los equipos de este préstamo han sido procesados.</p>');
+                                        // Check if the specific status indicates the loan is fully updated
+                                        if (respuesta.status === "ok_prestamo_actualizado") {
+                                            $('#modalVerDetallesPrestamo').modal('hide');
+                                            if (typeof tablaDevoluciones !== 'undefined') {
+                                                tablaDevoluciones.ajax.reload();
+                                            } else {
+                                                window.location.reload(); 
+                                            }
+>>>>>>> 30cf366a7896fab31e4f176e8e3a7a704e40946c
                                         }
                                     }
                                 }
@@ -150,6 +191,7 @@ $(document).ready(function() {
                             text: respuesta.message || "Hubo un problema al procesar la solicitud."
                         });
                     }
+<<<<<<< HEAD
                 },
                 error: function(xhr, status, error) {
                     console.error("Error en la petición AJAX:", error);
@@ -213,6 +255,61 @@ $(document).ready(function() {
                     });
                 }
             });
+=======
+                });
+            } else if (estado === 'robado') {
+                $.ajax({
+                    url: "ajax/devoluciones.ajax.php",
+                    method: "POST",
+                    data: {
+                        accion: "marcarEquipoRobado",
+                        idPrestamo: prestamoId,
+                        idEquipo: equipoId
+                    },
+                    dataType: "json",
+                    success: function(respuesta) {
+                        if (respuesta.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: respuesta.title || "¡Acción completada!",
+                                text: respuesta.message,
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                $buttonPressed.closest('tr').fadeOut(500, function() {
+                                    $(this).remove();
+                                    if ($('#equiposListContainer tbody tr').length === 0) {
+                                        $('#equiposListContainer').html('<p class="text-center">Todos los equipos de este préstamo han sido procesados.</p>');
+                                        if (respuesta.status === "ok_prestamo_actualizado") {
+                                            $('#modalVerDetallesPrestamo').modal('hide');
+                                            if (typeof tablaDevoluciones !== 'undefined') {
+                                                tablaDevoluciones.ajax.reload();
+                                            } else {
+                                                window.location.reload();
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error al marcar como robado",
+                                text: respuesta.message || "Hubo un problema al procesar la solicitud."
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error en la petición AJAX:", error);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error de comunicación",
+                            text: "No se pudo comunicar con el servidor."
+                        });
+                    }
+                });
+            }
+>>>>>>> 30cf366a7896fab31e4f176e8e3a7a704e40946c
         }
     });
 });
