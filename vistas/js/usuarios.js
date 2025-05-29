@@ -27,13 +27,12 @@ $(document).on("change", "#selectRol", function() {
 //************************************************************/
 $(document).on('click', '.btnActivarUsuario', function () {
     var idUsuario = $(this).data('id');
-    var nuevoEstado = $(this).data('estado');
+    var estadoActual = $(this).data('estado'); // el estado al que se va a cambiar
     var boton = $(this);
 
-    // Desactivar el botón para evitar múltiples clics
+    // Desactivar temporalmente el botón
     boton.prop('disabled', true);
 
-    // Guardar el texto original y mostrar spinner
     var textoOriginal = boton.html();
     boton.html('<i class="fas fa-spinner fa-spin"></i>');
 
@@ -42,29 +41,21 @@ $(document).on('click', '.btnActivarUsuario', function () {
         method: "POST",
         data: {
             idUsuarioEstado: idUsuario,
-            estado: nuevoEstado
+            estado: estadoActual
         },
         success: function (respuesta) {
             if (respuesta.trim() === "ok") {
-                Swal.fire("Éxito", "Estado actualizado", "success");
-
-                // Actualizar visualmente el botón sin recargar
-                if (nuevoEstado === "activo") {
-                    boton
-                        .removeClass('btn-danger')
-                        .addClass('btn-success')
-                        .text('Activo')
-                        .data('estado', 'inactivo');
+                // Cambiar estado visualmente sin recargar
+                if (estadoActual === "activo") {
+                    boton.removeClass('btn-danger').addClass('btn-success');
+                    boton.text('Activo');
+                    boton.data('estado', 'inactivo');
                 } else {
-                    boton
-                        .removeClass('btn-success')
-                        .addClass('btn-danger')
-                        .text('Inactivo')
-                        .data('estado', 'activo');
+                    boton.removeClass('btn-success').addClass('btn-danger');
+                    boton.text('Inactivo');
+                    boton.data('estado', 'activo');
                 }
-
                 boton.prop('disabled', false);
-
             } else {
                 Swal.fire("Error", "No se pudo cambiar el estado", "error");
                 boton.prop('disabled', false).html(textoOriginal);
@@ -522,6 +513,8 @@ $(document).on("click", ".btnEditarUsuario", function() {
             $("#editTelefono").val(respuesta["telefono"]);
             $("#editDireccion").val(respuesta["direccion"]);
             $("#nombreEditPrograma").prop("placeholder", respuesta["descripcion_ficha"]);
+            $("#editGenero").val(respuesta["genero"]);
+
 
             // Aquí agregamos estado y condicion
             $("#editEstado").val(respuesta["estado"]);
