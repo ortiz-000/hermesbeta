@@ -94,27 +94,27 @@ class ModeloDevoluciones
     VERIFICAR SI TODOS LOS EQUIPOS DE UN PRÉSTAMO HAN SIDO DEVUELTOS (MARCADOS PARA MANTENIMIENTO)
     =============================================*/
     static public function mdlVerificarTodosEquiposDevueltos($idPrestamo){
+    $stmt = Conexion::conectar()->prepare(
+        "SELECT COUNT(dp.equipo_id) as total_equipos_prestamo,
+                SUM(CASE WHEN e.id_estado IN (4, 7) THEN 1 ELSE 0 END) as equipos_procesados
+         FROM detalle_prestamo dp
+         JOIN equipos e ON dp.equipo_id = e.equipo_id
+         WHERE dp.id_prestamo = :id_prestamo"
+    );
 
-        $stmt = Conexion::conectar()->prepare(
-            "SELECT COUNT(dp.equipo_id) as total_equipos_prestamo,
-                    SUM(CASE WHEN e.id_estado = 4 THEN 1 ELSE 0 END) as equipos_en_mantenimiento
-             FROM detalle_prestamo dp
-             JOIN equipos e ON dp.equipo_id = e.equipo_id
-             WHERE dp.id_prestamo = :id_prestamo"
-        );
+    $stmt->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
+    $stmt->execute();
+    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt->bindParam(":id_prestamo", $idPrestamo, PDO::PARAM_INT);
-        $stmt->execute();
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if($resultado && $resultado["total_equipos_prestamo"] > 0 && $resultado["total_equipos_prestamo"] == $resultado["equipos_en_mantenimiento"]){
-            return true; // Todos los equipos asociados a este préstamo están en mantenimiento
-        } else {
-            return false; // No todos los equipos están en mantenimiento o no hay equipos asociados
-        }
-
-        $stmt = null;
+    if($resultado && $resultado["total_equipos_prestamo"] > 0 && 
+       $resultado["total_equipos_prestamo"] == $resultado["equipos_procesados"]){
+        return true; // Todos los equipos han sido procesados (mantenimiento o robado)
+    } else {
+        return false; // No todos los equipos han sido procesados
     }
+
+    $stmt = null;
+}
 
     /*=============================================
     ACTUALIZAR ESTADO DEL PRÉSTAMO A DEVUELTO Y REGISTRAR FECHA REAL DE DEVOLUCIÓN
