@@ -20,7 +20,7 @@ $(document).ready(function() {
 
                     // Imagen y datos básicos del usuario
                     $('#userImage').attr('src', datosPrestamo.foto ? datosPrestamo.foto : 'vistas/img/usuarios/default/anonymous.png');
-                    $('#userName').text(datosPrestamo.nombre + ' ' + datosPrestamo.apellido);
+                    $('#userName').text(datosPrestamo.nombre_usuario + ' ' + datosPrestamo.apellido_usuario);
                     $('#userRol').text(datosPrestamo.nombre_rol || 'No especificado'); // Updated to use nombre_rol
 
                     // Información del préstamo
@@ -72,6 +72,9 @@ $(document).ready(function() {
                             equiposTableHtml += `
                                 <button type="button" class="btn btn-info btn-sm btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="devuelto">
                                     <i class="fas fa-undo-alt"></i> Devolver
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="robado">
+                                    <i class="fas fa-times-circle"></i> Robado
                                 </button>
                             `;
                         }
@@ -132,12 +135,9 @@ $(document).ready(function() {
             $('#modalMalEstado').modal('show');
         } else {
             // Lógica para procesar la devolución en buen estado o la reserva devuelta
-            // Aquí iría la llamada AJAX para procesar la devolución de este equipo específico
             console.log(`Procesando devolución del equipo ${equipoId} en estado: ${estado}...`);
-            // TODO: Implementar llamada AJAX para actualizar el estado del equipo y/o préstamo
 
-            // Added AJAX call for 'Marcar como Devuelto' (estado === 'devuelto')
-            if (estado === 'devuelto') { // Asumimos que 'devuelto' aquí significa 'marcar para mantenimiento'
+            if (estado === 'devuelto') {
                 $.ajax({
                     url: "ajax/devoluciones.ajax.php", 
                     method: "POST",
@@ -176,6 +176,57 @@ $(document).ready(function() {
                             Swal.fire({
                                 icon: "error",
                                 title: "Error al marcar para mantenimiento",
+                                text: respuesta.message || "Hubo un problema al procesar la solicitud."
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error en la petición AJAX:", error);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error de comunicación",
+                            text: "No se pudo comunicar con el servidor."
+                        });
+                    }
+                });
+            } else if (estado === 'robado') {
+                $.ajax({
+                    url: "ajax/devoluciones.ajax.php",
+                    method: "POST",
+                    data: {
+                        accion: "marcarEquipoRobado",
+                        idPrestamo: prestamoId,
+                        idEquipo: equipoId
+                    },
+                    dataType: "json",
+                    success: function(respuesta) {
+                        if (respuesta.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: respuesta.title || "¡Acción completada!",
+                                text: respuesta.message,
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                $buttonPressed.closest('tr').fadeOut(500, function() {
+                                    $(this).remove();
+                                    if ($('#equiposListContainer tbody tr').length === 0) {
+                                        $('#equiposListContainer').html('<p class="text-center">Todos los equipos de este préstamo han sido procesados.</p>');
+                                        if (respuesta.status === "ok_prestamo_actualizado") {
+                                            $('#modalVerDetallesPrestamo').modal('hide');
+                                            if (typeof tablaDevoluciones !== 'undefined') {
+                                                tablaDevoluciones.ajax.reload();
+                                            } else {
+                                                window.location.reload();
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error al marcar como robado",
                                 text: respuesta.message || "Hubo un problema al procesar la solicitud."
                             });
                         }

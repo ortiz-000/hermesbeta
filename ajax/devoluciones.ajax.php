@@ -37,6 +37,21 @@ class AjaxDevoluciones {
             echo json_encode(array("success" => false, "status" => "error_marcado", "message" => "Error al actualizar el estado del equipo."));
         }
     }
+
+    /*=============================================
+    MARCAR EQUIPO COMO ROBADO (BAJA)
+    =============================================*/
+    public function ajaxMarcarEquipoRobado() {
+        $respuestaControlador = ControladorDevoluciones::ctrMarcarEquipoRobado($this->idPrestamo, $this->idEquipo);
+        
+        if ($respuestaControlador == "ok") {
+            echo json_encode(array("success" => true, "status" => "equipo_marcado", "message" => "Equipo marcado como robado correctamente."));
+        } else if ($respuestaControlador == "ok_prestamo_actualizado") {
+            echo json_encode(array("success" => true, "status" => "prestamo_actualizado", "message" => "Equipo marcado como robado y préstamo actualizado."));
+        } else {
+            echo json_encode(array("success" => false, "status" => "error_marcado", "message" => "Error al marcar el equipo como robado."));
+        }
+    }
 }
 
 // Obtener datos del préstamo
@@ -52,4 +67,12 @@ if(isset($_POST["accion"]) && $_POST["accion"] === "marcarMantenimientoDetalle")
     $devolucion->idPrestamo = $_POST["idPrestamo"];
     $devolucion->idEquipo = $_POST["idEquipo"];
     $devolucion->ajaxMarcarMantenimientoDetalle();
+}
+
+// Agregar en la sección de condiciones POST
+if(isset($_POST["accion"]) && $_POST["accion"] === "marcarEquipoRobado") {
+    $devolucion = new AjaxDevoluciones();
+    $devolucion->idPrestamo = $_POST["idPrestamo"];
+    $devolucion->idEquipo = $_POST["idEquipo"];
+    $devolucion->ajaxMarcarEquipoRobado();
 }
