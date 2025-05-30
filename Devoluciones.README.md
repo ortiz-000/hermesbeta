@@ -13,3 +13,11 @@ Este archivo contiene instrucciones y consultas SQL que deben ejecutarse en la b
 ```sql
 INSERT INTO estados (estado) VALUES ('baja');
 ```
+
+## Insertar el nuevo estado de "Devuelto" en la tabla "prestamos" en la colomna "estado_prestamo"
+
+```sql
+ALTER TABLE prestamos MODIFY COLUMN estado_prestamo ENUM('Prestado','Mantenimiento','Rechazado','Autorizado','Pendiente','Tramite','Disponible','Devuelto') NULL;
+```
+
+
