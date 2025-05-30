@@ -28,7 +28,8 @@ class ModeloMantenimiento
 
     // Método para ingresar un nuevo mantenimiento
     static public function mdlIngresarMantenimiento($tabla, $datos){
-        try {
+        try 
+        {
             $stmt = Conexion::conectar()->prepare(
                 "INSERT INTO $tabla 
                 (equipo_id, detalles, gravedad, tipo_mantenimiento) 
@@ -40,21 +41,30 @@ class ModeloMantenimiento
             $stmt->bindParam(":gravedad", $datos["gravedad"], PDO::PARAM_STR);
             $stmt->bindParam(":tipo_mantenimiento", $datos["tipo_mantenimiento"], PDO::PARAM_STR);
             
-            if($stmt->execute()){
+            if($stmt->execute())
+            {
                 // Actualizar estado del equipo a "disponible" o similar
-                $stmtEstado = Conexion::conectar()->prepare(
+               
+                if ($datos["gravedad"] == "ninguno" || $datos["gravedad"] == "leve") {
+                    $stmtEstado = Conexion::conectar()->prepare(
                     "UPDATE equipos SET id_estado = 1 WHERE equipo_id = :equipo_id");
-                $stmtEstado->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
-                $stmtEstado->execute();
-                
-                return "ok";
-            } else {
-                return "error";
+                    $stmtEstado->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
+                    $stmtEstado->execute();
+                    return "ok";
+                } else {
+                    $stmtEstado = Conexion::conectar()->prepare(
+                        "UPDATE equipos SET id_estado = 8 WHERE equipo_id = :equipo_id");
+                        $stmtEstado->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
+                        $stmtEstado->execute();
+                        return "ok";
+                }
             }
-        } catch (PDOException $e) {
-            error_log("Error en mdlIngresarMantenimiento: " . $e->getMessage());
+        }catch (PDOException $e) {
             return "error";
+        } finally {
+            $stmt = null;
         }
     }
 
 }
+
