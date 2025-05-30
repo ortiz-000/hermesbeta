@@ -35,3 +35,42 @@ $(document).on('click', '.btnAutorizarSolicitud', function() {
         }
     });
 });
+
+$(document).on('click', '.btnRechazarSolicitud', function() {
+    const idSolicitud = $(this).data('id');
+    const rol = $(this).data('rol');
+    
+    Swal.fire({
+        title: '¿Seguro deseas rechazar esta solicitud?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Rechazar',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'ajax/autorizaciones.ajax.php',
+                method: 'POST',
+                data: {
+                    'id': idSolicitud,
+                    'accion': 'rechazar',
+                    'rol': rol
+                },
+                success: function(respuesta) {
+                    try {
+                        respuesta = JSON.parse(respuesta);
+                        Swal.fire(respuesta.titulo, respuesta.mensaje, respuesta.estado);
+                    } catch (e) {
+                        Swal.fire('Error', 'Respuesta inválida del servidor', 'error');
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error', 'Error de conexión', 'error');
+                }
+            });
+        }
+    });
+});

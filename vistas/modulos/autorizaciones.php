@@ -141,9 +141,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-            <button 
-                class="btn btn-success btnAutorizarSolicitud" data-id="<?= $solicitud['id'] ?>"data-rol="<?= $_SESSION['rol'] ?>">Autorizar</button>
-                <button type="button" class ="btn btn-danger" id="btnRechazar">Rechazar</button>
+            <button class="btn btn-success btnAutorizarSolicitud" data-id="<?= $solicitud['id'] ?>"data-rol="<?= $_SESSION['rol'] ?>">Autorizar</button>
+            <button class="btn btn-danger btnRechazarSolicitud" data-id="<?= $solicitud['id'] ?>"data-rol="<?= $_SESSION['rol'] ?>">Rechazar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
