@@ -10,42 +10,6 @@ Este archivo contiene instrucciones y consultas SQL que deben ejecutarse en la b
 
 ## Consultas y Procedimientos
 
-### 1.Agregar una nueva tabla 'mantenimiento' en la base de datos hermes002
-
-```sql
-CREATE TABLE `mantenimiento` (
-  `Id_mantenimiento` int(30) NOT NULL,
-  `equipo_id` int(11) NOT NULL,
-  `detalles` text NOT NULL,
-  `gravedad` enum('ninguno','leve','grave') DEFAULT 'ninguno'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-``` 
-### 2.Agregar dentro de la tabla 'mantenimiento'
-```sql
-INSERT INTO `mantenimiento` (`Id_mantenimiento`, `equipo_id`, `detalles`, `gravedad`) VALUES
-(1, 1, '', 'ninguno'),
-(2, 3, '', 'ninguno'),
-(3, 12, '', 'ninguno'),
-(4, 16, '', 'ninguno');
-
-``` 	
-### 3.Agregar los indices para la tabla 'mantenimiento'
-
-```sql
-ALTER TABLE `mantenimiento`
-  ADD PRIMARY KEY (`Id_mantenimiento`),
-  ADD KEY `equipo_id` (`equipo_id`);
-
-```
-### 4.Agregar el AUTO_INCREMENT para la tabla 'mantenimiento'
-
-```sql
-ALTER TABLE `mantenimiento`
-  MODIFY `Id_mantenimiento` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-COMMIT;
-
-```
 
 ### 5.Agregar columna `foto` a la tabla `usuarios`
 ### Agregar columna `condicion` a la tabla `usuarios`
@@ -135,12 +99,74 @@ CREATE TABLE auditoria_usuarios (
 - Este trigger se ejecuta después de cada actualización en la tabla usuarios y detecta cambios en campos específicos. Inserta un registro en la tabla auditoria_usuarios por cada cambio detectado.
 ```sql
 DELIMITER $$
+>>>>>>>>> Temporary merge branch 2
 
 CREATE TRIGGER trg_auditar_usuarios
 AFTER UPDATE ON usuarios
 FOR EACH ROW
 BEGIN
   DECLARE cambios TEXT DEFAULT '';
+<<<<<<<<< Temporary merge branch 1
+  DECLARE valores_anteriores TEXT DEFAULT '';
+  DECLARE valores_nuevos TEXT DEFAULT '';
+
+  -- Comparar y registrar cada campo que cambie
+  IF OLD.tipo_documento <> NEW.tipo_documento THEN
+    SET cambios = CONCAT(cambios, 'tipo_documento; ');
+    SET valores_anteriores = CONCAT(valores_anteriores, OLD.tipo_documento, '; ');
+    SET valores_nuevos = CONCAT(valores_nuevos, NEW.tipo_documento, '; ');
+  END IF;
+
+  IF OLD.numero_documento <> NEW.numero_documento THEN
+    SET cambios = CONCAT(cambios, 'numero_documento; ');
+    SET valores_anteriores = CONCAT(valores_anteriores, OLD.numero_documento, '; ');
+    SET valores_nuevos = CONCAT(valores_nuevos, NEW.numero_documento, '; ');
+  END IF;
+
+  IF OLD.nombre <> NEW.nombre THEN
+    SET cambios = CONCAT(cambios, 'nombre; ');
+    SET valores_anteriores = CONCAT(valores_anteriores, OLD.nombre, '; ');
+    SET valores_nuevos = CONCAT(valores_nuevos, NEW.nombre, '; ');
+  END IF;
+
+  IF OLD.apellido <> NEW.apellido THEN
+    SET cambios = CONCAT(cambios, 'apellido; ');
+    SET valores_anteriores = CONCAT(valores_anteriores, OLD.apellido, '; ');
+    SET valores_nuevos = CONCAT(valores_nuevos, NEW.apellido, '; ');
+  END IF;
+
+  IF OLD.correo_electronico <> NEW.correo_electronico THEN
+    SET cambios = CONCAT(cambios, 'correo_electronico; ');
+    SET valores_anteriores = CONCAT(valores_anteriores, OLD.correo_electronico, '; ');
+    SET valores_nuevos = CONCAT(valores_nuevos, NEW.correo_electronico, '; ');
+  END IF;
+
+  IF OLD.telefono <> NEW.telefono THEN
+    SET cambios = CONCAT(cambios, 'telefono; ');
+    SET valores_anteriores = CONCAT(valores_anteriores, OLD.telefono, '; ');
+    SET valores_nuevos = CONCAT(valores_nuevos, NEW.telefono, '; ');
+  END IF;
+
+  IF OLD.direccion <> NEW.direccion THEN
+    SET cambios = CONCAT(cambios, 'direccion; ');
+    SET valores_anteriores = CONCAT(valores_anteriores, OLD.direccion, '; ');
+    SET valores_nuevos = CONCAT(valores_nuevos, NEW.direccion, '; ');
+  END IF;
+
+  IF OLD.genero <> NEW.genero THEN
+    SET cambios = CONCAT(cambios, 'genero; ');
+    SET valores_anteriores = CONCAT(valores_anteriores, OLD.genero, '; ');
+    SET valores_nuevos = CONCAT(valores_nuevos, NEW.genero, '; ');
+  END IF;
+
+  IF OLD.estado <> NEW.estado THEN
+    SET cambios = CONCAT(cambios, 'estado; ');
+    SET valores_anteriores = CONCAT(valores_anteriores, OLD.estado, '; ');
+    SET valores_nuevos = CONCAT(valores_nuevos, NEW.estado, '; ');
+  END IF;
+
+  -- Si hubo algún cambio, insertar en la tabla de auditoría
+=========
   DECLARE cambios_anterior TEXT DEFAULT '';
   DECLARE campos TEXT DEFAULT '';
   DECLARE separador VARCHAR(3) DEFAULT '';
@@ -224,6 +250,7 @@ BEGIN
   END IF;
 
   -- Insertar registro solo si hubo cambios
+>>>>>>>>> Temporary merge branch 2
   IF cambios <> '' THEN
     INSERT INTO auditoria_usuarios (
       id_usuario_afectado,
@@ -234,10 +261,17 @@ BEGIN
       fecha_cambio
     ) VALUES (
       OLD.id_usuario,
+<<<<<<<<< Temporary merge branch 1
+      NEW.id_usuario, -- Asume que el campo NEW.id_usuario guarda el editor; puedes ajustarlo según tu lógica
+      cambios,
+      valores_anteriores,
+      valores_nuevos,
+=========
       @id_usuario_editor,
       campos,
       cambios_anterior,
       cambios,
+>>>>>>>>> Temporary merge branch 2
       NOW()
     );
   END IF;
@@ -245,4 +279,21 @@ END$$
 
 DELIMITER ;
 ```
+<<<<<<<<< Temporary merge branch 1
+-Este trigger compara los valores antiguos y nuevos de varios campos (como tipo_documento, nombre, apellido, correo_electronico, etc.) y, si detecta algún cambio, inserta un registro en la tabla auditoria_usuarios con los siguientes datos:
+
+ID del usuario afectado.
+
+ID del usuario que realizó el cambio.
+
+Campos modificados.
+
+Valores anteriores.
+
+Valores nuevos.
+
+Fecha del cambio
+
+=========
+>>>>>>>>> Temporary merge branch 2
 
