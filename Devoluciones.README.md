@@ -19,3 +19,5 @@ INSERT INTO estados (estado) VALUES ('baja');
 ```sql
 ALTER TABLE prestamos MODIFY COLUMN estado_prestamo ENUM('Prestado','Mantenimiento','Rechazado','Autorizado','Pendiente','Tramite','Disponible','Devuelto') NULL;
 ```
+
+
