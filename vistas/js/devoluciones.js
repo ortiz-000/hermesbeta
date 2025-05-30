@@ -17,13 +17,10 @@ $(document).ready(function() {
 
                     // Imagen y datos básicos del usuario
                     $('#userImage').attr('src', datosPrestamo.foto ? datosPrestamo.foto : 'vistas/img/usuarios/default/anonymous.png');
-<<<<<<< HEAD
                     $('#userName').text(datosPrestamo.nombre + ' ' + datosPrestamo.apellido);
                     $('#userRol').text(datosPrestamo.nombre_rol || 'No especificado');
-=======
                     $('#userName').text(datosPrestamo.nombre_usuario + ' ' + datosPrestamo.apellido_usuario);
                     $('#userRol').text(datosPrestamo.nombre_rol || 'No especificado'); // Updated to use nombre_rol
->>>>>>> cb93cf7ff9acc6e91637b51e471aee1e46c0de98
 
                     // Información del préstamo
                     $('#prestamoIdentificacion').text(datosPrestamo.numero_documento || 'No disponible');
