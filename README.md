@@ -10,42 +10,6 @@ Este archivo contiene instrucciones y consultas SQL que deben ejecutarse en la b
 
 ## Consultas y Procedimientos
 
-### 1.Agregar una nueva tabla 'mantenimiento' en la base de datos hermes002
-
-```sql
-CREATE TABLE `mantenimiento` (
-  `Id_mantenimiento` int(30) NOT NULL,
-  `equipo_id` int(11) NOT NULL,
-  `detalles` text NOT NULL,
-  `gravedad` enum('ninguno','leve','grave') DEFAULT 'ninguno'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-``` 
-### 2.Agregar dentro de la tabla 'mantenimiento'
-```sql
-INSERT INTO `mantenimiento` (`Id_mantenimiento`, `equipo_id`, `detalles`, `gravedad`) VALUES
-(1, 1, '', 'ninguno'),
-(2, 3, '', 'ninguno'),
-(3, 12, '', 'ninguno'),
-(4, 16, '', 'ninguno');
-
-``` 	
-### 3.Agregar los indices para la tabla 'mantenimiento'
-
-```sql
-ALTER TABLE `mantenimiento`
-  ADD PRIMARY KEY (`Id_mantenimiento`),
-  ADD KEY `equipo_id` (`equipo_id`);
-
-```
-### 4.Agregar el AUTO_INCREMENT para la tabla 'mantenimiento'
-
-```sql
-ALTER TABLE `mantenimiento`
-  MODIFY `Id_mantenimiento` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-COMMIT;
-
-```
 
 ### 5.Agregar columna `foto` a la tabla `usuarios`
 ### Agregar columna `condicion` a la tabla `usuarios`
