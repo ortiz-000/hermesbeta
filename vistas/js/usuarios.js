@@ -63,7 +63,7 @@ $('#tblUsuarios').DataTable({
           "previous":   "Anterior"
         },
     },
-    "buttons": ["csv", "excel", "pdf"],
+    "buttons": ["csv", "excel"],
     "dom": "lfBrtip"
 });   
 
