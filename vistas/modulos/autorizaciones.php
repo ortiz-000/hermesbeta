@@ -55,22 +55,20 @@
                           <td>'.date('Y-m-d H:i', strtotime($value["fecha_solicitud"])).'</td>
                           <td>
                               <div class="icheck-primary d-inline mx-1">
-                              <input type="checkbox" id="firma1_'.$value["id_autorizacion"].'">
-                              <label for="firma1_'.$value["id_autorizacion"].'"></label>
+                              <input type="checkbox" id="firma1'.$value["id_autorizacion"].'">
+                              <label for="firma1'.$value["id_autorizacion"].'"></label>
                             </div>
                             <div class="icheck-primary d-inline mx-1">
-                              <input type="checkbox" id="firma2_'.$value["id_autorizacion"].'">
-                              <label for="firma2_'.$value["id_autorizacion"].'"></label>
+                              <input type="checkbox" id="firma2'.$value["id_autorizacion"].'">
+                              <label for="firma2'.$value["id_autorizacion"].'"></label>
                             </div>
                             <div class="icheck-primary d-inline mx-1">
-                              <input type="checkbox" id="firma3_'.$value["id_autorizacion"].'">
-                              <label for="firma3_'.$value["id_autorizacion"].'"></label>
+                              <input type="checkbox" id="firma3'.$value["id_autorizacion"].'">
+                              <label for="firma3'.$value["id_autorizacion"].'"></label>
                             </div>
                           </td>
                           <td>
-                            <button class="btn btn-info btn-sm btnVerDetalles" data-toggle="modal" data-target="#modal-detalle" 
-                              data-id="'.$value["id_autorizacion"].'" 
-                              data-usuario="'.$usuario["nombre"].' '.$usuario["apellido"].'">
+                            <button class="btn btn-info btn-sm btnVerDetalles" id_usuario="'.$value["id_usuario"].'" data-toggle="modal" data-target="#modal-detalle">
                               <i class="fas fa-eye"></i>
                             </button>
                           </td>
@@ -84,22 +82,11 @@
         </div>
       </div>
     </section>
-
-    <!-- Modal Detalle Préstamo -->
-    <div class="modal fade" id="modalDetalle">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <h5>Equipo: <span id="detalle-equipo"></span></h5>
-                    <p>Fecha préstamo: <span id="detalle-fecha"></span></p>
-                    <p>Estado: <span id="detalle-estado"></span></p>
-                    <p>Observaciones: <span id="detalle-observaciones"></span></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modal-detalle">
-      <div class="modal-dialog modal-lg">
+  </div>
+</div>
+<!-- Modal Detalle Préstamo -->
+<div class="modal fade" id="modal-detalle">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h4 class="modal-title">Detalle del Préstamo</h4>
@@ -131,7 +118,7 @@
                                 <h5 class="card-title">Equipos Solicitados</h5>
                             </div>
                             <div class="card-body p-10">
-                                <table class="table table-bordered table-striped" id="tblDetallePrestamo">
+                                <table class="table table-bordered table-striped " id="tblDetallePrestamo">
                                     <thead>
                                         <tr>
 
@@ -154,12 +141,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="btnAutorizar">Autorizar</button>
+            <button 
+                class="btn btn-success btnAutorizarSolicitud" data-id="<?= $solicitud['id'] ?>"data-rol="<?= $_SESSION['rol'] ?>">Autorizar</button>
                 <button type="button" class ="btn btn-danger" id="btnRechazar">Rechazar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
