@@ -23,7 +23,7 @@
               <table id="tblAutorizaciones" class="table table-bordered table-striped">
                 <thead class="bg-dark">
                   <tr>
-                    <th>Usuario</th>
+                    <th>Solicitante</th>
                     <th>Estado Préstamo</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
