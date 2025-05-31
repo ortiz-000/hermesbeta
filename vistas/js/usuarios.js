@@ -43,7 +43,25 @@ $('#tblUsuarios').DataTable({
             "render": function(data, type, row) {
             return "<div class='btn-group'><button title='Consultar detalles de usuario' class='btn btn-default btnConsultarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalConsularUsuario'><i class='fas fa-eye'></i></button><button title='Editar usuario' class='btn btn-default btnEditarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fas fa-edit'></i></button><button title='Solicitudes del usuario' class='btn btn-default btnSolicitudesUsuario' idUsuario='" + row[0] + "' data-numero-documento='"+ row[2] +"' data-toggle='modal' data-target='#modalSolicitudesUsuario'><i class='fas fa-laptop'></i></button></div>"
             }
-        }
+        },
+        {
+            "targets": [9],
+            "render": function(data, type, row) {
+                let condicion = row[9];
+                let idUsuario = row[0];
+                if (condicion === "en_regla") {
+                    return `<button class="btn btn-success  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="advertido">En regla</button>`;
+                } else if (condicion === "advertido") {
+                    return `<button class="btn btn-warning  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="penalizado">Advertido</button>`;
+                } else if (condicion === "penalizado") {
+                    return `<button class="btn btn-danger  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="en_regla">Penalizado</button>`;
+                } else {
+                    return '';
+                }
+            }
+        },
+
+
     ],
     "responsive": true,
     "autoWidth": false,
