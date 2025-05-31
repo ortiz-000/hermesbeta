@@ -27,7 +27,7 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
             $("#nombreSolicitante").addClass("bg-danger");
             $(".infoEquiposSolicitados").addClass("d-none");
           } else {
-            $("#nombreSolicitante").addClass("bg-success");
+            $("#nombreSolicitante").removeClass("bg-danger").addClass("bg-success");
             $(".infoEquiposSolicitados").removeClass("d-none");
           }
 
