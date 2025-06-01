@@ -208,6 +208,7 @@ $(document).ready(function() {
     $("#btnBuscarSolicitante").trigger('click');
   }
 });
+// Volver a solicitudes o usuarios según el origen
 $(document).ready(function() {
   $(document).on("click", "#btnVolverSolicitudes", function () {
     let cedula = $("#cedulaUsuario").val();
