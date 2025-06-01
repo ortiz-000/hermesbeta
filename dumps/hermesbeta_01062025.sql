@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-05-2025 a las 17:56:37
+-- Tiempo de generación: 01-06-2025 a las 22:58:32
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -45,6 +45,46 @@ INSERT INTO `aprendices_ficha` (`id_aprendiz_ficha`, `id_usuario`, `id_ficha`, `
 (4, 60, 10, '2025-04-04 17:32:43', 'activo'),
 (5, 72, 11, '2025-04-13 17:11:36', 'activo'),
 (6, 73, 1, '2025-05-15 15:59:20', 'activo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `auditoria_usuarios`
+--
+
+CREATE TABLE `auditoria_usuarios` (
+  `id_auditoria` int(11) NOT NULL,
+  `id_usuario_afectado` int(11) NOT NULL,
+  `id_usuario_editor` int(11) DEFAULT NULL,
+  `campo_modificado` varchar(50) NOT NULL,
+  `valor_anterior` text DEFAULT NULL,
+  `valor_nuevo` text DEFAULT NULL,
+  `fecha_cambio` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `cantidad_equipor_por_estado`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `cantidad_equipor_por_estado` (
+`id_estado` int(11)
+,`estado` varchar(45)
+,`cantidad` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `cantidad_equipos_por_ubicacion`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `cantidad_equipos_por_ubicacion` (
+`ubicacion_id` int(11)
+,`nombre_ubicacion` varchar(100)
+,`COUNT(ub.ubicacion_id)` bigint(21)
+);
 
 -- --------------------------------------------------------
 
@@ -99,6 +139,30 @@ INSERT INTO `detalle_prestamo` (`cons_detalle`, `id_prestamo`, `equipo_id`, `est
 (15, 4, 31, 'Asignado', '2025-04-18 16:32:03'),
 (16, 4, 42, 'Asignado', '2025-04-18 16:32:03');
 
+--
+-- Disparadores `detalle_prestamo`
+--
+DELIMITER $$
+CREATE TRIGGER `after_detalle_prestamo_insert` AFTER INSERT ON `detalle_prestamo` FOR EACH ROW BEGIN
+    DECLARE v_tipo_prestamo VARCHAR(20);
+
+    SELECT tipo_prestamo INTO v_tipo_prestamo
+    FROM prestamos
+    WHERE id_prestamo = NEW.id_prestamo;
+
+    IF v_tipo_prestamo = 'Inmediato' THEN
+        UPDATE equipos
+        SET id_estado = 2
+        WHERE equipo_id = NEW.equipo_id;
+    ELSEIF v_tipo_prestamo = 'Reservado' THEN
+        UPDATE equipos
+        SET id_estado = 3
+        WHERE equipo_id = NEW.equipo_id;
+    END IF;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -122,7 +186,7 @@ CREATE TABLE `equipos` (
 --
 
 INSERT INTO `equipos` (`equipo_id`, `numero_serie`, `etiqueta`, `descripcion`, `fecha_entrada`, `ubicacion_id`, `categoria_id`, `cuentadante_id`, `id_estado`) VALUES
-(1, 'SN001', '9125001SN001', 'HP EliteBook 7777', '2025-04-17 15:42:57', 4, 2, 55, 3),
+(1, 'SN001', '9125001SN001', 'HP EliteBook 666', '2025-04-17 15:42:57', 3, 1, 43, 1),
 (2, 'SN002', '9125001SN002', 'Dell XPS 13', '2025-04-17 15:42:57', 4, 1, 55, 2),
 (3, 'SN003', '9125001SN003', 'Lenovo ThinkPad X1', '2025-04-17 15:42:57', 4, 1, 55, 5),
 (4, 'SN004', '9125001SN004', 'MacBook Pro 16\"', '2025-04-17 15:42:57', 3, 1, 50, 3),
@@ -210,7 +274,27 @@ INSERT INTO `equipos` (`equipo_id`, `numero_serie`, `etiqueta`, `descripcion`, `
 (86, '1a2s3d4f', 'v0c9x8z7', 'Equipo poderoso', '2025-05-19 06:55:48', 1, 1, 52, 1),
 (87, 'z12x3c4v', 'm098b7v', 'equipo molon que mola mogollon', '2025-05-19 07:17:50', 1, 1, 53, 1),
 (88, 'zq1xw2ce3', 'fr12gt23', 'Hola mundo', '2025-05-19 08:20:00', 1, 1, 43, 1),
-(89, 'q1q1w2w2e3', 'da4da67a6', 'equipo mañitp', '2025-05-19 08:25:34', 4, 1, 53, 1);
+(89, 'q1q1w2w2e3', 'da4da67a6', 'equipo mañitp', '2025-05-19 08:25:34', 4, 1, 53, 1),
+(96, '23', '12', 'lenovo', '2025-05-23 17:39:30', 1, 1, 45, 1),
+(98, '12', '32', 'hola', '2025-05-23 17:40:32', 1, 1, 56, 1),
+(99, 'a1ws2d3f4', 'j94hg58y76', 'Equipo marca asus superior', '2025-05-23 17:42:12', 4, 1, 53, 1),
+(100, 'kk0ou8y7t6r5', 'A56G700', 'Equipo lenovo 67', '2025-05-23 17:43:47', 3, 1, 42, 1),
+(101, 'u7i8io9', 'y7huji6', 'Equipo lenovo 8080', '2025-05-23 17:47:22', 1, 1, 55, 2),
+(102, 'q1w2e3', 'u7t5r4e3', 'Asus 7899', '2025-05-23 18:57:24', 1, 1, 42, 1),
+(103, 'p0q1w2i9e3u8384', 'hy7ju8ko12ko2', 'Equipo portatil HP 160 plus', '2025-05-23 19:01:05', 1, 1, 48, 1),
+(104, 'z1x2c3z1n6', 'J7Y6N65BB5', 'Lenovo 675s', '2025-05-23 19:23:09', 2, 1, 46, 1),
+(105, 'q1q1w22w', '32c2te4w3as', 'Asus 8879', '2025-05-23 21:37:30', 1, 1, 42, 2),
+(106, '333666777', 'descrupcianwq', 'hola', '2025-05-23 22:01:57', 4, 1, 1, 1),
+(107, 'q11qqazq1', '221AS134DQ', 'Equipo de prueba lolo', '2025-05-26 17:11:33', 4, 1, 42, 1),
+(108, 'r9t8y7t7t7ur9e', 'ru48t573092i', 'Hola asus', '2025-05-26 18:24:35', 4, 2, 42, 1),
+(109, '777777', '56565656', 'Equipo molon', '2025-05-26 19:35:38', 4, 1, 1, 1),
+(111, 'hola nasus', 'grieta', 'Equipo molon 2', '2025-05-26 19:37:32', 4, 1, 42, 1),
+(112, '7y7y7y', 'etiqueta777', 'varchar', '2025-05-26 20:05:38', 4, 1, 42, 1),
+(113, 'asdas', '32wef', 'dq32d', '2025-05-26 20:07:47', 4, 1, 43, 1),
+(114, '45h5e7nu', '24RC24Q', 'Splinter', '2025-05-26 20:08:19', 4, 1, 45, 1),
+(115, 'hrstjyuf65e', 'SBRR5W4F', 'Hola yui', '2025-05-26 21:26:04', 4, 1, 42, 1),
+(116, 'nw45g254', 'VGQ34T5B4W', 'si', '2025-05-26 21:53:21', 4, 2, 42, 1),
+(117, 'KHF587F', 'HV7687VK', 'Equipo alojo', '2025-05-27 22:39:35', 4, 1, 55, 1);
 
 -- --------------------------------------------------------
 
@@ -611,6 +695,7 @@ CREATE TABLE `usuarios` (
   `genero` int(11) DEFAULT 3,
   `foto` varchar(100) DEFAULT NULL,
   `estado` enum('activo','inactivo') DEFAULT 'activo',
+  `condicion` enum('penalizado','advertido','en_regla') NOT NULL DEFAULT 'en_regla',
   `fecha_registro` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -618,31 +703,141 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `tipo_documento`, `numero_documento`, `nombre`, `apellido`, `correo_electronico`, `nombre_usuario`, `clave`, `telefono`, `direccion`, `genero`, `foto`, `estado`, `fecha_registro`) VALUES
-(1, 'CC', '1', 'Admin', 'Sistema', 'admin@sistema.com', 'admin', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', '1234567', 'cra 23#27-12 escobar', 2, 'vistas/img/usuarios/1/847.jpg', 'activo', '2025-03-22 16:35:28'),
-(42, 'CC', '1023456789', 'Juan', 'Pérez', 'juan.perez@email.com', 'juanperez1', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', '31112344', 'cra 34', 0, 'vistas/img/usuarios/1023456789/478.jpg', 'activo', '2025-04-02 03:29:02'),
-(43, 'TI', '1234567', 'María', 'Gómez', 'maria.gomez@email.com', 'mariagomez2', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(44, 'CC', '1098765432', 'Carlos', 'López', 'carlos.lopez@email.com', 'carloslopez3', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'inactivo', '2025-04-02 03:29:02'),
-(45, 'TI', '7654321', 'Ana', 'Martínez', 'ana.martinez@email.com', 'anamartinez4', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(46, 'CC', '1002345678', 'Pedro', 'Sánchez', 'pedro.sanchez@email.com', 'pedrosanchez5', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(47, 'TI', '1122334', 'Laura', 'Fernández', 'laura.fernandez@email.com', 'laurafernandez6', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(48, 'CC', '1034567890', 'Luis', 'Torres', 'luis.torres@email.com', 'luistorres7', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(49, 'TI', '2233445', 'Sofía', 'Ramírez', 'sofia.ramirez@email.com', 'sofiaramirez8', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'inactivo', '2025-04-02 03:29:02'),
-(50, 'CC', '1045678901', 'Andrés', 'Vargas', 'andres.vargas@email.com', 'andresvargas9', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(51, 'TI', '3344556', 'Elena', 'Hernández', 'elena.hernandez@email.com', 'elenahernandez10', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(52, 'CC', '1056789012', 'Gabriel', 'Castro', 'gabriel.castro@email.com', 'gabrielcastro11', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(53, 'TI', '4455667', 'Paula', 'Ortega', 'paula.ortega@email.com', 'paulaortega12', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(54, 'CC', '1067890123', 'Ricardo', 'Molina', 'ricardo.molina@email.com', 'ricardomolina13', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(55, 'TI', '5566778', 'Fernanda', 'Ruiz', 'fernanda.ruiz@email.com', 'fernandaruiz14', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(56, 'CC', '1078901234', 'Hugo', 'Silva', 'hugo.silva@email.com', 'hugosilva15', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(57, 'TI', '6677889', 'Isabel', 'Jiménez', 'isabel.jimenez@email.com', 'isabeljimenez16', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(58, 'CC', '1089012345', 'José', 'Morales', 'jose.morales@email.com', 'josemorales17', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(59, 'TI', '7788990', 'Natalia', 'Paredes', 'natalia.paredes@email.com', 'nataliaparedes18', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(60, 'CC', '1090123456', 'Emilio', 'Guzmán', 'emilio.guzman@email.com', 'emilioguzman19', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(61, 'TI', '8899001', 'Valeria', 'Díaz', 'valeria.diaz@email.com', 'valeriadiaz20', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-02 03:29:02'),
-(71, 'CC', '75', 'German', 'Ramirez', 'test@example.us', '75', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', '6019521325', 'calle 20 33a42', 2, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-04 16:00:40'),
-(72, 'CC', '1116', 'Alonso', 'Arboleda', 'teste@exemplo.us', '1116', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', '315', 'calle 20 33a42', 2, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-04-04 16:16:32'),
-(73, 'CC', '11223344', 'asda', 'Sinisterra', 'dasdas@gmail.com', '11223344', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', '311233445', 'cra 23#23-10', 2, 'vistas/img/usuarios/default/anonymous.png', 'activo', '2025-05-15 15:59:20');
+INSERT INTO `usuarios` (`id_usuario`, `tipo_documento`, `numero_documento`, `nombre`, `apellido`, `correo_electronico`, `nombre_usuario`, `clave`, `telefono`, `direccion`, `genero`, `foto`, `estado`, `condicion`, `fecha_registro`) VALUES
+(1, 'CC', '1', 'Admin', 'Sistema', 'admin@sistema.com', 'admin', '$2a$07$asxx54ahjppf45sd87a5aunxs9bkpyGmGE/.vekdjFg83yRec789S', '31123', 'cra 23#27-12 escobar', 1, 'vistas/img/usuarios/1/495.jpg', 'activo', 'en_regla', '2025-03-22 16:35:28'),
+(42, 'CC', '1023456789', 'Juan', 'Pérez', 'juan.perez@email.com', 'juanperez1', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', '31112344', 'cra 34', 0, 'vistas/img/usuarios/1023456789/478.jpg', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(43, 'TI', '1234567', 'María', 'Gómez', 'maria.gomez@email.com', 'mariagomez2', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(44, 'CC', '1098765432', 'Carlos', 'López', 'carlos.lopez@email.com', 'carloslopez3', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'inactivo', 'en_regla', '2025-04-02 03:29:02'),
+(45, 'TI', '7654321', 'Ana', 'Martínez', 'ana.martinez@email.com', 'anamartinez4', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(46, 'CC', '1002345678', 'Pedro', 'Sánchez', 'pedro.sanchez@email.com', 'pedrosanchez5', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(47, 'TI', '1122334', 'Laura', 'Fernández', 'laura.fernandez@email.com', 'laurafernandez6', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(48, 'CC', '1034567890', 'Luis', 'Torres', 'luis.torres@email.com', 'luistorres7', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(49, 'TI', '2233445', 'Sofía', 'Ramírez', 'sofia.ramirez@email.com', 'sofiaramirez8', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'inactivo', 'en_regla', '2025-04-02 03:29:02'),
+(50, 'CC', '1045678901', 'Andrés', 'Vargas', 'andres.vargas@email.com', 'andresvargas9', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(51, 'TI', '3344556', 'Elena', 'Hernández', 'elena.hernandez@email.com', 'elenahernandez10', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(52, 'CC', '1056789012', 'Gabriel', 'Castro', 'gabriel.castro@email.com', 'gabrielcastro11', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(53, 'TI', '4455667', 'Paula', 'Ortega', 'paula.ortega@email.com', 'paulaortega12', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(54, 'CC', '1067890123', 'Ricardo', 'Molina', 'ricardo.molina@email.com', 'ricardomolina13', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(55, 'TI', '5566778', 'Fernanda', 'Ruiz', 'fernanda.ruiz@email.com', 'fernandaruiz14', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(56, 'CC', '1078901234', 'Hugo', 'Silva', 'hugo.silva@email.com', 'hugosilva15', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(57, 'TI', '6677889', 'Isabel', 'Jiménez', 'isabel.jimenez@email.com', 'isabeljimenez16', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(58, 'CC', '1089012345', 'José', 'Morales', 'jose.morales@email.com', 'josemorales17', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(59, 'TI', '7788990', 'Natalia', 'Paredes', 'natalia.paredes@email.com', 'nataliaparedes18', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(60, 'CC', '1090123456', 'Emilio', 'Guzmán', 'emilio.guzman@email.com', 'emilioguzman19', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(61, 'TI', '8899001', 'Valeria', 'Díaz', 'valeria.diaz@email.com', 'valeriadiaz20', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', NULL, NULL, 3, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-02 03:29:02'),
+(71, 'CC', '75', 'German', 'Ramirez', 'test@example.us', '75', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', '6019521325', 'calle 20 33a42', 2, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-04 16:00:40'),
+(72, 'CC', '1116', 'Alonso', 'Arboleda', 'teste@exemplo.us', '1116', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', '315', 'calle 20 33a42', 2, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-04-04 16:16:32'),
+(73, 'CC', '11223344', 'asda', 'Sinisterra', 'dasdas@gmail.com', '11223344', '$2a$07$asxx54ahjppf45sd87a5auPSL9GB5Ad5sH/D3rUMKo4UJe4U/qGLO', '311233445', 'cra 23#23-10', 2, 'vistas/img/usuarios/default/anonymous.png', 'activo', 'en_regla', '2025-05-15 15:59:20');
+
+--
+-- Disparadores `usuarios`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_auditar_usuarios` AFTER UPDATE ON `usuarios` FOR EACH ROW BEGIN
+  DECLARE cambios TEXT DEFAULT '';
+  DECLARE cambios_anterior TEXT DEFAULT '';
+  DECLARE campos TEXT DEFAULT '';
+  DECLARE separador VARCHAR(3) DEFAULT '';
+
+  -- Detectar cambios en cada campo
+  IF NOT (OLD.tipo_documento <=> NEW.tipo_documento) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.tipo_documento);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.tipo_documento);
+    SET campos = CONCAT(campos, separador, 'tipo_documento');
+    SET separador = '; ';
+  END IF;
+
+  IF NOT (OLD.numero_documento <=> NEW.numero_documento) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.numero_documento);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.numero_documento);
+    SET campos = CONCAT(campos, separador, 'numero_documento');
+    SET separador = '; ';
+  END IF;
+
+  IF NOT (OLD.nombre <=> NEW.nombre) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.nombre);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.nombre);
+    SET campos = CONCAT(campos, separador, 'nombre');
+    SET separador = '; ';
+  END IF;
+
+  IF NOT (OLD.apellido <=> NEW.apellido) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.apellido);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.apellido);
+    SET campos = CONCAT(campos, separador, 'apellido');
+    SET separador = '; ';
+  END IF;
+
+  IF NOT (OLD.correo_electronico <=> NEW.correo_electronico) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.correo_electronico);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.correo_electronico);
+    SET campos = CONCAT(campos, separador, 'correo_electronico');
+    SET separador = '; ';
+  END IF;
+
+  IF NOT (OLD.nombre_usuario <=> NEW.nombre_usuario) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.nombre_usuario);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.nombre_usuario);
+    SET campos = CONCAT(campos, separador, 'nombre_usuario');
+    SET separador = '; ';
+  END IF;
+
+  IF NOT (OLD.telefono <=> NEW.telefono) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.telefono);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.telefono);
+    SET campos = CONCAT(campos, separador, 'telefono');
+    SET separador = '; ';
+  END IF;
+
+  IF NOT (OLD.direccion <=> NEW.direccion) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.direccion);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.direccion);
+    SET campos = CONCAT(campos, separador, 'direccion');
+    SET separador = '; ';
+  END IF;
+
+  IF NOT (OLD.genero <=> NEW.genero) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.genero);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.genero);
+    SET campos = CONCAT(campos, separador, 'genero');
+    SET separador = '; ';
+  END IF;
+
+  IF NOT (OLD.estado <=> NEW.estado) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.estado);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.estado);
+    SET campos = CONCAT(campos, separador, 'estado');
+    SET separador = '; ';
+  END IF;
+
+  IF NOT (OLD.condicion <=> NEW.condicion) THEN
+    SET cambios = CONCAT(cambios, separador, NEW.condicion);
+    SET cambios_anterior = CONCAT(cambios_anterior, separador, OLD.condicion);
+    SET campos = CONCAT(campos, separador, 'condicion');
+    SET separador = '; ';
+  END IF;
+
+  -- Insertar registro solo si hubo cambios
+  IF cambios <> '' THEN
+    INSERT INTO auditoria_usuarios (
+      id_usuario_afectado,
+      id_usuario_editor,
+      campo_modificado,
+      valor_anterior,
+      valor_nuevo,
+      fecha_cambio
+    ) VALUES (
+      OLD.id_usuario,
+      @id_usuario_editor,
+      campos,
+      cambios_anterior,
+      cambios,
+      NOW()
+    );
+  END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -685,6 +880,62 @@ INSERT INTO `usuario_rol` (`id_usuario`, `id_rol`, `fecha_asignacion`) VALUES
 (72, 6, '2025-04-04 16:16:32'),
 (73, 6, '2025-05-15 15:59:20');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vista_usuarios`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vista_usuarios` (
+`id_usuario` int(11)
+,`tipo_documento` varchar(5)
+,`numero_documento` varchar(30)
+,`nombre` varchar(50)
+,`apellido` varchar(50)
+,`correo_electronico` varchar(100)
+,`nombre_usuario` varchar(50)
+,`clave` varchar(255)
+,`telefono` varchar(20)
+,`direccion` varchar(100)
+,`genero` int(11)
+,`foto` varchar(100)
+,`estado` enum('activo','inactivo')
+,`fecha_registro` timestamp
+,`condicion` enum('penalizado','advertido','en_regla')
+,`id_rol` int(11)
+,`nombre_rol` varchar(50)
+,`id_ficha` int(11)
+,`descripcion_ficha` varchar(255)
+,`codigo` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `cantidad_equipor_por_estado`
+--
+DROP TABLE IF EXISTS `cantidad_equipor_por_estado`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cantidad_equipor_por_estado`  AS SELECT `e`.`id_estado` AS `id_estado`, `es`.`estado` AS `estado`, count(0) AS `cantidad` FROM (`equipos` `e` join `estados` `es` on(`e`.`id_estado` = `es`.`id_estado`)) GROUP BY `e`.`id_estado`, `es`.`estado` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `cantidad_equipos_por_ubicacion`
+--
+DROP TABLE IF EXISTS `cantidad_equipos_por_ubicacion`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cantidad_equipos_por_ubicacion`  AS SELECT `e`.`ubicacion_id` AS `ubicacion_id`, `ub`.`nombre` AS `nombre_ubicacion`, count(`ub`.`ubicacion_id`) AS `COUNT(ub.ubicacion_id)` FROM (`equipos` `e` join `ubicaciones` `ub` on(`ub`.`ubicacion_id` = `e`.`ubicacion_id`)) GROUP BY `e`.`ubicacion_id` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vista_usuarios`
+--
+DROP TABLE IF EXISTS `vista_usuarios`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_usuarios`  AS SELECT `u`.`id_usuario` AS `id_usuario`, `u`.`tipo_documento` AS `tipo_documento`, `u`.`numero_documento` AS `numero_documento`, `u`.`nombre` AS `nombre`, `u`.`apellido` AS `apellido`, `u`.`correo_electronico` AS `correo_electronico`, `u`.`nombre_usuario` AS `nombre_usuario`, `u`.`clave` AS `clave`, `u`.`telefono` AS `telefono`, `u`.`direccion` AS `direccion`, `u`.`genero` AS `genero`, `u`.`foto` AS `foto`, `u`.`estado` AS `estado`, `u`.`fecha_registro` AS `fecha_registro`, `u`.`condicion` AS `condicion`, `r`.`id_rol` AS `id_rol`, `r`.`nombre_rol` AS `nombre_rol`, `f`.`id_ficha` AS `id_ficha`, `f`.`descripcion` AS `descripcion_ficha`, `f`.`codigo` AS `codigo` FROM ((((`usuarios` `u` left join `usuario_rol` `ur` on(`u`.`id_usuario` = `ur`.`id_usuario`)) left join `roles` `r` on(`ur`.`id_rol` = `r`.`id_rol`)) left join `aprendices_ficha` `af` on(`u`.`id_usuario` = `af`.`id_usuario`)) left join `fichas` `f` on(`af`.`id_ficha` = `f`.`id_ficha`)) ;
+
 --
 -- Índices para tablas volcadas
 --
@@ -696,6 +947,12 @@ ALTER TABLE `aprendices_ficha`
   ADD PRIMARY KEY (`id_aprendiz_ficha`),
   ADD UNIQUE KEY `unique_aprendiz_ficha` (`id_usuario`,`id_ficha`),
   ADD KEY `id_ficha` (`id_ficha`);
+
+--
+-- Indices de la tabla `auditoria_usuarios`
+--
+ALTER TABLE `auditoria_usuarios`
+  ADD PRIMARY KEY (`id_auditoria`);
 
 --
 -- Indices de la tabla `categorias`
@@ -821,6 +1078,12 @@ ALTER TABLE `aprendices_ficha`
   MODIFY `id_aprendiz_ficha` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `auditoria_usuarios`
+--
+ALTER TABLE `auditoria_usuarios`
+  MODIFY `id_auditoria` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
@@ -836,7 +1099,7 @@ ALTER TABLE `detalle_prestamo`
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `equipo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `equipo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT de la tabla `estados`
