@@ -23,57 +23,71 @@
               <table id="tblAutorizaciones" class="table table-bordered table-striped">
                 <thead class="bg-dark">
                   <tr>
+                    <th>Préstamo</th>
                     <th>Solicitante</th>
-                    <th>Estado Préstamo</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
+                    <th>Estado Préstamo</th>
                     <th>Fecha Solicitud</th>
-                    <th>Firmas</th>
-                    <th>Acciones</th>
+                    <th>Coo</th>
+                    <th>Tic</th>
+                    <th>Alm</th>
+                    <th>Detalle</th>
                   </tr>
                 </thead>
                 <tbody>
                 <?php
                 $item = null;
                 $valor = null;
-                
-                $autorizaciones = ControladorAutorizaciones::ctrMostrarAutorizaciones($item, $valor);
-
-                foreach ($autorizaciones as $key => $value) {
-                  $itemUsuario = "id_usuario";
-                  $valorUsuario = $value["id_usuario"];
-                  
-                  $usuario = ControladorUsuarios::ctrMostrarUsuarios($itemUsuario, $valorUsuario);
-                  
-                  $estadoPrestamo = isset($value["estado_prestamo"]) ? $value["estado_prestamo"] : "Pendiente";
-                  
+                $prestamos = ControladorSolicitudes::ctrMostrarPrestamo($item, $valor);
+                var_dump($prestamos[0]);
+                foreach ($prestamos as $key => $value) {
+                  $item = "id_prestamo";
+                  $valor = $value["id_prestamo"];
+                  $autorizaciones = ControladorAutorizaciones::ctrMostrarAutorizaciones($item, $valor);
+                  // var_dump($autorizaciones);
                   echo '<tr>
-                          <td>'.$usuario["nombre"].' '.$usuario["apellido"].'</td>
-                          <td>'.$estadoPrestamo.'</td>
-                          <td>'.date('Y-m-d H:i', strtotime($value["fecha_inicio"])).'</td>
-                          <td>'.date('Y-m-d H:i', strtotime($value["fecha_fin"])).'</td>
-                          <td>'.date('Y-m-d H:i', strtotime($value["fecha_solicitud"])).'</td>
-                          <td>
-                              <div class="icheck-primary d-inline mx-1">
-                              <input type="checkbox" id="firma1'.$value["id_autorizacion"].'">
-                              <label for="firma1'.$value["id_autorizacion"].'"></label>
-                            </div>
-                            <div class="icheck-primary d-inline mx-1">
-                              <input type="checkbox" id="firma2'.$value["id_autorizacion"].'">
-                              <label for="firma2'.$value["id_autorizacion"].'"></label>
-                            </div>
-                            <div class="icheck-primary d-inline mx-1">
-                              <input type="checkbox" id="firma3'.$value["id_autorizacion"].'">
-                              <label for="firma3'.$value["id_autorizacion"].'"></label>
-                            </div>
-                          </td>
-                          <td>
-                            <button class="btn btn-info btn-sm btnVerDetalles" id_usuario="'.$value["id_usuario"].'" data-toggle="modal" data-target="#modal-detalle">
-                              <i class="fas fa-eye"></i>
-                            </button>
-                          </td>
-                        </tr>';
-                }
+                        <td>'.$value["id_prestamo"].'</td>
+                        <td>'.$value["solicitante"].'</td>
+                        <td>'.date('Y-m-d H:i', strtotime($value["fecha_inicio"])).'</td>
+                        <td>'.date('Y-m-d H:i', strtotime($value["fecha_fin"])).'</td>
+                        <td>'.$value["estado_prestamo"].'</td>
+                        <td>'.date('Y-m-d H:i', strtotime($value["fecha_solicitud"])).'</td>
+                        <td>
+                          <div class="icheck-primary d-inline mx-1">';
+                            if ($autorizaciones["firma_coordinacion"] == "Firmado") {
+                              echo '<input type="checkbox"checked>';                                            
+                            }else{
+                              echo '<input type="checkbox"';
+                            }
+                    echo '</div>
+                        </td>
+                        <td>
+                          <div class="icheck-primary d-inline mx-1">';
+                            if ($autorizaciones["firma_lider_tic"] == "Firmado") {
+                              echo '<input type="checkbox"checked>';                                            
+                            }else{
+                              echo '<input type="checkbox"';
+                            }
+                    echo '</div>
+                        </td>
+                        <td>
+                          <div class="icheck-primary d-inline mx-1">';
+                            if ($autorizaciones["firma_almacen"] == "Firmado") {
+                              echo '<input type="checkbox"checked>';                                            
+                            }else{
+                              echo '<input type="checkbox"';
+                            }
+                    echo '</div>
+                        </td>
+                        <td>
+                          <button class="btn btn-info btn-sm btnVerDetallePrestamo_Autorizar" idPrestamo="'.$value["id_prestamo"].'" data-toggle="modal" data-target="#modalVerDetallesPrestamo">
+                            <i class="fas fa-eye"></i>
+                          </button>
+                        </td>
+                      </tr>';
+                                
+                }                
                 ?>
                 </tbody>
               </table>
@@ -84,12 +98,14 @@
     </section>
   </div>
 </div>
-<!-- Modal Detalle Préstamo -->
-<div class="modal fade" id="modal-detalle">
+
+
+
+<div class="modal fade" id="modalVerDetallesPrestamo">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h4 class="modal-title">Detalle del Préstamo</h4>
+                <h4 class="modal-title">Detalle del Préstamo #<span id="num eroPrestamo"></span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -121,6 +137,7 @@
                                 <table class="table table-bordered table-striped " id="tblDetallePrestamo">
                                     <thead>
                                         <tr>
+                                
 
                                             <th>ID</th>
                                             <th>Categoría</th>
@@ -128,10 +145,11 @@
                                             <th>etiqueta</th>
                                             <th>Serial</th>
                                             <th>Ubicación</th>
-
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        
                                         <!-- Aquí se cargarán los detalles del préstamo -->
                                     </tbody>
                                 </table>
@@ -141,8 +159,6 @@
                 </div>
             </div>
             <div class="modal-footer">
-            <button class="btn btn-success btnAutorizarSolicitud" data-id="<?= $solicitud['id'] ?>"data-rol="<?= $_SESSION['rol'] ?>">Autorizar</button>
-            <button class="btn btn-danger btnRechazarSolicitud" data-id="<?= $solicitud['id'] ?>"data-rol="<?= $_SESSION['rol'] ?>">Rechazar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
