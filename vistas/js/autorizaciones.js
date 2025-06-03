@@ -177,6 +177,62 @@ $(document).ready(function() {
     });
 });
 
+//funcion para traer las autorizaciones del prestamo
+function traerAutorizaciones(idPrestamo, estadoPrestamo) {
+    //traemos las autorizaciones de ese mismo prestamo
+    console.log("idPrestamoFuncion :", idPrestamo);
+    datosAutorizaciones = new FormData();
+    datosAutorizaciones.append("accion", "mostrarAutorizaciones");
+    datosAutorizaciones.append("idPrestamo", idPrestamo);
+    $.ajax({
+      url: "ajax/autorizaciones.ajax.php",
+      method: "POST",
+      data: datosAutorizaciones,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (respuestaAutorizaciones) {
+        console.log("AUTORIZACIONES :", respuestaAutorizaciones);
+        $("#alertaRechazado").addClass("d-none");
+        $(".btnAccionFirma").addClass("d-none");
+        $(".btnDesautorizar").addClass("d-none");
+        
+        let nombreRolSesion = $("#nombre_rolSesion").val();
+        let idUsuarioSesion = $("#id_UsuarioSesion").val();
+
+        let firmaCoordinacion = respuestaAutorizaciones["firma_coordinacion"];
+        let firmaTIC = respuestaAutorizaciones["firma_lider_tic"];
+        let firmaAlmacen = respuestaAutorizaciones["firma_almacen"];
+
+        let idCoordinacion = respuestaAutorizaciones["id_usuario_coordinacion"];
+        let idLiderTIC = respuestaAutorizaciones["id_usuario_lider_tic"];
+        let idAlmacen = respuestaAutorizaciones["id_usuario_almacen"];
+
+        if (estadoPrestamo != "Autorizado") {
+          if (estadoPrestamo == "Rechazado"){
+            $("#alertaRechazado").removeClass("d-none");
+          }else{
+            // BOTON AUTORIZAR - DESAUTORIZAR - RECHAZAR
+            //si tiene el rol para firmar y el rol no ha firmado, puede autorizar o rechazar
+            if ((nombreRolSesion == "Coordinación" && firmaCoordinacion != "Firmado") ||
+                (nombreRolSesion == "Líder TIC" && firmaTIC != "Firmado") ||
+                (nombreRolSesion == "Almacén" && firmaAlmacen != "Firmado" )) {
+              $(".btnAccionFirma").removeClass("d-none");
+            }
+            //si tiene el rol para firmar, si el rol ya ha firmado y fue el mismo usuario el que firmo, puede desautorizar
+            if ((nombreRolSesion == "Coordinación" && firmaCoordinacion == "Firmado" && idCoordinacion == idUsuarioSesion) ||
+                (nombreRolSesion == "Líder TIC" && firmaTIC == "Firmado" && idLiderTIC == idUsuarioSesion) ||
+                (nombreRolSesion == "Almacén" && firmaAlmacen == "Firmado" && idAlmacen == idUsuarioSesion)) {
+              $(".btnDesautorizar").removeClass("d-none");
+            }
+          }
+        }
+      }
+    });
+
+}
+
 //para ver detalle del prestamo
 $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
     let idPrestamo = $(this).attr("idPrestamo");
@@ -193,63 +249,65 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
       processData: false,
       dataType: "json",
       success: function (respuesta) {
-      //   console.log("Prestamo :", respuesta);
+        console.log("PRESTAMO :", respuesta);
         $("#numeroPrestamo").text(respuesta["id_prestamo"]);
         $("#detalleTipoPrestamo").text(respuesta["tipo_prestamo"]);
         $("#detalleFechaInicio").text(respuesta["fecha_inicio"]);
         $("#detalleFechaFin").text(respuesta["fecha_fin"]);
         $("#detalleMotivoPrestamo").text(respuesta["motivo"]);
+        $("#estadoPrestamo").text(respuesta["estado_prestamo"]);
          
         datosDetalle = new FormData();
         datosDetalle.append("accion", "mostrarPrestamoDetalle");
-          datosDetalle.append("idPrestamoDetalle", respuesta["id_prestamo"]);
-          $.ajax({
-            url: "ajax/solicitudes.ajax.php",
-            method: "POST",
-            data: datosDetalle,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: "json",
-            success: function (respuestaDetalle) {
-              console.log("respuestaDetalle :",respuestaDetalle);
-              //colocamos los datos en el datatable
-              $("#tblDetallePrestamo").DataTable().clear().destroy();
-              $("#tblDetallePrestamo").DataTable({
-                data: respuestaDetalle,
-                columns: [
-                  { data: "equipo_id" },
-                  { data: "categoria" },
-                  { data: "descripcion" },
-                  { data: "etiqueta" },
-                  { data: "numero_serie" },
-                  { data: "ubicacion" },
-                ],
-                responsive: true,
-                autoWidth: false,      
-                scrollX: true,        
-                language: {
-                  sProcessing: "Procesando...",
-                  sLengthMenu: "Mostrar _MENU_ registros",
-                  sZeroRecords: "No se encontraron resultados",
-                  sEmptyTable: "Ningún dato disponible en esta tabla",
-                  sInfo:
-                    "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-                  sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
-                  sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-                  search: "Buscar:",
-                  paginate: {
-                    first: "Primero",
-                    last: "Último",
-                    next: "Siguiente",
-                    previous: "Anterior",
-                  }
-  
+        datosDetalle.append("idPrestamoDetalle", respuesta["id_prestamo"]);
+        $.ajax({
+          url: "ajax/solicitudes.ajax.php",
+          method: "POST",
+          data: datosDetalle,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (respuestaDetalle) {
+            console.log("DETALLE :",respuestaDetalle);
+            //colocamos los datos en el datatable
+            $("#tblDetallePrestamo").DataTable().clear().destroy();
+            $("#tblDetallePrestamo").DataTable({
+              data: respuestaDetalle,
+              columns: [
+                { data: "equipo_id" },
+                { data: "categoria" },
+                { data: "descripcion" },
+                { data: "etiqueta" },
+                { data: "numero_serie" },
+                { data: "ubicacion" },
+              ],
+              responsive: true,
+              autoWidth: false,      
+              scrollX: true,        
+              language: {
+                sProcessing: "Procesando...",
+                sLengthMenu: "Mostrar _MENU_ registros",
+                sZeroRecords: "No se encontraron resultados",
+                sEmptyTable: "Ningún dato disponible en esta tabla",
+                sInfo:
+                  "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+                sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+                sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+                search: "Buscar:",
+                paginate: {
+                  first: "Primero",
+                  last: "Último",
+                  next: "Siguiente",
+                  previous: "Anterior",
                 }
-              })
-            }
-          })
-      },
+
+              }
+            })
+          }
+        })
+        traerAutorizaciones(respuesta["id_prestamo"],respuesta["estado_prestamo"]);
+      }
     });
   });
 
