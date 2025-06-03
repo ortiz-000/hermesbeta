@@ -30,4 +30,64 @@ class ModeloAutorizaciones {
             $stmt = null;
         }
     }
+
+    static public function mdlAutorizarPrestamo($id_prestamo, $id_rol, $id_usuario){
+        $stmt = Conexion::conectar()->prepare("INSERT INTO autorizaciones (id_prestamo, id_rol, id_usuario) VALUES (:id_prestamo, :id_rol, :id_usuario)");
+
+        $stmt->bindParam(":id_prestamo", $id_prestamo, PDO::PARAM_INT);
+        $stmt->bindParam(":id_rol", $id_rol, PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+
+        if($stmt->execute()){
+            return "ok";
+        }else{
+            return "error";
+        }
+
+        $stmt->close();
+        $stmt = null;
+ 
+    }
+
+    static public function mdlDesautorizarPrestamo($id_prestamo, $id_rol, $id_usuario){
+        $stmt = Conexion::conectar()->prepare("DELETE FROM autorizaciones WHERE id_prestamo = :id_prestamo AND id_rol = :id_rol AND id_usuario = :id_usuario");
+
+        $stmt->bindParam(":id_prestamo", $id_prestamo, PDO::PARAM_INT);
+        $stmt->bindParam(":id_rol", $id_rol, PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+
+        if($stmt->execute()){
+            return "ok";
+        }else{
+            return "error";
+        }
+
+        $stmt->close();
+        $stmt = null;
+        
+    }
+
+
+    static public function mdlRechazarPrestamo($tabla, $datos){
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (id_prestamo, id_rol, id_usuario, motivo_rechazo) VALUES (:id_prestamo, :id_rol, :id_usuario, :motivo_rechazo)");
+
+        //mostramos error log de la consulta para debuggear
+        
+        $stmt->bindParam(":id_prestamo", $datos["id_prestamo"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_rol", $datos["id_rol"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+        $stmt->bindParam(":motivo_rechazo", $datos["motivo_rechazo"], PDO::PARAM_STR);
+        
+        if($stmt->execute()){
+            return "ok";
+        }else{
+            error_log(print_r($stmt->errorInfo(), true));
+            return "error";
+        }
+
+        $stmt->close();
+        $stmt = null;
+        
+    }
 }
+

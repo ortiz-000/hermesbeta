@@ -252,3 +252,105 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
       },
     });
   });
+
+
+  //autorizar el prestamo reservado
+  $(document).on("click", ".btnAutorizar", function () {
+    let idPrestamo = $("#numeroPrestamo").text();
+    let id_rol = $("#idRol").val();
+    let id_usuario = $("#idUsuario").val();
+    // console.log("idPrestamo :", idPrestamo);
+    // console.log("id_rol :", id_rol);
+    // console.log("id_usuario :", id_usuario);
+    datos = new FormData();
+    datos.append("accion", "autorizarReserva");
+    datos.append("idPrestamo", idPrestamo);
+    datos.append("id_rol", id_rol);
+    datos.append("id_usuario", id_usuario);
+    $.ajax({
+      url: "ajax/autorizaciones.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (respuesta) {
+        console.log("respuesta :", respuesta);
+        if (respuesta == "ok") {
+          Swal.fire({
+            icon: "success",
+            title: "Autorizado",
+            text: "Se autorizo el prestamo",
+            showConfirmButton: false,
+            timer: 1500,
+            willClose: () => {
+                window.location = "autorizaciones";
+              } 
+          })
+        }else{
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudo autorizar el prestamo",
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+      }
+    })
+      
+  })
+
+  //quitar la firma de la autorizacion
+  $(document).on("click", ".btnDesautorizar", function () {
+    let idPrestamo = $("#numeroPrestamo").text();
+    let id_rol = $("#idRol").val();
+    let id_usuario = $("#idUsuario").val();
+    // console.log("idPrestamo :", idPrestamo);
+    // console.log("id_rol :", id_rol);
+    // console.log("id_usuario :", id_usuario);
+    datos = new FormData();
+    datos.append("accion", "desautorizarReserva");
+    datos.append("idPrestamo", idPrestamo);
+    datos.append("id_rol", id_rol);
+    datos.append("id_usuario", id_usuario);
+    $.ajax({
+      url: "ajax/autorizaciones.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (respuesta) {
+        console.log("respuesta :", respuesta);
+        if (respuesta == "ok") {
+          Swal.fire({
+            icon: "success",
+            title: "Desautorizado",
+            text: "ha quitado su autorización del prestamo",
+            showConfirmButton: false,
+            timer: 1500,
+            willClose: () => {
+                window.location = "autorizaciones";
+              }
+          })
+        }else{
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudo desautorizar el prestamo",
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+      }
+    })
+      
+  })
+
+  $(document).on("click", ".btnRechazar", function () {
+    let idPrestamo = $("#numeroPrestamo").text();   
+    $("#numeroPrestamoRechazar").val(idPrestamo); 
+  })
