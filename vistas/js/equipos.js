@@ -1,4 +1,59 @@
 /* ==================================================
+SERVERSIDE EQUIPOS
+================================================== */
+
+$('#tblEquipos').DataTable({
+    "processing": true,
+    "serverSide": true,
+    "sAjaxSource": "ajax/serverside/serverside.equipos.php",
+    "columns": [
+        { "data": null },
+        { "data": "1" },
+        { "data": "2" },
+        { "data": "3" },
+        { "data": "4" },
+        { "data": "5" },
+        { "data": "6" },
+        { "data": "7" },
+        { "data": null }
+    ],
+    "columnDefs": [
+        {
+            "targets": [0],
+            "render": function(data, type, row, meta) {
+                return meta.row + 1;
+            },
+        },
+        {
+            "targets": [-1],
+            "render": function(row) {
+                return "<div class='btn-group'><button title='Editar datos equipo' class='btn btn-default btn-xs btnEditarEquipo bg-warning' idEquipo='" + row[0] + "' data-toggle='modal' data-target='#modalEditarEquipo'><i class='fas fa-edit  mr-1 ml-1'></i></button><button title='Traspaso de cuentadante' class='btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success' idEquipoTraspaso='" + row[0] + "' data-toggle='modal' data-target='#modalTraspaso'><i class='fas fa-share mr-1 ml-1'></i></button><button title='Traspaso de ubicación' class='btn btn-default btn-xs btnTraspasarUbicacion ml-2 bg-info' idEquipoTraspasoUbicacion='" + row[0] + "' data-toggle='modal' data-target='#modalTraspasoUbicacion'><i class='fas fa-map-pin mr-1 ml-1'></i></button></div>"
+            }
+        }
+    ],
+    "responsive": true,
+    "autoWidth": false,
+    "lengthChange": true,
+    "lengthMenu":[10, 25, 50, 100],
+    "language": {
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "zeroRecords": "No se encontraron resultados",
+        "info": "Mostrando pagina _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay registros disponibles",
+        "infoFiltered": "(filtrado de _MAX_ total registros)",
+        "search": "Buscar:",
+        "paginate": {
+          "first":      "Primero",
+          "last":       "Ultimo",
+          "next":       "Siguiente",
+          "previous":   "Anterior"
+        },
+    },
+    "buttons": ["csv", "excel", "pdf"],
+    "dom": "lfBrtip"    
+});
+
+/* ==================================================
 BOTÓN PARA EDITAR EQUIPOS
 ================================================== */
 var idEquipoTraspaso;

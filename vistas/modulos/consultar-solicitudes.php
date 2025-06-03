@@ -67,6 +67,9 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn btn-secondary" id="btnVolverSolicitudes">
+                    <i class="fas fa-arrow-left"></i> Volver
+                    </button>
                 </div>
 
                 <!-- Tabla de Préstamos -->
