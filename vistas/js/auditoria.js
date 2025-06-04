@@ -12,77 +12,97 @@ function inicializarTablaAuditoria(idUsuario = null) {
       dataSrc: "data"
     },
     columns: [
-      { data: "tipo_documento", title: "Tipo Doc." },
-      { data: "numero_documento", title: "Número Doc." },
-      { data: "nombre", title: "Nombre" },
-      { data: "apellido", title: "Apellido" },
-      { data: "nombre_editor", title: "Editado Por" },
-      { data: "fecha_cambio", title: "Fecha de Cambio" },
+      { data: "tipo_documento" },
+      { data: "numero_documento" },
+      { data: "nombre" },
+      { data: "apellido" },
+      { data: "nombre_editor" },
+      { data: "fecha_cambio" },
       {
         data: null,
-        title: "Detalle",
-        orderable: false,
         render: function (data, type, row) {
-          return `
-            <button class="btn btn-primary btn-sm verDetalle" 
-              data-campos="${row.campo_modificado}" 
-              data-anteriores="${row.valor_anterior}" 
-              data-nuevos="${row.valor_nuevo}">
-              <i class="fas fa-eye"></i>
-            </button>
-          `;
+          return `<button class="btn btn-info btn-sm btnDetalle" data-detalle='${JSON.stringify({
+            campo_modificado: row.campo_modificado,
+            valor_anterior: row.valor_anterior,
+            valor_nuevo: row.valor_nuevo
+          }).replace(/'/g, "&apos;")}'><i class="fas fa-eye"></i></button>`;
+        }
+      },
+      {
+        data: null,
+        visible: false,
+        render: function (data, type, row) {
+          let campos = row.campo_modificado.split(';').map(s => s.trim());
+          let valoresAnt = row.valor_anterior.split(';').map(s => s.trim());
+          let valoresNue = row.valor_nuevo.split(';').map(s => s.trim());
+
+          return campos.map((campo, i) => `${campo}: ${valoresAnt[i]} → ${valoresNue[i]}`).join(" | ");
         }
       }
     ],
-    responsive: true,
     dom: 'Bfrtip',
-    buttons: ['csv', 'excel'],
-    language: {
-      url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
-    },
-    order: [[5, 'desc']], // Ordenar por fecha
-    pageLength: 10
+    buttons: [
+      {
+        extend: 'excelHtml5',
+        text: 'Exportar Excel',
+        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 7] }
+      },
+      {
+        extend: 'csvHtml5',
+        text: 'Exportar CSV',
+        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 7] }
+      }
+    ],
+    responsive: true,
+    language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
+    order: [[5, 'desc']]
   });
 }
 
-function recargarTablaAuditoria(idUsuario = null) {
-  let url = "ajax/auditoria.ajax.php";
-  if (idUsuario) {
-    url += "?id_usuario=" + idUsuario;
+$(document).on('click', '.btnDetalle', function () {
+  let detalleData = $(this).data('detalle');
+  if (typeof detalleData === 'string') {
+    detalleData = JSON.parse(detalleData.replace(/&apos;/g, "'"));
   }
 
-  if (tablaAuditoria) {
-    tablaAuditoria.ajax.url(url).load();
-  } else {
-    inicializarTablaAuditoria(idUsuario);
-  }
-}
+  let campos = detalleData.campo_modificado.split(';').map(s => s.trim());
+  let valoresAnt = detalleData.valor_anterior.split(';').map(s => s.trim());
+  let valoresNue = detalleData.valor_nuevo.split(';').map(s => s.trim());
 
-// Evento para abrir modal con detalle
-$(document).on('click', '.verDetalle', function () {
-  const campos = $(this).data('campos').split(';').map(c => c.trim());
-  const anteriores = $(this).data('anteriores').split(';').map(a => a.trim());
-  const nuevos = $(this).data('nuevos').split(';').map(n => n.trim());
-
-  let contenido = '<table class="table table-bordered">';
-  contenido += '<thead><tr><th>Campo</th><th>Valor Anterior</th><th>Valor Nuevo</th></tr></thead><tbody>';
-
+  let htmlDetalle = '<table class="table table-bordered">';
+  htmlDetalle += '<thead><tr><th>Campo Modificado</th><th>Valor Anterior</th><th>Valor Nuevo</th></tr></thead><tbody>';
   for (let i = 0; i < campos.length; i++) {
-    contenido += `
-      <tr>
-        <td>${campos[i]}</td>
-        <td>${anteriores[i] || ''}</td>
-        <td>${nuevos[i] || ''}</td>
-      </tr>
-    `;
+    htmlDetalle += `<tr><td>${campos[i]}</td><td>${valoresAnt[i]}</td><td>${valoresNue[i]}</td></tr>`;
   }
+  htmlDetalle += '</tbody></table>';
 
-  contenido += '</tbody></table>';
-  $('#detalleAuditoriaBody').html(contenido);
+  $('#detalleAuditoriaBody').html(htmlDetalle);
   $('#modalDetalleAuditoria').modal('show');
 });
 
-// Inicializar tabla al cargar la página
+
 $(document).ready(function () {
   inicializarTablaAuditoria();
+
+  // Rango de fecha con DateRangePicker
+  $('#filtroRangoFechas').daterangepicker({
+    locale: { format: 'YYYY-MM-DD', separator: ' / ' },
+    autoUpdateInput: false
+  });
+
+  $('#filtroRangoFechas').on('apply.daterangepicker', function (ev, picker) {
+    $(this).val(picker.startDate.format('YYYY-MM-DD') + ' / ' + picker.endDate.format('YYYY-MM-DD'));
+    tablaAuditoria.column(5).search($(this).val()).draw();
+  });
+
+  $('#filtroRangoFechas').on('cancel.daterangepicker', function () {
+    $(this).val('');
+    tablaAuditoria.column(5).search('').draw();
+  });
+
+  // Filtro por nombre de editor
+  $('#filtroEditor').on('keyup change', function () {
+    tablaAuditoria.column(4).search(this.value).draw();
+  });
+  
 });

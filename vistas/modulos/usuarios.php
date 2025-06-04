@@ -83,7 +83,7 @@
         <div class="modal-header">
           <h4 class="modal-title">Consultar usuario</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="false">&times;</span>
           </button>
         </div>
 
@@ -569,7 +569,7 @@
                   <div class="col-lg-8">
                     <label>Numero de documento</label>
                     <div class="input-group ">
-                      <input type="text" class="form-control" name="editNumeroDocumento" id="editNumeroDocumento" placeholder="Numero documento" disabled>
+                      <input type="text" class="form-control" name="editNumeroDocumento" id="editNumeroDocumento" placeholder="Numero documento" roadonly>
                     </div>
                   </div>
                 </div>
@@ -656,7 +656,7 @@
                   <div class="col-lg-8">
                     <label>Programa</label>
                     <div class="input-group ">
-                      <input type="text" class="form-control" id="nombreEditPrograma" name="nombreEditPrograma" id="nombreEditPrograma" placeholder="No seleccionado" disabled>
+                      <input type="text" class="form-control" id="nombreEditPrograma" name="nombreEditPrograma"  placeholder="No seleccionado" disabled>
                     </div>
                   </div>
 
@@ -737,7 +737,7 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary">Modificar</button>
               </div>
-
+              </form> <!-- Cierre del formulario -->
               <?php
 
               // Include the PHP file for handling the form submission
