@@ -17,17 +17,31 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
       dataType: "json",
       success: function (respuesta) {
         console.log(respuesta);
-        if (respuesta == "error") {
+        if (respuesta == "error" ) {
           alert("El solicitante no existe.");
         } else {
           $("#idSolicitante").val(respuesta["id_usuario"]);
           $("#nombreSolicitante").val(respuesta["nombre"] + " " + respuesta["apellido"] + " (" + respuesta["nombre_rol"] + ")");
           $("#nombreSolicitante").attr("disabled", true);
+
+          $("#fichaSolicitante").val("Ficha: " + respuesta["id_ficha"]);
+          $("#fichaSolicitante").attr("disabled", true);
+
+          //estado del usuario
           if (respuesta["estado"] != "activo") {
             $("#nombreSolicitante").addClass("bg-danger");
             $(".infoEquiposSolicitados").addClass("d-none");
           } else {
             $("#nombreSolicitante").removeClass("bg-danger").addClass("bg-success");
+            $(".infoEquiposSolicitados").removeClass("d-none");
+          }
+          
+          //estado de la ficha
+          if (respuesta["estado_ficha"] != "activa") {
+            $("#fichaSolicitante").addClass("bg-danger").val("La ficha no esta activa");
+            $(".infoEquiposSolicitados").addClass("d-none");
+          } else {
+            $("#fichaSolicitante").removeClass("bg-danger").addClass("bg-success");
             $(".infoEquiposSolicitados").removeClass("d-none");
           }
 
