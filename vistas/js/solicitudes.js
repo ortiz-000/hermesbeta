@@ -17,7 +17,7 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
       dataType: "json",
       success: function (respuesta) {
         console.log(respuesta);
-        if (respuesta == "error" ) {
+        if (respuesta == "error") {
           alert("El solicitante no existe.");
         } else {
           $("#idSolicitante").val(respuesta["id_usuario"]);
@@ -27,23 +27,45 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
           $("#fichaSolicitante").val("Ficha: " + respuesta["codigo"]);
           $("#fichaSolicitante").attr("disabled", true);
 
-          //estado del usuario
-          if (respuesta["estado"] != "activo") {
-            $("#nombreSolicitante").addClass("bg-danger");
+          if (respuesta["estado"] != "activo" || respuesta["estado_ficha"] != "activa") {
+
+            //estado del usuario
+            if (respuesta["estado"] != "activo") {
+              $("#nombreSolicitante")
+                .removeClass("bg-success")
+                .addClass("bg-danger");
+            } else {
+              $("#nombreSolicitante").removeClass("bg-danger").addClass("bg-success");
+            }
+
+            // estado de la ficha
+            if (respuesta["estado_ficha"] != "activa") {
+              $("#fichaSolicitante")
+                .removeClass("bg-success")
+                .addClass("bg-danger")
+                .val("La ficha no está activa");
+            } else {
+              $("#fichaSolicitante")
+                .removeClass("bg-danger")
+                .addClass("bg-success");
+            }
+
+            // Ocultar la info si alguno está mal
             $(".infoEquiposSolicitados").addClass("d-none");
-          } else {
-            $("#nombreSolicitante").removeClass("bg-danger").addClass("bg-success");
-            $(".infoEquiposSolicitados").removeClass("d-none");
+
+
+            return;
           }
-          
-          //estado de la ficha
-          if (respuesta["estado_ficha"] != "activa") {
-            $("#fichaSolicitante").addClass("bg-danger").val("La ficha no esta activa");
-            $(".infoEquiposSolicitados").addClass("d-none");
-          } else {
-            $("#fichaSolicitante").removeClass("bg-danger").addClass("bg-success");
-            $(".infoEquiposSolicitados").removeClass("d-none");
-          }
+          // ambos están activos
+          $("#nombreSolicitante")
+            .removeClass("bg-danger")
+            .addClass("bg-success");
+
+          $("#fichaSolicitante")
+            .removeClass("bg-danger")
+            .addClass("bg-success");
+
+          $(".infoEquiposSolicitados").removeClass("d-none");
 
 
           // initializeDataTable("#tblSolicitantes");
@@ -66,7 +88,7 @@ $('#reservation').on('apply.daterangepicker', function (ev, picker) {
   datos.append("fechaInicio", fechaInicio);
   datos.append("fechaFin", fechaFin);
   datos.append("accion", "mostrarEquipos");
-  
+
   $.ajax({
     url: "ajax/solicitudes.ajax.php",
     method: "POST",
@@ -232,7 +254,7 @@ $("#idFormularioSolicitud").on("submit", function (event) {
   //converitomos la lista de equipos en json
   equipos = JSON.stringify(equipos);
 
-  
+
   //detenemos la ejecucion para debuguear
   // Debug: Stop execution here to inspect variables
   // debugger;
@@ -248,15 +270,15 @@ $("#idFormularioSolicitud").on("submit", function (event) {
 
 
   // Mostrar loading
-    Swal.fire({
-      title: 'Procesando solicitud',
-      text: 'Por favor espere...',
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showConfirmButton: false,
-      didOpen: () => {
-          Swal.showLoading();
-      }
+  Swal.fire({
+    title: 'Procesando solicitud',
+    text: 'Por favor espere...',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
   });
 
 
@@ -297,32 +319,32 @@ $("#idFormularioSolicitud").on("submit", function (event) {
   });
 });
 //##*****Historial de solicitudes
-$(document).on("click", ".btnHistorial", function() {
-    let cedula = $("#NumeroIdSolicitante").val();
-    
-    if(cedula) {
-        window.location.href = "index.php?ruta=consultar-solicitudes&cedula=" + cedula;
-    } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No hay un solicitante seleccionado'
-        });
-    }
+$(document).on("click", ".btnHistorial", function () {
+  let cedula = $("#NumeroIdSolicitante").val();
+
+  if (cedula) {
+    window.location.href = "index.php?ruta=consultar-solicitudes&cedula=" + cedula;
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No hay un solicitante seleccionado'
+    });
+  }
 });
 // ---------------------//
 // Consultar solicitudes//
 // ---------------------//
-$(document).on("click", "#btnHistorialSolicitud", function() {
-    let numeroDocumento = $("#NumeroIdSolicitante").val();
-    
-    if(numeroDocumento != "") {
-        window.location.href = "index.php?ruta=consultar-solicitudes&documento=" + numeroDocumento;
-    } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Debe seleccionar un solicitante primero'
-        });
-    }
+$(document).on("click", "#btnHistorialSolicitud", function () {
+  let numeroDocumento = $("#NumeroIdSolicitante").val();
+
+  if (numeroDocumento != "") {
+    window.location.href = "index.php?ruta=consultar-solicitudes&documento=" + numeroDocumento;
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Debe seleccionar un solicitante primero'
+    });
+  }
 });
