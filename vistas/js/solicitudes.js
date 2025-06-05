@@ -24,7 +24,7 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
           $("#nombreSolicitante").val(respuesta["nombre"] + " " + respuesta["apellido"] + " (" + respuesta["nombre_rol"] + ")");
           $("#nombreSolicitante").attr("disabled", true);
 
-          $("#fichaSolicitante").val("Ficha: " + respuesta["id_ficha"]);
+          $("#fichaSolicitante").val("Ficha: " + respuesta["codigo"]);
           $("#fichaSolicitante").attr("disabled", true);
 
           //estado del usuario
