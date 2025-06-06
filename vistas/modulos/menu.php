@@ -323,16 +323,19 @@
           </div>
 
           <!-- Campo para subir la foto de perfil -->
-          <div class="form-group">
-            <label for="fotoPerfil">Cambiar foto de perfil</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-camera"></i></span>
+          <div class="form-group text-center foto-perfil-container">
+              <label>Cambiar foto de perfil</label>
+              <div>
+                  <input type="file" id="fotoPerfil" name="editarFoto" accept="image/*" onchange="previewImage(event)">
+                  <label for="fotoPerfil">
+                      <span class="btn-foto-perfil">
+                          <i class="fas fa-images"></i>
+                      </span>
+                  </label>
               </div>
-              <input type="file" class="form-control" id="fotoPerfil" name="editarFoto" accept="image/*" onchange="previewImage(event)">
-            </div>
-            <small class="form-text text-muted">Formato permitido: JPG, PNG. Tamaño máximo: 2MB.</small>
+              <small class="form-text text-muted">Haz clic en el ícono de galería para seleccionar una nueva foto (JPG, PNG, máx. 2MB).</small>
           </div>
+
 
           <!-- Información de Identificación (No editable) -->
           <div class="form-group">

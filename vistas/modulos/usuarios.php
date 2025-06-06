@@ -538,12 +538,12 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                       </div>
-                      <input type="text" class="form-control" name="editNombre" id="editNombre" placeholder="Nombre" required>
+                      <input type="text" class="form-control" name="editNombre" id="editNombre" placeholder="Nombre" readonly required>
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="input-group ">
-                      <input type="text" class="form-control" name="editApellido" id="editApellido" placeholder="Apellido" required>
+                      <input type="text" class="form-control" name="editApellido" id="editApellido" placeholder="Apellido" readonly required>
                     </div>
                   </div>
                 </div>
@@ -569,7 +569,7 @@
                   <div class="col-lg-8">
                     <label>Numero de documento</label>
                     <div class="input-group ">
-                      <input type="text" class="form-control" name="editNumeroDocumento" id="editNumeroDocumento" placeholder="Numero documento" disabled>
+                      <input type="text" class="form-control" name="editNumeroDocumento" id="editNumeroDocumento" placeholder="Numero documento" readonly required>
                     </div>
                   </div>
                 </div>
