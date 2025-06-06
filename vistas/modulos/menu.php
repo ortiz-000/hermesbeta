@@ -299,11 +299,11 @@
           <input type="hidden" name="idUsuario" value="<?php echo $_SESSION['id_usuario']; ?>">
           <input type="hidden" name="fotoActual" value="<?php echo $usuario['foto']; ?>">
 
-          <!-- Nombre y Apellido (No editable) -->
+           <!-- Nombre y Apellido (No editable) -->
           <div class="form-group">
-            <label>Nombre y Apellido</label>
             <div class="row">
               <div class="col-lg-6">
+                <label>Nombre</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -312,6 +312,7 @@
                 </div>
               </div>
               <div class="col-lg-6">
+                <label>Apellido</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -337,11 +338,11 @@
           </div>
 
 
-          <!-- Información de Identificación (No editable) -->
+           <!-- Información de Identificación (No editable) -->
           <div class="form-group">
-            <label>Identificación</label>
             <div class="row">
               <div class="col-lg-6">
+                <label>Tipo</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
@@ -350,6 +351,7 @@
                 </div>
               </div>
               <div class="col-lg-6">
+                <label>Número de documento</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
