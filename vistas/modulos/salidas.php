@@ -124,8 +124,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-               
-<button type="button" class="btn btn-success d-none" id="btnAceptarPrestamo">Aceptar</button>
+            
+<button type="button" class="btn btn-success d-none" id="btnAceptarPrestamo">Autorizar Salida</button>
             </div>
         </div>
     </div>
