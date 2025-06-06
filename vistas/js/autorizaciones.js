@@ -211,6 +211,8 @@ function traerAutorizaciones(idPrestamo, estadoPrestamo) {
 
         if (estadoPrestamo != "Autorizado") {
           if (estadoPrestamo == "Rechazado"){
+            $("#usuarioNombreRechaza").text();
+            $("#usuarioNombreRechaza").text(respuestaAutorizaciones["usuario_que_rechazo"]);
             $("#alertaRechazado").removeClass("d-none");
           }else{
             // BOTON AUTORIZAR - DESAUTORIZAR - RECHAZAR
@@ -315,11 +317,12 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
   //autorizar el prestamo reservado
   $(document).on("click", ".btnAutorizar", function () {
     let idPrestamo = $("#numeroPrestamo").text();
-    let id_rol = $("#idRol").val();
-    let id_usuario = $("#idUsuario").val();
-    // console.log("idPrestamo :", idPrestamo);
-    // console.log("id_rol :", id_rol);
-    // console.log("id_usuario :", id_usuario);
+    let id_rol = $("#idRolSesion").val();
+    let id_usuario = $("#id_UsuarioSesion").val();
+    console.log("idPrestamo :", idPrestamo);
+    console.log("id_rol :", id_rol);
+    console.log("id_usuario :", id_usuario);
+    // debugger;
     datos = new FormData();
     datos.append("accion", "autorizarReserva");
     datos.append("idPrestamo", idPrestamo);
@@ -363,8 +366,8 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
   //quitar la firma de la autorizacion
   $(document).on("click", ".btnDesautorizar", function () {
     let idPrestamo = $("#numeroPrestamo").text();
-    let id_rol = $("#idRol").val();
-    let id_usuario = $("#idUsuario").val();
+    let id_rol = $("#idRolSesion").val();
+    let id_usuario = $("#id_UsuarioSesion").val();
     // console.log("idPrestamo :", idPrestamo);
     // console.log("id_rol :", id_rol);
     // console.log("id_usuario :", id_usuario);
