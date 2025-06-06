@@ -80,7 +80,7 @@
   <div class="modal fade" id="modalConsularUsuario">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-primary">
           <h4 class="modal-title">Consultar usuario</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -255,7 +255,7 @@
   <div class="modal fade" id="modalRegistrarUsuario">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-primary">
           <h4 class="modal-title">Agregar usuario</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -511,7 +511,7 @@
   <div class="modal fade" id="modalEditarUsuario">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-primary">
           <h4 class="modal-title">Editar usuario</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
