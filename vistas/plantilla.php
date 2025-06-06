@@ -143,11 +143,8 @@
   <script src="vistas/js/equipos.js"></script>
   <script src="vistas/js/consultar-solicitudes.js"></script>
   <script src="vistas/js/auditoria.js"></script>
-<<<<<<< HEAD
   <script src="vistas/js/salidas.js"></script>
-=======
-    <script src="vistas/js/mis-solicitudes.js"></script>
+  <script src="vistas/js/mis-solicitudes.js"></script>
 
->>>>>>> 0e26592232cd53c5e3bd9c58120100869179db01
 </body>
 </html>
