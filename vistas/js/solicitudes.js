@@ -26,49 +26,70 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
 
           $("#fichaSolicitante").val("Ficha: " + respuesta["codigo"]);
           $("#fichaSolicitante").attr("disabled", true);
+          if (respuesta["nombre_rol"] == "Aprendiz"){
+            if (respuesta["estado"] != "activo" || respuesta["estado_ficha"] != "activa") {
 
-          if (respuesta["estado"] != "activo" || respuesta["estado_ficha"] != "activa") {
+              //estado del usuario
+              if (respuesta["estado"] != "activo") {
+                $("#nombreSolicitante")
+                  .removeClass("bg-success")
+                  .addClass("bg-danger");
+              } else {
+                $("#nombreSolicitante").removeClass("bg-danger").addClass("bg-success");
+              }
 
+              // estado de la ficha
+              if (respuesta["estado_ficha"] != "activa") {
+                $("#fichaSolicitante")
+                  .removeClass("bg-success")
+                  .addClass("bg-danger")
+                  .val("La ficha no está activa");
+              } else {
+                $("#fichaSolicitante")
+                  .removeClass("bg-danger")
+                  .addClass("bg-success");
+              }
+
+              // Ocultar la info si alguno está mal
+              $(".infoEquiposSolicitados").addClass("d-none");
+
+
+              return;
+            }
+            // ambos están activos
+            $("#nombreSolicitante")
+              .removeClass("bg-danger")
+              .addClass("bg-success");
+
+            $("#fichaSolicitante")
+              .removeClass("bg-danger")
+              .addClass("bg-success");
+
+            $(".infoEquiposSolicitados").removeClass("d-none");
+
+
+            // initializeDataTable("#tblSolicitantes");
+          } else {
+            // Si no es aprendiz, no se valida el estado de la ficha
+            
             //estado del usuario
-            if (respuesta["estado"] != "activo") {
-              $("#nombreSolicitante")
-                .removeClass("bg-success")
-                .addClass("bg-danger");
-            } else {
-              $("#nombreSolicitante").removeClass("bg-danger").addClass("bg-success");
-            }
-
-            // estado de la ficha
-            if (respuesta["estado_ficha"] != "activa") {
+              if (respuesta["estado"] != "activo") {
+                $("#nombreSolicitante")
+                  .removeClass("bg-success")
+                  .addClass("bg-danger");
+                  $(".infoEquiposSolicitados").addClass("d-none");
+              } else {
+                $("#nombreSolicitante").removeClass("bg-danger").addClass("bg-success");
+                $(".infoEquiposSolicitados").removeClass("d-none");
+              }
+            
               $("#fichaSolicitante")
-                .removeClass("bg-success")
-                .addClass("bg-danger")
-                .val("La ficha no está activa");
-            } else {
-              $("#fichaSolicitante")
-                .removeClass("bg-danger")
-                .addClass("bg-success");
-            }
+              .removeClass("bg-danger")
+              .addClass("bg-success")
+              .val("No aplica para este rol");
 
-            // Ocultar la info si alguno está mal
-            $(".infoEquiposSolicitados").addClass("d-none");
-
-
-            return;
+            
           }
-          // ambos están activos
-          $("#nombreSolicitante")
-            .removeClass("bg-danger")
-            .addClass("bg-success");
-
-          $("#fichaSolicitante")
-            .removeClass("bg-danger")
-            .addClass("bg-success");
-
-          $(".infoEquiposSolicitados").removeClass("d-none");
-
-
-          // initializeDataTable("#tblSolicitantes");
         }
       },
       error: function (xhr, status, error) {
