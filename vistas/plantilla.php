@@ -33,7 +33,7 @@
     <script src="vistas/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="vistas/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- DataTables  & Plugins  -->
     <script src="vistas/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="vistas/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -57,7 +57,6 @@
     <!-- SweetAlert2 -->
     <!-- <script src="vistas/plugins/sweetalert2/sweetalert2.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
 
     <!-- AdminLTE App -->
     <script src="vistas/dist/js/adminlte.min.js"></script>
@@ -96,7 +95,6 @@
           $_GET["ruta"] == "consultar-solicitudes" ||
           $_GET["ruta"] == "mis-solicitudes" ||
           $_GET["ruta"] == "autorizaciones" ||
-          $_GET["ruta"] == "vencidas" ||
           $_GET["ruta"] == "devoluciones" ||
           $_GET["ruta"] == "salidas" ||
           $_GET["ruta"] == "reportes" ||
@@ -126,12 +124,14 @@
   <script src="vistas/js/permisos.js"></script>
   <script src="vistas/js/modulos.js"></script>
   <script src="vistas/js/usuarios.js"></script>
+  <script src="vistas/js/autorizaciones.js"></script>
   <script src="vistas/js/solicitudes.js"></script>
   <script src="vistas/js/equipos.js"></script>
   <script src="vistas/js/consultar-solicitudes.js"></script>
   <script src="vistas/js/devoluciones.js"></script>
   <script src="vistas/js/auditoria.js"></script>
-    <script src="vistas/js/mis-solicitudes.js"></script>
+  <script src="vistas/js/salidas.js"></script>
+  <script src="vistas/js/mis-solicitudes.js"></script>
 
 </body>
 </html>
