@@ -238,7 +238,7 @@
                                                     id="nombreSolicitante" placeholder="Nombre solicitante" readonly>
                                             </div>
                                             
-                                            <div class="ficha-d">
+                                            <div class="ficha-d d-none">
                                                 <div class="input-group ">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-user"></i></span>

@@ -83,7 +83,8 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
               if (respuesta["estado"] != "activo") {
                 $("#nombreSolicitante")
                   .removeClass("bg-success")
-                  .addClass("bg-danger");
+                  .addClass("bg-danger")
+                  .val(respuesta["nombre"] + " " + respuesta["apellido"] + " (" + respuesta["nombre_rol"] + ") - Inactivo");
                   
                   $(".infoEquiposSolicitados").addClass("d-none");
               } else {
