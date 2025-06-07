@@ -18,6 +18,7 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
       success: function (respuesta) {
         console.log(respuesta);
         if (respuesta == "error") {
+          
           alert("El solicitante no existe.");
         } else {
           $("#idSolicitante").val(respuesta["id_usuario"]);
@@ -71,7 +72,7 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
             // initializeDataTable("#tblSolicitantes");
           } else {
             // Si no es aprendiz, no se valida el estado de la ficha
-            
+
             //estado del usuario
               if (respuesta["estado"] != "activo") {
                 $("#nombreSolicitante")
