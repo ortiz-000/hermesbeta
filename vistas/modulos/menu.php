@@ -269,16 +269,7 @@
                 
           ?>
           
-
-          <li class="nav-item">
-            <a href="reportes" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Reportes
-              </p>
-            </a>
-          </li>
-          
+        
           <li class="nav-item">
             <a href="Mantenimiento" class="nav-link">
               <i class="nav-icon fas fa-tools"></i>
