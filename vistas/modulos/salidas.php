@@ -46,11 +46,11 @@
                                             <td>'.$value["estado_prestamo"].'</td>
                                     
                                             <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-info btn-sm btnVerDetalles" data-id="'.$value["id_prestamo"].'" data-toggle="modal" data-target="#modalDetallesPrestamo">
-                                                        <i class="fa fa-eye"></i> Ver Detalles
-                                                    </button>
-                                                </div>
+                                            <div class="btn-group">
+                                            <button class="btn btn-info btn-sm btn-block btnVerDetalles" data-id="'.$value["id_prestamo"].'" data-toggle="modal" data-target="#modalDetallesPrestamo">
+                                            <i class="fa fa-eye"></i> Ver Detalles
+                                            </button>
+                                            </div>
                                             </td>
                                         </tr>';
                                     }
@@ -134,8 +134,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-
-<button type="button" class="btn btn-success d-none" id="btnAceptarPrestamo">Autorizar Salida</button>
+            <button type="button" class="btn btn-success col-md-2" id="btnAceptarPrestamo">Autorizar Salida</button>
 
             </div>
         </div>

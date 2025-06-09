@@ -21,8 +21,8 @@
                     <div class="col-sm-6">
                         <h1>Fichas</h1>
                     </div>
-                    <div class="col-sm-6">
-                        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalAddFicha">Agregar Ficha</button>
+                    <div class="col-sm-6 text-right">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddFicha">Agregar Ficha</button>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -68,11 +68,11 @@
                                                             echo '<button class="btn btn-success btn-xs btnActivarFicha" idFicha="'.$value["id_ficha"].'" estadoFicha="inactiva"><i class="fas fa-check"></i></button>';
                                                         } else {
                                                             echo '<button class="btn btn-danger btn-xs btnActivarFicha" idFicha="'.$value["id_ficha"].'" estadoFicha="activa"><i class="fas fa-ban"></i></button>';
-                                                        };
+                                                        }
                                                 echo '</td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <button class="btn btn-default btn-xs btnEditarFicha" idFicha="'.$value["id_ficha"].'" data-toggle="modal" data-target="#modalEditFicha"><i class="fas fa-edit"></i></button>
+                                                             <button class="btn btn-default btn-xs btnEditarFicha" idFicha="'.$value["id_ficha"].'" data-toggle="modal" data-target="#modalEditFicha"><i class="fas fa-edit"></i></button>
                                                         </div>
                                                     </td>
                                                 </tr>';
@@ -138,7 +138,7 @@
 
                             ?>
                         </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-success float-right">Guardar</button>
                         <?php
 
                             $crearFicha = new ControladorFichas();
@@ -206,7 +206,7 @@
                             ?>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        <button type="submit" class="btn btn-success col-md-4">Guardar Cambios</button>
                         <?php
                             $editarFicha = new ControladorFichas();
                             $editarFicha->ctrEditarFicha();
