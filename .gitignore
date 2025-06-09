@@ -50,12 +50,6 @@ bower_components/
 /plugins/**/less/
 /plugins/**/test/
 /plugins/**/tests/
-/plugins/daterangepicker/website/
-/plugins/daterangepicker/drp.png
-/plugins/daterangepicker/moment.min.js
-/plugins/daterangepicker/package.js
-/plugins/daterangepicker/website.css
-/plugins/daterangepicker/website.js
 /plugins/jquery-ui/AUTHORS.txt
 /plugins/jquery-ui/external/jquery/jquery.js
 /plugins/inputmask/bindings/
