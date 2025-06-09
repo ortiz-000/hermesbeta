@@ -24,7 +24,7 @@ $('#tblFichas').DataTable({
             },
         },
         {
-            "targets": [8],
+            "targets": [6],
             "render": function(data, type, row) {
                 if (data === "activa") {
                     return "<button  class='btn btn-success btnActivarFicha' data-id='" + row[0] + "' data-estado='inactiva'>Activa</button>";
