@@ -18,6 +18,7 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
       success: function (respuesta) {
         console.log(respuesta);
         if (respuesta == "error") {
+          
           alert("El solicitante no existe.");
         } else {
           $("#idSolicitante").val(respuesta["id_usuario"]);
@@ -29,11 +30,14 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
           if (respuesta["nombre_rol"] == "Aprendiz"){
             if (respuesta["estado"] != "activo" || respuesta["estado_ficha"] != "activa") {
 
+              
+
               //estado del usuario
               if (respuesta["estado"] != "activo") {
                 $("#nombreSolicitante")
                   .removeClass("bg-success")
-                  .addClass("bg-danger");
+                  .addClass("bg-danger")
+                  .val(respuesta["nombre"] + " " + respuesta["apellido"] + " (" + respuesta["nombre_rol"] + ") - Inactivo");
               } else {
                 $("#nombreSolicitante").removeClass("bg-danger").addClass("bg-success");
               }
@@ -49,9 +53,11 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
                   .removeClass("bg-danger")
                   .addClass("bg-success");
               }
+              
 
               // Ocultar la info si alguno está mal
               $(".infoEquiposSolicitados").addClass("d-none");
+              $(".ficha-d").removeClass("d-none");
 
 
               return;
@@ -64,29 +70,29 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
             $("#fichaSolicitante")
               .removeClass("bg-danger")
               .addClass("bg-success");
-
+            $(".ficha-d").removeClass("d-none");
             $(".infoEquiposSolicitados").removeClass("d-none");
 
 
             // initializeDataTable("#tblSolicitantes");
           } else {
             // Si no es aprendiz, no se valida el estado de la ficha
-            
+            $(".ficha-d").addClass("d-none");
+
             //estado del usuario
               if (respuesta["estado"] != "activo") {
                 $("#nombreSolicitante")
                   .removeClass("bg-success")
-                  .addClass("bg-danger");
+                  .addClass("bg-danger")
+                  .val(respuesta["nombre"] + " " + respuesta["apellido"] + " (" + respuesta["nombre_rol"] + ") - Inactivo");
+                  
                   $(".infoEquiposSolicitados").addClass("d-none");
               } else {
                 $("#nombreSolicitante").removeClass("bg-danger").addClass("bg-success");
                 $(".infoEquiposSolicitados").removeClass("d-none");
               }
             
-              $("#fichaSolicitante")
-              .removeClass("bg-danger")
-              .addClass("bg-success")
-              .val("No aplica para este rol");
+              
 
             
           }

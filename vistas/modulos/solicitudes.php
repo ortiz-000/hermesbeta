@@ -238,13 +238,15 @@
                                                     id="nombreSolicitante" placeholder="Nombre solicitante" readonly>
                                             </div>
                                             
-                                            <div class="input-group ">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            <div class="ficha-d d-none">
+                                                <div class="input-group ">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                    </div>
+                                                    <input type="hidden" name="idSolicitanteFicha" id="idSolicitanteFicha">
+                                                    <input type="text" class="form-control" name="fichaSolicitante"
+                                                        id="fichaSolicitante" placeholder="Ficha Solicitante" readonly>
                                                 </div>
-                                                <input type="hidden" name="idSolicitanteFicha" id="idSolicitanteFicha">
-                                                <input type="text" class="form-control" name="fichaSolicitante"
-                                                    id="fichaSolicitante" placeholder="Ficha Solicitante" readonly>
                                             </div>
                                         </div>
                                     </div>
