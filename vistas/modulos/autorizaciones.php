@@ -50,11 +50,11 @@
                           <td>' . $value["solicitante"] . '</td>
                           <td>' . date('Y-m-d H:i', strtotime($value["fecha_inicio"])) . '</td>
                           <td>' . date('Y-m-d H:i', strtotime($value["fecha_fin"])) . '</td>';
-                          if ($value["estado_prestamo"] == "Rechazado") {
-                            echo '<td class="bg-danger">'. $value["estado_prestamo"]. '</td>';                                  
-                          }else {
-                            echo '<td>' . $value["estado_prestamo"] . '</td>';
-                          };                          
+                  if ($value["estado_prestamo"] == "Rechazado") {
+                    echo '<td class="bg-danger">' . $value["estado_prestamo"] . '</td>';
+                  } else {
+                    echo '<td>' . $value["estado_prestamo"] . '</td>';
+                  };
                   echo   '<td>' . date('Y-m-d H:i', strtotime($value["fecha_solicitud"])) . '</td>
                           <td>
                             <div class="icheck-primary d-inline mx-1">';
@@ -160,42 +160,19 @@
         </div>
       </div>
       <div class="modal-footer">
+        <input type="hidden" id="idRolSesion" value="<?php echo $_SESSION['rol'] ?>">
+        <input type="hidden" id="nombre_rolSesion" value="<?php echo $_SESSION['nombre_rol'] ?>">
+        <input type="hidden" id="id_UsuarioSesion" value="<?php echo $_SESSION['id_usuario'] ?>">
+
+        <div class="alert alert-danger d-none" id="alertaRechazado" role="alert">El préstamo fue rechazado por otro usuario - <span id="usuarioNombreRechaza"></span></div>
+
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <!-- guardamos el id del prestamo en un input oculto -->
-        <input type="hidden" id="idRol" value="<?php echo $_SESSION['rol'] ?>">
-        <input type="hidden" id="idUsuario" value="<?php echo $_SESSION['id_usuario'] ?>">
+
+        <button type="button" class="btn btn-danger btnRechazar btnAccionFirma d-none" data-toggle="modal" data-target="#modalMotivoRechazo">Rechazar</button>
+        <button type="button" class="btn btn-primary btnAutorizar btnAccionFirma d-none">Autorizar</button>
+        <button type="button" class="btn btn-danger btnDesautorizar d-none">Desautorizar</button>
 
 
-
-        <?php
-        //si el estado prestamo es diferente de autorizado puede autorizar, rechazar o desautorizar
-        if ($value["estado_prestamo"] != "Autorizado") {
-
-          if ($value["estado_prestamo"] == "Rechazado") {
-            //mostramos un div con un mensaje de que el prestamo fue rechazado
-            echo '<div class="alert alert-danger" role="alert">
-                    El préstamo fue rechazado por otro usuario.
-                  </div>';
-          } else {
-            //BOTON AUTORIZAR Y DESAUTORIZAR Y RECHAZAR
-            //si tiene el rol para firmar y el rol no ha firmado, puede autorizar o rechazar
-            if (($_SESSION["nombre_rol"] == "Coordinación" && $autorizaciones["firma_coordinacion"] != "Firmado")  ||
-              ($_SESSION["nombre_rol"] == "Líder TIC" && $autorizaciones["firma_lider_tic"] != "Firmado") ||
-              ($_SESSION["nombre_rol"] == "Almacén" && $autorizaciones["firma_almacen"] != "Firmado")
-            ) {
-              echo '<button type="button" class="btn btn-danger btnRechazar" data-toggle="modal" data-target="#modalMotivoRechazo">Rechazar</button>';
-              echo '<button type="button" class="btn btn-primary btnAutorizar" >Autorizar</button>';
-            }
-            //si tiene el rol para firmar, si el rol ya ha firmado y fue el mismo usuario el que firmo, puede desautorizar
-            if (($_SESSION["nombre_rol"] == "Coordinación" && $autorizaciones["firma_coordinacion"] == "Firmado" && $autorizaciones["id_usuario_coordinacion"] == $_SESSION["id_usuario"])  ||
-              ($_SESSION["nombre_rol"] == "Líder TIC" && $autorizaciones["firma_lider_tic"] == "Firmado" && $autorizaciones["id_usuario_tic"] == $_SESSION["id_usuario"]) ||
-              ($_SESSION["nombre_rol"] == "Almacén" && $autorizaciones["firma_almacen"] == "Firmado" && $autorizaciones["id_usuario_almacen"] == $_SESSION["id_usuario"])
-            ) {
-              echo '<button type="button" class="btn btn-danger btnDesautorizar" >Desautorizar</button>';
-            }
-          }
-        }
-        ?>
       </div>
     </div>
   </div>

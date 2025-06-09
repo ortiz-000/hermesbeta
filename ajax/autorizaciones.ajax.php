@@ -50,6 +50,14 @@ class AjaxAutorizaciones
         echo json_encode($respuesta);
     }
 
+    public function ajaxMostrarAutorizaciones()
+    {
+        $item = "id_prestamo";
+        $valor= $this->idPrestamo;
+        $respuesta = ControladorAutorizaciones::ctrMostrarAutorizaciones($item, $valor);
+        echo json_encode($respuesta);
+    }
+
 }
 
 /*=============================================
@@ -79,6 +87,11 @@ if (isset($_POST["accion"])) {
             $autorizar->idRol = $_POST["id_rol"];
             $autorizar->idUsuario = $_POST["id_usuario"];
             $autorizar->ajaxDesautorizarPrestamo();
+            break;
+
+        case 'mostrarAutorizaciones':
+            $autorizar->idPrestamo = $_POST["idPrestamo"];
+            $autorizar->ajaxMostrarAutorizaciones();
             break;
 
     }
