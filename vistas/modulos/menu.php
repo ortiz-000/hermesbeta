@@ -254,10 +254,10 @@
 
 
         echo '<li class="nav-item">
-            <a href="reportes" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+            <a href="Mantenimiento" class="nav-link">
+              <i class="nav-icon fas fa-tools"></i>
               <p>
-                Reportes
+                Mantenimiento
               </p>
             </a>
           </li>';
@@ -271,10 +271,10 @@
           
         
           <li class="nav-item">
-            <a href="Mantenimiento" class="nav-link">
-              <i class="nav-icon fas fa-tools"></i>
+            <a href="reportes" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
               <p>
-                Mantenimiento
+                Reportes
               </p>
             </a>
           </li>
