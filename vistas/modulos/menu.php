@@ -228,6 +228,17 @@
               </li>
             </li>';
         }
+        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+          echo '<li class="nav-item">
+            <a href="salidas" class="nav-link">
+              <i class="nav-icon fas fa-eye"></i>
+              <span class="badge badge-info right">3+</span>
+              <p>
+              Salidas
+              </p>
+            </a>
+            </li>';
+        }
 
         if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
           echo '<li class="nav-item">
@@ -240,17 +251,7 @@
             </a>
             </li>';
         }
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
-          echo '<li class="nav-item">
-            <a href="salidas" class="nav-link">
-              <i class="nav-icon fas fa-eye"></i>
-              <span class="badge badge-info right">3+</span>
-              <p>
-              Salidas
-              </p>
-            </a>
-            </li>';
-        }
+  
 
 
         echo '<li class="nav-item">
