@@ -44,12 +44,12 @@ function inicializarTablaAuditoria(idUsuario = null) {
     buttons: [
       {
         extend: 'excelHtml5',
-        text: 'Exportar Excel',
+        text: 'Excel',
         exportOptions: { columns: [0, 1, 2, 3, 4, 5, 7] }
       },
       {
         extend: 'csvHtml5',
-        text: 'Exportar CSV',
+        text: 'CSV',
         exportOptions: { columns: [0, 1, 2, 3, 4, 5, 7] }
       }
     ],
@@ -83,23 +83,6 @@ $(document).on('click', '.btnDetalle', function () {
 
 $(document).ready(function () {
   inicializarTablaAuditoria();
-
-  // Rango de fecha con DateRangePicker
-  $('#filtroRangoFechas').daterangepicker({
-    locale: { format: 'YYYY-MM-DD', separator: ' / ' },
-    autoUpdateInput: false
-  });
-
-  $('#filtroRangoFechas').on('apply.daterangepicker', function (ev, picker) {
-    $(this).val(picker.startDate.format('YYYY-MM-DD') + ' / ' + picker.endDate.format('YYYY-MM-DD'));
-    tablaAuditoria.column(5).search($(this).val()).draw();
-  });
-
-  $('#filtroRangoFechas').on('cancel.daterangepicker', function () {
-    $(this).val('');
-    tablaAuditoria.column(5).search('').draw();
-  });
-
   // Filtro por nombre de editor
   $('#filtroEditor').on('keyup change', function () {
     tablaAuditoria.column(4).search(this.value).draw();

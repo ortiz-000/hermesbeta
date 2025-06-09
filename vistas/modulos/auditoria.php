@@ -6,16 +6,6 @@
     </div>
   </section>
 
-  <section class="content">
-    <div class="container-fluid">
-
-      <div class="row mb-3">
-  <div class="col-md-4">
-    <label for="filtroRangoFechas">Rango de Fechas:</label>
-    <input type="text" id="filtroRangoFechas" class="form-control" placeholder="Seleccione rango de fechas">
-</div>
-      </div>
-
       <div class="card">
         <div class="card-body">
           <table id="tablaAuditoria" class="table table-bordered table-striped w-100">
