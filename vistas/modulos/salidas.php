@@ -36,18 +36,18 @@
                                     $salidas = Controladorsalidas::ctrMostrarsalidas($item, $valor);
 
 
-                                    foreach ($salidas as $key => $value)   {
+                                    foreach ($salidas as $key => $value) {
                                         echo '
                                         <tr> 
                                         
-                                            <td>'.$value["id_prestamo"].'</td>
-                                            <td>'.$value["nombre"].'</td>
-                                            <td>'.$value["tipo_prestamo"].'</td>
-                                            <td>'.$value["estado_prestamo"].'</td>
+                                            <td>' . $value["id_prestamo"] . '</td>
+                                            <td>' . $value["nombre"] . '</td>
+                                            <td>' . $value["tipo_prestamo"] . '</td>
+                                            <td>' . $value["estado_prestamo"] . '</td>
                                     
                                             <td>
                                                 <div class="btn-group">
-                                                    <button class="btn btn-info btn-sm btnVerDetalles" data-id="'.$value["id_prestamo"].'" data-toggle="modal" data-target="#modalDetallesPrestamo">
+                                                    <button class="btn btn-info btn-sm btnVerDetalles" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalDetallesPrestamo">
                                                         <i class="fa fa-eye"></i> Ver Detalles
                                                     </button>
                                                 </div>
@@ -65,8 +65,8 @@
     </section>
 </div>
 
-    <!-- Modal de Detalles del Préstamo -->
-    <div class="modal fade" id="modalDetallesPrestamo" tabindex="-1" role="dialog" aria-labelledby="modalDetallesPrestamoLabel" aria-hidden="true">
+<!-- Modal de Detalles del Préstamo -->
+<div class="modal fade" id="modalDetallesPrestamo" tabindex="-1" role="dialog" aria-labelledby="modalDetallesPrestamoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -79,6 +79,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <dl class="row">
+
 
                             <dt class="col-sm-4">Estado:</dt>
                             <dd class="col-sm-8" id="detalleTipoPrestamo"></dd>
@@ -102,7 +103,7 @@
                                 <table class="table table-bordered table-striped " id="tblDetallePrestamo">
                                     <thead>
                                         <tr>
-                                
+
 
                                             <th>ID</th>
                                             <th>Categoría</th>
@@ -110,12 +111,12 @@
                                             <th>etiqueta</th>
                                             <th>Serial</th>
                                             <th>Ubicación</th>
-                                            
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
-                                        
+
+
                                     </tbody>
                                 </table>
                             </div>
@@ -124,10 +125,23 @@
                 </div>
             </div>
             <div class="modal-footer">
-               
-<button type="button" class="btn btn-success d-none" id="btnAceptarPrestamo">Aceptar</button>
+                <form method="POST">
+                    <!-- creamos dos inputo oculos para enviar los datos al controlador -->
+                    <input type="hidden" id="idUsuarioAutorizaSalida" name="idUsuarioAutorizaSalida" value="<?php echo $_SESSION['id_usuario'] ?>">
+                    <input type="hidden" id="idPrestamoSalida" name="idPrestamoSalida" value="">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success" id="btnAceptarPrestamo">Aceptar</button>
+
+                    <?php
+                    $aceptarSalida = new Controladorsalidas();
+                    $aceptarSalida->ctrAceptarSalida();
+                    
+                    ?>
+
+
+                </form>
             </div>
         </div>
     </div>
 </div>
-
