@@ -27,9 +27,9 @@ $('#tblFichas').DataTable({
             "targets": [6],
             "render": function(data, type, row) {
                 if (data === "activa") {
-                    return "<button  class='btn btn-success btnActivarFicha' idFicha='" + row[0] + "' estadoFicha='inactiva'><i class='fas fa-check'></i></button>";
+                    return "<button  class='btn btn-success btn-xs btnActivarFicha' idFicha='" + row[0] + "' estadoFicha='inactiva'><i class='fas fa-check'></i></button>";
                 } else {
-                    return "<button  class='btn btn-danger btnActivarFicha' idFicha='" + row[0] + "' estadoFicha='activa'><i class='fas fa-ban'></i></button>";                    
+                    return "<button  class='btn btn-danger btn-xs btnActivarFicha' idFicha='" + row[0] + "' estadoFicha='activa'><i class='fas fa-ban'></i></button>";                    
                 }
             }
         },
@@ -40,7 +40,7 @@ $('#tblFichas').DataTable({
                 
             return "<div class='btn-group'>" +
                 "<button title='Editar datos ficha' class='btn btn-default btn-xs btnEditarFicha' idFicha='" + row[0] + "' data-toggle='modal' data-target='#modalEditFicha'>" +
-                "<i class='fas fa-edit mr-1 ml-1'></i>" +
+                "<i class='fas fa-edit '></i>" +
                 "</button></div>";
 
                  
