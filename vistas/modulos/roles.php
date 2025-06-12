@@ -1,4 +1,4 @@
-  <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -53,12 +53,14 @@
                                                     echo '<button class="btn btn-success btn-xs btnActivarRol" idRol="'.$value["id_rol"].'" estadoRol="inactivo"">Activo</button>';
                                                 } else {
                                                     echo '<button class="btn btn-danger btn-xs btnActivarRol" idRol="'.$value["id_rol"].'" estadoRol="activo">Inactivo</button>';
-                                                };
-                                                echo '</td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <button class="btn btn-default btn-xs btnEditarRol" idRol="'.$value["id_rol"].'" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit"></i></button>';
-                                            echo '</div></td></tr>';
+                                                }
+                                                echo '</td><td><div class="btn-group">';
+                                                // Solo permitir editar y eliminar si el ID es 10 o mayor
+                                                if ($value["id_rol"] >= 10) {
+                                                    echo '<button class="btn btn-default btn-xs btnEditarRol" idRol="'.$value["id_rol"].'" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit"></i></button>';
+                                                    echo '<button class="btn btn-danger btn-xs btnEliminarRol" idRol="'.$value["id_rol"].'"><i class="fas fa-trash"></i></button>';
+                                                }
+                                                echo '</div></td></tr>';
                                         }
                                         ?>
   
@@ -150,6 +152,6 @@
                 </div>
             </div>
         </div>
-    </div>     
+    </div>
 
        

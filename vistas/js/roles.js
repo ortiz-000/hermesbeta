@@ -48,3 +48,35 @@ $(document).on("click", ".btnActivarRol", function() {
         $(this).attr("estadoRol", "inactivo");
     }
 });
+
+$(document).on("click", ".btnEliminarRol", function() {
+    var idRol = $(this).attr("idRol");
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡Esta acción no se puede deshacer!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var datos = new FormData();
+            datos.append("idRolEliminar", idRol);
+            $.ajax({
+                url: "ajax/roles.ajax.php",
+                method: "POST",
+                data: datos,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(respuesta) {
+                    Swal.fire('Eliminado', 'El rol ha sido eliminado.', 'success').then(()=>{
+                        location.reload();
+                    });
+                }
+            });
+        }
+    });
+});
