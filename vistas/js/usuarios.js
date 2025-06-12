@@ -787,18 +787,33 @@ $(document).on("submit", "#modalImportarUsuarios form", function(e) {
         contentType: false,
         processData: false,
         success: function(response) {
-            Swal.close();
             try {
                 var jsonResponse = JSON.parse(response);
                 if (jsonResponse.status === "success") {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Éxito!',
-                        text: jsonResponse.message || 'Usuarios importados correctamente.'
-                    });
-                    $("#modalImportarUsuarios").modal('hide');
-                    $('#tblUsuarios').DataTable().ajax.reload(); // Recargar DataTable
-                    fileInput.val(''); // Limpiar el input de archivo
+                    // Crear el archivo para descargar
+                    if (jsonResponse.reporte) {
+                        var blob = new Blob([atob(jsonResponse.reporte)], {type: 'text/plain'});
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = jsonResponse.nombreArchivo;
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Importación completada!',
+                            text: jsonResponse.message,
+                            showConfirmButton: true,
+                            confirmButtonText: "Descargar reporte",
+                            showCancelButton: true,
+                            cancelButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                link.click();
+                            }
+                            $("#modalImportarUsuarios").modal('hide');
+                            $('#tblUsuarios').DataTable().ajax.reload();
+                            fileInput.val(''); // Limpiar el input de archivo
+                        });
+                    }
                 } else {
                     Swal.fire({
                         icon: 'error',

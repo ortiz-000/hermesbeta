@@ -1,7 +1,10 @@
 Options All -Indexes
 RewriteEngine On
-RewriteBase /proyecto/
+RewriteBase /hermesbeta/
 RewriteRule ^([-a-zA-Z0-9]+)$ index.php?ruta=$1 [L]
+
+# Nueva regla para la exportación de usuarios
+RewriteRule ^usuarios/exportar-reporte$ controladores/usuarios.controlador.php?exportar=true [L,QSA]
 
 <IfModule mod_headers.c>
     <FilesMatch "\.(js|css)$">

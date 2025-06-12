@@ -606,19 +606,47 @@ static public function ctrImportarUsuariosMasivo() {
             }
 
             if (count($usuariosImportados) > 0 || count($usuariosFallidos) > 0) {
-                 echo json_encode(["status" => "success", "message" => $mensaje, "exitosos" => $usuariosImportados, "fallidos" => $usuariosFallidos]);
+                // Generar contenido del archivo
+                $contenido = "Fecha: " . date('Y-m-d H:i:s') . "\n\n";
+                $contenido = mb_convert_encoding($contenido, 'UTF-8', 'auto');
+                $contenido .= "=== REPORTE DE IMPORTACIÓN DE USUARIOS ===\n";
+                
+                // Agregar usuarios importados
+                $contenido .= sprintf("USUARIOS IMPORTADOS EXITOSAMENTE (%d):\n", count($usuariosImportados));
+                $contenido .= "----------------------------------------\n";
+                foreach ($usuariosImportados as $usuario) {
+                    $contenido .= sprintf("Fila: %d | Documento: %s | Nombre: %s\n",
+                        $usuario['fila'], $usuario['documento'], $usuario['nombre']);
+                }
+                
+                // Agregar usuarios fallidos
+                $contenido .= sprintf("\nUSUARIOS CON ERRORES (%d):\n", count($usuariosFallidos));
+                $contenido .= "----------------------------------------\n";
+                foreach ($usuariosFallidos as $usuario) {
+                    $contenido .= sprintf("Fila: %d | Documento: %s\nError: %s\n\n",
+                        $usuario['fila'], $usuario['documento'], $usuario['error']);
+                }
+
+                return json_encode([
+                    "status" => "success", 
+                    "message" => $mensaje, 
+                    "exitosos" => $usuariosImportados, 
+                    "fallidos" => $usuariosFallidos,
+                    "reporte" => base64_encode($contenido),
+                    "nombreArchivo" => "importacion_usuarios_" . date('Y-m-d_H-i-s') . ".txt"
+                ]);
             } else {
-                 echo json_encode(["status" => "info", "message" => "El archivo no contenía datos para procesar o todas las filas estaban vacías.", "exitosos" => [], "fallidos" => []]);
+                 return json_encode(["status" => "info", "message" => "El archivo no contenía datos para procesar o todas las filas estaban vacías.", "exitosos" => [], "fallidos" => []]);
             }
 
 
         } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
-            echo json_encode(["status" => "error", "message" => "Error procesando el archivo Excel/CSV: " . $e->getMessage()]);
+            return json_encode(["status" => "error", "message" => "Error procesando el archivo Excel/CSV: " . $e->getMessage()]);
         } catch (Exception $e) {
-            echo json_encode(["status" => "error", "message" => "Error general: " . $e->getMessage()]);
+            return json_encode(["status" => "error", "message" => "Error general: " . $e->getMessage()]);
         }
     } else {
-        echo json_encode(["status" => "error", "message" => "No se seleccionó ningún archivo o hubo un error en la carga."]);
+        return json_encode(["status" => "error", "message" => "No se seleccionó ningún archivo o hubo un error en la carga."]);
     }
     exit; // Asegura que no haya más salida después del JSON
 }
