@@ -51,7 +51,7 @@
                                                 <td>' . $prestamo["estado_prestamo"]. '</td>
                                                 <td>' . $prestamo["motivo"]. '</td>
                                                 <td>
-                                                    <button class="btn btn-primary btn-sm btnVerDetalle" idPrestamo="'. $prestamo["id_prestamo"]. ' "data-toggle="modal" data-target="#modalMisDetalles"><i class="fa fa-eye"></i></button>
+                                                    <button class="btn btn-info btn-sm btnVerDetalles" data-id="'. $prestamo["id_prestamo"]. '" data-toggle="modal" data-target="#modalMisDetalles"><i class="fa fa-eye"></i></button>
                                                 </td>
                                             </tr>';
                                     }

@@ -127,7 +127,7 @@
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary">Guardar</button>
+              <button type="submit" class="btn btn-success">Guardar</button>
             </div>
             <?php
             ControladorEquipos::ctrAgregarEquipos();
@@ -220,7 +220,7 @@
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary">Editar</button>
+              <button type="submit" class="btn btn-success">Editar</button>
             </div>
 
             <?php
@@ -280,7 +280,7 @@
                   </div>
                   <input type="number" class="form-control" id="buscarDocumentoId" name="buscarDocumentoId" placeholder="Ej:12345..." required>
                   <div class="input-group-append">
-                    <button class="bg-primary input-group-text btnBuscarCuentadante swalDefaultError"><i class="fas fa-search"></i></button>
+                    <button class="bg-success input-group-text btnBuscarCuentadante swalDefaultError"><i class="fas fa-search"></i></button>
                   </div>
                 </div>
               </div>
@@ -301,7 +301,7 @@
 
             <div class="modal-footer mt-2 justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary">Realizar traspaso</button>
+              <button type="submit" class="btn btn-success">Realizar traspaso</button>
             </div>
             <?php
             // $cuentadantes = ControladorEquipos::ctrRealizarTraspasoCuentadante();
@@ -378,7 +378,7 @@
 
           <div class="modal-footer mt-2 justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Realizar traspaso</button>
+            <button type="submit" class="btn btn-success">Realizar traspaso</button>
           </div>
           <?php
           // $cuentadantes = ControladorEquipos::ctrRealizarTraspasoUbicacion();

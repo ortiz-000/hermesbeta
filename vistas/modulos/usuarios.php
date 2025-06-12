@@ -483,7 +483,7 @@
               <!-- form group -->
               <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Agregar</button>
+                <button type="submit" class="btn btn-success">Agregar</button>
               </div>
 
               <?php
@@ -735,7 +735,7 @@
               <!-- form group -->
               <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Modificar</button>
+                <button type="submit" class="btn btn-success">Modificar</button>
               </div>
 
               <?php

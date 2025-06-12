@@ -114,7 +114,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="input-group">
-                                            <button class="btn btn-primary" id="btnBuscarSolicitante"><i
+                                            <button class="btn btn-success" id="btnBuscarSolicitante"><i
                                                     class="fas fa-search"></i></button>
                                         </div>
 
@@ -177,7 +177,7 @@
                                                         <td>' . $value["etiqueta"] . '</td>
                                                         <td>' . $value["categoria_nombre"] . '</td>
                                                         <td>' . $value["ubicacion_nombre"] . '</td>
-                                                        <td> <button class="btn btn-primary btn-sm btnAgregarEquipo recoverButton" idEquipoAgregar="' . $value["equipo_id"] . '"><i class="fas fa-plus"></i> Agregar</button></td>
+                                                        <td> <button class="btn btn-success btn-sm btnAgregarEquipo recoverButton" idEquipoAgregar="' . $value["equipo_id"] . '"><i class="fas fa-plus"></i> Agregar</button></td>
                                                     </tr>';
                                                 }
 
@@ -312,7 +312,7 @@
 
                                 <div class="action-buttons">
                                     <button type="button" class="btn btn-danger btnCancelarSolicitud">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary btnGuardarSolicitud">Aceptar</button>
+                                    <button type="submit" class="btn btn-success btnGuardarSolicitud">Aceptar</button>
                                 </div>
                             </div>
                         </div>
@@ -331,7 +331,7 @@
                     <div class="infoEquiposSolicitados d-none">
 
                         <div class="card">
-                            <button type="button" class="btn btn-primary btn-block btnHistorial" id="btnHistorial">
+                            <button type="button" class="btn btn-success btn-block btnHistorial" id="btnHistorial">
                                 <i class="fas fa-history"></i> Historial
                             </button>
                         </div>

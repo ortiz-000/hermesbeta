@@ -135,7 +135,7 @@
                             <label for="descripcion">Descripción</label>
                             <textarea class="form-control" id="descripcionSede" name="descripcionSede" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
 
                         <?php
 
@@ -178,7 +178,7 @@
                             <label for="descripcion">Descripción</label>
                             <textarea class="form-control" id="descripcionEditSede" name="descripcionEditSede" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Editar</button>
+                        <button type="submit" class="btn btn-success">Editar</button>
 
                         <?php
 

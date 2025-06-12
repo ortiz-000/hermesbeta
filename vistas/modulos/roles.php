@@ -97,7 +97,7 @@
                             <label for="descripcion">Descripción</label>
                             <textarea class="form-control" id="descripcionRol" name="descripcionRol" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
 
                         <?php
 
@@ -135,7 +135,7 @@
                             <label for="descripcion">Descripción</label>
                             <textarea class="form-control" id="descripcionEditRol" name="descripcionEditRol" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Modificar</button>
+                        <button type="submit" class="btn btn-success">Modificar</button>
 
                         <?php
 
