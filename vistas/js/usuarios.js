@@ -731,3 +731,9 @@ $('#modalEditarUsuario').on('hidden.bs.modal', function() {
     // location.reload();
     // Clear all input fields inside the modal
 });
+
+//tooltips
+// Activar tooltips después de cada renderizado de tabla
+$('#tblUsuarios').on('draw.dt', function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
