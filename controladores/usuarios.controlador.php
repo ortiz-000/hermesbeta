@@ -506,8 +506,8 @@ static public function ctrImportarUsuariosMasivo() {
                 $direccion = trim($worksheet->getCell('G' . $row)->getValue());
                 $genero = trim($worksheet->getCell('H' . $row)->getValue()); // 1:Femenino, 2:Masculino, 3:No declara
                 $idRol = trim($worksheet->getCell('I' . $row)->getValue());
-                $idSede = trim($worksheet->getCell('J' . $row)->getValue());
-                $idFicha = trim($worksheet->getCell('K' . $row)->getValue());
+                // $idSede = trim($worksheet->getCell('J' . $row)->getValue());
+                $idFicha = trim($worksheet->getCell('J' . $row)->getValue());
 
                 // Validaciones básicas
                 if (empty($nombre) || empty($apellido) || empty($tipoDocumento) || empty($numeroDocumento) || empty($email) || empty($idRol)) {
