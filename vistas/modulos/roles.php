@@ -76,9 +76,8 @@
         </div>
     </section>
     <!-- /.content -->
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+</div>
+<!-- /.content-wrapper -->
 
     <!-- Modal for adding a new role -->
 <div class="modal fade" id="modalAddRol" tabindex="-1" role="dialog" aria-labelledby="modalAddRolLabel" aria-hidden="true">
@@ -144,24 +143,23 @@
                             <label for="descripcion">Descripción</label>
                             <textarea class="form-control" id="descripcionEditRol" name="descripcionEditRol" required></textarea>
                         </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Modificar</button>
-                        </div>
 
                         <?php
 
-                            // Include the PHP file for handling the form submission
-                            $crearRol = new ControladorRoles();
-                            $crearRol->ctrEditarRol();                            
+                        // Include the PHP file for handling the form submission
+                        $crearRol = new ControladorRoles();
+                        $crearRol->ctrEditarRol();
 
                         ?>
 
 
                     </form>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary"disabled>Modificar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-       
+</div>
