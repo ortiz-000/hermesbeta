@@ -1,29 +1,29 @@
 <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Roles</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalAddRol">Agregar rol</button>
-                    </div>
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Roles</h1>
                 </div>
-            </div><!-- /.container-fluid -->
-        </section>
+                <div class="col-sm-6">
+                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalAddRol">Agregar rol</button>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
 
     <!-- Main content -->
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <table id="tblRoles" class="table table-bordered table-striped">
-                                    <thead>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="tblRoles" class="table table-bordered table-striped">
+                                <thead>
                                     <tr>
                                         <th>Rol</th>
                                         <th>Nombre</th>
@@ -32,49 +32,50 @@
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        // Fetch the list of roles
-                                        $item = null;
-                                        $valor = null;
-                                        $roles = ControladorRoles::ctrMostrarRoles($item, $valor);
-                                        // var_dump($roles); // Debugging line to check the data
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    // Fetch the list of roles
+                                    $item = null;
+                                    $valor = null;
+                                    $roles = ControladorRoles::ctrMostrarRoles($item, $valor);
+                                    // var_dump($roles); // Debugging line to check the data
 
-                                        // Loop through the roles and display them in the table
-                                        foreach ($roles as $key => $value) {
-                                            echo '<tr>
+                                    // Loop through the roles and display them in the table
+                                    foreach ($roles as $key => $value) {
+                                        echo '<tr>
                                                 <td>' . ($key + 1) . '</td>
                                                 <td>' . $value["nombre_rol"] . '</td>
                                                 <td>' . $value["descripcion"] . '</td>
                                                 <td>' . $value["fecha_creacion"] . '</td>
                                                 <td>';
-                                                if ($value["estado"] == "activo") {
-                                                    echo '<button class="btn btn-success btn-xs btnActivarRol" idRol="'.$value["id_rol"].'" estadoRol="inactivo"">Activo</button>';
-                                                } else {
-                                                    echo '<button class="btn btn-danger btn-xs btnActivarRol" idRol="'.$value["id_rol"].'" estadoRol="activo">Inactivo</button>';
-                                                }
-                                                echo '</td><td><div class="btn-group">';
-                                                // Solo permitir editar y eliminar si el ID es 10 o mayor
-                                                if ($value["id_rol"] >= 10) {
-                                                    echo '<button class="btn btn-default btn-xs btnEditarRol" idRol="'.$value["id_rol"].'" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit"></i></button>';
-                                                    echo '<button class="btn btn-danger btn-xs btnEliminarRol" idRol="'.$value["id_rol"].'"><i class="fas fa-trash"></i></button>';
-                                                }
-                                                echo '</div></td></tr>';
+                                        if ($value["estado"] == "activo") {
+                                            echo '<button class="btn btn-success btn-xs btnActivarRol" idRol="' . $value["id_rol"] . '" estadoRol="inactivo"">Activo</button>';
+                                        } else {
+                                            echo '<button class="btn btn-danger btn-xs btnActivarRol" idRol="' . $value["id_rol"] . '" estadoRol="activo">Inactivo</button>';
                                         }
-                                        ?>
-  
+                                        echo '</td><td><div class="btn-group">';
+                                        // Mostrar SIEMPRE el botón de editar
+                                        echo '<button class="btn btn-default btn-xs btnEditarRol" idRol="' . $value["id_rol"] . '" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit"></i></button>';
+                                        // Mostrar el botón de eliminar SOLO si el ID es 10 o mayor
+                                        if ($value["id_rol"] >= 10) {
+                                            echo '<button class="btn btn-danger btn-xs btnEliminarRol" idRol="' . $value["id_rol"] . '"><i class="fas fa-trash"></i></button>';
+                                        }
+                                        echo '</div></td></tr>';
+                                    }
+                                    ?>
 
-  
-                                    </tbody>
-                                </table>
-                            </div>
+
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- /.content -->
+        </div>
+    </section>
+    <!-- /.content -->
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

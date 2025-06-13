@@ -11,17 +11,21 @@ $(document).on("click", ".btnEditarRol", function() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-            $('#idEditRol').val(respuesta['id_rol']);
-            $('#nombreEditRol').val(respuesta['nombre_rol']);
-            $('#descripcionEditRol').val(respuesta['descripcion']);
-            if(parseInt(respuesta['id_rol']) < 10) {
-                $('#nombreEditRol').prop('disabled', true);
-                $('#descripcionEditRol').prop('disabled', true);
-                $("#formEditRol button[type='submit']").prop('disabled', true);
+            $("#nombreEditRol").val(respuesta["nombre_rol"]);
+            $("#descripcionEditRol").val(respuesta["descripcion"]);
+            $("#idEditRol").val(respuesta["id_rol"]);
+            if (parseInt(respuesta["id_rol"]) < 10) {
+                $("#nombreEditRol").prop("disabled", true);
+                $("#descripcionEditRol").prop("disabled", true);
+                $("#formEditRol button[type='submit']").prop("disabled", true);
+                if ($("#editRolWarning").length === 0) {
+                    $("#formEditRol").prepend('<div id="editRolWarning" class="alert alert-warning mt-2">La edición de este rol está bloqueada.</div>');
+                }
             } else {
-                $('#nombreEditRol').prop('disabled', false);
-                $('#descripcionEditRol').prop('disabled', false);
-                $("#formEditRol button[type='submit']").prop('disabled', false);
+                $("#nombreEditRol").prop("disabled", false);
+                $("#descripcionEditRol").prop("disabled", false);
+                $("#formEditRol button[type='submit']").prop("disabled", false);
+                $("#editRolWarning").remove();
             }
         }
     });
