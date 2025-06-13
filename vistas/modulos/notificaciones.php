@@ -29,7 +29,7 @@
     <section class="content">
       <div class="row">
         <div class="col-md-3">
-          <a href="#" class="btn btn-primary btn-block mb-3">Falta implementar</a>
+          <a href="#" class="btn btn-primary btn-block mb-3">Redactar</a>
 
           <div class="card">
             <div class="card-header">
@@ -91,7 +91,7 @@
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link">
-                    <i class="far fa-circle text-warning"></i> Adverntencia
+                    <i class="far fa-circle text-warning"></i> Advertencia
                   </a>
                 </li>
                 <li class="nav-item">
@@ -189,7 +189,10 @@
                         </td>
                         <!-- Mensaje principal de la notificación -->
                         <td class="mailbox-subject">
-                          <b><?php echo htmlspecialchars($notificacion['mensaje']); ?></b>
+                          <!-- Rediccion desde el mensaje a la url de donde llega la notificacion -->
+                          <a href="<?php echo htmlspecialchars($notificacion['url']); ?>">
+                            <?php echo htmlspecialchars($notificacion['mensaje']); ?>
+                          </a>
                         </td>
                         <!-- Fecha de creación de la notificación -->
                         <td class="mailbox-date">
