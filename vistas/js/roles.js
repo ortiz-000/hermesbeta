@@ -18,14 +18,14 @@ $(document).on("click", ".btnEditarRol", function() {
             if (parseInt(respuesta["id_rol"]) < 10) {
                 $("#nombreEditRol").prop("disabled", true);
                 $("#descripcionEditRol").prop("disabled", true);
-                $("#btnModificarRol").prop("disabled", true); // ✅ Cambio aquí
+                $("#btnModificarRol").prop("disabled", true); 
                 if ($("#editRolWarning").length === 0) {
                     $("#formEditRol").prepend('<div id="editRolWarning" class="alert alert-warning mt-2">La edición de este rol está bloqueada.</div>');
                 }
             } else {
                 $("#nombreEditRol").prop("disabled", false);
                 $("#descripcionEditRol").prop("disabled", false);
-                $("#btnModificarRol").prop("disabled", false); // ✅ Cambio aquí
+                $("#btnModificarRol").prop("disabled", false); 
                 $("#editRolWarning").remove();
             }
         }
