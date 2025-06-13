@@ -55,9 +55,7 @@
                                             echo '<button class="btn btn-danger btn-xs btnActivarRol" idRol="' . $value["id_rol"] . '" estadoRol="activo">Inactivo</button>';
                                         }
                                         echo '</td><td><div class="btn-group">';
-                                        // Mostrar SIEMPRE el botón de editar
                                         echo '<button class="btn btn-default btn-xs btnEditarRol" idRol="' . $value["id_rol"] . '" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit"></i></button>';
-                                        // Mostrar el botón de eliminar SOLO si el ID es 10 o mayor
                                         if ($value["id_rol"] >= 10) {
                                             echo '<button class="btn btn-danger btn-xs btnEliminarRol" idRol="' . $value["id_rol"] . '"><i class="fas fa-trash"></i></button>';
                                         }
@@ -79,7 +77,7 @@
 </div>
 <!-- /.content-wrapper -->
 
-    <!-- Modal for adding a new role -->
+<!-- Modal for adding a new role -->
 <div class="modal fade" id="modalAddRol" tabindex="-1" role="dialog" aria-labelledby="modalAddRolLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -91,7 +89,7 @@
             </div>
             <div class="modal-body">
                 <div class="box-body">
-                    <form id="formAddRol" method="POST"> 
+                    <form id="formAddRol" method="POST">
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
                             <input type="text" class="form-control" id="nombreRol" name="nombreRol" required>
@@ -107,9 +105,9 @@
 
                         <?php
 
-                            // Include the PHP file for handling the form submission
-                            $crearRol = new ControladorRoles();
-                            $crearRol->ctrCrearRol();                            
+                        // Include the PHP file for handling the form submission
+                        $crearRol = new ControladorRoles();
+                        $crearRol->ctrCrearRol();
 
                         ?>
 
@@ -133,7 +131,7 @@
             </div>
             <div class="modal-body">
                 <div class="box-body">
-                    <form id="formEditRol" method="POST"> 
+                    <form id="formEditRol" method="POST">
                         <input type="hidden" id="idEditRol" name="idEditRol" value="">
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
@@ -156,8 +154,9 @@
                     </form>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary"disabled>Modificar</button>
+                        <button type="submit" class="btn btn-primary" id="btnModificarRol" form="formEditRol">Modificar</button>
                     </div>
+
                 </div>
             </div>
         </div>

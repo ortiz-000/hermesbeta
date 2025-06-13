@@ -14,22 +14,24 @@ $(document).on("click", ".btnEditarRol", function() {
             $("#nombreEditRol").val(respuesta["nombre_rol"]);
             $("#descripcionEditRol").val(respuesta["descripcion"]);
             $("#idEditRol").val(respuesta["id_rol"]);
+
             if (parseInt(respuesta["id_rol"]) < 10) {
                 $("#nombreEditRol").prop("disabled", true);
                 $("#descripcionEditRol").prop("disabled", true);
-                $("#formEditRol button[type='submit']").prop("disabled", true);
+                $("#btnModificarRol").prop("disabled", true); // ✅ Cambio aquí
                 if ($("#editRolWarning").length === 0) {
                     $("#formEditRol").prepend('<div id="editRolWarning" class="alert alert-warning mt-2">La edición de este rol está bloqueada.</div>');
                 }
             } else {
                 $("#nombreEditRol").prop("disabled", false);
                 $("#descripcionEditRol").prop("disabled", false);
-                $("#formEditRol button[type='submit']").prop("disabled", false);
+                $("#btnModificarRol").prop("disabled", false); // ✅ Cambio aquí
                 $("#editRolWarning").remove();
             }
         }
     });
 });
+
 
 $(document).on("click", ".btnActivarRol", function() {
     var idRolActivar = $(this).attr("idRol");
