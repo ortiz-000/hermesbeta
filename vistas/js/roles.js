@@ -11,11 +11,19 @@ $(document).on("click", ".btnEditarRol", function() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-            console.log("respuesta", respuesta);
-            $("#nombreEditRol").val(respuesta["nombre_rol"]);
-            $("#descripcionEditRol").val(respuesta["descripcion"]);
-            $("#idEditRol").val(respuesta["id_rol"]);
-        },
+            $('#idEditRol').val(respuesta['id_rol']);
+            $('#nombreEditRol').val(respuesta['nombre_rol']);
+            $('#descripcionEditRol').val(respuesta['descripcion']);
+            if(parseInt(respuesta['id_rol']) < 10) {
+                $('#nombreEditRol').prop('disabled', true);
+                $('#descripcionEditRol').prop('disabled', true);
+                $("#formEditRol button[type='submit']").prop('disabled', true);
+            } else {
+                $('#nombreEditRol').prop('disabled', false);
+                $('#descripcionEditRol').prop('disabled', false);
+                $("#formEditRol button[type='submit']").prop('disabled', false);
+            }
+        }
     });
 });
 
