@@ -40,3 +40,5 @@
     </div>
   </div>
 </div>
+<script src="vistas/js/auditoria.js"></script>
+
