@@ -72,7 +72,7 @@ $(document).on("click", ".btnEliminarRol", function() {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
+        confirmButtonText: 'Sí, inhabilitar el rol',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
@@ -86,7 +86,7 @@ $(document).on("click", ".btnEliminarRol", function() {
                 contentType: false,
                 processData: false,
                 success: function(respuesta) {
-                    Swal.fire('Eliminado', 'El rol ha sido eliminado.', 'success').then(()=>{
+                    Swal.fire('Inhabilitado', 'El rol ha sido inhabilitado.', 'success').then(()=>{
                         location.reload();
                     });
                 }
