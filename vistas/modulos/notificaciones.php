@@ -52,12 +52,12 @@
                   </a>
                 </li>   <li class="nav-item">
                   <a href="#" class="nav-link">
-                    <i class="far fa-envelope"></i> Enviados
+                    <i class="far fa-envelope-open"></i> Leidos
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link">
-                    <i class="fas fa-filter"></i> Spam
+                    <i class="fas fa-envelope"></i> No Leidos
                     <span class="badge bg-warning float-right">65</span>
                   </a>
                 </li>
@@ -91,7 +91,7 @@
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link">
-                    <i class="far fa-circle text-warning"></i> Adverntencia
+                    <i class="far fa-circle text-warning"></i> Advertencia
                   </a>
                 </li>
                 <li class="nav-item">
