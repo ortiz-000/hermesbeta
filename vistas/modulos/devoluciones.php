@@ -109,14 +109,6 @@
                           <td><span id="prestamoIdentificacion"></span></td>
                         </tr>
                         <tr>
-                          <th>Nombre:</th>
-                          <td><span id="prestamoNombre"></span></td>
-                        </tr>
-                        <tr>
-                          <th>Apellido:</th>
-                          <td><span id="prestamoApellido"></span></td>
-                        </tr>
-                        <tr>
                           <th>Teléfono:</th>
                           <td><span id="prestamoTelefono"></span></td>
                         </tr>
