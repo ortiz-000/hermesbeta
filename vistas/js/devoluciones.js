@@ -299,7 +299,7 @@ $(document).ready(function() {
             url: "ajax/devoluciones.ajax.php",
             method: "POST",
             data: {
-                accion: "marcarMantenimientoConMotivo",
+                accion: "marcarMantenimiento",
                 idPrestamo: prestamoId,
                 idEquipo: equipoId,
                 motivo: motivo
