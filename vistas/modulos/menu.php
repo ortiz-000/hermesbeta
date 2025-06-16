@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
   <a href="" class="brand-link">
-    <img src="vistas/img/logo.png" alt="Hermes Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <img src="vistas/img/logo/logo_hermes.png" alt="Hermes Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light">Hermes</span>
   </a>
 
@@ -183,16 +183,6 @@
               <ul class="nav nav-treeview">';
         // Solo administradores, líder TIC, mesa de ayuda y almacén 
         if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22])) {
-          echo '<li class="nav-item">
-              <a href="consultar-solicitudes" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <span class="badge badge-info right">6+</span>
-              <p>
-              Consultar
-              </p>
-              </a>
-              </li>';
-        }
 
         // "Solicitudes" y "Mis solicitudes" para todos los roles
         echo '<li class="nav-item">
@@ -204,6 +194,17 @@
               </p>
               </a>
               </li>';
+              
+              echo '<li class="nav-item">
+              <a href="consultar-solicitudes" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <span class="badge badge-info right">6+</span>
+              <p>
+              Consultar
+              </p>
+              </a>
+              </li>';
+        }
         echo '<li class="nav-item">
               <a href="mis-solicitudes" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
@@ -228,18 +229,6 @@
               </li>
             </li>';
         }
-
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
-          echo '<li class="nav-item">
-            <a href="devoluciones" class="nav-link">
-              <i class="nav-icon fas fa-reply"></i>
-              <span class="badge badge-info right">6+</span>
-              <p>
-              Devoluciones
-              </p>
-            </a>
-            </li>';
-        }
         if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
           echo '<li class="nav-item">
             <a href="salidas" class="nav-link">
@@ -252,19 +241,49 @@
             </li>';
         }
 
+        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])) {
+          echo '<li class="nav-item">
+            <a href="devoluciones" class="nav-link">
+              <i class="nav-icon fas fa-reply"></i>
+              <span class="badge badge-info right">6+</span>
+              <p>
+              Devoluciones
+              </p>
+            </a>
+            </li>';
+        }
+  
+
 
         echo '<li class="nav-item">
+            <a href="Mantenimiento" class="nav-link">
+              <i class="nav-icon fas fa-tools"></i>
+              <p>
+                Mantenimiento
+              </p>
+            </a>
+          </li>';
+          
+          
+
+      
+
+                
+          ?>
+          
+        
+          <li class="nav-item">
             <a href="reportes" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
                 Reportes
               </p>
             </a>
-          </li>';
-        ?>
-      </ul>
-    </nav>
-</aside>
+          </li>
+
+        </ul>
+      </nav>
+  </aside>
 
 
 
@@ -272,7 +291,7 @@
 <div class="modal fade" id="modalEditarPerfil">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
         <h4 class="modal-title">Editar Perfil</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -299,11 +318,11 @@
           <input type="hidden" name="idUsuario" value="<?php echo $_SESSION['id_usuario']; ?>">
           <input type="hidden" name="fotoActual" value="<?php echo $usuario['foto']; ?>">
 
-          <!-- Nombre y Apellido (No editable) -->
+           <!-- Nombre y Apellido (No editable) -->
           <div class="form-group">
-            <label>Nombre y Apellido</label>
             <div class="row">
               <div class="col-lg-6">
+                <label>Nombre</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -312,6 +331,7 @@
                 </div>
               </div>
               <div class="col-lg-6">
+                <label>Apellido</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -323,22 +343,25 @@
           </div>
 
           <!-- Campo para subir la foto de perfil -->
-          <div class="form-group">
-            <label for="fotoPerfil">Cambiar foto de perfil</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-camera"></i></span>
+          <div class="form-group text-center foto-perfil-container">
+              <label>Cambiar foto de perfil</label>
+              <div>
+                  <input type="file" id="fotoPerfil" name="editarFoto" accept="image/*" onchange="previewImage(event)">
+                  <label for="fotoPerfil">
+                      <span class="btn-foto-perfil">
+                          <i class="fas fa-images"></i>
+                      </span>
+                  </label>
               </div>
-              <input type="file" class="form-control" id="fotoPerfil" name="editarFoto" accept="image/*" onchange="previewImage(event)">
-            </div>
-            <small class="form-text text-muted">Formato permitido: JPG, PNG. Tamaño máximo: 2MB.</small>
+              <small class="form-text text-muted">Haz clic en el ícono de galería para seleccionar una nueva foto (JPG, PNG, máx. 2MB).</small>
           </div>
 
-          <!-- Información de Identificación (No editable) -->
+
+           <!-- Información de Identificación (No editable) -->
           <div class="form-group">
-            <label>Identificación</label>
             <div class="row">
               <div class="col-lg-6">
+                <label>Tipo</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
@@ -347,6 +370,7 @@
                 </div>
               </div>
               <div class="col-lg-6">
+                <label>Número de documento</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>

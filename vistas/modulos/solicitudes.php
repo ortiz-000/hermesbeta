@@ -13,7 +13,7 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div> <!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
@@ -236,6 +236,17 @@
                                                 <input type="hidden" name="idSolicitante" id="idSolicitante">
                                                 <input type="text" class="form-control" name="nombreSolicitante"
                                                     id="nombreSolicitante" placeholder="Nombre solicitante" readonly>
+                                            </div>
+                                            
+                                            <div class="ficha-d d-none">
+                                                <div class="input-group ">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                    </div>
+                                                    <input type="hidden" name="idSolicitanteFicha" id="idSolicitanteFicha">
+                                                    <input type="text" class="form-control" name="fichaSolicitante"
+                                                        id="fichaSolicitante" placeholder="Ficha Solicitante" readonly>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

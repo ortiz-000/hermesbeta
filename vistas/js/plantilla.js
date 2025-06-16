@@ -1,10 +1,12 @@
 window.addEventListener('load', function() {
   initializeDataTable("#tblSedes");
-  initializeDataTable("#tblFichas");
+  //initializeDataTable("#tblFichas");
   // initializeDataTable("#tblUsuarios");
   // initializeDataTable("#tblEquipos");
   initializeDataTable("#tblRoles");
   initializeDataTable("#tblAutorizaciones");
+  initializeDataTable("#tblDevoluciones");
+  initializeDataTable("#tblMantenimiento");
   initializeDataTable("#tblModalHistoricoSolicitudes");
   initializeDataTable("#tblMisPrestamosUsuario");
   // initializeDataTable("#tblPermisos");

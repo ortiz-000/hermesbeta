@@ -84,7 +84,7 @@
                   echo '</div>
                           </td>
                           <td>
-                            <button class="btn btn-info btn-sm btnVerDetallePrestamo_Autorizar" idPrestamo="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerDetallesPrestamo">
+                            <button class="btn btn-info btn-sm btnVerDetallePrestamo_Autorizar" idPrestamo="' . $value["id_prestamo"] . '" title="Detalles del Prestamo" data-toggle="modal" data-target="#modalVerDetallesPrestamo">
                               <i class="fas fa-eye"></i>
                             </button>
                           </td>
@@ -164,7 +164,7 @@
         <input type="hidden" id="nombre_rolSesion" value="<?php echo $_SESSION['nombre_rol'] ?>">
         <input type="hidden" id="id_UsuarioSesion" value="<?php echo $_SESSION['id_usuario'] ?>">
 
-        <div class="alert alert-danger d-none" id="alertaRechazado" role="alert">El préstamo fue rechazado por otro usuario.</div>
+        <div class="alert alert-danger d-none" id="alertaRechazado" role="alert">El préstamo fue rechazado por otro usuario - <span id="usuarioNombreRechaza"></span></div>
 
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 
