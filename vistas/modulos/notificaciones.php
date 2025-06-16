@@ -189,19 +189,22 @@
                         </td>
                         <!-- Mensaje principal de la notificación -->
                         <td class="mailbox-subject">
-                          <!-- Rediccion desde el mensaje a la url de donde llega la notificacion -->
+                          <!-- Redirección desde el mensaje a la url de donde llega la notificación -->
                           <a href="<?php echo htmlspecialchars($notificacion['url']); ?>">
                             <?php echo htmlspecialchars($notificacion['mensaje']); ?>
                           </a>
                         </td>
-                      </tr>
-                    <?php endforeach; ?>
-                  <?php else: ?>
-                    <!-- Mensaje mostrado si no hay notificaciones -->
-                    <tr>
-                      <td colspan="6" class="text-center">No hay notificaciones.</td>
-                    </tr>
-                  <?php endif; ?>
+                        <!-- fecha de creacion de la notificación -->
+                        <td class="mailbox-date">
+                          <?php echo htmlspecialchars($notificacion['fecha_creacion']); ?>
+                        </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <tr>
+                          <td colspan="6" class="text-center">No hay notificaciones.</td>
+                        </tr>
+                        <?php endif; ?>
                   </tbody>
                 </table>
                 <!-- /.table -->
@@ -215,7 +218,7 @@
                   <i class="far fa-square"></i>
                 </button>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm">
+                  <button type="button" class="btn btn-default btn-sm btn-delete">
                     <i class="far fa-trash-alt"></i>
                   </button>
                   <button type="button" class="btn btn-default btn-sm">
