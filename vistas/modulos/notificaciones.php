@@ -29,7 +29,7 @@
     <section class="content">
       <div class="row">
         <div class="col-md-3">
-          <a href="#" class="btn btn-primary btn-block mb-3">Redactar</a>
+          <a href="redactar" class="btn btn-primary btn-block mb-3">Redactar</a>
 
           <div class="card">
             <div class="card-header">

@@ -33,6 +33,8 @@ session_start();
   <link rel="stylesheet" href="vistas/dist/css/adminlte.css">
   <!-- mi css -->
   <link rel="stylesheet" href="vistas/css/plantilla.css">
+   <!-- summernote -->
+  <link rel="stylesheet" href="vistas/plugins/summernote/summernote-bs4.min.css">
 
   <!-- ================================================================================================== -->
 
@@ -54,6 +56,8 @@ session_start();
   <script src="vistas/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
   <script src="vistas/plugins/datatables-buttons/js/buttons.print.min.js"></script>
   <script src="vistas/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <!-- Summernote -->
+  <script src="vistas/plugins/summernote/summernote-bs4.min.js"></script>
   <!-- InputMask -->
   <script src="vistas/plugins/moment/moment.min.js"></script>
   <script src="vistas/plugins/inputmask/jquery.inputmask.min.js"></script>
@@ -111,6 +115,7 @@ session_start();
         $_GET["ruta"] == "desactivado" ||
         $_GET["ruta"] == "auditoria" ||
         $_GET["ruta"] == "notificaciones" ||
+        $_GET["ruta"] == "redactar" ||
         $_GET["ruta"] == "salir"
       ) {
 
