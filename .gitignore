@@ -5,6 +5,9 @@ AdminLTE/
 /modelos/conexion.php
 /ajax/serverside/serverside.conexion.php
 
+# Ignore the database
+dumps/
+
 # Error log
 log.php
 
