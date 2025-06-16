@@ -27,4 +27,10 @@
         $this.toggleClass('fa-star-o')
       }
     })
+
+        $(function () {
+        //Add text editor
+        $('#compose-textarea').summernote()
+    })
+
   })
