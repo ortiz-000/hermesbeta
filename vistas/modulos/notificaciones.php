@@ -189,11 +189,10 @@
                         </td>
                         <!-- Mensaje principal de la notificación -->
                         <td class="mailbox-subject">
-                          <b><?php echo htmlspecialchars($notificacion['mensaje']); ?></b>
-                        </td>
-                        <!-- Fecha de creación de la notificación -->
-                        <td class="mailbox-date">
-                          <?php echo htmlspecialchars($notificacion['fecha_creacion']); ?>
+                          <!-- Rediccion desde el mensaje a la url de donde llega la notificacion -->
+                          <a href="<?php echo htmlspecialchars($notificacion['url']); ?>">
+                            <?php echo htmlspecialchars($notificacion['mensaje']); ?>
+                          </a>
                         </td>
                       </tr>
                     <?php endforeach; ?>
