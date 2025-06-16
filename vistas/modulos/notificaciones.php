@@ -9,7 +9,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+              <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
               <li class="breadcrumb-item active">Notificaciones</li>
             </ol>
           </div>
@@ -52,12 +52,12 @@
                   </a>
                 </li>   <li class="nav-item">
                   <a href="#" class="nav-link">
-                    <i class="far fa-envelope"></i> Enviados
+                    <i class="far fa-envelope-open"></i> Leidos
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link">
-                    <i class="fas fa-filter"></i> Spam
+                    <i class="fas fa-envelope"></i> No Leidos
                     <span class="badge bg-warning float-right">65</span>
                   </a>
                 </li>
@@ -189,10 +189,7 @@
                         </td>
                         <!-- Mensaje principal de la notificación -->
                         <td class="mailbox-subject">
-                          <!-- Rediccion desde el mensaje a la url de donde llega la notificacion -->
-                          <a href="<?php echo htmlspecialchars($notificacion['url']); ?>">
-                            <?php echo htmlspecialchars($notificacion['mensaje']); ?>
-                          </a>
+                          <b><?php echo htmlspecialchars($notificacion['mensaje']); ?></b>
                         </td>
                         <!-- Fecha de creación de la notificación -->
                         <td class="mailbox-date">
