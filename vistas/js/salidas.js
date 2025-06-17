@@ -22,6 +22,7 @@ function cargarDetallesPrestamo(idPrestamo) {
 }
 $(document).on('click', '.btnVerDetalles', function() {
     var idPrestamo = $(this).data('id');
+    console.log("ID del préstamo:", idPrestamo);
     $.ajax({
         url: "ajax/solicitudes.ajax.php",
         method: "POST",
@@ -35,7 +36,7 @@ $(document).on('click', '.btnVerDetalles', function() {
             $("#detalleFechaInicio").text(respuesta["fecha_inicio"]);
             $("#detalleFechaFin").text(respuesta["fecha_fin"]);
             $("#detalleMotivoPrestamo").text(respuesta["motivo"]);
-            $("#detalleUsuarioNombre").text(respuesta["nombre_usuario"]);
+            $("#detalleUsuarioNombre").val(respuesta["nombre_usuario"]);
             $("#detalleUsuarioRol").text(respuesta["nombre_rol"]);
            
 

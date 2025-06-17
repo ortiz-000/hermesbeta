@@ -80,7 +80,7 @@
                     <!-- Usuario -->
                     <div class="col-md-4 text-center">
                         <img src="vistas/img/usuarios/default/anonymous.png" class="rounded-circle mb-2" alt="Avatar" width="100" height="100">
-                        <h5 class="mb-0" id="detalleUsuarioNombre">Nombre Usuario</h5>
+                        <h5 class="mb-0" id="detalleUsuarioNombre" value="" >Nombre Usuario</h5>
                         <small class="text-muted" id="detalleUsuarioRol">Rol</small>
                     </div>
 
