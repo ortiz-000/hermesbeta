@@ -1,5 +1,4 @@
 <?php
-require_once "../modelos/auditoria.modelo.php";
 
 class AuditoriaControlador {
 

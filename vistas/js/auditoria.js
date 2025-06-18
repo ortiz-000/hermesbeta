@@ -1,15 +1,19 @@
 let tablaAuditoria;
 
 function inicializarTablaAuditoria(idUsuario = null) {
-  let url = "ajax/auditoria.ajax.php";
+  let url = "ajax/auditoria.ajax.php?accion=mostrarAuditoria";
   if (idUsuario) {
-    url += "?id_usuario=" + idUsuario;
+    url += "&id_usuario=" + idUsuario;
   }
 
   tablaAuditoria = $('#tablaAuditoria').DataTable({
     ajax: {
       url: url,
-      dataSrc: "data"
+      type: 'GET',
+      dataSrc: "data",
+      error: function (xhr, error, thrown) {
+        console.error("Error en AJAX:", xhr.responseText);
+      }
     },
     columns: [
       { data: "tipo_documento" },
@@ -54,11 +58,12 @@ function inicializarTablaAuditoria(idUsuario = null) {
       }
     ],
     responsive: true,
-    language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
+    language: { url: 'https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json' },
     order: [[5, 'desc']]
   });
 }
 
+// Modal detalle
 $(document).on('click', '.btnDetalle', function () {
   let detalleData = $(this).data('detalle');
   if (typeof detalleData === 'string') {
@@ -80,12 +85,12 @@ $(document).on('click', '.btnDetalle', function () {
   $('#modalDetalleAuditoria').modal('show');
 });
 
-
+// Filtros y carga
 $(document).ready(function () {
   inicializarTablaAuditoria();
-  // Filtro por nombre de editor
+
+  // Filtro por editor
   $('#filtroEditor').on('keyup change', function () {
     tablaAuditoria.column(4).search(this.value).draw();
   });
-  
 });
