@@ -732,6 +732,13 @@ $('#modalEditarUsuario').on('hidden.bs.modal', function() {
     // Clear all input fields inside the modal
 });
 
+//tooltips
+// Activar tooltips después de cada renderizado de tabla
+$('#tblUsuarios').on('draw.dt', function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+
 
 //************************************************************
 //
@@ -792,7 +799,8 @@ $(document).on("submit", "#modalImportarUsuarios form", function(e) {
                 if (jsonResponse.status === "success") {
                     // Crear el archivo para descargar
                     if (jsonResponse.reporte) {
-                        var blob = new Blob([atob(jsonResponse.reporte)], {type: 'text/plain'});
+                        const contenidoBytes = Uint8Array.from(atob(jsonResponse.reporte), c => c.charCodeAt(0));
+                        var blob = new Blob([contenidoBytes], {type: 'text/plain;charset=utf-8'});
                         var link = document.createElement('a');
                         link.href = window.URL.createObjectURL(blob);
                         link.download = jsonResponse.nombreArchivo;
@@ -822,6 +830,8 @@ $(document).on("submit", "#modalImportarUsuarios form", function(e) {
                     });
                 }
             } catch (e) {
+                console.error("Raw server response:", response);
+                console.error("Error parsing JSON:", e);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error inesperado',
