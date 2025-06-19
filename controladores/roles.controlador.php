@@ -140,7 +140,7 @@ class ControladorRoles{
     /*=============================================
     ELIMINAR ROL
     ==============================================*/
-    static public function ctrEliminarRol()
+    /*static public function ctrEliminarRol()
     {
         if (isset($_POST["idRolEliminar"])) {
             $idRol = $_POST["idRolEliminar"];
@@ -159,4 +159,5 @@ class ControladorRoles{
             }
         }
     }
+        */
 }
