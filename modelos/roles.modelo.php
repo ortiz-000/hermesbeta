@@ -111,4 +111,19 @@ class ModeloRoles
         $stmt->execute();
         $stmt = null;
     }
+
+    static public function mdlEliminarUsuarioRolPorRol($idRol)
+    {
+        $stmt = Conexion::conectar()->prepare("DELETE FROM usuario_rol WHERE id_rol = :id_rol");
+        $stmt->bindParam(":id_rol", $idRol, PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt = null;
+    }
+    static public function mdlEliminarRol($tabla, $idRol)
+{
+    $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_rol = :id_rol");
+    $stmt->bindParam(":id_rol", $idRol, PDO::PARAM_INT);
+    $stmt->execute();
+    $stmt = null;
+}
 }

@@ -2,10 +2,12 @@
 
 require_once "conexion.php";
 
-class ModeloUsuarios{
+class ModeloUsuarios
+{
 
-    static public function mdlCrearUsuario($tabla, $datos){
-        try{
+    static public function mdlCrearUsuario($tabla, $datos)
+    {
+        try {
             //Iniciar la transacción
             $conexion = Conexion::conectar();
             $conexion->beginTransaction();
@@ -24,16 +26,16 @@ class ModeloUsuarios{
             $stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
             $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
 
-            $stmt -> execute();
+            $stmt->execute();
 
-        
+
             //insertar los datos en la tabla usuario_rol
             $id_usuario = $conexion->lastInsertId();
             $stmt2 = $conexion->prepare("INSERT INTO usuario_rol(id_usuario, id_rol) VALUES (:id_usuario, :id_rol)");
             $stmt2->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
             $stmt2->bindParam(":id_rol", $datos["rol"], PDO::PARAM_INT);
 
-            $stmt2 -> execute();
+            $stmt2->execute();
 
 
 
@@ -43,8 +45,7 @@ class ModeloUsuarios{
                 $stmt3->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
                 $stmt3->bindParam(":id_ficha", $datos["ficha"], PDO::PARAM_INT);
 
-                $stmt3 -> execute();
-    
+                $stmt3->execute();
             }
 
             //Confirmar transacción
@@ -57,11 +58,12 @@ class ModeloUsuarios{
         } finally {
             // Cerrar la conexión
             $conexion = null;
-        }       
+        }
     }
-    
 
-    static public function mdlMostrarUsuarios($tabla, $item, $valor){
+
+    static public function mdlMostrarUsuarios($tabla, $item, $valor)
+    {
 
         if ($item != null) {
             $stmt = Conexion::conectar()->prepare("SELECT u.*, 
@@ -80,51 +82,51 @@ class ModeloUsuarios{
                                                     LEFT JOIN sedes s ON f.id_sede = s.id_sede
                                                     WHERE u.$item = :$item LIMIT 1");
             if ($item == "id_usuario") {
-                $stmt -> bindParam(":".$item, $valor, PDO::PARAM_INT);
+                $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
             } else {
-                $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
-            }            
-            $stmt -> execute();
-            return $stmt -> fetch();
-        }else{
+                $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            }
+            $stmt->execute();
+            return $stmt->fetch();
+        } else {
             $stmt = Conexion::conectar()->prepare("SELECT u.*, r.id_rol, r.nombre_rol, f.id_ficha, f.descripcion AS descripcion_ficha, f.codigo
                                                     FROM $tabla as u      LEFT JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario
                                                     LEFT JOIN roles r ON ur.id_rol = r.id_rol
                                                     LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
                                                     LEFT JOIN fichas f ON af.id_ficha = f.id_ficha;");
-            $stmt -> execute();
-            return $stmt -> fetchAll();
+            $stmt->execute();
+            return $stmt->fetchAll();
         }
-        $stmt -> close();
+        $stmt->close();
         $stmt = null;
-        
     }
 
-    static public function mdlMostrarFichasSede($tabla, $item, $valor){
+    static public function mdlMostrarFichasSede($tabla, $item, $valor)
+    {
 
         if ($item != null) {
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
-            $stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
-            $stmt -> execute();
-            return $stmt -> fetchAll();
-        }else{
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } else {
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
-            $stmt -> execute();
-            return $stmt -> fetchAll();
+            $stmt->execute();
+            return $stmt->fetchAll();
         }
-        $stmt -> close();
+        $stmt->close();
         $stmt = null;
-        
     }
 
-    
-        /*=============================================
+
+    /*=============================================
         EDITAR PERFIL
         =============================================*/
-        static public function mdlEditarPerfil($tabla, $datos){
-            error_log("Consulta SQL: UPDATE $tabla SET tipo_documento = {$datos['tipo_documento']}, numero_documento = {$datos['numero_documento']}, nombre = {$datos['nombre']}, apellido = {$datos['apellido']}, correo_electronico = {$datos['correo_electronico']}, telefono = {$datos['telefono']}, direccion = {$datos['direccion']}, genero = {$datos['genero']}, foto = {$datos['foto']} WHERE id_usuario = {$datos['id_usuario']}");
-            try {
-                $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET 
+    static public function mdlEditarPerfil($tabla, $datos)
+    {
+        error_log("Consulta SQL: UPDATE $tabla SET tipo_documento = {$datos['tipo_documento']}, numero_documento = {$datos['numero_documento']}, nombre = {$datos['nombre']}, apellido = {$datos['apellido']}, correo_electronico = {$datos['correo_electronico']}, telefono = {$datos['telefono']}, direccion = {$datos['direccion']}, genero = {$datos['genero']}, foto = {$datos['foto']} WHERE id_usuario = {$datos['id_usuario']}");
+        try {
+            $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET 
                     correo_electronico = :correo_electronico,
                     telefono = :telefono,
                     direccion = :direccion,
@@ -132,31 +134,31 @@ class ModeloUsuarios{
                     foto = :foto
                     WHERE id_usuario = :id_usuario");
 
-                $stmt->bindParam(":correo_electronico", $datos["correo_electronico"], PDO::PARAM_STR);
-                $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
-                $stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
-                $stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
-                $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
-                $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+            $stmt->bindParam(":correo_electronico", $datos["correo_electronico"], PDO::PARAM_STR);
+            $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+            $stmt->bindParam(":direccion", $datos["direccion"], PDO::PARAM_STR);
+            $stmt->bindParam(":genero", $datos["genero"], PDO::PARAM_STR);
+            $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
 
-                if($stmt->execute()){
-                    return "ok";
-                }
+            if ($stmt->execute()) {
+                return "ok";
+            }
 
-                return "error";
-
-            } catch(PDOException $e) {
-                return "error: " . $e->getMessage();
-            } finally {
-                if(isset($stmt)){
-                    $stmt = null;
-                }
+            return "error";
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        } finally {
+            if (isset($stmt)) {
+                $stmt = null;
             }
         }
+    }
 
-    
-       // Editar usuario con auditoría
-    static public function mdlEditarUsuario($tabla, $datos) {
+
+    // Editar usuario con auditoría
+    static public function mdlEditarUsuario($tabla, $datos)
+    {
         try {
             $conexion = Conexion::conectar();
             $conexion->beginTransaction();
@@ -225,7 +227,6 @@ class ModeloUsuarios{
 
             $conexion->commit();
             return "ok";
-
         } catch (Exception $e) {
             $conexion->rollBack();
             error_log("Error al editar usuario: " . $e->getMessage());
@@ -236,27 +237,29 @@ class ModeloUsuarios{
     }
 
     // Cambiar condición de usuario (solo admin puede cambiar)
-    public static function mdlCambiarCondicionUsuario($tabla, $datos) {
-    try {
-        $stmt = Conexion::conectar()->prepare(
-            "UPDATE $tabla SET condicion = :condicion WHERE id_usuario = :id_usuario"
-        );
-        
-        $stmt->bindParam(":condicion", $datos["condicion"], PDO::PARAM_STR);
-        $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+    public static function mdlCambiarCondicionUsuario($tabla, $datos)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "UPDATE $tabla SET condicion = :condicion WHERE id_usuario = :id_usuario"
+            );
 
-        if ($stmt->execute()) {
-            return "ok";
+            $stmt->bindParam(":condicion", $datos["condicion"], PDO::PARAM_STR);
+            $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return "ok";
+            }
+            return "error";
+        } catch (PDOException $e) {
+            error_log("Error en mdlCambiarCondicionUsuario: " . $e->getMessage());
+            return "error";
         }
-        return "error";
-    } catch(PDOException $e) {
-        error_log("Error en mdlCambiarCondicionUsuario: " . $e->getMessage());
-        return "error";
     }
-}
 
     // Cambiar estado usuario con auditoría
-    static public function mdlCambiarEstadoUsuario($tabla, $datos) {
+    static public function mdlCambiarEstadoUsuario($tabla, $datos)
+    {
         try {
             $conexion = Conexion::conectar();
 
@@ -272,7 +275,6 @@ class ModeloUsuarios{
             } else {
                 return false;
             }
-
         } catch (Exception $e) {
             error_log("Error al cambiar estado usuario: " . $e->getMessage());
             return false;
@@ -281,9 +283,19 @@ class ModeloUsuarios{
         }
     }
 
-    static public function mdlImportarUsuario($tabla, $datos){
+    static public function mdlObtenerRolesPorUsuario($idUsuario)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM usuario_rol WHERE id_usuario = :id_usuario");
+        $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    static public function mdlImportarUsuario($tabla, $datos)
+    {
         $conexion = null; // Initialize $conexion to null
-        try{
+        try {
             //Iniciar la transacción
             $conexion = Conexion::conectar();
             $conexion->beginTransaction();
@@ -326,7 +338,6 @@ class ModeloUsuarios{
             //Confirmar transacción
             $conexion->commit();
             return "ok";
-
         } catch (Exception $e) {
             // Si ocurre un error, se revierte la transacción
             if ($conexion) { // Check if $conexion was initialized
@@ -343,4 +354,3 @@ class ModeloUsuarios{
         }
     }
 }
-?>

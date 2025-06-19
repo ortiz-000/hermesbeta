@@ -62,6 +62,7 @@ if (isset($_POST["idRol"]) && !isset($_POST["estadoRol"])) {
     $editar->ajaxEditarRol();
 }
 
+
 if (isset($_POST["idRolActivar"]) && isset($_POST["estadoRol"])) {
     $activarRol = new AjaxRoles();
     $activarRol->idRol = $_POST["idRolActivar"];
@@ -73,4 +74,9 @@ if (isset($_POST["idRolDescripcion"])) {
     $mostrar = new AjaxRoles();
     $mostrar->idRol = $_POST["idRolDescripcion"];
     $mostrar->ajaxMostrarRol();
+}
+
+if (isset($_POST["idRolEliminar"])) {
+    ControladorRoles::ctrEliminarRol();
+    exit();
 }
