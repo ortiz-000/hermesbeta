@@ -182,7 +182,7 @@
               </a>
               <ul class="nav nav-treeview">';
         // Solo administradores, líder TIC, mesa de ayuda y almacén 
-        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22,7])) {
+        if (ControladorValidacion::validarPermisoSesion([19, 20, 21, 22])) {
 
         // "Solicitudes" y "Mis solicitudes" para todos los roles
         echo '<li class="nav-item">
