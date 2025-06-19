@@ -41,6 +41,14 @@ class AjaxRoles
                 ModeloRoles::mdlActivarUsuariosPorRol($valorId);
             }
         }
+        else{
+            if ($valorEstado == "inactivo") {
+                ModeloRoles::mdlDesactivarUsuariosPorRol($valorId);
+            }
+            else if ($valorEstado == "activo") {
+                ModeloRoles::mdlActivarUsuariosPorRol($valorId);
+            }
+        }
 
         echo json_encode($respuesta);
     }

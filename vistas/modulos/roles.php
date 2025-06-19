@@ -56,7 +56,9 @@
                                         }
                                         echo '</td><td><div class="btn-group">';
                                         echo '<button class="btn btn-default bg-warning  ml-2 mr-2 btn-xs btnEditarRol" idRol="' . $value["id_rol"] . '" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit"></i></button>';
-
+                                        if ($value["id_rol"] >= 10) {
+                                            echo '<button class="btn btn-danger btn-xs btnEliminarRol" idRol="' . $value["id_rol"] . '"><i class="fas fa-trash"></i></button>';
+                                        }
                                         echo '</div></td></tr>';
                                     }
                                     ?>
