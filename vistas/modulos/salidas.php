@@ -40,41 +40,52 @@
 
 
                                     foreach ($salidas as $key => $value) {
-                                    echo '<tr> 
-                                    
-                                        <td>' . $value["id_prestamo"] . '</td>
-                                        <td>' . $value["nombre"] . '</td>
-                                        <td>' . $value["tipo_prestamo"] . '</td>
-                                        <td>' . $value["estado_prestamo"] . '</td>';
+                                    // FILTRO: excluir 'Inmediato' y mostrar solo ciertos estados
+                                    if (
+                                        $value["tipo_prestamo"] != "Inmediato" &&
+                                        in_array($value["estado_prestamo"], ["Trámite", "Autorizado", "Pendiente"])
+                                    ) {
+                                        // Obtener firmas del préstamo
+                                        $autorizaciones = ControladorAutorizaciones::ctrMostrarAutorizaciones("id_prestamo", $value["id_prestamo"]);
 
-                                    // Checkbox COORDINADOR
-                                    echo '<td>
-                                        <input type="checkbox" disabled ' . (!empty($value["firmo_coordinador"]) ? 'checked' : '') . ' 
-                                        title="' . (!empty($value["usuario_firma_coordinador"]) ? htmlspecialchars($value["usuario_firma_coordinador"]) : 'Sin firma') . '">
-                                    </td>';
+                                        echo '<tr> 
+                                            <td>' . $value["id_prestamo"] . '</td>
+                                            <td>' . $value["nombre"] . '</td>
+                                            <td>' . $value["tipo_prestamo"] . '</td>
+                                            <td>' . $value["estado_prestamo"] . '</td>';
 
-                                    // Checkbox TIC
-                                    echo '<td>
-                                        <input type="checkbox" disabled ' . (!empty($value["firmo_tic"]) ? 'checked' : '') . ' 
-                                        title="' . (!empty($value["usuario_firma_tic"]) ? htmlspecialchars($value["usuario_firma_tic"]) : 'Sin firma') . '">
-                                    </td>';
+                                        // Checkbox COORDINADOR
+                                        echo '<td>
+                                            <input type="checkbox" disabled ' . 
+                                                ($autorizaciones["firma_coordinacion"] === "Firmado" ? 'checked' : '') . ' 
+                                                title="' . (!empty($autorizaciones["nombre_usuario_coordinacion"]) ? htmlspecialchars($autorizaciones["nombre_usuario_coordinacion"]) : 'Sin firma') . '">
+                                        </td>';
 
-                                    // Checkbox ALMACENISTA
-                                    echo '<td>
-                                        <input type="checkbox" disabled ' . (!empty($value["firmo_almacenista"]) ? 'checked' : '') . ' 
-                                        title="' . (!empty($value["usuario_firma_almacenista"]) ? htmlspecialchars($value["usuario_firma_almacenista"]) : 'Sin firma') . '">
-                                    </td>';
+                                        // Checkbox TIC
+                                        echo '<td>
+                                            <input type="checkbox" disabled ' . 
+                                                ($autorizaciones["firma_lider_tic"] === "Firmado" ? 'checked' : '') . ' 
+                                                title="' . (!empty($autorizaciones["nombre_usuario_lider_tic"]) ? htmlspecialchars($autorizaciones["nombre_usuario_lider_tic"]) : 'Sin firma') . '">
+                                        </td>';
 
-                                    // Botón de acción
-                                    echo '<td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-info btn-sm btnVerDetalles" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalDetallesPrestamo">
-                                                <i class="fa fa-eye"></i> Ver Detalles
-                                            </button>
-                                        </div>
-                                    </td>
-                                    </tr>';
-                                }
+                                        // Checkbox ALMACENISTA
+                                        echo '<td>
+                                            <input type="checkbox" disabled ' . 
+                                                ($autorizaciones["firma_almacen"] === "Firmado" ? 'checked' : '') . ' 
+                                                title="' . (!empty($autorizaciones["nombre_usuario_almacen"]) ? htmlspecialchars($autorizaciones["nombre_usuario_almacen"]) : 'Sin firma') . '">
+                                        </td>';
+
+                                        // Botón de acción
+                                        echo '<td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-info btn-sm btnVerDetalles" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalDetallesPrestamo">
+                                                    <i class="fa fa-eye"></i> Ver Detalles
+                                                </button>
+                                            </div>
+                                        </td>
+                                        </tr>';
+                                        }
+                                    }
                                     ?>
                                 </tbody>
                             </table>
