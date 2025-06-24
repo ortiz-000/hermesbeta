@@ -10,11 +10,22 @@ class ModeloNotificaciones {
     }
 
     /*=============================================
-    MOSTRAR NOTIFICACIONES NO LEIDAS DE UN USUARIO
+    LISTAR NOTIFICACIONES NO LEIDAS DE UN USUARIO
     =============================================*/
-    static public function mdlMostrarNoLeidas($tabla, $usuario_id) {
+    static public function mdlListarNoLeidas($tabla, $usuario_id) {
         $conexion = Conexion::conectar();
         $stmt = $conexion->prepare("SELECT n.*, t.nombre AS tipo_evento_nombre, t.descripcion AS tipo_evento_descripcion, t.tipo_notificacion, t.prioridad FROM $tabla n INNER JOIN tipos_evento_notificacion t ON n.id_tipo_evento = t.id_tipo_evento WHERE id_usuario = :id_usuario AND leida = 0 ORDER BY fecha_creacion DESC");
+        $stmt->bindParam(":id_usuario", $usuario_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /*=============================================
+    lISTAR NOTIFICACIONES LEIDAS 
+    =============================================*/
+    static public function mdlListarLeidas($tabla, $usuario_id) {
+        $conexion = Conexion::conectar();
+        $stmt = $conexion->prepare("SELECT n.*, t.nombre AS tipo_evento_nombre, t.descripcion AS tipo_evento_descripcion, t.tipo_notificacion, t.prioridad FROM $tabla n INNER JOIN tipos_evento_notificacion t ON n.id_tipo_evento = t.id_tipo_evento WHERE id_usuario = :id_usuario AND leida = 1 ORDER BY fecha_creacion DESC");
         $stmt->bindParam(":id_usuario", $usuario_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -35,11 +46,32 @@ class ModeloNotificaciones {
     }
 
     /*=============================================
+    LISTAR TODAS LAS NOTIFICACIONES 
+    =============================================*/
+    static public function mdlListarTodas($tabla, $usuario_id) {
+        $conexion = Conexion::conectar();
+        $stmt = $conexion->prepare("SELECT n.*, t.nombre AS tipo_evento_nombre, t.descripcion AS tipo_evento_descripcion, t.tipo_notificacion, t.prioridad FROM $tabla n INNER JOIN tipos_evento_notificacion t ON n.id_tipo_evento = t.id_tipo_evento WHERE n.id_usuario = :usuario_id ORDER BY n.fecha_creacion DESC");
+        $stmt->bindParam(":usuario_id", $usuario_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /*=============================================
+    MARCAR TODAS LAS NOTIFICACIONES COMO LEIDAS
+    =============================================*/
+        static public function mdlMarcarTodasComoLeidas($tabla, $usuario_id) {
+        $conexion = Conexion::conectar();
+        $stmt = $conexion->prepare("UPDATE $tabla SET leida = 1 WHERE id_usuario = :usuario_id AND leida = 0");
+        $stmt->bindParam(":usuario_id", $usuario_id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    /*=============================================
     INGRESAR NOTIFICACION
     =============================================*/
     static public function mdlIngresarNotificacion($tabla, $datos) {
         $conexion = Conexion::conectar();
-        $stmt = $conexion->prepare("INSERT INTO $tabla(id_usuario, id_tipo_evento, mensaje, url) VALUES (:id_usuario, :id_tipo_evento, :mensaje, :url)");
+        $stmt = $conexion->prepare("INSERT INTO $tabla(id_usuario, id_tipo_evento, mensaje, url, leida) VALUES (:id_usuario, :id_tipo_evento, :mensaje, :url, 0)");
         $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
         $stmt->bindParam(":id_tipo_evento", $datos["id_tipo_evento"], PDO::PARAM_INT);
         $stmt->bindParam(":mensaje", $datos["mensaje"], PDO::PARAM_STR);
@@ -63,29 +95,16 @@ class ModeloNotificaciones {
     }
 
     /*=============================================
-    BORRAR NOTIFICACION
+    ELIMINAR NOTIFICACION
     =============================================*/
-    static public function mdlBorrarNotificacion($tabla, $id_notificacion){
-
+    static public function mdlEliminarNotificacion($tabla, $id_notificacion){
         $conexion = Conexion::conectar();
         $stmt = $conexion->prepare("DELETE FROM $tabla WHERE id_notificaciones = :id_notificaciones");
-
-        $stmt -> bindParam(":id_notificaciones", $id_notificacion, PDO::PARAM_INT);
-
-        if($stmt -> execute()){
-
+        $stmt->bindParam(":id_notificaciones", $id_notificacion, PDO::PARAM_INT);
+        if($stmt->execute()){
             return "ok";
-
         }else{
-
             return "error";
-
         }
-
-        $stmt -> close();
-
-        $stmt = null;
-
     }
 }
-?>

@@ -3,11 +3,27 @@
 class ControladorNotificaciones {
 
     /*=============================================
-    LISTAR NOTIFICACIONES NO LEÍDAS DE UN USUARIO
+    LISTAR NOTIFICACIONES NO LEÍDAS 
     =============================================*/
     static public function listarNoLeidas($usuario_id) {
         $tabla = "notificaciones";
-        return ModeloNotificaciones::mdlMostrarNoLeidas($tabla, $usuario_id);
+        return ModeloNotificaciones::mdlListarNoLeidas($tabla, $usuario_id);
+    }
+
+     /*=============================================
+    LISTAR NOTIFICACIONES LEIDAS
+    =============================================*/
+    static public function listarLeidas($usuario_id) {
+        $tabla = "notificaciones";
+        return ModeloNotificaciones::mdlListarLeidas($tabla, $usuario_id);
+    }
+
+    /*=============================================
+    LISTAR TODAS LAS NOTIFICACIONES DE UN USUARIO
+    =============================================*/
+    static public function listarTodas($usuario_id) {
+        $tabla = "notificaciones";
+        return ModeloNotificaciones::mdlListarTodas($tabla, $usuario_id);
     }
 
     /*=============================================
@@ -16,6 +32,14 @@ class ControladorNotificaciones {
     static public function marcarComoLeida($id_notificacion) {
         $tabla = "notificaciones";
         return ModeloNotificaciones::mdlMarcarNotificacionLeida($tabla, $id_notificacion);
+    }
+
+    /*=============================================
+    MARCAR TODAS LAS NOTIFICACIONES COMO LEÍDAS
+    =============================================*/
+    static public function marcarTodasComoLeidas($usuario_id) {
+        $tabla = "notificaciones";
+        return ModeloNotificaciones::mdlMarcarTodasComoLeidas($tabla, $usuario_id);
     }
 
     /*=============================================
@@ -48,13 +72,11 @@ class ControladorNotificaciones {
     }
 
     /*=============================================
-    BORRAR NOTIFICACION
+    ELIMINAR NOTIFICACION
     =============================================*/
-    static public function borrarNotificacion($id_notificacion){
-
+    static public function eliminarNotificacion($id_notificacion) {
         $tabla = "notificaciones";
-
-        return ModeloNotificaciones::mdlBorrarNotificacion($tabla, $id_notificacion);
+        return ModeloNotificaciones::mdlEliminarNotificacion($tabla, $id_notificacion);
     }
 
     /*=============================================
