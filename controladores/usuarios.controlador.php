@@ -582,13 +582,16 @@ class ControladorUsuarios
                             //     continue;
                             // }
                             // Validar que la ficha exista 
-                            $fichaExiste = ModeloFichas::mdlMostrarFichas("fichas", "id_ficha", $idFicha);
+                            $fichaExiste = ModeloFichas::mdlMostrarFichas("fichas", "codigo", $idFicha);
                             if (!$fichaExiste) {
                                 $usuariosFallidos[] = ["fila" => $row, "documento" => $numeroDocumento, "error" => "La Ficha ID '$idFicha' no existe ."];
                                 continue;
                             }
                             // $idSedeFinal = $idSede;
-                            $idFichaFinal = $idFicha;
+                            // $idFichaFinal = $idFicha;
+                            //traemos el id de la ficha que si existe
+                            $idFichaFinal = $fichaExiste["id_ficha"];
+
                         }
 
                         $encriptarPassword = crypt($numeroDocumento, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
