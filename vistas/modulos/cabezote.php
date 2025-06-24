@@ -19,13 +19,22 @@
       </li>
     </ul>
 
+      <?php
+    $usuarioId = isset($_SESSION["id_usuario"]) ? $_SESSION["id_usuario"] : null;
+    $totalNoLeidas = 0;
+    if ($usuarioId) {
+        $notificacionesNoLeidas = ControladorNotificaciones::listarNoLeidas($usuarioId);
+        $totalNoLeidas = !empty($notificacionesNoLeidas) ? count($notificacionesNoLeidas) : 0;
+    }
+    ?>
+
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" href="notificaciones">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge" id="count-notificaciones"><?php echo $totalNoLeidas; ?></span>
         </a>
       </li>
       <li class="nav-item">
