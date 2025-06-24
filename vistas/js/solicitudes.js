@@ -110,20 +110,28 @@ $(document).on("click", "#btnBuscarSolicitante", function () {
 
 // validacion del rol, para que muestre en el input el numero de documento
 $(document).ready(function () {
-  // Verifica si el rol del usuario no es 'Administrador'
-  if (usuarioActual.rol !== "Administrador" && usuarioActual.rol !== "Líder TIC") {
-    // Autocompletar cédula y bloquear campo para el resto de roles
+  console.log("usuarioActual:", usuarioActual);
+  console.log("Permisos:", usuarioActual.permisos);
+
+  if (usuarioActual.permisos.includes(31)) {
+    // Tiene permiso 31, Campo editable
+    $("#NumeroIdSolicitante")
+      .val("") 
+      .prop("readonly", false)
+      .prop("disabled", false); // por si algún otro script lo desactivó
+    
+  } else {
+    //  NO Tiene permiso 31, Pone la cedula por defecto
     $("#NumeroIdSolicitante")
       .val(usuarioActual.cedula)
       .prop("readonly", true);
 
     // Lanzar búsqueda automática del solicitante
     $("#btnBuscarSolicitante").trigger("click");
-  } else {
-    // Si es administrador, el campo queda editable
-    $("#NumeroIdSolicitante").prop("disabled", false);
+    
   }
 });
+
 
 
 
