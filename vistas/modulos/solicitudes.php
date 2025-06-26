@@ -1,3 +1,15 @@
+<head>
+
+    <script>
+        const usuarioActual = {
+            id: "<?php echo $_SESSION['id_usuario']; ?>",
+            cedula: "<?php echo $_SESSION['numero_documento']; ?>",
+             permisos: <?php echo json_encode($_SESSION['permisos']); ?>
+        };
+    </script>
+</head>
+
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -19,20 +31,25 @@
     <!-- Main content -->
     <section class="content">
 
-         <div class="container-fluid">
-              <!-- Info boxes -->
-              <div class="row">
+        <div class="container-fluid">
+            <!-- Info boxes -->
+            <div class="row">
 
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
                     <?php
                     $conteos = ControladorSolicitudes::ctrContarEquiposPorCategoria();
+                    $conteos2 = ControladorSolicitudes::ctrContarEquiposPorReserva();
+                    
                     ?>
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3><?php echo isset($conteos[1]) ? $conteos[1] : 0; ?></h3>
+                           <h3>Portátiles</h3>
+                            <p><strong>Disponibles:</strong> <?php echo isset($conteos[1]) ? $conteos[1] : 0; ?></p>
+                            <p><strong>Reservados:</strong> <?php echo isset($conteos2[1]) ? $conteos2[1] : 0; ?></p>
+                            
+                            
 
-                            <p>Portátiles</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-desktop"></i>
@@ -45,9 +62,11 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3><?php echo isset($conteos[2]) ? $conteos[2] : 0; ?></h3>
+                            <h3>Sonido</h3>
+                            <p><strong>Disponibles:</strong> <?php echo isset($conteos[3]) ? $conteos[3] : 0; ?></p>
+                            <p><strong>Reservados:</strong> <?php echo isset($conteos2[3]) ? $conteos2[3] : 0; ?></p>
 
-                            <p>Sonido</p>
+                            
                         </div>
                         <div class="icon">
                             <i class="fas fa-volume-up"></i>
@@ -60,9 +79,11 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3><?php echo isset($conteos[3]) ? $conteos[3] : 0; ?></h3>
+                             <h3>Videobeam</h3>
+                            <p><strong>Disponibles:</strong> <?php echo isset($conteos[2]) ? $conteos[2] : 0; ?></p>
+                            <p><strong>Reservados:</strong> <?php echo isset($conteos2[2]) ? $conteos2[2] : 0; ?></p>
 
-                            <p>Videobeam</p>
+                            
                         </div>
                         <div class="icon">
                             <i class="fas fa-video"></i>
@@ -75,9 +96,11 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3><?php echo isset($conteos[5]) ? $conteos[5] : 0; ?></h3>
+                           <h3>Control remoto</h3>
+                            <p><strong>Disponibles:</strong> <?php echo isset($conteos[5]) ? $conteos[5] : 0; ?></p>
+                            <p><strong>Reservados:</strong> <?php echo isset($conteos2[5]) ? $conteos2[5] : 0; ?></p>
 
-                            <p>Control remoto</p>
+                            
                         </div>
                         <div class="icon">
                             <i class="fas fa-gamepad"></i>
@@ -237,13 +260,15 @@
                                                 <input type="text" class="form-control" name="nombreSolicitante"
                                                     id="nombreSolicitante" placeholder="Nombre solicitante" readonly>
                                             </div>
-                                            
+
                                             <div class="ficha-d d-none">
                                                 <div class="input-group ">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                        <span class="input-group-text"><i
+                                                                class="fas fa-user"></i></span>
                                                     </div>
-                                                    <input type="hidden" name="idSolicitanteFicha" id="idSolicitanteFicha">
+                                                    <input type="hidden" name="idSolicitanteFicha"
+                                                        id="idSolicitanteFicha">
                                                     <input type="text" class="form-control" name="fichaSolicitante"
                                                         id="fichaSolicitante" placeholder="Ficha Solicitante" readonly>
                                                 </div>
@@ -350,4 +375,6 @@
 
 
 </div>
+
+
 <!-- /.content-wrapper -->

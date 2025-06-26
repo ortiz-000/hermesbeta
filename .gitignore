@@ -5,8 +5,11 @@ AdminLTE/
 /modelos/conexion.php
 /ajax/serverside/serverside.conexion.php
 
-# dumps
-dumps/
+# Ignore all user folders
+img/usuarios/*
+
+# excep default user folder
+!img/usuarios/default/
 
 # Error log
 log.php
