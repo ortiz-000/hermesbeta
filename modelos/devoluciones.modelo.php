@@ -114,7 +114,7 @@ class ModeloDevoluciones
     static public function mdlVerificarTodosEquiposDevueltos($idPrestamo){
     $stmt = Conexion::conectar()->prepare(
         "SELECT COUNT(dp.equipo_id) as total_equipos_prestamo,
-                SUM(CASE WHEN est.estado IN ('Mantenimiento', 'baja') THEN 1 ELSE 0 END) as equipos_procesados
+                SUM(CASE WHEN est.estado IN ('Mantenimiento', 'baja', 'Disponible') THEN 1 ELSE 0 END) as equipos_procesados
          FROM detalle_prestamo dp
          JOIN equipos e ON dp.equipo_id = e.equipo_id
          JOIN estados est ON e.id_estado = est.id_estado
