@@ -304,21 +304,12 @@ class ControladorUsuarios
         return $respuesta;
     }
 
-<<<<<<< HEAD
      
    
     static public function ctrCambiarCondicionUsuario($idUsuario, $condicion) {
         // Iniciar sesión si aún no está activa
         if (session_status() !== PHP_SESSION_ACTIVE) session_start();
         $idEditor = $_SESSION["id_usuario"] ?? null;
-=======
-
-
-    static public function ctrCambiarCondicionUsuario($idUsuario, $condicion)
-    {
-        if (session_status() !== PHP_SESSION_ACTIVE)
-            session_start();
->>>>>>> upstream/main
 
         // Validar que haya sesión activa
         if (!$idEditor) {
