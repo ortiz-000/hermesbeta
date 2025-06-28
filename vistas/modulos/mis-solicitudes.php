@@ -38,6 +38,9 @@
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Fin</th>
                                     <th>Estado</th>
+                                    <th>Firma Coordinación</th>
+                                    <th>Firma Lider TIC</th>
+                                    <th>Firma Almacén</th>
                                     <th>Motivo</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -49,21 +52,39 @@
                                 $valor = $_SESSION['id_usuario'];
                                 $prestamos = ControladorSolicitudes::ctrMostrarSolicitudes($item, $valor);
                                 // var_dump($prestamos);
+
                                 
                                 // Verificamos si es un array multidimensional
                                 if(is_array($prestamos) && isset($prestamos[0]) && is_array($prestamos[0])) {
                                     // Es un array de múltiples registros
+                                    $autorizaciones = ControladorAutorizaciones::ctrMostrarAutorizaciones($item, $valor);
+                                    is_array($autorizaciones);
                                     foreach($prestamos as $prestamo) {
                                         echo '<tr>
                                                 <td>' . $prestamo["id_prestamo"] . '</td>
                                                 <td>' . $prestamo["tipo_prestamo"] . '</td>
                                                 <td>' . $prestamo["fecha_inicio"] . '</td>
                                                 <td>' . $prestamo["fecha_fin"]. '</td>
-                                                <td>' . $prestamo["estado_prestamo"]. '</td>
-                                                <td>' . $prestamo["motivo"]. '</td>
-                                                <td>
-                                                    <button class="btn btn-primary btn-sm btnVerDetalle" idPrestamo="'. $prestamo["id_prestamo"]. ' " title="Detalles del prestamo"data-toggle="modal" data-target="#modalMisDetalles"><i class="fa fa-eye"></i></button>
-                                                </td>
+                                                <td>' . $prestamo["estado_prestamo"]. '</td>';
+                                                if ($autorizaciones["firma_coordinacion"] == "Firmado") {
+                                                    echo '<td><input type="checkbox" checked disabled>' . '</td>';
+                                                } else {
+                                                    echo '<td><input type="checkbox" disabled>' . '</td>';
+                                                }
+                                                if ($autorizaciones["firma_lider_tic"] == "Firmado") {
+                                                    echo '<td><input type="checkbox" checked disabled></td>';
+                                                } else {
+                                                    echo '<td><input type="checkbox" disabled>' . '</td>';
+                                                }
+                                                if ($autorizaciones["firma_almacen"] == "Firmado") {
+                                                    echo '<td><input type="checkbox" checked disabled>' . '</td>';
+                                                } else {
+                                                    echo '<td><input type="checkbox" disabled>' . '</td>';
+                                                }
+                                                echo '<td>' . $prestamo["motivo"] . '</td>';
+                                                echo '<td>';
+                                                    echo '<button class="btn btn-primary btn-sm btnVerDetalle" idPrestamo="'. $prestamo["id_prestamo"] . '" title="Detalles del prestamo" data-toggle="modal" data-target="#modalMisDetalles"><i class="fa fa-eye"></i></button>';
+                                                '</td>
                                             </tr>';
                                     }
                                 } else if(is_array($prestamos) && isset($prestamos[0])) {
