@@ -31,7 +31,7 @@
                     <div class="card-body">
 
                         <table class="table table-bordered table-striped" id="tblMisPrestamosUsuario">
-                            <thead class="thead-dark">
+                            <thead class="bg-dark">
                                 <tr>
                                     <th># </th>
                                     <th>Préstamo</th>
