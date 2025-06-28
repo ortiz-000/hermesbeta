@@ -32,7 +32,7 @@
           <div class="card">
             <div class="card-body">
               <table id="tblDevoluciones" class="table table-bordered table-striped">
-                <thead>
+                <thead class="bg-dark">
                   <tr>
                     <th>ID</th>
                     <th>Identificación</th>
