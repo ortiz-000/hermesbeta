@@ -136,17 +136,21 @@ $(document).ready(function() {
                                 $(this).remove();
                                 if ($('#equiposListContainer tbody tr').length === 0) {
                                     $('#equiposListContainer').html('<p class="text-center">Todos los equipos de este préstamo han sido procesados.</p>');
-                                    if (respuesta.status === "ok_prestamo_actualizado") {
+                                    setTimeout(function(){
                                         $('#modalVerDetallesPrestamo').modal('hide');
-                                        // Asumiendo que tienes una instancia de DataTable llamada tablaDevoluciones
-                                        if (typeof tablaDevoluciones !== 'undefined') {
-                                            tablaDevoluciones.ajax.reload();
-                                        } else {
-                                            window.location.reload(); // Como fallback
-                                        }
-                                    }
+                                    }, 200); 
                                 }
                             });
+
+                            // Si el préstamo se ha actualizado completamente, recargar la tabla principal
+                            if (respuesta.status === "prestamo_actualizado") {
+                                if (typeof tablaDevoluciones !== 'undefined') {
+                                    tablaDevoluciones.ajax.reload();
+                                } else {
+                                    // Fallback por si la instancia de datatable no está disponible
+                                    window.location.reload(); 
+                                }
+                            }
                         });
                     } else {
                         Swal.fire({
