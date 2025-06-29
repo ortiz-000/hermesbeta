@@ -168,32 +168,3 @@
     </div>
   </div>
 </div>
-
-<!-- Modal para registrar motivo de mal estado -->
-<div class="modal fade" id="modalMalEstado">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-danger">
-        <h4 class="modal-title">Registrar Motivo de Mal Estado</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="formMalEstado">
-          <input type="hidden" id="malEstadoPrestamoId">
-          <!-- Necesitaremos el ID del equipo específico -->
-          <input type="hidden" id="malEstadoEquipoId">
-          <div class="form-group">
-            <label for="motivoMalEstado">Describe el motivo del mal estado:</label>
-            <textarea class="form-control" id="motivoMalEstado" rows="4" required></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger" id="btnGuardarMalEstado">Guardar Motivo y Enviar a Mantenimiento</button>
-      </div>
-    </div>
-  </div>
-</div>

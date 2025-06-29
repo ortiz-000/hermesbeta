@@ -63,9 +63,9 @@ class ModeloDevoluciones
     }
 
 
-    /*=============================================
-    MARCAR EQUIPO EN DETALLE_PRESTAMO COMO MANTENIMIENTO Y ROBADO (ACTUALIZANDO ID_ESTADO)
-    =============================================*/
+/*=============================================
+MARCAR EQUIPO EN DETALLE_PRESTAMO COMO MANTENIMIENTO Y ROBADO (ACTUALIZANDO ID_ESTADO)
+=============================================*/
     static public function mdlMarcarMantenimientoDetalle($datos){
         try {
             $conexion = Conexion::conectar();
@@ -108,9 +108,9 @@ class ModeloDevoluciones
         }
     }
 
-    /*=============================================
-    VERIFICAR SI TODOS LOS EQUIPOS DE UN PRÉSTAMO HAN SIDO DEVUELTOS (MARCADOS PARA MANTENIMIENTO)
-    =============================================*/
+/*=============================================
+VERIFICAR SI TODOS LOS EQUIPOS DE UN PRÉSTAMO HAN SIDO DEVUELTOS 
+=============================================*/
     static public function mdlVerificarTodosEquiposDevueltos($idPrestamo){
     $stmt = Conexion::conectar()->prepare(
         "SELECT COUNT(dp.equipo_id) as total_equipos_prestamo,
@@ -135,9 +135,9 @@ class ModeloDevoluciones
     $stmt = null;
 }
 
-    /*=============================================
-    ACTUALIZAR ESTADO DEL PRÉSTAMO A DEVUELTO Y REGISTRAR FECHA REAL DE DEVOLUCIÓN
-    =============================================*/
+/*=============================================
+ACTUALIZAR ESTADO DEL PRÉSTAMO A DEVUELTO Y REGISTRAR FECHA REAL DE DEVOLUCIÓN
+=============================================*/
     static public function mdlActualizarPrestamoDevuelto($idPrestamo){
 
         $stmt = Conexion::conectar()->prepare(
@@ -157,7 +157,7 @@ class ModeloDevoluciones
         $stmt = null;
     }
 
-    /*============================================= 
+/*============================================= 
 MARCAR EQUIPO EN DETALLE_PRESTAMO COMO DEVUELTO EN BUEN ESTADO (ACTUALIZANDO ID_ESTADO)
 =============================================*/
     static public function mdlMarcarDevueltoBuenEstado($datos){
@@ -194,8 +194,8 @@ MARCAR EQUIPO EN DETALLE_PRESTAMO COMO DEVUELTO EN BUEN ESTADO (ACTUALIZANDO ID_
         $stmtDetalle = null;
     }
 
-    /*=============================================
-REGISTRAR MOTIVO DE MANTENIMIENTO (adaptado a tu estructura de tabla)
+/*=============================================
+REGISTRAR MOTIVO DE MANTENIMIENTO 
 =============================================*/
     static public function mdlRegistrarMotivoMantenimiento($equipoId, $motivo) {
         try {
@@ -235,5 +235,4 @@ REGISTRAR MOTIVO DE MANTENIMIENTO (adaptado a tu estructura de tabla)
             $stmtCheck = null;
         }
     }
-
 }

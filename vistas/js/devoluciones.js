@@ -57,8 +57,8 @@ $(document).ready(function() {
                                 <button type="button" class="btn btn-success btn-sm btn-devolver-equipo mr-1" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="buen_estado">
                                     <i class="fas fa-check-circle"></i> B. Estado
                                 </button>
-                                <button type="button" class="btn btn-danger btn-sm btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="mal_estado">
-                                    <i class="fas fa-times-circle"></i> M. Estado
+                                <button type="button" class="btn btn-info btn-sm btn-devolver-equipo" data-prestamo-id="${datosPrestamo.id_prestamo}" data-equipo-id="${equipo.equipo_id}" data-estado="devuelto">
+                                    <i class="fas fa-undo-alt"></i> M. Estado
                                 </button>
                             `;
                         } else if (datosPrestamo.tipo_prestamo === 'Reservado') {
