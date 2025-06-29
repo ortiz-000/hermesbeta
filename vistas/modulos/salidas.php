@@ -1,14 +1,13 @@
-    <?php
-        $item = "id_modulo";
-        $valor = 4;
-        $respuesta = ControladorModulos::ctrMostrarModulos($item, $valor);
-        if ($respuesta["estado"] == "inactivo") {
-            echo '<script>
-                window.location = "desactivado";
-            </script>';
-        }
-
-    ?>
+<?php
+    $item = "id_modulo";
+    $valor = 4;
+    $respuesta = ControladorModulos::ctrMostrarModulos($item, $valor);
+    if ($respuesta["estado"] == "inactivo") {
+        echo '<script>
+            window.location = "desactivado";
+        </script>';
+    }
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 
@@ -31,7 +30,7 @@
                     <div class="card">
                         <div class="card-body">
                             <table id="tblSedes" class="table table-bordered table-striped">
-                                <thead>
+                                <thead class="bg-dark">
                                     <tr>
                                         <th>ID Préstamo</th>
                                         <th>Usuario</th>
@@ -48,7 +47,6 @@
                                     $item = null;
                                     $valor = null;
                                     $salidas = Controladorsalidas::ctrMostrarsalidas($item, $valor);
-
 
                                     foreach ($salidas as $key => $value) {
                                     // FILTRO: excluir 'Inmediato' y mostrar solo ciertos estados
@@ -108,7 +106,7 @@
     </section>
 </div>
 
-    <!-- Modal de Detalles del Préstamo -->
+<!-- Modal de Detalles del Préstamo -->
 <div class="modal fade" id="modalDetallesPrestamo" tabindex="-1" role="dialog" aria-labelledby="modalDetallesPrestamoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -155,20 +153,15 @@
                                 <table class="table table-bordered table-striped " id="tblDetallePrestamo">
                                     <thead>
                                         <tr>
-
-
                                             <th>ID</th>
                                             <th>Categoría</th>
                                             <th>Equipo</th>
                                             <th>etiqueta</th>
                                             <th>Serial</th>
                                             <th>Ubicación</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
-
-
                                     </tbody>
                                 </table>
                             </div>
@@ -178,7 +171,7 @@
             </div>
             <div class="modal-footer">
                 <form method="POST">
-                    <!-- creamos dos inputo oculos para enviar los datos al controlador -->
+                    <!-- creamos dos input oculos para enviar los datos al controlador -->
                     <input type="hidden" id="idUsuarioAutorizaSalida" name="idUsuarioAutorizaSalida" value="<?php echo $_SESSION['id_usuario'] ?>">
                     <input type="hidden" id="idPrestamoSalida" name="idPrestamoSalida" value="">
 
@@ -188,10 +181,7 @@
                     <?php
                     $aceptarSalida = new Controladorsalidas();
                     $aceptarSalida->ctrAceptarSalida();
-                    
                     ?>
-
-
                 </form>
             </div>
         </div>
