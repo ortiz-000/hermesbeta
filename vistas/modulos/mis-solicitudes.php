@@ -66,20 +66,27 @@
                                                 <td>' . $prestamo["fecha_inicio"] . '</td>
                                                 <td>' . $prestamo["fecha_fin"]. '</td>
                                                 <td>' . $prestamo["estado_prestamo"]. '</td>';
-                                                if ($autorizaciones["firma_coordinacion"] == "Firmado") {
-                                                    echo '<td><input type="checkbox" checked disabled>' . '</td>';
+                                                error_log(print_r($prestamo, true));
+                                                if ($prestamo["tipo_prestamo"] != "Inmediato"){
+                                                    if ($autorizaciones["firma_coordinacion"] == "Firmado") {
+                                                        echo '<td><input class="form-check-input" type="checkbox" checked disabled>' . '</td>';
+                                                    } else {
+                                                        echo '<td><input type="checkbox" disabled>' . '</td>';
+                                                    }
+                                                    if ($autorizaciones["firma_lider_tic"] == "Firmado") {
+                                                        echo '<td><input type="checkbox" checked disabled></td>';
+                                                    } else {
+                                                        echo '<td><input type="checkbox" disabled>' . '</td>';
+                                                    }
+                                                    if ($autorizaciones["firma_almacen"] == "Firmado") {
+                                                        echo '<td><input type="checkbox" checked disabled>' . '</td>';
+                                                    } else {
+                                                        echo '<td><input type="checkbox" disabled>' . '</td>';
+                                                    }
                                                 } else {
-                                                    echo '<td><input type="checkbox" disabled>' . '</td>';
-                                                }
-                                                if ($autorizaciones["firma_lider_tic"] == "Firmado") {
-                                                    echo '<td><input type="checkbox" checked disabled></td>';
-                                                } else {
-                                                    echo '<td><input type="checkbox" disabled>' . '</td>';
-                                                }
-                                                if ($autorizaciones["firma_almacen"] == "Firmado") {
-                                                    echo '<td><input type="checkbox" checked disabled>' . '</td>';
-                                                } else {
-                                                    echo '<td><input type="checkbox" disabled>' . '</td>';
+                                                    echo '<td><i class="fas fa-ban text-danger" title="No se solicita"></i></td>';
+                                                    echo '<td><i class="fas fa-ban text-danger" title="No se solicita"></i></td>';
+                                                    echo '<td><i class="fas fa-ban text-danger" title="No se solicita"></i></td>';
                                                 }
                                                 echo '<td>' . $prestamo["motivo"] . '</td>';
                                                 echo '<td>';
