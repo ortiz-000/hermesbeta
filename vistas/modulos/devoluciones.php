@@ -84,7 +84,7 @@
 
 <!-- Modal Ver Detalles del Préstamo (Inmediatos y de Reserva) "Modal consolidada" -->
 <div class="modal fade" id="modalVerDetallesPrestamo" tabindex="-1" role="dialog" aria-labelledby="modalVerUsuarioLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header bg-info">
         <h5 class="modal-title" id="modalVerUsuarioLabel">Detalles de la Devolución</h5>
