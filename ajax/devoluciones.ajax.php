@@ -24,7 +24,7 @@ class AjaxDevoluciones {
     =============================================*/
     public function ajaxMarcarMantenimientoDetalle() {
         // No se necesita pasar id_estado desde aquí, ya que se define en el controlador
-        $respuestaControlador = ControladorDevoluciones::ctrMarcarMantenimientoDetalle($this->idPrestamo, $this->idEquipo);
+        $respuestaControlador = ControladorDevoluciones::ctrMarcarMantenimiento($this->idPrestamo, $this->idEquipo);
         
         if ($respuestaControlador == "ok") {
             echo json_encode(array("success" => true, "status" => "equipo_marcado", "message" => "Equipo marcado para mantenimiento correctamente."));
