@@ -66,19 +66,20 @@
                                                 <td>' . $prestamo["fecha_inicio"] . '</td>
                                                 <td>' . $prestamo["fecha_fin"]. '</td>
                                                 <td>' . $prestamo["estado_prestamo"]. '</td>';
-                                                error_log(print_r($prestamo, true));
                                                 if ($prestamo["tipo_prestamo"] != "Inmediato"){
-                                                    if ($autorizaciones["firma_coordinacion"] == "Firmado") {
+                                                    if (isset($autorizaciones["firma_coordinacion"]) && $autorizaciones["firma_coordinacion"] == "Firmado") { // Aqqui
                                                         echo '<td><input class="form-check-input" type="checkbox" checked disabled>' . '</td>';
                                                     } else {
                                                         echo '<td><input type="checkbox" disabled>' . '</td>';
                                                     }
-                                                    if ($autorizaciones["firma_lider_tic"] == "Firmado") {
+                                                    if (isset($autorizaciones["firma_lider_tic"]) && $autorizaciones["firma_lider_tic"] == "Firmado") { // aqqui
+
                                                         echo '<td><input type="checkbox" checked disabled></td>';
                                                     } else {
                                                         echo '<td><input type="checkbox" disabled>' . '</td>';
                                                     }
-                                                    if ($autorizaciones["firma_almacen"] == "Firmado") {
+                                                    if (isset($autorizaciones["firma_almacen"]) && $autorizaciones["firma_almacen"] == "Firmado") { //Aqui
+
                                                         echo '<td><input type="checkbox" checked disabled>' . '</td>';
                                                     } else {
                                                         echo '<td><input type="checkbox" disabled>' . '</td>';
@@ -110,7 +111,7 @@
                                 }else {
                                     // No hay registros
                                     echo '<tr>
-                                            <td colspan="7">No hay registros</td>
+                                            <td colspan="10">No hay registros</td>
                                         </tr>';
                                 }
                                 ?>
