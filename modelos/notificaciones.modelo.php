@@ -34,10 +34,11 @@ class ModeloNotificaciones {
     /*=============================================
     MARCAR NOTIFICACION COMO LEIDA
     =============================================*/
-    static public function mdlMarcarNotificacionLeida($tabla, $id_notificacion) {
+    static public function mdlMarcarNotificacionLeida($tabla, $id_notificacion, $usuario_id) {
         $conexion = Conexion::conectar();
-        $stmt = $conexion->prepare("UPDATE $tabla SET leida = 1, fecha_leida = NOW() WHERE id_notificaciones = :id_notificaciones");
+        $stmt = $conexion->prepare("UPDATE $tabla SET leida = 1, fecha_leida = NOW() WHERE id_notificaciones = :id_notificaciones AND id_usuario = :id_usuario");
         $stmt->bindParam(":id_notificaciones", $id_notificacion, PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario", $usuario_id, PDO::PARAM_INT);
         if($stmt->execute()){
             return "ok";
         }else{
