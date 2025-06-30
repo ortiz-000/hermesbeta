@@ -84,7 +84,6 @@
   <!-- Modal Finalizar Mantenimiento -->
   <div class="modal fade" id="modalFinalizarMantenimiento">
     <div class="modal-dialog modal-lg" role="document">
->>>>>>> Stashed changes
       <div class="modal-content">
         <div class="modal-header bg-primary">
           <h4 class="modal-title">Detalles del Equipo</h4>
@@ -93,12 +92,6 @@
           </button>
         </div>
         <div class="modal-body">
-<<<<<<< Updated upstream
-          <p>Detalles del equipo en mantenimiento irían aquí</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-=======
           <div class="row">
             <div class="col-md-4 text-center border-right">
               <div class="equipment-image mb-3">
@@ -186,7 +179,6 @@
               </div>
             </div>
           </div>
->>>>>>> Stashed changes
         </div>
       </div>
     </div>
