@@ -20,8 +20,6 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-
-
                 <!-- Tabla de Préstamos -->
 
                 <div class="card card-success col-lg-12" id="resultados">
@@ -38,10 +36,9 @@
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Fin</th>
                                     <th>Estado</th>
-                                    <th>Firma Coordinación</th>
-                                    <th>Firma Lider TIC</th>
-                                    <th>Firma Almacén</th>
-                                    <th>Motivo</th>
+                                    <th>Coo</th>
+                                    <th>TiC</th>
+                                    <th>Alm</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -52,14 +49,15 @@
                                 $valor = $_SESSION['id_usuario'];
                                 $prestamos = ControladorSolicitudes::ctrMostrarSolicitudes($item, $valor);
                                 // var_dump($prestamos);
-
                                 
                                 // Verificamos si es un array multidimensional
                                 if(is_array($prestamos) && isset($prestamos[0]) && is_array($prestamos[0])) {
                                     // Es un array de múltiples registros
-                                    $autorizaciones = ControladorAutorizaciones::ctrMostrarAutorizaciones($item, $valor);
-                                    is_array($autorizaciones);
                                     foreach($prestamos as $prestamo) {
+                                        $item = "id_prestamo";
+                                        $valor = $prestamo["id_prestamo"];
+                                        $autorizaciones = ControladorAutorizaciones::ctrMostrarAutorizaciones($item, $valor);
+                                        is_array($autorizaciones);
                                         echo '<tr>
                                                 <td>' . $prestamo["id_prestamo"] . '</td>
                                                 <td>' . $prestamo["tipo_prestamo"] . '</td>
@@ -68,18 +66,16 @@
                                                 <td>' . $prestamo["estado_prestamo"]. '</td>';
                                                 if ($prestamo["tipo_prestamo"] != "Inmediato"){
                                                     if (isset($autorizaciones["firma_coordinacion"]) && $autorizaciones["firma_coordinacion"] == "Firmado") { // Aqqui
-                                                        echo '<td><input class="form-check-input" type="checkbox" checked disabled>' . '</td>';
+                                                        echo '<td><input type="checkbox" checked disabled>' . '</td>';
                                                     } else {
                                                         echo '<td><input type="checkbox" disabled>' . '</td>';
                                                     }
                                                     if (isset($autorizaciones["firma_lider_tic"]) && $autorizaciones["firma_lider_tic"] == "Firmado") { // aqqui
-
                                                         echo '<td><input type="checkbox" checked disabled></td>';
                                                     } else {
                                                         echo '<td><input type="checkbox" disabled>' . '</td>';
                                                     }
                                                     if (isset($autorizaciones["firma_almacen"]) && $autorizaciones["firma_almacen"] == "Firmado") { //Aqui
-
                                                         echo '<td><input type="checkbox" checked disabled>' . '</td>';
                                                     } else {
                                                         echo '<td><input type="checkbox" disabled>' . '</td>';
@@ -89,9 +85,8 @@
                                                     echo '<td><i class="fas fa-ban text-danger" title="No se solicita"></i></td>';
                                                     echo '<td><i class="fas fa-ban text-danger" title="No se solicita"></i></td>';
                                                 }
-                                                echo '<td>' . $prestamo["motivo"] . '</td>';
                                                 echo '<td>';
-                                                    echo '<button class="btn btn-primary btn-sm btnVerDetalle" idPrestamo="'. $prestamo["id_prestamo"] . '" title="Detalles del prestamo" data-toggle="modal" data-target="#modalMisDetalles"><i class="fa fa-eye"></i></button>';
+                                                    echo '<button class="btn btn-default btnVerDetalle" idPrestamo="'. $prestamo["id_prestamo"] . '" title="Detalles del prestamo" data-toggle="modal" data-target="#modalMisDetalles"><i class="fas fa-eye"></i></button>';
                                                 '</td>
                                             </tr>';
                                     }
@@ -120,8 +115,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </section>
 </div>
@@ -169,7 +162,6 @@
                                             <th>etiqueta</th>
                                             <th>Serial</th>
                                             <th>Ubicación</th>
-                                            
                                         </tr>
                                     </thead>
                                     <tbody>
