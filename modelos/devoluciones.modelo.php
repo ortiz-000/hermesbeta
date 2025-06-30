@@ -3,6 +3,34 @@ require_once "conexion.php";
 
 class ModeloDevoluciones
 {
+    /*=============================================
+    OBTENER ID DE ESTADO POR NOMBRE
+    =============================================*/
+    static public function mdlObtenerIdEstado($estado) {
+        try {
+            $stmt = Conexion::conectar()->prepare(
+                "SELECT id_estado FROM estados WHERE estado = :estado"
+            );
+            $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+            $stmt->execute();
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($resultado) {
+                return $resultado['id_estado'];
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            error_log("Error en mdlObtenerIdEstado: " . $e->getMessage());
+            return false;
+        } finally {
+            $stmt = null;
+        }
+    }
+
+    /*=============================================
+    MOSTRAR DEVOLUCIONES (LISTADO)
+    =============================================*/
     static public function mdlMostrarDevoluciones($tabla, $item, $valor)
     {
         if ($item != null) {
@@ -65,6 +93,9 @@ class ModeloDevoluciones
         $stmt = null;
     }
 
+    /*=============================================
+    MARCAR EQUIPO EN DETALLE_PRESTAMO COMO MANTENIMIENTO Y ROBADO (ACTUALIZANDO ID_ESTADO)
+    =============================================*/
     static public function mdlMarcarMantenimientoDetalle($datos){
         try {
             $conexion = Conexion::conectar();
@@ -105,6 +136,9 @@ class ModeloDevoluciones
         }
     }
 
+    /*=============================================
+    VERIFICAR SI TODOS LOS EQUIPOS DE UN PRÉSTAMO HAN SIDO DEVUELTOS 
+    =============================================*/
     static public function mdlVerificarTodosEquiposDevueltos($idPrestamo){
         $stmt = Conexion::conectar()->prepare(
             "SELECT COUNT(dp.equipo_id) as total_equipos_prestamo,
@@ -129,6 +163,9 @@ class ModeloDevoluciones
         $stmt = null;
     }
 
+    /*=============================================
+    ACTUALIZAR ESTADO DEL PRÉSTAMO A DEVUELTO Y REGISTRAR FECHA REAL DE DEVOLUCIÓN
+    =============================================*/
     static public function mdlActualizarPrestamoDevuelto($idPrestamo){
         $stmt = Conexion::conectar()->prepare(
             "UPDATE prestamos 
@@ -147,6 +184,9 @@ class ModeloDevoluciones
         $stmt = null;
     }
 
+    /*============================================= 
+    MARCAR EQUIPO EN DETALLE_PRESTAMO COMO DEVUELTO EN BUEN ESTADO (ACTUALIZANDO ID_ESTADO)
+    =============================================*/
     static public function mdlMarcarDevueltoBuenEstado($datos){
         $stmtEquipo = Conexion::conectar()->prepare(
             "UPDATE equipos SET id_estado = :id_estado 
@@ -170,6 +210,7 @@ class ModeloDevoluciones
                 return "ok";
             } else {
                 return "error_actualizando_detalle";
+                // Obtain the id_estado for 'Mantenimiento', 'Disponible', or 'baja'
             }
         } else {
             return "error_actualizando_equipo";
@@ -179,6 +220,9 @@ class ModeloDevoluciones
         $stmtDetalle = null;
     }
 
+    /*=============================================
+    REGISTRAR MOTIVO DE MANTENIMIENTO 
+    =============================================*/
     static public function mdlRegistrarMotivoMantenimiento($equipoId, $motivo) {
         try {
             $stmtCheck = Conexion::conectar()->prepare(
