@@ -101,6 +101,7 @@ class ModeloDevoluciones
             $conexion = Conexion::conectar();
             $conexion->beginTransaction();
 
+            // 1. Actualizar estado del equipo
             $stmt = $conexion->prepare("UPDATE equipos SET id_estado = :id_estado WHERE equipo_id = :equipo_id");
             $stmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT);
             $stmt->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
@@ -111,6 +112,37 @@ class ModeloDevoluciones
                 return "error";
             }
 
+            // 2. Obtener datos del préstamo para registrar en mantenimiento
+            $stmtPrestamo = $conexion->prepare(
+                "SELECT usuario_id FROM prestamos WHERE id_prestamo = :id_prestamo"
+            );
+            $stmtPrestamo->bindParam(":id_prestamo", $datos["id_prestamo"], PDO::PARAM_INT);
+            $stmtPrestamo->execute();
+            $prestamo = $stmtPrestamo->fetch(PDO::FETCH_ASSOC);
+
+            // 3. Registrar en tabla mantenimiento (insertar o actualizar)
+            $stmtMantenimiento = $conexion->prepare(
+                "INSERT INTO mantenimiento (equipo_id, id_usuario, id_prestamo, detalles, fecha_inicio) 
+                VALUES (:equipo_id, :id_usuario, :id_prestamo, :detalles, NOW())
+                ON DUPLICATE KEY UPDATE
+                id_usuario = VALUES(id_usuario),
+                id_prestamo = VALUES(id_prestamo),
+                detalles = VALUES(detalles),
+                fecha_inicio = VALUES(fecha_inicio)"
+            );
+            
+            $detalles = "Equipo enviado a mantenimiento desde devolución";
+            $stmtMantenimiento->bindParam(":equipo_id", $datos["equipo_id"], PDO::PARAM_INT);
+            $stmtMantenimiento->bindParam(":id_usuario", $prestamo['usuario_id'], PDO::PARAM_INT);
+            $stmtMantenimiento->bindParam(":id_prestamo", $datos["id_prestamo"], PDO::PARAM_INT);
+            $stmtMantenimiento->bindParam(":detalles", $detalles, PDO::PARAM_STR);
+            
+            if(!$stmtMantenimiento->execute()){
+                $conexion->rollBack();
+                return "error_registro_mantenimiento";
+            }
+
+            // 4. Actualizar detalle préstamo
             if(isset($datos["id_prestamo"])){
                 $stmtDetalle = $conexion->prepare(
                     "UPDATE detalle_prestamo SET estado = 'Devuelto', 
