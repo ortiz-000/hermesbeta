@@ -138,7 +138,7 @@ $(document).ready(function() {
                                     $('#equiposListContainer').html('<p class="text-center">Todos los equipos de este préstamo han sido procesados.</p>');
                                     setTimeout(function(){
                                         $('#modalVerDetallesPrestamo').modal('hide');
-                                    }, 200); 
+                                    }, 1500); // Espera 1.5 segundos antes de cerrar el modal
                                 }
                             });
 
