@@ -75,9 +75,16 @@
     </div>
   </section>
 
+<<<<<<< Updated upstream
   <!-- Modal Ver Detalles -->
   <div class="modal fade" id="modalVerDetalles">
     <div class="modal-dialog">
+=======
+
+  <!-- Modal Finalizar Mantenimiento -->
+  <div class="modal fade" id="modalFinalizarMantenimiento">
+    <div class="modal-dialog modal-lg" role="document">
+>>>>>>> Stashed changes
       <div class="modal-content">
         <div class="modal-header bg-primary">
           <h4 class="modal-title">Detalles del Equipo</h4>
@@ -86,10 +93,100 @@
           </button>
         </div>
         <div class="modal-body">
+<<<<<<< Updated upstream
           <p>Detalles del equipo en mantenimiento irían aquí</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+=======
+          <div class="row">
+            <div class="col-md-4 text-center border-right">
+              <div class="equipment-image mb-3">
+                <i class="fas fa-desktop fa-6x text-info"></i>
+              </div>
+              <span id="equipoEtiqueta" class="d-block font-weight-bold h5"></span>
+              
+              <div class="card card-info mt-3">
+                <div class="card-header">
+                  <h3 class="card-title"><i class="fas fa-info-circle mr-2"></i>Información del Equipo</h3>
+                </div>
+                <div class="card-body p-2">
+                  <table class="table table-sm">
+                    <tbody>
+                      <tr>
+                        <th><i class="fas fa-barcode mr-2"></i>Serie:</th>
+                        <td id="equipoSerie"></td>
+                      </tr>
+                      <tr>
+                        <th><i class="fas fa-info-circle mr-2"></i>Descripción:</th>
+                        <td id="equipoDescripcion"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-8">
+              <div class="p-3">
+                <h5 class="border-bottom pb-2 text-info">
+                  <i class="fas fa-tools mr-2"></i>Estado del Mantenimiento
+                </h5>
+                <form id="formFinalizarMantenimiento" method="post">
+                  <input type="hidden" id="equipoId" name="equipoId">
+
+                  <div class="form-group">
+                    <label class="font-weight-bold">Nivel de Gravedad:</label>
+                    <div class="d-flex flex-wrap">
+                      <div class="custom-control custom-radio mr-4 mb-2">
+                        <input type="radio" id="sinNovedad" name="gravedad" value="ninguno" class="custom-control-input">
+                        <label class="custom-control-label" for="sinNovedad">
+                          <i class="fas fa-check-circle text-success mr-1"></i>Sin novedad
+                        </label>
+                      </div>
+                      <div class="custom-control custom-radio mr-4 mb-2">
+                        <input type="radio" id="problemaLeve" name="gravedad" value="leve" class="custom-control-input">
+                        <label class="custom-control-label" for="problemaLeve">
+                          <i class="fas fa-exclamation-circle text-warning mr-1"></i>Problema leve
+                        </label>
+                      </div>
+                      <div class="custom-control custom-radio mb-2">
+                        <input type="radio" id="problemaGrave" name="gravedad" value="grave" class="custom-control-input">
+                        <label class="custom-control-label" for="problemaGrave">
+                          <i class="fas fa-exclamation-triangle text-danger mr-1"></i>Problema grave
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="tipoMante" class="form-label font-weight-bold">
+                      <i class="fas fa-wrench mr-2"></i>Tipo de Mantenimiento:
+                    </label>
+                    <select name="tipoMantenimiento" id="tipoMante" class="form-control custom-select">
+                      <option value="" disabled selected>Seleccione el tipo de mantenimiento</option>
+                      <option value="preventivo">Preventivo</option>
+                      <option value="correctivo">Correctivo</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="descripcionProblema" class="font-weight-bold">
+                      <i class="fas fa-clipboard mr-2"></i>Descripción del problema:
+                    </label>
+                    <textarea class="form-control" id="descripcionProblema" name="detalles" rows="4" required></textarea>
+                  </div>
+
+                  <div class="text-right mt-4">
+                    <button type="submit" class="btn btn-info btn-lg px-5" id="btnGuardarMantenimiento">
+                      <i class="fas fa-check-circle mr-2"></i>Finalizar Mantenimiento
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+>>>>>>> Stashed changes
         </div>
       </div>
     </div>
