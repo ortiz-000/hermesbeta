@@ -1,6 +1,6 @@
 <?php
-use PhpOffice\PhpSpreadsheet\IOFactory;
-require_once '../vendor/autoload.php';
+
+
 
 class ControladorEquipos{
 
@@ -255,74 +255,160 @@ class ControladorEquipos{
             }
         }
     }
-    public static function ctrImportarEquiposMasivo() {
-    if (!isset($_FILES['archivoEquipos']) || $_FILES['archivoEquipos']['error'] !== 0) {
-        return json_encode([
-            "status" => "error",
-            "message" => "No se recibió un archivo válido"
-        ]);
-    }
-
-    $archivo = $_FILES['archivoEquipos']['tmp_name'];
-    $extension = pathinfo($_FILES['archivoEquipos']['name'], PATHINFO_EXTENSION);
-    $categoriaId = $_POST['categoria_id'] ?? null;
-    $cuentadanteId = $_POST['cuentadante_id'] ?? null;
-
-    if (!$categoriaId || !$cuentadanteId) {
-        return json_encode([
-            "status" => "error",
-            "message" => "Falta categoría o cuentadante"
-        ]);
-    }
-
+   static public function ctrImportarEquiposMasivo()
+{
+    ob_start();
     try {
-        $reader = IOFactory::createReaderForFile($archivo);
-        $spreadsheet = $reader->load($archivo);
-        $hoja = $spreadsheet->getActiveSheet();
-        $datos = $hoja->toArray(null, true, true, true); // Formato array asociativo
-
-        $exitosos = [];
-        $fallidos = [];
-
-        foreach ($datos as $index => $fila) {
-            if ($index == 1) continue; // Saltar encabezado
-
-            $numeroSerie = trim($fila['A'] ?? '');
-            $etiqueta = trim($fila['B'] ?? '');
-            $descripcion = trim($fila['C'] ?? '');
-
-            if (empty($numeroSerie) || empty($etiqueta) || empty($descripcion)) {
-                $fallidos[] = "Fila $index: Datos incompletos";
-                continue;
-            }
-
-            $resultado = ModeloEquipos::mdlImportarEquipo("equipos", [
-                "numero_serie" => $numeroSerie,
-                "etiqueta" => $etiqueta,
-                "descripcion" => $descripcion,
-                "categoria_id" => $categoriaId,
-                "cuentadante_id" => $cuentadanteId
+        if (!isset($_FILES['archivoEquipos']) || $_FILES['archivoEquipos']['error'] !== UPLOAD_ERR_OK) {
+            ob_end_clean();
+            return json_encode([
+                "status" => "error",
+                "message" => "Archivo no seleccionado o con error de carga."
             ]);
-
-            if ($resultado === "ok") {
-                $exitosos[] = $numeroSerie;
-            } else {
-                $fallidos[] = "Fila $index: " . $resultado;
-            }
         }
 
-        return json_encode([
-            "status" => "success",
-            "message" => "Importación finalizada",
-            "exitosos" => $exitosos,
-            "fallidos" => $fallidos,
-            "reporte" => base64_encode(implode("\n", $fallidos)), // para descarga opcional
-            "nombreArchivo" => "reporte_importacion.txt"
-        ]);
-    } catch (Exception $e) {
+        $filePath = $_FILES['archivoEquipos']['tmp_name'];
+
+        if (!file_exists($filePath)) {
+            ob_end_clean();
+            return json_encode([
+                "status" => "error",
+                "message" => "El archivo temporal no existe o fue eliminado."
+            ]);
+        }
+
+        try {
+            $fileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($filePath);
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($fileType);
+            $spreadsheet = $reader->load($filePath);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $highestRow = $worksheet->getHighestRow();
+
+            $equiposImportados = [];
+            $equiposFallidos = [];
+
+            $categoria_id = $_POST["categoria_id"] ?? null;
+            $cuentadante_id = $_POST["cuentadante_id"] ?? null;
+
+            if (empty($categoria_id) || empty($cuentadante_id)) {
+                ob_end_clean();
+                return json_encode(["status" => "error", "message" => "Faltan la categoría o cuentadante."]);
+            }
+
+            for ($row = 2; $row <= $highestRow; $row++) {
+                $numeroSerie = trim($worksheet->getCell('A' . $row)->getValue());
+                $etiqueta = trim($worksheet->getCell('B' . $row)->getValue());
+                $descripcion = trim($worksheet->getCell('C' . $row)->getValue());
+                $id_estado = trim($worksheet->getCell('D' . $row)->getValue());
+                $ubicacion_id = trim($worksheet->getCell('E' . $row)->getValue());
+
+                if (
+                    empty($numeroSerie) &&
+                    empty($etiqueta) &&
+                    empty($descripcion) &&
+                    empty($id_estado) &&
+                    empty($ubicacion_id)
+                ) {
+                    break;
+                }
+
+                if (empty($numeroSerie) || empty($etiqueta) || empty($id_estado) || empty($ubicacion_id)) {
+                    $equiposFallidos[] = [
+                        "fila" => $row,
+                        "numeroSerie" => $numeroSerie,
+                        "error" => "Campos obligatorios faltantes (Serie, Etiqueta, Estado, Ubicación)."
+                    ];
+                    continue;
+                }
+
+                $ubicacionExiste = ModeloUbicaciones::mdlMostrarUbicaciones("ubicaciones", "ubicacion_id", $ubicacion_id);
+                if (!$ubicacionExiste) {
+                    $equiposFallidos[] = [
+                        "fila" => $row,
+                        "numeroSerie" => $numeroSerie,
+                        "error" => "Ubicación no encontrada (ID $ubicacion_id)"
+                    ];
+                    continue;
+                }
+
+                $equipoExistente = ModeloEquipos::mdlMostrarEquipos("equipos", "numero_serie", $numeroSerie);
+                if ($equipoExistente) {
+                    $equiposFallidos[] = [
+                        "fila" => $row,
+                        "numeroSerie" => $numeroSerie,
+                        "error" => "Número de serie duplicado"
+                    ];
+                    continue;
+                }
+
+                $datos = [
+                    "numero_serie" => $numeroSerie,
+                    "etiqueta" => $etiqueta,
+                    "descripcion" => $descripcion,
+                    "id_estado" => $id_estado,
+                    "categoria_id" => $categoria_id,
+                    "cuentadante_id" => $cuentadante_id,
+                    "ubicacion_id" => $ubicacion_id
+                ];
+
+                $respuestaModelo = ModeloEquipos::mdlImportarEquipo("equipos", $datos);
+
+                if ($respuestaModelo == "ok") {
+                    $equiposImportados[] = [
+                        "fila" => $row,
+                        "numeroSerie" => $numeroSerie,
+                        "etiqueta" => $etiqueta
+                    ];
+                } else {
+                    $equiposFallidos[] = [
+                        "fila" => $row,
+                        "numeroSerie" => $numeroSerie,
+                        "error" => "Error al guardar en BD: " . $respuestaModelo
+                    ];
+                }
+            }
+
+            $mensaje = "Importación completada. Exitosos: " . count($equiposImportados) . ". Fallidos: " . count($equiposFallidos) . ".";
+            if (count($equiposFallidos) > 0) {
+                $mensaje .= " Revise los detalles de los errores.";
+            }
+
+            $contenido = "=== REPORTE DE IMPORTACIÓN DE EQUIPOS ===\n";
+            $contenido .= "Fecha: " . date('Y-m-d') . "\n\n";
+            $contenido .= "EQUIPOS IMPORTADOS EXITOSAMENTE (" . count($equiposImportados) . "):\n";
+            foreach ($equiposImportados as $eq) {
+                $contenido .= "Fila: {$eq['fila']} | Serie: {$eq['numeroSerie']} | Etiqueta: {$eq['etiqueta']}\n";
+            }
+
+            $contenido .= "\nEQUIPOS CON ERRORES (" . count($equiposFallidos) . "):\n";
+            foreach ($equiposFallidos as $eq) {
+                $contenido .= "Fila: {$eq['fila']} | Serie: {$eq['numeroSerie']}\nError: {$eq['error']}\n\n";
+            }
+
+            ob_end_clean();
+            return json_encode([
+                "status" => "success",
+                "message" => $mensaje,
+                "exitosos" => $equiposImportados,
+                "fallidos" => $equiposFallidos,
+                "reporte" => base64_encode(mb_convert_encoding($contenido, 'UTF-8')),
+                "nombreArchivo" => "importacion_equipos_" . date('Y-m-d') . ".txt"
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
+            ob_end_clean();
+            return json_encode(["status" => "error", "message" => "Error procesando archivo: " . $e->getMessage()]);
+        }
+
+    } catch (Throwable $t) {
+        ob_end_clean();
         return json_encode([
             "status" => "error",
-            "message" => "Error al procesar el archivo: " . $e->getMessage()
+            "message" => "Error crítico: " . $t->getMessage(),
+            "exitosos" => [],
+            "fallidos" => [],
+            "reporte" => null,
+            "nombreArchivo" => null
         ]);
     }
 }

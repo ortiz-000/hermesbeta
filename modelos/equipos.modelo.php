@@ -318,7 +318,7 @@ class ModeloEquipos{
     public static function mdlImportarEquipo($tabla, $datos) {
     try {
         // Validar que los campos requeridos estén presentes y no sean vacíos
-        $camposRequeridos = ['numero_serie', 'etiqueta', 'descripcion', 'categoria_id', 'cuentadante_id'];
+        $camposRequeridos = ['numero_serie', 'etiqueta', 'descripcion', 'categoria_id', 'cuentadante_id', 'ubicacion_id', 'id_estado'];
         foreach ($camposRequeridos as $campo) {
             if (!isset($datos[$campo]) || trim($datos[$campo]) === '') {
                 $mensajeError = "Campo requerido '$campo' no definido o vacío en los datos.";
@@ -327,31 +327,27 @@ class ModeloEquipos{
             }
         }
 
-        // Obtener ID de ubicación 'Almacen'
-        $ubicacionStmt = Conexion::conectar()->prepare("SELECT ubicacion_id FROM ubicaciones WHERE nombre = 'Almacen' LIMIT 1");
+        // Validar que la ubicación existe
+        $ubicacionStmt = Conexion::conectar()->prepare("SELECT ubicacion_id FROM ubicaciones WHERE ubicacion_id = :ubicacion_id LIMIT 1");
+        $ubicacionStmt->bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
         $ubicacionStmt->execute();
         $ubicacion = $ubicacionStmt->fetch(PDO::FETCH_ASSOC);
         if (!$ubicacion) {
-            $msg = "No se encontró la ubicación 'Almacen'";
+            $msg = "No se encontró la ubicación con ID " . $datos["ubicacion_id"];
             error_log("ERROR en mdlImportarEquipo: " . $msg);
             return "error: $msg";
         }
 
-        // Obtener ID de estado 'Disponible'
-        $estadoStmt = Conexion::conectar()->prepare("SELECT id_estado FROM estados WHERE estado = 'Disponible' LIMIT 1");
+        // Validar que el estado existe
+        $estadoStmt = Conexion::conectar()->prepare("SELECT id_estado FROM estados WHERE id_estado = :id_estado LIMIT 1");
+        $estadoStmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT);
         $estadoStmt->execute();
         $estado = $estadoStmt->fetch(PDO::FETCH_ASSOC);
         if (!$estado) {
-            $msg = "No se encontró el estado 'Disponible'";
+            $msg = "No se encontró el estado con ID " . $datos["id_estado"];
             error_log("ERROR en mdlImportarEquipo: " . $msg);
             return "error: $msg";
         }
-if (!isset($ubicacion["ubicacion_id"]) || !isset($estado["id_estado"])) {
-    return "error: Identificadores de ubicación o estado no disponibles";
-}
-if (!isset($ubicacion["ubicacion_id"]) || !isset($estado["id_estado"])) {
-    return "error: Identificadores de ubicación o estado no disponibles";
-}
 
         // Preparar consulta SQL
         $sql = "
@@ -375,24 +371,15 @@ if (!isset($ubicacion["ubicacion_id"]) || !isset($estado["id_estado"])) {
         ";
 
         $stmt = Conexion::conectar()->prepare($sql);
-if (!$ubicacion || !$estado) {
-    return "error: Ubicación 'Almacen' o estado 'Disponible' no encontrados";
-}
 
         // Enlazar parámetros
         $stmt->bindParam(":numero_serie", $datos["numero_serie"], PDO::PARAM_STR);
         $stmt->bindParam(":etiqueta", $datos["etiqueta"], PDO::PARAM_STR);
         $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
         $stmt->bindParam(":categoria_id", $datos["categoria_id"], PDO::PARAM_INT);
-        $stmt->bindParam(":ubicacion_id", $ubicacion["ubicacion_id"], PDO::PARAM_INT);
+        $stmt->bindParam(":ubicacion_id", $datos["ubicacion_id"], PDO::PARAM_INT);
         $stmt->bindParam(":cuentadante_id", $datos["cuentadante_id"], PDO::PARAM_INT);
-        $stmt->bindParam(":id_estado", $estado["id_estado"], PDO::PARAM_INT);
-
-        // Logging para depuración
-        error_log("Consulta SQL: " . $stmt->queryString);
-        error_log("Datos enviados: " . print_r($datos, true));
-
-
+        $stmt->bindParam(":id_estado", $datos["id_estado"], PDO::PARAM_INT);
 
         // Ejecutar la consulta
         if ($stmt->execute()) {
@@ -415,4 +402,3 @@ if (!$ubicacion || !$estado) {
 }
 
 }
-

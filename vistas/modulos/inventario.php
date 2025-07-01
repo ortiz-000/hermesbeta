@@ -77,7 +77,7 @@
         <div class="box-body">
         <form id="formImportarEquipos" method="POST" enctype="multipart/form-data">
           <div class="form-group">
-          <label for="archivoUsuarios">Seleccionar archivo (.csv, .xlsx, .xls):</label>
+          <label for="archivoEquipos">Seleccionar archivo (.csv, .xlsx, .xls):</label>
           <input type="file" class="form-control-file" name="archivoEquipos" id="archivoEquipos" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
           </div>
           <div class="form-row">
@@ -128,11 +128,7 @@
           <button type="submit" class="btn btn-success">Importar</button>
 
           </div>
-          <?php
-          // Instanciar el controlador para la importación
-          // $importarUsuarios = new ControladorEquipos();
-          // $importarUsuarios->ctrImportarEquipos();
-          ?>
+          
         </form>
         </div><!-- box-body  -->
       </div><!-- modal-body  -->

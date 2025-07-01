@@ -317,6 +317,7 @@ $(document).on("submit", "#modalImportarEquipos form", function(e) {
         contentType: false,
         processData: false,
         success: function(response) {
+            
             Swal.close();
             try {
                 var jsonResponse = typeof response === 'string' ? JSON.parse(response) : response;
@@ -328,16 +329,25 @@ $(document).on("submit", "#modalImportarEquipos form", function(e) {
                             '<br><b>Exitosos:</b> ' + (jsonResponse.exitosos ? jsonResponse.exitosos.length : 0) +
                             '<br><b>Fallidos:</b> ' + (jsonResponse.fallidos ? jsonResponse.fallidos.length : 0),
                         showConfirmButton: true,
-                        confirmButtonText: "Cerrar"
-                    });
+                        confirmButtonText: "Cerrar",
+                        confirmButtonText: "Descargar reporte",
+                        showCancelButton: true,
+                        cancelButtonText: "Cerrar"
+                        
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            link.click(); // Simula el clic para descargar el reporte
+                        }
+                        });
                     if (jsonResponse.reporte) {
                         const contenidoBytes = Uint8Array.from(atob(jsonResponse.reporte), c => c.charCodeAt(0));
                         var blob = new Blob([contenidoBytes], {type: 'text/plain;charset=utf-8'});
                         var link = document.createElement('a');
                         link.href = window.URL.createObjectURL(blob);
                         link.download = jsonResponse.nombreArchivo;
+                        
                         //Opción para descargar el reporte si lo deseas
-                         link.click();
+                         //link.click();
                     }
                     $("#modalImportarEquipos").modal('hide');
                     $('#tblEquipos').DataTable().ajax.reload();
@@ -360,7 +370,9 @@ $(document).on("submit", "#modalImportarEquipos form", function(e) {
                 console.error("Error parsing response: ", response);
             }
         },
+        
         error: function(jqXHR, textStatus, errorThrown) {
+           
             Swal.close();
             Swal.fire({
                 icon: 'error',

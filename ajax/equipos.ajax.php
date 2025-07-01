@@ -4,7 +4,8 @@
 require_once "../controladores/equipos.controlador.php";
 require_once "../modelos/equipos.modelo.php";
 require_once "../modelos/categorias.modelo.php";
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once "../vendor/autoload.php";
+require_once "../modelos/ubicaciones.modelo.php";
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
