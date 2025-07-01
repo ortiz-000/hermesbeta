@@ -38,6 +38,7 @@ require_once "modelos/ubicaciones.modelo.php";
 require_once "modelos/categorias.modelo.php";
 require_once "modelos/estados.modelo.php";
 require_once "modelos/salidas.modelo.php";
+require_once __DIR__ . '/vendor/autoload.php';
 
 
 $plantilla = new ControladorPlantilla();

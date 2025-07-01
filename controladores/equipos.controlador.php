@@ -1,4 +1,6 @@
 <?php
+use PhpOffice\PhpSpreadsheet\IOFactory;
+require_once '../vendor/autoload.php';
 
 class ControladorEquipos{
 
@@ -253,4 +255,75 @@ class ControladorEquipos{
             }
         }
     }
-} //fin de la clase ControladorEquipos    
+    public static function ctrImportarEquiposMasivo() {
+    if (!isset($_FILES['archivoEquipos']) || $_FILES['archivoEquipos']['error'] !== 0) {
+        return json_encode([
+            "status" => "error",
+            "message" => "No se recibió un archivo válido"
+        ]);
+    }
+
+    $archivo = $_FILES['archivoEquipos']['tmp_name'];
+    $extension = pathinfo($_FILES['archivoEquipos']['name'], PATHINFO_EXTENSION);
+    $categoriaId = $_POST['categoria_id'] ?? null;
+    $cuentadanteId = $_POST['cuentadante_id'] ?? null;
+
+    if (!$categoriaId || !$cuentadanteId) {
+        return json_encode([
+            "status" => "error",
+            "message" => "Falta categoría o cuentadante"
+        ]);
+    }
+
+    try {
+        $reader = IOFactory::createReaderForFile($archivo);
+        $spreadsheet = $reader->load($archivo);
+        $hoja = $spreadsheet->getActiveSheet();
+        $datos = $hoja->toArray(null, true, true, true); // Formato array asociativo
+
+        $exitosos = [];
+        $fallidos = [];
+
+        foreach ($datos as $index => $fila) {
+            if ($index == 1) continue; // Saltar encabezado
+
+            $numeroSerie = trim($fila['A'] ?? '');
+            $etiqueta = trim($fila['B'] ?? '');
+            $descripcion = trim($fila['C'] ?? '');
+
+            if (empty($numeroSerie) || empty($etiqueta) || empty($descripcion)) {
+                $fallidos[] = "Fila $index: Datos incompletos";
+                continue;
+            }
+
+            $resultado = ModeloEquipos::mdlImportarEquipo("equipos", [
+                "numero_serie" => $numeroSerie,
+                "etiqueta" => $etiqueta,
+                "descripcion" => $descripcion,
+                "categoria_id" => $categoriaId,
+                "cuentadante_id" => $cuentadanteId
+            ]);
+
+            if ($resultado === "ok") {
+                $exitosos[] = $numeroSerie;
+            } else {
+                $fallidos[] = "Fila $index: " . $resultado;
+            }
+        }
+
+        return json_encode([
+            "status" => "success",
+            "message" => "Importación finalizada",
+            "exitosos" => $exitosos,
+            "fallidos" => $fallidos,
+            "reporte" => base64_encode(implode("\n", $fallidos)), // para descarga opcional
+            "nombreArchivo" => "reporte_importacion.txt"
+        ]);
+    } catch (Exception $e) {
+        return json_encode([
+            "status" => "error",
+            "message" => "Error al procesar el archivo: " . $e->getMessage()
+        ]);
+    }
+}
+}
