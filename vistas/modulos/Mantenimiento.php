@@ -49,14 +49,8 @@
                           <td>' . $value["descripcion"] . '</td>
                           <td>
                             <div class="btn-group">
-                              <button title="Ver detalles" class="btn btn-default btn-sm btnVerDetalles" data-id="' . $value["equipo_id"] . '" data-toggle="modal" data-target="#modalVerDetalles">
-                                <i class="fas fa-eye"></i>
-                              </button>
-                              <button title="Editar mantenimiento" class="btn btn-default btn-sm btnEditarMantenimiento" data-id="' . $value["Id_mantenimiento"] . '" data-toggle="modal" data-target="#modalEditarMantenimiento">
-                                <i class="fas fa-edit"></i>
-                              </button>
-                              <button title="Solicitudes asociadas" class="btn btn-default btn-sm btnSolicitudesMantenimiento" data-id="' . $value["equipo_id"] . '">
-                                <i class="fas fa-laptop"></i>
+                              <button title="Finalizar mantenimiento" class="btn btn-default btn-sm btnFinalizarMantenimiento" data-id="' . $value["equipo_id"] . '" data-toggle="modal" data-target="#modalFinalizarMantenimiento">
+                                <i class="fas fa-tools"></i>
                               </button>
                             </div>
                           </td>
@@ -75,9 +69,9 @@
     </div>
   </section>
 
-  <!-- Modal Ver Detalles -->
-  <div class="modal fade" id="modalVerDetalles">
-    <div class="modal-dialog">
+  <!-- Modal Finalizar Mantenimiento -->
+  <div class="modal fade" id="modalFinalizarMantenimiento">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header bg-primary">
           <h4 class="modal-title">Detalles del Equipo</h4>
@@ -86,31 +80,90 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Detalles del equipo en mantenimiento irían aquí</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+          <div class="row">
+            <div class="col-md-4 text-center border-right">
+              <div class="equipment-image mb-2">
+                <i class="fas fa-desktop fa-5x text-info"></i>
+              </div>
+              <span id="equipoEtiqueta" class="d-block font-weight-bold h6"></span>
+              <div class="card card-info mt-2">
+                <div class="card-header py-2">
+                  <h3 class="card-title small"><i class="fas fa-info-circle mr-1"></i>Información del Equipo</h3>
+                </div>
+                <div class="card-body p-2">
+                  <table class="table table-sm small">
+                    <tbody>
+                      <tr>
+                        <th class="w-25"><i class="fas fa-barcode mr-1"></i>Serie:</th>
+                        <td id="equipoSerie" class="text-muted"></td>
+                      </tr>
+                      <tr>
+                        <th><i class="fas fa-info-circle mr-1"></i>Descripción:</th>
+                        <td id="equipoDescripcion" class="text-muted"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
 
-  <!-- Modal Editar Mantenimiento -->
-  <div class="modal fade" id="modalEditarMantenimiento">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-primary">
-          <h4 class="modal-title">Editar Mantenimiento</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Formulario para editar mantenimiento iría aquí</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary">Guardar Cambios</button>
+            <div class="col-md-8">
+              <div class="p-3">
+                <h5 class="border-bottom pb-2 text-info">
+                  <i class="fas fa-tools mr-2"></i>Estado del Mantenimiento
+                </h5>
+                <form id="formFinalizarMantenimiento" method="post">
+                  <input type="hidden" id="equipoId" name="equipoId">
+
+                  <div class="form-group">
+                    <label class="font-weight-bold">Nivel de Gravedad:</label>
+                    <div class="d-flex flex-wrap gap-3">  
+                      <div class="custom-control custom-radio me-4 mb-3">
+                        <input type="radio" id="sinNovedad" name="gravedad" value="ninguno" class="custom-control-input" required>
+                        <label class="custom-control-label" for="sinNovedad">
+                          <i class="fas fa-check-circle text-success me-2"></i>Sin novedad
+                        </label>
+                      </div>
+
+                      <div class="custom-control custom-radio me-4 mb-3">
+                        <input type="radio" id="problemaLeve" name="gravedad" value="leve" class="custom-control-input">
+                        <label class="custom-control-label" for="problemaLeve">
+                          <i class="fas fa-exclamation-circle text-warning me-2"></i>Problema leve
+                        </label>
+                      </div>
+
+                      <div class="custom-control custom-radio me-4 mb-3">
+                        <input type="radio" id="problemaGrave" name="gravedad" value="grave" class="custom-control-input">
+                        <label class="custom-control-label" for="problemaGrave">
+                          <i class="fas fa-exclamation-triangle text-danger me-2"></i>Problema grave
+                        </label>
+                      </div>
+
+                      <div class="custom-control custom-radio mb-3">
+                        <input type="radio" id="problemaInreparable" name="gravedad" value="inrecuperable" class="custom-control-input">
+                        <label class="custom-control-label" for="problemaInreparable">
+                          <i class="fas fa-times-circle text-danger me-2"></i>Irreparable
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="descripcionProblema" class="font-weight-bold">
+                      <i class="fas fa-clipboard mr-2"></i>Descripción del problema:
+                    </label>
+                    <textarea class="form-control" id="descripcionProblema" name="detalles" rows="4" required></textarea>
+                  </div>
+
+                  <div class="text-right mt-4">
+                    <button type="submit" class="btn btn-info btn-lg px-5" id="btnGuardarMantenimiento">
+                      <i class="fas fa-check-circle mr-2"></i>Finalizar Mantenimiento
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
