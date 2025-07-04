@@ -52,7 +52,7 @@
                                         $item = "id_prestamo";
                                         $valor = $value["id_prestamo"];
                                         $autorizaciones = ControladorAutorizaciones::ctrMostrarAutorizaciones($item, $valor);
-                                        //var_dump($salidas); 
+                                        //var_dump($salidas);
                                         if (($value["tipo_prestamo"] == "Reservado")){
                                         echo '
                                         <tr>
