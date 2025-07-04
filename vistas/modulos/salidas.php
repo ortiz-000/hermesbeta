@@ -85,8 +85,8 @@
                                         // Botón de acción
                                         echo '<td>
                                             <div class="btn-group">
-                                                <button class="btn btn-info btn-sm btnVerDetalles" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalDetallesPrestamo">
-                                                    <i class="fa fa-eye"></i> Ver Detalles
+                                                <button class="btn btn-default btnVerDetalles" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalDetallesPrestamo">
+                                                    <i class="fa fa-eye"></i> 
                                                 </button>
                                             </div>
                                         </td>
