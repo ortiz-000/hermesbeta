@@ -60,37 +60,35 @@
                                             <td>' . $value["nombre"] . '</td>
                                             <td>' . $value["tipo_prestamo"] . '</td>
                                             <td>' . $value["estado_prestamo"] . '</td>';
-
-                                        // Checkbox COORDINADOR
-                                        echo '<td>
-                                            <input type="checkbox" disabled ' . 
-                                                ($autorizaciones["firma_coordinacion"] === "Firmado" ? 'checked' : '') . ' 
-                                                title="' . (!empty($autorizaciones["nombre_usuario_coordinacion"]) ? htmlspecialchars($autorizaciones["nombre_usuario_coordinacion"]) : 'Sin firma') . '">
-                                        </td>';
-
-                                        // Checkbox TIC
-                                        echo '<td>
-                                            <input type="checkbox" disabled ' . 
-                                                ($autorizaciones["firma_lider_tic"] === "Firmado" ? 'checked' : '') . ' 
-                                                title="' . (!empty($autorizaciones["nombre_usuario_lider_tic"]) ? htmlspecialchars($autorizaciones["nombre_usuario_lider_tic"]) : 'Sin firma') . '">
-                                        </td>';
-
-                                        // Checkbox ALMACENISTA
-                                        echo '<td>
-                                            <input type="checkbox" disabled ' . 
-                                                ($autorizaciones["firma_almacen"] === "Firmado" ? 'checked' : '') . ' 
-                                                title="' . (!empty($autorizaciones["nombre_usuario_almacen"]) ? htmlspecialchars($autorizaciones["nombre_usuario_almacen"]) : 'Sin firma') . '">
-                                        </td>';
-
-                                        // Botón de acción
-                                        echo '<td>
-                                            <div class="btn-group">
-                                                <button class="btn btn-default btnVerDetalles" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalDetallesPrestamo">
-                                                    <i class="fa fa-eye"></i> 
-                                                </button>
-                                            </div>
-                                        </td>
-                                        </tr>';
+                                                if (isset($autorizaciones["firma_coordinacion"]) && $autorizaciones["firma_coordinacion"] == "Firmado") {
+                                                    echo '<td><input type="checkbox" checked disabled title="Aprobado por '. $_SESSION["nombre"] .' ' . $_SESSION["apellido"] .'">' . '</td>';
+                                                } else {
+                                                    echo '<td><input type="checkbox" disabled title="En trámite...">' . '</td>';
+                                                }
+                                                if (isset($autorizaciones["firma_lider_tic"]) && $autorizaciones["firma_lider_tic"] == "Firmado") {
+                                                    echo '<td><input type="checkbox" checked disabled title="Aprobado por '. $_SESSION["nombre"] .' ' . $_SESSION["apellido"] .'">' . '</td>';
+                                                } else {
+                                                    echo '<td><input type="checkbox" disabled title="En trámite...">' . '</td>';
+                                                }
+                                                if (isset($autorizaciones["firma_almacen"]) && $autorizaciones["firma_almacen"] == "Firmado") {
+                                                    echo '<td><input type="checkbox" checked disabled title="Aprobado por '. $_SESSION["nombre"] .' ' . $_SESSION["apellido"] .'">' . '</td>';
+                                                } else {
+                                                    echo '<td><input type="checkbox" disabled title="En trámite...">' . '</td>';
+                                                }
+                                                echo '<td>
+                                                    <div class="btn-group">
+                                                        <button title="Ver detalles" class="btn btn-default btn-sm btnVerDetalles" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalDetallesPrestamo">
+                                                            <i class="fas fa-eye"></i>
+                                                        </button>
+                                                        <button title="Editar préstamo" class="btn btn-default btn-sm btnEditarPrestamo" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalEditarPrestamo">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button title="Solicitudes relacionadas" class="btn btn-default btn-sm btnSolicitudesPrestamo" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalSolicitudesPrestamo">
+                                                            <i class="fas fa-laptop"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>';
                                         }
                                     }
                                     ?>
