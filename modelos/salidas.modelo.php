@@ -37,13 +37,12 @@ class Modelosalida
                 "SELECT p.id_prestamo, u.numero_documento, u.nombre, u.apellido, u.telefono,
                     f.codigo as ficha_codigo,
                     p.fecha_inicio, p.fecha_fin, p.tipo_prestamo,
-                    p.estado_prestamo
-            
+                    p.estado_prestamo            
                 FROM $tabla p
                 JOIN usuarios u ON p.usuario_id = u.id_usuario
                 LEFT JOIN aprendices_ficha af ON u.id_usuario = af.id_usuario
                 LEFT JOIN fichas f ON af.id_ficha = f.id_ficha
-                WHERE p.estado_prestamo IN ('Autorizado', 'Trámite')
+                WHERE p.estado_prestamo IN ('Autorizado', 'Trámite', 'Pendiente')
                 ORDER BY p.fecha_inicio DESC"
             );
 
