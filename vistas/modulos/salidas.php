@@ -80,12 +80,6 @@
                                                         <button title="Ver detalles" class="btn btn-default btn-sm btnVerDetalles" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalDetallesPrestamo">
                                                             <i class="fas fa-eye"></i>
                                                         </button>
-                                                        <button title="Editar préstamo" class="btn btn-default btn-sm btnEditarPrestamo" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalEditarPrestamo">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button title="Solicitudes relacionadas" class="btn btn-default btn-sm btnSolicitudesPrestamo" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalSolicitudesPrestamo">
-                                                            <i class="fas fa-laptop"></i>
-                                                        </button>
                                                     </div>
                                                 </td>
                                             </tr>';
