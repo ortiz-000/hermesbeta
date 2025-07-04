@@ -86,7 +86,6 @@
                 <i class="fas fa-desktop fa-5x text-info"></i>
               </div>
               <span id="equipoEtiqueta" class="d-block font-weight-bold h6"></span>
-
               <div class="card card-info mt-2">
                 <div class="card-header py-2">
                   <h3 class="card-title small"><i class="fas fa-info-circle mr-1"></i>Información del Equipo</h3>
@@ -118,7 +117,7 @@
 
                   <div class="form-group">
                     <label class="font-weight-bold">Nivel de Gravedad:</label>
-                    <div class="d-flex flex-wrap gap-3">
+                    <div class="d-flex flex-wrap gap-3">  
                       <div class="custom-control custom-radio me-4 mb-3">
                         <input type="radio" id="sinNovedad" name="gravedad" value="ninguno" class="custom-control-input" required>
                         <label class="custom-control-label" for="sinNovedad">
@@ -141,23 +140,12 @@
                       </div>
 
                       <div class="custom-control custom-radio mb-3">
-                        <input type="radio" id="problemaInreparable" name="gravedad" value="inreparable" class="custom-control-input">
+                        <input type="radio" id="problemaInreparable" name="gravedad" value="inrecuperable" class="custom-control-input">
                         <label class="custom-control-label" for="problemaInreparable">
                           <i class="fas fa-times-circle text-danger me-2"></i>Irreparable
                         </label>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="tipoMante" class="form-label font-weight-bold">
-                      <i class="fas fa-wrench mr-2"></i>Tipo de Mantenimiento:
-                    </label>
-                    <select name="tipoMantenimiento" id="tipoMante" class="form-control custom-select">
-                      <option value="" disabled selected>Seleccione el tipo de mantenimiento</option>
-                      <option value="preventivo">Preventivo</option>
-                      <option value="correctivo">Correctivo</option>
-                    </select>
                   </div>
 
                   <div class="form-group">
