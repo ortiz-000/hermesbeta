@@ -67,74 +67,53 @@
   <div class="modal fade" id="modalImportarEquipos">
     <div class="modal-dialog modal-lg"><!-- Cambiado a modal-lg para mayor ancho -->
       <div class="modal-content">
-      <div class="modal-header bg-success">
-        <h4 class="modal-title">Importar Equipos</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="box-body">
-        <form id="formImportarEquipos" method="POST" enctype="multipart/form-data">
-          <div class="form-group">
-          <label for="archivoEquipos">Seleccionar archivo (.csv, .xlsx, .xls):</label>
-          <input type="file" class="form-control-file" name="archivoEquipos" id="archivoEquipos" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
-          </div>
-          <div class="form-row">
-          <div class="form-group col-lg-6">
-          <label for="categoria_id">Categoría</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
-            </div>
-            <?php
-            $item = null;
-            $valor = null;
-            $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
-            echo '<select class="form-control" id="categoria_id" name="categoria_id" required>';
-            echo '<option value="">Seleccione una categoría</option>';
-            foreach ($categorias as $key => $categoria) {
-            echo '<option value="' . $categoria["categoria_id"] . '">' . $categoria["nombre"] . '</option>';
-            }
-            echo '</select>';
-            ?>
-          </div>
-          </div>
-          <div class="form-group col-lg-6">
-          <label for="id_usuario">Cuentadante</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
-            </div>
-            <?php
-            $item = null;
-            $valor = null;
-            $cuentadantes = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
-            echo '<select class="form-control" id="id_usuario" name="cuentadante_id" required>';
-            echo '<option value="">Seleccione un cuentadante</option>';
-            foreach ($cuentadantes as $key => $cuentadante) {
-            if($cuentadante["nombre_rol"] == "Almacén"){
-              echo '<option value="' . $cuentadante["id_usuario"] . '">' . $cuentadante["nombre"] . " " . $cuentadante["apellido"] . " (" . $cuentadante["nombre_rol"]. ")" .'</option>';
-            }
-            }
-            echo '</select>';
-            ?>
-          </div>
-          </div>
+        <div class="modal-header bg-success">
+          <h4 class="modal-title">Importar Equipos</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-          
-          <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-success">Importar</button>
-
-          </div>
-          
-        </form>
-        </div><!-- box-body  -->
-      </div><!-- modal-body  -->
+        <div class="modal-body">
+          <div class="box-body">
+            <form id="formImportarEquipos" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="archivoEquipos">Seleccionar archivo (.csv, .xlsx, .xls):</label>
+                <input type="file" class="form-control-file" name="archivoEquipos" id="archivoEquipos" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+              </div>
+              
+              <div class="form-group col-lg-6">
+                <label for="id_usuario">Cuentadante</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
+                  </div>
+                  <?php
+                  $item = null;
+                  $valor = null;
+                  $cuentadantes = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+                  echo '<select class="form-control" id="id_usuario" name="cuentadante_id" required>';
+                  echo '<option value="">Seleccione un cuentadante</option>';
+                  foreach ($cuentadantes as $key => $cuentadante) {
+                    if($cuentadante["nombre_rol"] == "Almacén"){
+                      echo '<option value="' . $cuentadante["id_usuario"] . '">' . $cuentadante["nombre"] . " " . $cuentadante["apellido"] . " (" . $cuentadante["nombre_rol"]. ")" .'</option>';
+                    }
+                  }
+                  echo '</select>';
+                  ?>
+                </div>
+              </div>
+              
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success">Importar</button>
+              </div>
+              
+            </form>
+          </div><!-- box-body  -->
+        </div><!-- modal-body  -->
       </div><!-- Modal content -->
     </div><!-- modal-dialog  -->
-    </div><!-- modal  -->
+  </div><!-- modal  -->
   <!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
 
 

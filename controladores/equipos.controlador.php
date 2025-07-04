@@ -287,32 +287,36 @@ class ControladorEquipos{
             $equiposImportados = [];
             $equiposFallidos = [];
 
-            $categoria_id = $_POST["categoria_id"] ?? null;
+            
             $cuentadante_id = $_POST["cuentadante_id"] ?? null;
 
-            if (empty($categoria_id) || empty($cuentadante_id)) {
+            if (empty($cuentadante_id)) {
                 ob_end_clean();
-                return json_encode(["status" => "error", "message" => "Faltan la categoría o cuentadante."]);
+                return json_encode(["status" => "error", "message" => "Faltan  cuentadante."]);
             }
 
             for ($row = 2; $row <= $highestRow; $row++) {
                 $numeroSerie = trim($worksheet->getCell('A' . $row)->getValue());
                 $etiqueta = trim($worksheet->getCell('B' . $row)->getValue());
                 $descripcion = trim($worksheet->getCell('C' . $row)->getValue());
-                $id_estado = trim($worksheet->getCell('D' . $row)->getValue());
-                $ubicacion_id = trim($worksheet->getCell('E' . $row)->getValue());
+                $ubicacion_id = trim($worksheet->getCell('D' . $row)->getValue());
+                $categoria_id = trim($worksheet->getCell('E' . $row)->getValue());
+                $id_estado = trim($worksheet->getCell('F' . $row)->getValue());
 
                 if (
                     empty($numeroSerie) &&
                     empty($etiqueta) &&
                     empty($descripcion) &&
-                    empty($id_estado) &&
-                    empty($ubicacion_id)
+                    empty($ubicacion_id) &&
+                    empty($categoria_id) &&
+                    empty($id_estado)
+                    
+                    
                 ) {
                     break;
                 }
 
-                if (empty($numeroSerie) || empty($etiqueta) || empty($id_estado) || empty($ubicacion_id)) {
+                if (empty($numeroSerie) || empty($etiqueta)  || empty($ubicacion_id) || empty($categoria_id) || empty($id_estado)) {
                     $equiposFallidos[] = [
                         "fila" => $row,
                         "numeroSerie" => $numeroSerie,

@@ -298,7 +298,6 @@ $(document).on("submit", "#modalImportarEquipos form", function(e) {
     var formData = new FormData();
     formData.append("archivoEquipos", file);
     formData.append("accion", "importarEquiposMasivo"); // Acción para el controlador PHP
-    formData.append("categoria_id", $("#categoria_id").val());
     formData.append("cuentadante_id", $("#id_usuario").val());
 
     Swal.fire({
