@@ -126,13 +126,13 @@ $(document).ready(function() {
                 },
                 dataType: "json",
                 success: function(respuesta) {
-                    console.log(respuesta.title);
-                    if (respuesta && respuesta.success) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: '¡Acción completada!',
+                    if (respuesta && respuesta.success) { 
+                        Swal.fire({
+                            icon: "success",
+                            title: respuesta.title || "¡Acción completada!",
                             text: respuesta.message,
-                            position: "top-end"
+                            showConfirmButton: false,
+                            timer: 2000
                         }).then(() => {
                             $buttonPressed.closest('tr').fadeOut(500, function() {
                                 $(this).remove();
