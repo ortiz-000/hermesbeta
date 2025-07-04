@@ -61,20 +61,20 @@ if ($respuesta["estado"] == "inactivo") {
                                                 <td>' . $prestamo["fecha_fin"]. '</td>
                                                 <td>' . $prestamo["estado_prestamo"]. '</td>';
                                                 if ($prestamo["tipo_prestamo"] != "Inmediato"){
-                                                    if (isset($autorizaciones["firma_coordinacion"]) && $autorizaciones["firma_coordinacion"] == "Firmado") { // Aqqui
-                                                        echo '<td><input type="checkbox" checked disabled>' . '</td>';
+                                                    if (isset($autorizaciones["firma_coordinacion"]) && $autorizaciones["firma_coordinacion"] == "Firmado") {
+                                                        echo '<td><input type="checkbox" checked title="Autorizado por '. $autorizaciones["nombre_usuario_coordinacion"] .'" disabled>' . '</td>';
                                                     } else {
-                                                        echo '<td><input type="checkbox" disabled>' . '</td>';
+                                                        echo '<td><input type="checkbox" title="En trámite..." disabled>' . '</td>';
                                                     }
-                                                    if (isset($autorizaciones["firma_lider_tic"]) && $autorizaciones["firma_lider_tic"] == "Firmado") { // aqqui
-                                                        echo '<td><input type="checkbox" checked disabled></td>';
+                                                    if (isset($autorizaciones["firma_lider_tic"]) && $autorizaciones["firma_lider_tic"] == "Firmado") {
+                                                        echo '<td><input type="checkbox" checked title="Autorizado por '. $autorizaciones["nombre_usuario_lider_tic"] .'" disabled></td>';
                                                     } else {
-                                                        echo '<td><input type="checkbox" disabled>' . '</td>';
+                                                        echo '<td><input type="checkbox" title="En trámite..." disabled>' . '</td>';
                                                     }
-                                                    if (isset($autorizaciones["firma_almacen"]) && $autorizaciones["firma_almacen"] == "Firmado") { //Aqui
-                                                        echo '<td><input type="checkbox" checked disabled>' . '</td>';
+                                                    if (isset($autorizaciones["firma_almacen"]) && $autorizaciones["firma_almacen"] == "Firmado") {
+                                                        echo '<td><input type="checkbox" checked title="Autorizado por '. $autorizaciones["nombre_usuario_almacen"] .'" disabled>' . '</td>';
                                                     } else {
-                                                        echo '<td><input type="checkbox" disabled>' . '</td>';
+                                                        echo '<td><input type="checkbox" title="En trámite..." disabled>' . '</td>';
                                                     }
                                                 } else {
                                                     echo '<td><i class="fas fa-ban text-danger" title="No se solicita"></i></td>';
