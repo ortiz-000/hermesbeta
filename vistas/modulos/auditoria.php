@@ -1,15 +1,10 @@
-<!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Historial de Auditoría de Usuarios</h1>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
+  <section class="content-header">
+    <div class="container-fluid">
+      <h1>Historial de Auditoría de Usuarios</h1>
+    </div>
+  </section>
 
     <!-- Main content -->
     <section class="content">
@@ -45,4 +40,7 @@
     </section>
     <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
+<!-- Moment.js y Daterangepicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
