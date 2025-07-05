@@ -15,7 +15,6 @@
       </div>
     </div>
   </section>
-  <!-- fin de encabezado -->
 
   <!-- Inicio de la tabla -->
   <section class="content">
@@ -25,7 +24,7 @@
           <div class="card">
             <div class="card-body">
               <table id="tblMantenimiento" class="table table-bordered table-striped">
-                <thead>
+                <thead class="bg-dark">
                   <tr>
                     <th>ID</th>
                     <th>Numero de serie</th>
@@ -39,25 +38,22 @@
                   $item = null;
                   $valor = null;
                   $mantenimientos = ControladorMantenimiento::ctrMostrarMantenimientos($item, $valor);
-                  // var_dump($mantenimientos);
 
-                  // Verificar si hay resultados
                   if (!empty($mantenimientos) && is_array($mantenimientos)) {
                     foreach ($mantenimientos as $key => $value) {
                       echo '
                         <tr>
-                            <td>' . $value["equipo_id"] . '</td>
-                            <td>' . $value["numero_serie"] . '</td>
-                            <td>' . $value["etiqueta"] . '</td>
-                            <td>' . $value["descripcion"] . '</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button class="btn btn-success btn-sm btnFinalizarMantenimiento" 
-                                            data-id="' . $value["Id_mantenimiento"] . '">
-                                        <i class="fas fa-check"></i> Finalizar
-                                    </button>
-                                </div>
-                            </td>
+                          <td>' . $value["equipo_id"] . '</td>
+                          <td>' . $value["numero_serie"] . '</td>
+                          <td>' . $value["etiqueta"] . '</td>
+                          <td>' . $value["descripcion"] . '</td>
+                          <td>
+                            <div class="btn-group">
+                              <button title="Finalizar mantenimiento" class="btn btn-default btn-sm btnFinalizarMantenimiento" data-id="' . $value["equipo_id"] . '" data-toggle="modal" data-target="#modalFinalizarMantenimiento">
+                                <i class="fas fa-tools"></i>
+                              </button>
+                            </div>
+                          </td>
                         </tr>';
                     }
                   } else {
@@ -72,80 +68,106 @@
       </div>
     </div>
   </section>
-  <!-- Fin de la tabla -->
-
 
   <!-- Modal Finalizar Mantenimiento -->
   <div class="modal fade" id="modalFinalizarMantenimiento">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
-        <div class="modal-header bg-info">
-          <h5 class="modal-title text-white" id="modalFinalizarMantenimientoLabel">Detalles del Mantenimiento</h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+        <div class="modal-header bg-primary">
+          <h4 class="modal-title">Detalles del Equipo</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body p-0">
-          <!-- Información del Equipo (se mantiene igual) -->
-          <div class="p-3">
-            <!-- ... (contenido original igual) ... -->
-          </div>
-
-          <!-- Formulario de Mantenimiento - CAMBIOS CLAVE AQUÍ -->
-          <div class="p-3 bg-light">
-            <h5 class="border-bottom pb-2">Estado del Mantenimiento</h5>
-            <!-- Añadí id al formulario y method post -->
-            <form id="formFinalizarMantenimiento" method="post">
-              <!-- Campo oculto para equipoId (ESENCIAL) -->
-              <input type="hidden" id="equipoId" name="equipoId">
-
-              <!-- El resto se mantiene igual pero asegurando los name correctos -->
-              <div class="form-group">
-                <label>Nivel de Gravedad:</label>
-                <div class="d-flex">
-                  <div class="custom-control custom-radio mr-4">
-                    <input type="radio" id="sinNovedad" name="gravedad" value="ninguno" class="custom-control-input">
-                    <label class="custom-control-label" for="sinNovedad">Sin novedad</label>
-                  </div>
-                  <div class="custom-control custom-radio mr-4">
-                    <input type="radio" id="problemaLeve" name="gravedad" value="leve" class="custom-control-input">
-                    <label class="custom-control-label" for="problemaLeve">Problema leve</label>
-                  </div>
-                  <div class="custom-control custom-radio">
-                    <input type="radio" id="problemaGrave" name="gravedad" value="grave" class="custom-control-input">
-                    <label class="custom-control-label" for="problemaGrave">Problema grave</label>
-                  </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4 text-center border-right">
+              <div class="equipment-image mb-2">
+                <i class="fas fa-desktop fa-5x text-info"></i>
+              </div>
+              <span id="equipoEtiqueta" class="d-block font-weight-bold h6"></span>
+              <div class="card card-info mt-2">
+                <div class="card-header py-2">
+                  <h3 class="card-title small"><i class="fas fa-info-circle mr-1"></i>Información del Equipo</h3>
+                </div>
+                <div class="card-body p-2">
+                  <table class="table table-sm small">
+                    <tbody>
+                      <tr>
+                        <th class="w-25"><i class="fas fa-barcode mr-1"></i>Serie:</th>
+                        <td id="equipoSerie" class="text-muted"></td>
+                      </tr>
+                      <tr>
+                        <th><i class="fas fa-info-circle mr-1"></i>Descripción:</th>
+                        <td id="equipoDescripcion" class="text-muted"></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
+            </div>
 
-              <div class="form-group">
-                <label for="tipoMante" class="form-label">Tipo de Mantenimiento:</label>
-                <select name="tipoMantenimiento" id="tipoMante" class="form-control custom-select">
-                  <option value="" disabled selected>Seleccione el tipo de mantenimiento</option>
-                  <option value="preventivo">Preventivo</option>
-                  <option value="correctivo">Correctivo</option>
-                </select>
-              </div>
+            <div class="col-md-8">
+              <div class="p-3">
+                <h5 class="border-bottom pb-2 text-info">
+                  <i class="fas fa-tools mr-2"></i>Estado del Mantenimiento
+                </h5>
+                <form id="formFinalizarMantenimiento" method="post">
+                  <input type="hidden" id="equipoId" name="equipoId">
 
-              <div class="form-group">
-                <label for="descripcionProblema">Descripción del problema:</label>
-                <textarea class="form-control" id="descripcionProblema" name="detalles" rows="3" required></textarea>
-              </div>
+                  <div class="form-group">
+                    <label class="font-weight-bold">Nivel de Gravedad:</label>
+                    <div class="d-flex flex-wrap gap-3">  
+                      <div class="custom-control custom-radio me-4 mb-3">
+                        <input type="radio" id="sinNovedad" name="gravedad" value="ninguno" class="custom-control-input" required>
+                        <label class="custom-control-label" for="sinNovedad">
+                          <i class="fas fa-check-circle text-success me-2"></i>Sin novedad
+                        </label>
+                      </div>
 
-              <div class="text-center mt-4">
-                <!-- Cambiado a type="submit" para enviar el formulario -->
-                <button type="submit" class="btn btn-info px-4" id="btnGuardarMantenimiento">
-                  <i class="fas fa-check-circle mr-2"></i>Marcar como Finalizado
-                </button>
+                      <div class="custom-control custom-radio me-4 mb-3">
+                        <input type="radio" id="problemaLeve" name="gravedad" value="leve" class="custom-control-input">
+                        <label class="custom-control-label" for="problemaLeve">
+                          <i class="fas fa-exclamation-circle text-warning me-2"></i>Problema leve
+                        </label>
+                      </div>
+
+                      <div class="custom-control custom-radio me-4 mb-3">
+                        <input type="radio" id="problemaGrave" name="gravedad" value="grave" class="custom-control-input">
+                        <label class="custom-control-label" for="problemaGrave">
+                          <i class="fas fa-exclamation-triangle text-danger me-2"></i>Problema grave
+                        </label>
+                      </div>
+
+                      <div class="custom-control custom-radio mb-3">
+                        <input type="radio" id="problemaInreparable" name="gravedad" value="inrecuperable" class="custom-control-input">
+                        <label class="custom-control-label" for="problemaInreparable">
+                          <i class="fas fa-times-circle text-danger me-2"></i>Irreparable
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="descripcionProblema" class="font-weight-bold">
+                      <i class="fas fa-clipboard mr-2"></i>Descripción del problema:
+                    </label>
+                    <textarea class="form-control" id="descripcionProblema" name="detalles" rows="4" required></textarea>
+                  </div>
+
+                  <div class="text-right mt-4">
+                    <button type="submit" class="btn btn-info btn-lg px-5" id="btnGuardarMantenimiento">
+                      <i class="fas fa-check-circle mr-2"></i>Finalizar Mantenimiento
+                    </button>
+                  </div>
+                </form>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Fin del modal -->
 
   <!-- Incluir el archivo JavaScript -->
   <script src="vistas/js/mantenimiento.js"></script>

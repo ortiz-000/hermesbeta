@@ -3,6 +3,12 @@
 // Requerimos los controladores y modelos necesarios para manipular los datos
 require_once "../controladores/equipos.controlador.php";
 require_once "../modelos/equipos.modelo.php";
+require_once "../modelos/categorias.modelo.php";
+require_once "../vendor/autoload.php";
+require_once "../modelos/ubicaciones.modelo.php";
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 
 class AjaxEquipos {
     
@@ -52,32 +58,43 @@ class AjaxEquipos {
         $respuesta = ControladorEquipos::ctrMostrarUbicacion($item, $valor);
         echo json_encode($respuesta);
     }
+    public function ajaxImportarEquiposMasivo() {
+    header('Content-Type: application/json; charset=utf-8');
+    $respuesta = ControladorEquipos::ctrImportarEquiposMasivo();
+    echo $respuesta;
+    exit;
+  }
 
-    public function ajaxMostrarDatosUbicacionDestino(){
-        $item = "ubicacion_id";
-        $valor = $this -> nuevaUbicacionId;
-        $respuesta = ControladorEquipos::ctrMostrarUbicacionDestino($item, $valor);
-        // error_log(print_r($respuesta, true));
-        echo json_encode($respuesta);
-    }
+    // public function ajaxMostrarDatosUbicacionDestino(){
+    //     $item = "ubicacion_id";
+    //     $valor = $this -> nuevaUbicacionId;
+    //     $respuesta = ControladorEquipos::ctrMostrarUbicacionDestino($item, $valor);
+    //     // error_log(print_r($respuesta, true));
+    //     echo json_encode($respuesta);
+    // }
 }
 
 
 /* ==================================================
 EJECUCIÓN DEL CÓDIGO CUANDO SE ENVÍA EL FORMULARIO
 ================================================== */
+if(isset($_POST["accion"]) && $_POST["accion"] == "importarEquiposMasivo"){
+    $importar = new AjaxEquipos();
+    $importar->ajaxImportarEquiposMasivo();
+}
+
 
 if (isset($_POST["idEquipoTraspasoUbicacion"])) {
     $traspaso = new AjaxEquipos();
-    $traspaso -> idEquipoTraspasoUbicacion = $_POST["idEquipoTraspasoUbicacion"];
-    $traspaso -> ajaxMostrarDatosUbicacion();
+    $traspaso -> idEquipo = $_POST["idEquipoTraspasoUbicacion"];
+    $traspaso -> ajaxMostrarEquipo();
 }
 
-if (isset($_POST["nuevaUbicacionId"])) {
-    $traspaso = new AjaxEquipos();
-    $traspaso -> nuevaUbicacionId = $_POST["nuevaUbicacionId"];
-    $traspaso -> ajaxMostrarDatosUbicacionDestino();
-}
+// if (isset($_POST["nuevaUbicacionId"])) {
+//     $traspaso = new AjaxEquipos();
+//     $traspaso -> nuevaUbicacionId = $_POST["nuevaUbicacionId"];
+//     $traspaso -> ajaxMostrarDatosUbicacionDestino();
+// }
 
 
 if(isset($_POST["buscarDocumentoId"])){

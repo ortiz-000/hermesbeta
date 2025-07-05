@@ -1,3 +1,14 @@
+      <?php
+        $item = "id_modulo";
+        $valor = 1;
+        $respuesta = ControladorModulos::ctrMostrarModulos($item, $valor);
+        if ($respuesta["estado"] == "inactivo") {
+            echo '<script>
+                window.location = "desactivado";
+            </script>';
+        }
+
+    ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -7,9 +18,18 @@
           <div class="col-sm-6">
             <h1>Inventario</h1>
           </div>
-          <div class="col-sm-6">
+          <?php
+          if (ControladorValidacion::validarPermisoSesion([1])) {
+            echo '
+            <div class="col-sm-6">
             <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarEquipo">Agregar equipo</button>
-          </div>
+            <button class="btn btn-success float-right ml-2" style="margin-right:10px;" data-toggle="modal" data-target="#modalImportarEquipos">
+              <i class="fas fa-upload"></i> Importar Equipos
+            </button>
+            </div>      
+            ';
+          }
+          ?>
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -43,6 +63,59 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+   <!-- Modal para Importar equipos -->
+  <div class="modal fade" id="modalImportarEquipos">
+    <div class="modal-dialog modal-lg"><!-- Cambiado a modal-lg para mayor ancho -->
+      <div class="modal-content">
+        <div class="modal-header bg-success">
+          <h4 class="modal-title">Importar Equipos</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="box-body">
+            <form id="formImportarEquipos" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="archivoEquipos">Seleccionar archivo (.csv, .xlsx, .xls):</label>
+                <input type="file" class="form-control-file" name="archivoEquipos" id="archivoEquipos" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+              </div>
+              
+              <div class="form-group col-lg-6">
+                <label for="id_usuario">Cuentadante</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
+                  </div>
+                  <?php
+                  $item = null;
+                  $valor = null;
+                  $cuentadantes = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+                  echo '<select class="form-control" id="id_usuario" name="cuentadante_id" required>';
+                  echo '<option value="">Seleccione un cuentadante</option>';
+                  foreach ($cuentadantes as $key => $cuentadante) {
+                    if($cuentadante["nombre_rol"] == "Almacén"){
+                      echo '<option value="' . $cuentadante["id_usuario"] . '">' . $cuentadante["nombre"] . " " . $cuentadante["apellido"] . " (" . $cuentadante["nombre_rol"]. ")" .'</option>';
+                    }
+                  }
+                  echo '</select>';
+                  ?>
+                </div>
+              </div>
+              
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success">Importar</button>
+              </div>
+              
+            </form>
+          </div><!-- box-body  -->
+        </div><!-- modal-body  -->
+      </div><!-- Modal content -->
+    </div><!-- modal-dialog  -->
+  </div><!-- modal  -->
+  <!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+
 
   <!-- ========== Start Section ==========
   MODAL PARA INGRESAR EQUIPO
@@ -341,7 +414,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                   </div>
-                  <input type="hidden" id="ubicacionActualId" name="ubicacionActualId">
+                  <input type="hidden" id="ubicacionActualId" name="ubicacionActualId" value="">
                   <input type="text" class="form-control" id="ubicacionActual" name="ubicacionActual" readonly>
                 </div>
               </div>
@@ -386,6 +459,28 @@
           $ubicacion->ctrRealizarTraspasoUbicacion();
           ?>
         </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========== Start Section ==========
+  MODAL PARA HISTÓRICO DEL EQUIPO
+  ========== End Section ========== -->
+  <div class="modal fade" id="modalHistorialEquipo">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-secondary">
+          <h4 class="modal-title">Historial del equipo</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="">
+            <h1>En desarrollo...</h1>
+          </form>
+        </div>
       </div>
     </div>
   </div>

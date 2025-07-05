@@ -43,7 +43,25 @@ $('#tblUsuarios').DataTable({
             "render": function(data, type, row) {
             return "<div class='btn-group'><button title='Consultar detalles de usuario' class='btn btn-default btnConsultarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalConsularUsuario'><i class='fas fa-eye'></i></button><button title='Editar usuario' class='btn btn-default btnEditarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fas fa-edit'></i></button><button title='Solicitudes del usuario' class='btn btn-default btnSolicitudesUsuario' idUsuario='" + row[0] + "' data-numero-documento='"+ row[2] +"' data-toggle='modal' data-target='#modalSolicitudesUsuario'><i class='fas fa-laptop'></i></button></div>"
             }
-        }
+        },
+        {
+            "targets": [9],
+            "render": function(data, type, row) {
+                let condicion = row[9];
+                let idUsuario = row[0];
+                if (condicion === "en_regla") {
+                    return `<button class="btn btn-success  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="advertido">En regla</button>`;
+                } else if (condicion === "advertido") {
+                    return `<button class="btn btn-warning  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="penalizado">Advertido</button>`;
+                } else if (condicion === "penalizado") {
+                    return `<button class="btn btn-danger  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="en_regla">Penalizado</button>`;
+                } else {
+                    return '';
+                }
+            }
+        },
+
+
     ],
     "responsive": true,
     "autoWidth": false,
@@ -92,18 +110,154 @@ $(document).on("change", "#selectRol", function() {
         // $("#ficha").addClass("d-none");
     }
 });
+
+//************************************************************
+// 
+//  Condicion de los usuarios (solo admin puede cambiar)
+// 
+//************************************************************/
+
+$(document).on('click', '.btnCambiarCondicionUsuario', function() {
+    const boton = $(this);
+    const datos = {
+        idUsuarioCondicion: boton.attr("idUsuario"),
+        condicion: boton.attr("condicionUsuario")
+    };
+
+    $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        method: "POST",
+        data: datos,
+        success: response => manejarRespuestaCondicion(response, boton),
+        error: () => manejarErrorCondicion(boton)
+    });
+});
+
+// Función para mostrar feedback visual más estético al cambiar condición
+
+function toggleBotonLoading(boton, estado) {
+    if (estado) {
+        // Mostrar spinner y desactivar botón temporalmente
+        boton.data('original-html', boton.html());
+        boton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+    } else {
+        // Queda en el estado original el boton si se da click y no es administrador
+        const originalHtml = boton.data('original-html');
+        if (originalHtml !== undefined) {
+            boton.html(originalHtml);
+            boton.removeData('original-html');
+        }
+        boton.prop('disabled', false);
+    }
+}
+
+// Función para manejar la respuesta de la condición del usuario
+
+function manejarRespuestaCondicion(respuesta, boton) {
+    if (respuesta.trim() === "ok") {
+        actualizarBotonCondicion(boton, boton.attr("condicionUsuario"));
+    } else if (respuesta.trim() === "acceso_denegado") {
+        Toast.fire({
+            icon: 'error',
+            title: 'Acceso denegado'
+        });
+        toggleBotonLoading(boton, false);
+    } else {
+        toggleBotonLoading(boton, false);
+    }
+}
+
+// Función para manejar errores de conexión
+
+function manejarErrorCondicion(boton) {
+    Toast.fire({
+        icon: 'error',
+        title: 'Error de conexión'
+    });
+    toggleBotonLoading(boton, false);
+}
+
+// constantes para los estados de condición del usuario
+
+const ESTADOS_CONDICION = {
+    en_regla: {
+        removeClasses: 'btn-warning btn-danger',
+        addClass: 'btn-success',
+        texto: 'En regla',
+        siguiente: 'advertido'
+    },
+    advertido: {
+        removeClasses: 'btn-success btn-danger',
+        addClass: 'btn-warning',
+        texto: 'Advertido',
+        siguiente: 'penalizado'
+    },
+    penalizado: {
+        removeClasses: 'btn-success btn-warning',
+        addClass: 'btn-danger',
+        texto: 'Penalizado',
+        siguiente: 'en_regla'
+    }
+};
+
+// Función para actualizar el botón de condición del usuario
+
+function actualizarBotonCondicion(boton, nuevaCondicion) {
+    const estado = ESTADOS_CONDICION[nuevaCondicion];
+    if (!estado) return;
+
+    boton
+        .removeClass(estado.removeClasses)
+        .addClass(estado.addClass)
+        .html(estado.texto)
+        .attr('condicionUsuario', estado.siguiente)
+        .prop('disabled', false);
+}
+
 //************************************************************
 // script para cambiar los estados de los usuarios
 //************************************************************/
 $(document).on('click', '.btnActivarUsuario', function () {
     var idUsuario = $(this).data('id');
-    var nuevoEstado = $(this).data('estado');
+    var estadoActual = $(this).data('estado'); // el estado al que se va a cambiar
     var boton = $(this);
 
-    // Desactivar el botón para evitar múltiples clics
+    // Solo validar si se va a activar
+    if (estadoActual === "activo") {
+        // Consultar si el usuario tiene roles asociados
+        $.ajax({
+            url: "ajax/usuarios.ajax.php",
+            method: "POST",
+            data: { idUsuarioRoles: idUsuario },
+            dataType: "json",
+            success: function (respuesta) {
+                if (respuesta.length === 0) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "No se puede activar",
+                        text: "El usuario no tiene un rol asignado. Asigne un rol antes de activar.",
+                    });
+                    return; // No continúa con la activación
+                } else {
+                    // Si tiene roles, proceder con la activación
+                    cambiarEstadoUsuario(boton, idUsuario, estadoActual);
+                }
+            },
+            error: function () {
+                Swal.fire("Error", "Fallo de conexión al verificar roles", "error");
+            }
+        });
+    } else {
+        // Si se va a desactivar, no hace falta validar roles
+        cambiarEstadoUsuario(boton, idUsuario, estadoActual);
+    }
+});
+
+// Función para cambiar el estado del usuario (tu lógica original)
+function cambiarEstadoUsuario(boton, idUsuario, estadoActual) {
+    // Desactivar temporalmente el botón
     boton.prop('disabled', true);
 
-    // Guardar el texto original y mostrar spinner
     var textoOriginal = boton.html();
     boton.html('<i class="fas fa-spinner fa-spin"></i>');
 
@@ -112,40 +266,35 @@ $(document).on('click', '.btnActivarUsuario', function () {
         method: "POST",
         data: {
             idUsuarioEstado: idUsuario,
-            estado: nuevoEstado
+            estado: estadoActual
         },
         success: function (respuesta) {
             if (respuesta.trim() === "ok") {
-                Swal.fire("Éxito", "Estado actualizado", "success");
-
-                // Actualizar visualmente el botón sin recargar
-                if (nuevoEstado === "activo") {
-                    boton
-                        .removeClass('btn-danger')
-                        .addClass('btn-success')
-                        .text('Activo')
-                        .data('estado', 'inactivo');
+                // Cambiar estado visualmente sin recargar
+                if (estadoActual === "activo") {
+                    boton.removeClass('btn-danger').addClass('btn-success');
+                    boton.text('Activo');
+                    boton.data('estado', 'inactivo');
                 } else {
-                    boton
-                        .removeClass('btn-success')
-                        .addClass('btn-danger')
-                        .text('Inactivo')
-                        .data('estado', 'activo');
+                    boton.removeClass('btn-success').addClass('btn-danger');
+                    boton.text('Inactivo');
+                    boton.data('estado', 'activo');
                 }
-
                 boton.prop('disabled', false);
-
+            } else if (respuesta.trim() === "error_sin_rol") {
+                Swal.fire({
+                    icon: "warning",
+                    title: "No se puede activar",
+                    text: "El usuario no tiene un rol asignado. Asigne un rol antes de activar.",
+                });
+                boton.prop('disabled', false).html(textoOriginal);
             } else {
                 Swal.fire("Error", "No se pudo cambiar el estado", "error");
                 boton.prop('disabled', false).html(textoOriginal);
             }
-        },
-        error: function () {
-            Swal.fire("Error", "Fallo de conexión con el servidor", "error");
-            boton.prop('disabled', false).html(textoOriginal);
         }
     });
-});
+}
 
 
 $(document).on("change", "#selectSede", function() {
@@ -268,9 +417,17 @@ $(document).on("click", ".btnSolicitudesUsuario", function() {
     }
 
     // Redirigir a consultar-solicitudes con los parámetros necesarios
-    window.location.href = "consultar-solicitudes?" +
-        "numeroDocumento=" + encodeURIComponent(numeroDocumento) +
-        "&autoBuscar=1";
+    // Construir la URL base
+    let redirectUrl = "consultar-solicitudes?";
+    
+    // Agregar parámetros usando el nombre de parámetro 'cedula' 
+    // para compatibilidad con la función existente
+    redirectUrl += "cedula=" + encodeURIComponent(numeroDocumento) + 
+                  "&origin=usuarios" +
+                  "&autoBuscar=1";
+    
+    // Redireccionar
+    window.location.href = redirectUrl;
 });
 
 // ======================================
@@ -592,6 +749,8 @@ $(document).on("click", ".btnEditarUsuario", function() {
             $("#editTelefono").val(respuesta["telefono"]);
             $("#editDireccion").val(respuesta["direccion"]);
             $("#nombreEditPrograma").prop("placeholder", respuesta["descripcion_ficha"]);
+            $("#editGenero").val(respuesta["genero"]);
+
 
             // Aquí agregamos estado y condicion
             $("#editEstado").val(respuesta["estado"]);
@@ -607,4 +766,124 @@ $('#modalEditarUsuario').on('hidden.bs.modal', function() {
     //recargar las vista de usuarios
     // location.reload();
     // Clear all input fields inside the modal
+});
+
+//tooltips
+// Activar tooltips después de cada renderizado de tabla
+$('#tblUsuarios').on('draw.dt', function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+
+
+//************************************************************
+//
+//  SCRIPT PARA IMPORTAR USUARIOS MASIVAMENTE
+//
+//************************************************************/
+$(document).on("submit", "#modalImportarUsuarios form", function(e) {
+    e.preventDefault();
+
+    var fileInput = $("#archivoUsuarios");
+    var file = fileInput[0].files[0];
+
+    // Validar que se haya seleccionado un archivo
+    if (!file) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Por favor, seleccione un archivo.'
+        });
+        return;
+    }
+
+    // Validar tipo de archivo (CSV o Excel)
+    var validExtensions = ["csv", "xlsx", "xls"];
+    var fileExtension = file.name.split('.').pop().toLowerCase();
+    if ($.inArray(fileExtension, validExtensions) == -1) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Archivo no válido',
+            text: 'Por favor, seleccione un archivo CSV o Excel (.csv, .xlsx, .xls).'
+        });
+        fileInput.val(''); // Limpiar el input de archivo
+        return;
+    }
+
+    var formData = new FormData();
+    formData.append("archivoUsuarios", file);
+    formData.append("accion", "importarUsuariosMasivo"); // Acción para el controlador PHP
+
+    Swal.fire({
+        title: 'Importando usuarios...',
+        text: 'Esto puede tardar un momento.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    $.ajax({
+        url: "ajax/usuarios.ajax.php", // Ruta al controlador PHP
+        method: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            try {
+                var jsonResponse = JSON.parse(response);
+                if (jsonResponse.status === "success") {
+                    // Crear el archivo para descargar
+                    if (jsonResponse.reporte) {
+                        const contenidoBytes = Uint8Array.from(atob(jsonResponse.reporte), c => c.charCodeAt(0));
+                        var blob = new Blob([contenidoBytes], {type: 'text/plain;charset=utf-8'});
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = jsonResponse.nombreArchivo;
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Importación completada!',
+                            text: jsonResponse.message,
+                            showConfirmButton: true,
+                            confirmButtonText: "Descargar reporte",
+                            showCancelButton: true,
+                            cancelButtonText: "Cerrar"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                link.click();
+                            }
+                            $("#modalImportarUsuarios").modal('hide');
+                            $('#tblUsuarios').DataTable().ajax.reload();
+                            fileInput.val(''); // Limpiar el input de archivo
+                        });
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en la importación',
+                        text: jsonResponse.message || 'Ocurrió un error al importar los usuarios.'
+                    });
+                }
+            } catch (e) {
+                console.error("Raw server response:", response);
+                console.error("Error parsing JSON:", e);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error inesperado',
+                    text: 'La respuesta del servidor no es válida. Por favor, revise el archivo e inténtelo de nuevo.'
+                });
+                console.error("Error parsing response: ", response);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            Swal.close();
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor. Verifique su conexión e inténtelo de nuevo. Detalles: ' + textStatus + ' - ' + errorThrown
+            });
+            console.error("AJAX error: ", textStatus, errorThrown);
+        }
+    });
 });

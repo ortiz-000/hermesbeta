@@ -1,3 +1,13 @@
+<?php
+    $item = "id_modulo";
+    $valor = 3;
+    $respuesta = ControladorModulos::ctrMostrarModulos($item, $valor);
+    if ($respuesta["estado"] == "inactivo") {
+        echo '<script>
+            window.location = "desactivado";
+        </script>';
+    }
+?>
 <div class="content-wrapper">
   <section class="content-header">
     <div class="container-fluid">
@@ -22,7 +32,7 @@
           <div class="card">
             <div class="card-body">
               <table id="tblDevoluciones" class="table table-bordered table-striped">
-                <thead>
+                <thead class="bg-dark">
                   <tr>
                     <th>ID</th>
                     <th>Identificación</th>
@@ -37,7 +47,6 @@
                 </thead>
                 <tbody>
                   <?php
-
                   $item = null;
                   $valor = null;
                   $devoluciones = ControladorDevoluciones::ctrMostrarDevoluciones($item, $valor);
@@ -53,13 +62,12 @@
                       <td>' . $value["fecha_inicio"] . '</td>
                       <td>' . $value["fecha_fin"] . '</td>
                       <td>' . $value["tipo_prestamo"] . '</td>
-                      <td>
-                        <div class="btn-group">';
-                    // Modificamos para usar una sola modal y pasar el ID del préstamo
-                    echo '<button class="btn btn-info btn-sm btnVerUsuario" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerDetallesPrestamo">
-                                    <i class="fas fa-eye"></i> Ver
-                                  </button>';
-                    echo '</div>
+                      <td class="text-center">
+                        <div class="btn-group">
+                            <button title="Consultar detalles de préstamo" class="btn btn-default btn-sm btnVerUsuario" data-id="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerDetallesPrestamo">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                       </td>
                     </tr>';
                   }
@@ -76,10 +84,10 @@
 
 <!-- Modal Ver Detalles del Préstamo (Inmediatos y de Reserva) "Modal consolidada" -->
 <div class="modal fade" id="modalVerDetallesPrestamo" tabindex="-1" role="dialog" aria-labelledby="modalVerUsuarioLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header bg-info">
-        <h5 class="modal-title" id="modalVerUsuarioLabel">Detalles de la Devolución</h5>
+        <h5 class="modal-title" id="modalVerUsuarioLabel">Detalles de la Devolución #<span id="idPrestamo"></span></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -107,14 +115,6 @@
                         <tr>
                           <th style="width: 40%">Identificación:</th>
                           <td><span id="prestamoIdentificacion"></span></td>
-                        </tr>
-                        <tr>
-                          <th>Nombre:</th>
-                          <td><span id="prestamoNombre"></span></td>
-                        </tr>
-                        <tr>
-                          <th>Apellido:</th>
-                          <td><span id="prestamoApellido"></span></td>
                         </tr>
                         <tr>
                           <th>Teléfono:</th>
@@ -164,35 +164,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal para registrar motivo de mal estado -->
-<div class="modal fade" id="modalMalEstado">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-danger">
-        <h4 class="modal-title">Registrar Motivo de Mal Estado</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="formMalEstado">
-          <input type="hidden" id="malEstadoPrestamoId">
-          <!-- Necesitaremos el ID del equipo específico -->
-          <input type="hidden" id="malEstadoEquipoId">
-          <div class="form-group">
-            <label for="motivoMalEstado">Describe el motivo del mal estado:</label>
-            <textarea class="form-control" id="motivoMalEstado" rows="4" required></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger" id="btnGuardarMalEstado">Guardar Motivo y Enviar a Mantenimiento</button>
       </div>
     </div>
   </div>

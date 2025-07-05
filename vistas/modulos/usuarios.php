@@ -27,7 +27,10 @@
             <h1>Usuarios</h1>
           </div>
           <div class="col-sm-6">
-            <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarUsuario">Agregar usuario</button>
+            <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarUsuario" style="margin-left: 5px;">Agregar usuario</button>
+            <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalImportarUsuarios">
+              <i class="fas fa-upload"></i> Importar Usuarios
+            </button>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -60,14 +63,14 @@
               </tr>
             </thead>
 
-          </table
-
-            </div>
-          <!-- /.card-body -->
+          </table>
 
         </div>
         <!-- /.card-body -->
+
       </div>
+      <!-- /.card-body -->
+
 
     </section>
     <!-- /.content -->
@@ -80,10 +83,10 @@
   <div class="modal fade" id="modalConsularUsuario">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-primary">
           <h4 class="modal-title">Consultar usuario</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="false">&times;</span>
           </button>
         </div>
 
@@ -251,11 +254,46 @@
 
   <!-- ============================================================================================================== -->
 
+  <!-- Modal para Importar usuarios -->
+  <div class="modal fade" id="modalImportarUsuarios">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success">
+          <h4 class="modal-title">Importar Usuarios</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="box-body">
+            <form method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="archivoUsuarios">Seleccionar archivo (.csv, .xlsx, .xls):</label>
+                <input type="file" class="form-control-file" name="archivoUsuarios" id="archivoUsuarios" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success" name="importarUsuarios">Importar</button>
+              </div>
+              <?php
+              // Instanciar el controlador para la importación
+              // $importarUsuarios = new ControladorUsuarios();
+              // $importarUsuarios->ctrImportarUsuarios();
+              ?>
+            </form>
+          </div><!-- box-body  -->
+        </div><!-- modal-body  -->
+      </div><!-- Modal content -->
+    </div><!-- modal-dialog  -->
+  </div><!-- modal  -->
+
+  <!-- ============================================================================================================== -->
+
   <!-- Modal para agregar usuario -->
   <div class="modal fade" id="modalRegistrarUsuario">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-primary">
           <h4 class="modal-title">Agregar usuario</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -459,7 +497,7 @@
                         <option value="">Seleccione...</option>
                         <option value="1">Femenino</option>
                         <option value="2">Masculino</option>
-                        <option value="0">No declara</option>
+                        <option value="3">No declara</option>
                       </select>
                     </div>
                   </div>
@@ -511,7 +549,7 @@
   <div class="modal fade" id="modalEditarUsuario">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-primary">
           <h4 class="modal-title">Editar usuario</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -538,12 +576,12 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                       </div>
-                      <input type="text" class="form-control" name="editNombre" id="editNombre" placeholder="Nombre" required>
+                      <input type="text" class="form-control" name="editNombre" id="editNombre" placeholder="Nombre" readonly required>
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="input-group ">
-                      <input type="text" class="form-control" name="editApellido" id="editApellido" placeholder="Apellido" required>
+                      <input type="text" class="form-control" name="editApellido" id="editApellido" placeholder="Apellido" readonly required>
                     </div>
                   </div>
                 </div>
@@ -569,7 +607,7 @@
                   <div class="col-lg-8">
                     <label>Numero de documento</label>
                     <div class="input-group ">
-                      <input type="text" class="form-control" name="editNumeroDocumento" id="editNumeroDocumento" placeholder="Numero documento" required>
+                      <input type="text" class="form-control" name="editNumeroDocumento" id="editNumeroDocumento" placeholder="Numero documento" readonly required>
                     </div>
                   </div>
                 </div>
@@ -656,7 +694,7 @@
                   <div class="col-lg-8">
                     <label>Programa</label>
                     <div class="input-group ">
-                      <input type="text" class="form-control" id="nombreEditPrograma" name="nombreEditPrograma" id="nombreEditPrograma" placeholder="No seleccionado" disabled>
+                      <input type="text" class="form-control" id="nombreEditPrograma" name="nombreEditPrograma"  placeholder="No seleccionado" disabled>
                     </div>
                   </div>
 
@@ -725,7 +763,7 @@
                         <option value="">Seleccione...</option>
                         <option value="1">Femenino</option>
                         <option value="2">Masculino</option>
-                        <option value="0">No declara</option>
+                        <option value="3">No declara</option>
                       </select>
                     </div>
                   </div>
@@ -737,7 +775,7 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary">Modificar</button>
               </div>
-
+              </form> <!-- Cierre del formulario -->
               <?php
 
               // Include the PHP file for handling the form submission

@@ -22,12 +22,27 @@ $('#tblEquipos').DataTable({
             "targets": [0],
             "render": function(data, type, row, meta) {
                 return meta.row + 1;
-            },
+            }
         },
         {
             "targets": [-1],
-            "render": function(row) {
-                return "<div class='btn-group'><button title='Editar datos equipo' class='btn btn-default btn-xs btnEditarEquipo bg-warning' idEquipo='" + row[0] + "' data-toggle='modal' data-target='#modalEditarEquipo'><i class='fas fa-edit  mr-1 ml-1'></i></button><button title='Traspaso de cuentadante' class='btn btn-default btn-xs btnTraspasarEquipo ml-2 bg-success' idEquipoTraspaso='" + row[0] + "' data-toggle='modal' data-target='#modalTraspaso'><i class='fas fa-share mr-1 ml-1'></i></button><button title='Traspaso de ubicación' class='btn btn-default btn-xs btnTraspasarUbicacion ml-2 bg-info' idEquipoTraspasoUbicacion='" + row[0] + "' data-toggle='modal' data-target='#modalTraspasoUbicacion'><i class='fas fa-map-pin mr-1 ml-1'></i></button></div>"
+            "render": function(data, type, row) {
+                let botones = "<div class='btn-group'>";
+                if (usuarioActual["permisos"].includes(3)) {
+                    botones += "<button title='Editar equipo' class='btn btn-default btnEditarEquipo' idEquipo='" + row[0] + "' data-toggle='modal' data-target='#modalEditarEquipo'><i class='fas fa-edit'></i></button>";
+                }
+
+                if (usuarioActual["permisos"].includes(5)) {
+                    botones += "<button title='Traspaso de cuentadante' class='btn btn-default btnTraspasarEquipo' idEquipoTraspaso='" + row[0] + "' data-toggle='modal' data-target='#modalTraspaso'><i class='fas fa-share'></i></button>";
+                }
+
+                if (usuarioActual["permisos"].includes(4)) {
+                    botones += "<button title='Traspaso de ubicación' class='btn btn-default btnTraspasarUbicacion' idEquipoTraspasoUbicacion='" + row[0] + "' data-toggle='modal' data-target='#modalTraspasoUbicacion'><i class='fas fa-map-pin'></i></button>";
+                }
+                botones += "<button title='Ver historial' class='btn btn-default btnHistorialEquipo' idEquipoHistorial='" + row[0] + "' data-toggle='modal' data-target='#modalHistorialEquipo'><i class='fas fa-clock'></i></button>" +
+                    "</div>";
+
+                return botones;
             }
         }
     ],
@@ -43,11 +58,11 @@ $('#tblEquipos').DataTable({
         "infoFiltered": "(filtrado de _MAX_ total registros)",
         "search": "Buscar:",
         "paginate": {
-          "first":      "Primero",
-          "last":       "Ultimo",
-          "next":       "Siguiente",
-          "previous":   "Anterior"
-        },
+            "first":      "Primero",
+            "last":       "Ultimo",
+            "next":       "Siguiente",
+            "previous":   "Anterior"
+        }
     },
     "buttons": ["csv", "excel", "pdf"],
     "dom": "lfBrtip"    
@@ -59,11 +74,9 @@ BOTÓN PARA EDITAR EQUIPOS
 var idEquipoTraspaso;
 var idEquipoTraspasoUbicacion;
 
-// Escuchamos el evento "click" sobre cualquier botón con clase "btnEditarEquipo"
 $(document).on("click", ".btnEditarEquipo", function() {
     var idEquipo = $(this).attr("idEquipo");
     console.log("IdEquipo: ", idEquipo);
-    // $("#idEditEquipo").val(idEquipo);
     
     var datos = new FormData();
     datos.append("idEquipo", idEquipo);
@@ -80,11 +93,9 @@ $(document).on("click", ".btnEditarEquipo", function() {
             console.log("Respuesta completa del servidor:", respuesta);
             
             try {
-                // Verificamos que la respuesta sea válida
                 if (respuesta) {
                     console.log("datos: ", respuesta);
                     
-                    // Llenamos los campos del formulario del modal con los datos recibidos
                     $("#idEditEquipo").val(respuesta["equipo_id"]);
                     $("#numeroSerieEdit").val(respuesta["numero_serie"]);
                     $("#etiquetaEdit").val(respuesta["etiqueta"]);
@@ -119,7 +130,6 @@ $(document).on("click", ".btnTraspasarEquipo", function(){
     console.log("Id equipo traspaso: ", idEquipoTraspaso);
 
     var datos = new FormData();
-
     datos.append("idEquipoTraspaso", idEquipoTraspaso);
 
     $.ajax({
@@ -132,11 +142,9 @@ $(document).on("click", ".btnTraspasarEquipo", function(){
         dataType: "json",
         success: function(respuesta) {
             try {
-                // Verificamos que la respuesta sea válida
                 if (respuesta) {
                     console.log("datos: ", respuesta);
                     
-                    // Llenamos los campos del formulario del modal con los datos recibidos
                     $("#idEditEquipo").val(respuesta["equipo_id"]);
                     $("#cuentadanteOrigenTraspaso").val(respuesta["cuentadante_nombre"] + " (" + respuesta["nombre_rol"] + ")");
                     $("#ubicacionOrigenTraspaso").val(respuesta["ubicacion_nombre"]);
@@ -164,8 +172,7 @@ BOTÓN PARA BUSCAR EL CUENTADANTE Y AGREGARLO EN EL INPUT
 ================================================== */
 
 $(document).on("click", ".btnBuscarCuentadante", function (event){
-    event.preventDefault(); // Prevenir la recarga de la página
-    // Limpiar los campos antes de buscar de nuevo
+    event.preventDefault();
     console.log("Id equipo traspaso: ", idEquipoTraspaso);
 
     $("#cuentadanteDestino").val("");
@@ -215,7 +222,6 @@ $(document).on("click", ".btnBuscarCuentadante", function (event){
                     console.log("ESTE ES EL EQUIPO ID AL CUAL VOY A PASAR: ", idEquipoTraspaso);
                     $("#cuentadanteDestinoId").val(resultado["id_usuario"]);
                     $("#cuentadanteDestino").val(resultado["cuentadante_nombre_completo"] + " (" + resultado["nombre_rol"] + ")");
-                    // $("#ubicacionTraspaso").val(resultado["ubicacion_id"] + " " + resultado["ubicacion_nombre"]);
                 }
             }
         });
@@ -227,53 +233,152 @@ BOTÓN PARA MOSTRAR LOS DATOS DE LA UBICACIÓN ACTUAL
 ================================================== */
 
 $(document).on("click", ".btnTraspasarUbicacion", function() {
-    idEquipoTraspasoUbicacion = $(this).attr("idEquipoTraspasoUbicacion"); //Id del equipo
-    console.log(idEquipoTraspasoUbicacion);
+    let idEquipoTraspasoUbicacion = $(this).attr("idEquipoTraspasoUbicacion");
+    console.log("equipo a trasladar:",idEquipoTraspasoUbicacion);
 
     let datos = new FormData();
     datos.append("idEquipoTraspasoUbicacion", idEquipoTraspasoUbicacion);
 
     $.ajax({
         url: "ajax/equipos.ajax.php",
-            method: "POST",
-            data: datos,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: "json",
-            success: function(resultado){
-                console.log(resultado);
-                // console.log("ubicacion_id hola: ", resultado["ubicacion_id"]);
-                $("#ubicacionActualId").val(resultado["ubicacion_id"]); // el id hidden
-                $("#ubicacionActual").val(resultado["ubicacion_id"] + " " + resultado["nombre_ubicacion"]);
-                // $("#nuevaUbicacionId").val();
-            }
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function(resultado){
+            console.log(resultado);
+            $("#idTraspasoUbicacion").val(resultado["equipo_id"]);
+            $("#ubicacionActualId").val(resultado["ubicacion_id"]);
+            $("#ubicacionActual").val(resultado["ubicacion_id"] + " " + resultado["ubicacion_nombre"]);
+        }
     });
 });
 
-/* ==================================================
-BOTÓN PARA AGREGAR AL INPUT DE LA NUEVA UBICACIÓN DEL EQUIPO
-================================================== */
+// Activar tooltips después de cada renderizado de tabla
+$('#tblEquipos').on('draw.dt', function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
 
-$(document).on("change", "#nuevaUbicacionId", function() {
-    var nuevaUbicacionId = $(this).val(); // Capturando la ubicación id según el select
-    console.log("id ubicacion destino: ", nuevaUbicacionId);
+//************************************************************
+//
+//  SCRIPT PARA IMPORTAR Equipos MASIVAMENTE
+//
+//************************************************************/
+$(document).on("submit", "#modalImportarEquipos form", function(e) {
+    e.preventDefault();
 
-    var datos = new FormData();
-    datos.append("nuevaUbicacionId", nuevaUbicacionId);
+    var fileInput = $("#archivoEquipos");
+    var file = fileInput[0].files[0];
+
+    // Validar que se haya seleccionado un archivo
+    if (!file) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Por favor, seleccione un archivo.'
+        });
+        return;
+    }
+
+    // Validar tipo de archivo (CSV o Excel)
+    var validExtensions = ["csv", "xlsx", "xls"];
+    var fileExtension = file.name.split('.').pop().toLowerCase();
+    if ($.inArray(fileExtension, validExtensions) == -1) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Archivo no válido',
+            text: 'Por favor, seleccione un archivo CSV o Excel (.csv, .xlsx, .xls).'
+        });
+        fileInput.val(''); // Limpiar el input de archivo
+        return;
+    }
+
+    var formData = new FormData();
+    formData.append("archivoEquipos", file);
+    formData.append("accion", "importarEquiposMasivo"); // Acción para el controlador PHP
+    formData.append("cuentadante_id", $("#id_usuario").val());
+
+    Swal.fire({
+        title: 'Importando equipos...',
+        text: 'Esto puede tardar un momento.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
     $.ajax({
-        url: "ajax/equipos.ajax.php",
-            method: "POST",
-            data: datos,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: "json",
-            success: function(resultado){
-                console.log("RESULTADO: ", resultado);
-                $("#idTraspasoUbicacion").val(resultado["equipo_id"]);
-                $("#nuevaUbicacionId").val(resultado["ubicacion_id"]);
+        url: "ajax/equipos.ajax.php", // Ruta al controlador PHP
+        method: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            
+            Swal.close();
+            try {
+                var jsonResponse = typeof response === 'string' ? JSON.parse(response) : response;
+                if (jsonResponse.status === "success") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Importación completada!',
+                        html: jsonResponse.message +
+                            '<br><b>Exitosos:</b> ' + (jsonResponse.exitosos ? jsonResponse.exitosos.length : 0) +
+                            '<br><b>Fallidos:</b> ' + (jsonResponse.fallidos ? jsonResponse.fallidos.length : 0),
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar",
+                        confirmButtonText: "Descargar reporte",
+                        showCancelButton: true,
+                        cancelButtonText: "Cerrar"
+                        
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            link.click(); // Simula el clic para descargar el reporte
+                        }
+                        });
+                    if (jsonResponse.reporte) {
+                        const contenidoBytes = Uint8Array.from(atob(jsonResponse.reporte), c => c.charCodeAt(0));
+                        var blob = new Blob([contenidoBytes], {type: 'text/plain;charset=utf-8'});
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = jsonResponse.nombreArchivo;
+                        
+                        //Opción para descargar el reporte si lo deseas
+                         //link.click();
+                    }
+                    $("#modalImportarEquipos").modal('hide');
+                    $('#tblEquipos').DataTable().ajax.reload();
+                    fileInput.val('');
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en la importación',
+                        text: jsonResponse.message || 'Ocurrió un error al importar los equipos.'
+                    });
+                }
+            } catch (e) {
+                console.error("Raw server response:", response);
+                console.error("Error parsing JSON:", e);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error inesperado',
+                    text: 'La respuesta del servidor no es válida. Por favor, revise el archivo e inténtelo de nuevo.'
+                });
+                console.error("Error parsing response: ", response);
             }
-    })
+        },
+        
+        error: function(jqXHR, textStatus, errorThrown) {
+           
+            Swal.close();
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor. Verifique su conexión e inténtelo de nuevo. Detalles: ' + textStatus + ' - ' + errorThrown
+            });
+            console.error("AJAX error: ", textStatus, errorThrown);
+        }
+    });
 });
