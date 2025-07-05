@@ -44,6 +44,7 @@
                   $item = "id_prestamo";
                   $valor = $value["id_prestamo"];
                   $autorizaciones = ControladorAutorizaciones::ctrMostrarAutorizaciones($item, $valor);
+                  // var_dump($autorizaciones);
                   
                   echo '<tr>
                           <td>' . $value["id_prestamo"] . '</td>
@@ -51,7 +52,7 @@
                           <td>' . date('Y-m-d H:i', strtotime($value["fecha_inicio"])) . '</td>
                           <td>' . date('Y-m-d H:i', strtotime($value["fecha_fin"])) . '</td>';
                   if ($value["estado_prestamo"] == "Rechazado") {
-                    echo '<td class="bg-danger">' . $value["estado_prestamo"] . '</td>';
+                    echo '<td> <p class="text-danger" title="Rechazado por '.$autorizaciones["usuario_que_rechazo"].'"> ' . $value["estado_prestamo"] . '</p></td>';
                   } else {
                     echo '<td>' . $value["estado_prestamo"] . '</td>';
                   };
@@ -59,27 +60,27 @@
                           <td>
                             <div class="icheck-primary d-inline mx-1">';
                   if ($autorizaciones["firma_coordinacion"] == "Firmado") {
-                    echo '<input type="checkbox" checked disabled>';
+                    echo '<input type="checkbox" checked disabled title="Aprobado por '. $autorizaciones["nombre_usuario_coordinacion"] .'">';
                   } else {
-                    echo '<input type="checkbox" disabled>';
+                    echo '<input type="checkbox" disabled title="En trámite...">';
                   }
                   echo '</div>
                           </td>
                           <td>
                             <div class="icheck-primary d-inline mx-1">';
                   if ($autorizaciones["firma_lider_tic"] == "Firmado") {
-                    echo '<input type="checkbox" checked disabled>';
+                    echo '<input type="checkbox" checked disabled title="Aprobado por '. $autorizaciones["nombre_usuario_lider_tic"] .'">';
                   } else {
-                    echo '<input type="checkbox" disabled>';
+                    echo '<input type="checkbox" disabled title="En trámite...">';
                   }
                   echo '</div>
                           </td>
                           <td>
                             <div class="icheck-primary d-inline mx-1">';
                   if ($autorizaciones["firma_almacen"] == "Firmado") {
-                    echo '<input type="checkbox" checked disabled>';
+                    echo '<input type="checkbox" checked disabled title="Aprobado por '. $autorizaciones["nombre_usuario_almacen"] .'">';
                   } else {
-                    echo '<input type="checkbox" disabled>';
+                    echo '<input type="checkbox" disabled title="En trámite...">';
                   }
                   echo '</div>
                           </td>
