@@ -26,6 +26,7 @@
     </section>
 
     <!-- Main content -->
+    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -45,33 +46,36 @@
                                 </thead>
                                 <tbody>
                                     <?php
+                                    // Fetch the list of roles
                                     $item = null;
                                     $valor = null;
                                     $roles = ControladorRoles::ctrMostrarRoles($item, $valor);
+                                    // var_dump($roles); // Debugging line to check the data
 
+                                    // Loop through the roles and display them in the table
                                     foreach ($roles as $key => $value) {
                                         echo '<tr>
-                                            <td>'.($key + 1).'</td>
-                                            <td>'.$value["nombre_rol"].'</td>
-                                            <td>'.$value["descripcion"].'</td>
-                                            <td>'.$value["fecha_creacion"].'</td>
-                                            <td>';
+                                                <td>' . ($key + 1) . '</td>
+                                                <td>' . $value["nombre_rol"] . '</td>
+                                                <td>' . $value["descripcion"] . '</td>
+                                                <td>' . $value["fecha_creacion"] . '</td>
+                                                <td>';
                                         if ($value["estado"] == "activo") {
-                                            echo '<button class="btn btn-success btnActivarRol" idRol="'.$value["id_rol"].'" estadoRol="inactivo" title="Rol activo" data-toggle="tooltip"><i class="fas fa-check"></i></button>';
+                                            echo '<button class="btn btn-success btn-xs btnActivarRol" idRol="' . $value["id_rol"] . '" estadoRol="inactivo"">Activo</button>';
                                         } else {
-                                            echo '<button class="btn btn-danger btnActivarRol" idRol="'.$value["id_rol"].'" estadoRol="activo" title="Rol inactivo" data-toggle="tooltip"><i class="fas fa-ban"></i></button>';
-                                        };
-                                        echo '</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-default btnConsultarRol" idRol="'.$value["id_rol"].'" title="Consultar rol" data-toggle="tooltip"><i class="fas fa-eye"></i></button>
-                                                    <button class="btn btn-default btnEditarRol" idRol="'.$value["id_rol"].'" title="Editar rol" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit"></i></button>
-                                                    <button class="btn btn-default btnPermisosRol" idRol="'.$value["id_rol"].'" title="Asignar permisos" data-toggle="tooltip"><i class="fas fa-key"></i></button>
-                                                </div>
-                                            </td>
-                                        </tr>';
+                                            echo '<button class="btn btn-danger btn-xs btnActivarRol" idRol="' . $value["id_rol"] . '" estadoRol="activo">Inactivo</button>';
+                                        }
+                                        echo '</td><td><div class="btn-group">';
+                                        echo '<button class="btn btn-default bg-warning  ml-2 mr-2 btn-xs btnEditarRol" idRol="' . $value["id_rol"] . '" data-toggle="modal" data-target="#modalEditRol"><i class="fas fa-edit"></i></button>';
+                                        if ($value["id_rol"] >= 10) {
+                                            echo '<button class="btn btn-danger btn-xs btnEliminarRol" idRol="' . $value["id_rol"] . '"><i class="fas fa-trash"></i></button>';
+                                        }
+                                        echo '</div></td></tr>';
                                     }
                                     ?>
+
+
+
                                 </tbody>
                             </table>
                         </div>
@@ -80,7 +84,9 @@
             </div>
         </div>
     </section>
+    <!-- /.content -->
 </div>
+<!-- /.content-wrapper -->
 
 <!-- Modal for adding a new role -->
 <div class="modal fade" id="modalAddRol" tabindex="-1" role="dialog" aria-labelledby="modalAddRolLabel" aria-hidden="true">
@@ -94,7 +100,7 @@
             </div>
             <div class="modal-body">
                 <div class="box-body">
-                    <form id="formAddRol" method="POST"> 
+                    <form id="formAddRol" method="POST">
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
                             <input type="text" class="form-control" id="nombreRol" name="nombreRol" required>
@@ -109,9 +115,14 @@
                         </div>
 
                         <?php
-                            $crearRol = new ControladorRoles();
-                            $crearRol->ctrCrearRol();                            
+
+                        // Include the PHP file for handling the form submission
+                        $crearRol = new ControladorRoles();
+                        $crearRol->ctrCrearRol();
+
                         ?>
+
+
                     </form>
                 </div>
             </div>
@@ -131,7 +142,7 @@
             </div>
             <div class="modal-body">
                 <div class="box-body">
-                    <form id="formEditRol" method="POST"> 
+                    <form id="formEditRol" method="POST">
                         <input type="hidden" id="idEditRol" name="idEditRol" value="">
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
@@ -141,16 +152,22 @@
                             <label for="descripcion">Descripción</label>
                             <textarea class="form-control" id="descripcionEditRol" name="descripcionEditRol" required></textarea>
                         </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Modificar</button>
-                        </div>
 
                         <?php
-                            $editarRol = new ControladorRoles();
-                            $editarRol->ctrEditarRol();                            
+
+                        // Include the PHP file for handling the form submission
+                        $crearRol = new ControladorRoles();
+                        $crearRol->ctrEditarRol();
+
                         ?>
+
+
                     </form>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" id="btnModificarRol" form="formEditRol">Modificar</button>
+                    </div>
+
                 </div>
             </div>
         </div>

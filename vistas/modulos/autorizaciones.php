@@ -87,13 +87,7 @@
                             <div class="btn-group">
                               <button title="Consultar detalles de préstamo" class="btn btn-default btnVerDetallePrestamo_Autorizar" idPrestamo="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalVerDetallesPrestamo">
                                 <i class="fas fa-eye"></i>
-                              </button>
-                              <button title="Editar préstamo" class="btn btn-default btnEditarPrestamo" idPrestamo="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalEditarPrestamo">
-                                <i class="fas fa-edit"></i>
-                              </button>
-                              <button title="Solicitudes relacionadas" class="btn btn-default btnSolicitudesPrestamo" idPrestamo="' . $value["id_prestamo"] . '" data-toggle="modal" data-target="#modalSolicitudesPrestamo">
-                                <i class="fas fa-laptop"></i>
-                              </button>
+                              </button>   
                             </div>
                           </td>
                         </tr>';
