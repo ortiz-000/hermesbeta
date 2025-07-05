@@ -127,8 +127,6 @@ $(document).ready(function() {
                 dataType: "json",
                 success: function(respuesta) {
                     if (respuesta && respuesta.success) { 
-<<<<<<< HEAD
-=======
                         Swal.fire({
                             icon: "success",
                             title: respuesta.title || "¡Acción completada!",
@@ -235,7 +233,6 @@ $(document).ready(function() {
                 dataType: "json",
                 success: function(respuesta) {
                     if (respuesta && respuesta.success) {
->>>>>>> parent of cb2d9ee (Merge branch 'main' into pr/Estebjack-2004/107)
                         Swal.fire({
                             icon: "success",
                             title: respuesta.title || "¡Acción completada!",
