@@ -217,9 +217,9 @@ $(document).ready(function() {
     // Redirigir según el origen
     if (origin === "usuarios") {
       // Redirigir a usuarios y solicitudes
-      window.location.href = "usuarios?cedula=" + cedula + "&trigger=search";
+      window.location.href = "usuarios";
     } else if (origin === "historial" || cedula) {
-      window.location.href = "index.php?ruta=solicitudes&cedula=" + cedula + "&trigger=search";
+      window.location.href = "solicitudes";
     }
   });
 });
