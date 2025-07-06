@@ -49,7 +49,11 @@ $('#tblUsuarios').DataTable({
         {
             "targets": [-1],
             "render": function(data, type, row) {
-            return "<div class='btn-group'><button title='Consultar detalles de usuario' class='btn btn-default btnConsultarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalConsularUsuario'><i class='fas fa-eye'></i></button><button title='Editar usuario' class='btn btn-default btnEditarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fas fa-edit'></i></button><button title='Solicitudes del usuario' class='btn btn-default btnSolicitudesUsuario' idUsuario='" + row[0] + "' data-numero-documento='"+ row[2] +"' data-toggle='modal' data-target='#modalSolicitudesUsuario'><i class='fas fa-laptop'></i></button></div>"
+                if(usuarioActual["permisos"].includes(37)){ // Validación #47: Permite el accesos a los detalles de un usuario
+                    return "<div class='btn-group'><button title='Consultar detalles de usuario' class='btn btn-default btnConsultarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalConsularUsuario'><i class='fas fa-eye'></i></button><button title='Editar usuario' class='btn btn-default btnEditarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fas fa-edit'></i></button><button title='Solicitudes del usuario' class='btn btn-default btnSolicitudesUsuario' idUsuario='" + row[0] + "' data-numero-documento='"+ row[2] +"' data-toggle='modal' data-target='#modalSolicitudesUsuario'><i class='fas fa-laptop'></i></button></div>"
+                } else {
+                    return "<div class='btn-group'><button title='Consultar detalles de usuario' class='btn btn-default btnConsultarUsuario' disabled idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalConsularUsuario'><i class='fas fa-eye'></i></button><button title='Editar usuario' class='btn btn-default btnEditarUsuario' idUsuario='" + row[0] + "' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fas fa-edit'></i></button><button title='Solicitudes del usuario' class='btn btn-default btnSolicitudesUsuario' idUsuario='" + row[0] + "' data-numero-documento='"+ row[2] +"' data-toggle='modal' data-target='#modalSolicitudesUsuario'><i class='fas fa-laptop'></i></button></div>"
+                }
             }
         },
         {
