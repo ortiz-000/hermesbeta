@@ -38,21 +38,21 @@
               $item = null;
               $valor = null;
               $prestamos = ControladorSolicitudes::ctrMostrarPrestamo($item, $valor);
-              
+
               foreach ($prestamos as $key => $value) {
                 if ($value["tipo_prestamo"] == "Reservado") {
                   $item = "id_prestamo";
                   $valor = $value["id_prestamo"];
                   $autorizaciones = ControladorAutorizaciones::ctrMostrarAutorizaciones($item, $valor);
                   // var_dump($autorizaciones);
-                  
+
                   echo '<tr>
                           <td>' . $value["id_prestamo"] . '</td>
                           <td>' . $value["solicitante"] . '</td>
                           <td>' . date('Y-m-d H:i', strtotime($value["fecha_inicio"])) . '</td>
                           <td>' . date('Y-m-d H:i', strtotime($value["fecha_fin"])) . '</td>';
                   if ($value["estado_prestamo"] == "Rechazado") {
-                    echo '<td> <p class="text-danger" title="Rechazado por '.$autorizaciones["usuario_que_rechazo"].'"> ' . $value["estado_prestamo"] . '</p></td>';
+                    echo '<td> <p class="text-danger" title="Rechazado por ' . $autorizaciones["usuario_que_rechazo"] . '"> ' . $value["estado_prestamo"] . '</p></td>';
                   } else {
                     echo '<td>' . $value["estado_prestamo"] . '</td>';
                   };
@@ -60,7 +60,7 @@
                           <td>
                             <div class="icheck-primary d-inline mx-1">';
                   if ($autorizaciones["firma_coordinacion"] == "Firmado") {
-                    echo '<input type="checkbox" checked disabled title="Aprobado por '. $autorizaciones["nombre_usuario_coordinacion"] .'">';
+                    echo '<input type="checkbox" checked disabled title="Aprobado por ' . $autorizaciones["nombre_usuario_coordinacion"] . '">';
                   } else {
                     echo '<input type="checkbox" disabled title="En trámite...">';
                   }
@@ -69,7 +69,7 @@
                           <td>
                             <div class="icheck-primary d-inline mx-1">';
                   if ($autorizaciones["firma_lider_tic"] == "Firmado") {
-                    echo '<input type="checkbox" checked disabled title="Aprobado por '. $autorizaciones["nombre_usuario_lider_tic"] .'">';
+                    echo '<input type="checkbox" checked disabled title="Aprobado por ' . $autorizaciones["nombre_usuario_lider_tic"] . '">';
                   } else {
                     echo '<input type="checkbox" disabled title="En trámite...">';
                   }
@@ -78,7 +78,7 @@
                           <td>
                             <div class="icheck-primary d-inline mx-1">';
                   if ($autorizaciones["firma_almacen"] == "Firmado") {
-                    echo '<input type="checkbox" checked disabled title="Aprobado por '. $autorizaciones["nombre_usuario_almacen"] .'">';
+                    echo '<input type="checkbox" checked disabled title="Aprobado por ' . $autorizaciones["nombre_usuario_almacen"] . '">';
                   } else {
                     echo '<input type="checkbox" disabled title="En trámite...">';
                   }
@@ -104,32 +104,78 @@
 </div>
 
 <!-- Modal para ver detalles del préstamo -->
-<div class="modal fade" id="modalVerDetallesPrestamo">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade" id="modalVerDetallesPrestamo" tabindex="-1" role="dialog" aria-labelledby="modalVerUsuarioLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <h4 class="modal-title">Detalle del Préstamo #<span id="numeroPrestamo"></span></h4>
+      <div class="modal-header bg-info">
+        <h5 class="modal-title">Detalle del Préstamo #<span id="numeroPrestamo"></span></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-12">
-            <dl class="row">
-              <dt class="col-sm-4">Estado:</dt>
-              <dd class="col-sm-8" id="detalleTipoPrestamo"></dd>
-
-              <dt class="col-sm-4">Fecha Préstamo:</dt>
-              <dd class="col-sm-8" id="detalleFechaInicio"></dd>
-
-              <dt class="col-sm-4">Fecha Devolución:</dt>
-              <dd class="col-sm-8" id="detalleFechaFin"></dd>
-
-              <dt class="col-sm-4">Motivo:</dt>
-              <dd class="col-sm-8" id="detalleMotivoPrestamo"></dd>
-            </dl>
+          <!-- Información del Usuario -->
+          <div class="col-md-4 text-center">
+            <img class="img-circle elevation-2 mb-3" id="imgUsuario" src="vistas/img/usuarios/default/anonymous.png" alt="User Image" style="width: 120px; height: 120px;">
+            <h4 id="usuarioNombre">Nombre del Usuario</h4>
+            <p class="text-muted" id="userRol">Rol</p>
           </div>
+
+          <!-- Detalles del Préstamo -->
+          <div class="col-md-8">
+            <div class="card card-outline card-info">
+              <div class="card-header">
+                <h3 class="card-title">Información del Préstamo</h3>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <table class="table table-sm">
+                      <tbody class="info-prestamo">
+                        <tr>
+                          <th style="width: 40%">Identificación:</th>
+                          <td><span id="usuarioIdentificacion"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Teléfono:</th>
+                          <td><span id="usuarioTelefono"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Ficha:</th>
+                          <td><span id="usuarioFicha"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Motivo:</th>
+                          <td><span id="detalleMotivoPrestamo"></span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-6">
+                    <table class="table table-sm">
+                      <tbody class="info-prestamo-2">
+                        <tr>
+                          <th style="width: 40%">Fecha de Inicio:</th>
+                          <td><span id="detalleFechaInicio"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Fecha de Devolución:</th>
+                          <td><span id="detalleFechaFin"></span></td>
+                        </tr>
+                        <tr>
+                          <th>Estado:</th>
+                          <td><span id="estadoPrestamo"></span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Detalles de los equipos -->
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
@@ -156,6 +202,7 @@
           </div>
         </div>
       </div>
+
       <div class="modal-footer">
         <input type="hidden" id="idRolSesion" value="<?php echo $_SESSION['rol'] ?>">
         <input type="hidden" id="nombre_rolSesion" value="<?php echo $_SESSION['nombre_rol'] ?>">
