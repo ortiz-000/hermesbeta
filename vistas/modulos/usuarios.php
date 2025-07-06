@@ -27,10 +27,23 @@
             <h1>Usuarios</h1>
           </div>
           <div class="col-sm-6">
-            <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarUsuario" style="margin-left: 5px;">Agregar usuario</button>
-            <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalImportarUsuarios">
-              <i class="fas fa-upload"></i> Importar Usuarios
-            </button>
+
+            <?php
+            
+            // Permiso para validar la agregación de un nuevo ususario
+            if(ControladorValidacion::validarPermisoSesion([35])){
+              echo '<button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarUsuario" style="margin-left: 5px;">Agregar usuario</button>';
+            }
+
+            // Permiso para importación masiva de usuarios
+            if(ControladorValidacion::validarPermisoSesion([36])){
+              echo '<button class="btn btn-success float-right" data-toggle="modal" data-target="#modalImportarUsuarios">
+                <i class="fas fa-upload"></i> Importar Usuarios
+              </button>';
+            }
+
+            ?>
+            
           </div>
         </div>
       </div><!-- /.container-fluid -->
