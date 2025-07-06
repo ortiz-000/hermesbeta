@@ -152,7 +152,6 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
         processData: false,
         dataType: "json",
         success: function (respuestaDetalle) {
-          console.log("DETALLE :", respuestaDetalle);
           //colocamos los datos en el datatable
           $("#tblDetallePrestamo").DataTable().clear().destroy();
           $("#tblDetallePrestamo").DataTable({
@@ -167,13 +166,10 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
             ],
             responsive: true,
             lengthChange: true,
-            autoWidth: false,
             pagin: true,
             searching: true,
             ordering: true,
-            info: true,
-            scrollX: true,
-            scrollCollapse: true,            
+            info: true,            
             language: {
               sProcessing: "Procesando...",
               sLengthMenu: "Mostrar _MENU_ registros",
@@ -190,8 +186,8 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
                 next: "Siguiente",
                 previous: "Anterior",
               },
-            },
-            pagelength: 5,
+            }
+            
           });
         },
       });
