@@ -90,4 +90,21 @@ class Modelosalida
         $stmt = null;    
     }
 
+    static public function mdlContarSalidas($tabla, $estado)
+    {
+        if ($estado != null) {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as cantidad FROM $tabla WHERE tipo_prestamo = 'Reservado' AND estado_prestamo = :estado");
+            $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        } else {
+            $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as cantidad FROM $tabla WHERE tipo_prestamo = 'Reservado' AND estado_prestamo IN ('Tramite', 'Pendiente')");
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
+
+        $stmt->close();
+        $stmt = null;
+    }
+
 } //ModeloSalidas
