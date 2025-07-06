@@ -31,10 +31,18 @@ $('#tblUsuarios').DataTable({
         {
             "targets": [8],
             "render": function(data, type, row) {
-                if (data === "activo") {
-                    return "<button title='Inactivar usuario' class='btn btn-success btnActivarUsuario' data-id='" + row[0] + "' data-estado='inactivo'>Activo</button>";
+                if(usuarioActual["permisos"].includes(40)){ // Validación #40:  Permite activar y desactivar al usuario
+                    if (data === "activo") {
+                        return "<button title='Inactivar usuario' class='btn btn-success btnActivarUsuario' data-id='" + row[0] + "' data-estado='inactivo'>Activo</button>";
+                    } else {
+                        return "<button title='Activar usuario' class='btn btn-danger btnActivarUsuario' data-id='" + row[0] + "' data-estado='activo'>Inactivo</button>";                    
+                    }
                 } else {
-                    return "<button title='Activar usuario' class='btn btn-danger btnActivarUsuario' data-id='" + row[0] + "' data-estado='activo'>Inactivo</button>";                    
+                    if (data === "activo") {
+                        return "<button title='Inactivar usuario' class='btn btn-success btnActivarUsuario' disabled data-id='" + row[0] + "' data-estado='inactivo'>Activo</button>";
+                    } else {
+                        return "<button title='Activar usuario' class='btn btn-danger btnActivarUsuario' disabled data-id='" + row[0] + "' data-estado='activo'>Inactivo</button>";                    
+                    }
                 }
             }
         },
