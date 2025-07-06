@@ -49,14 +49,26 @@ $('#tblUsuarios').DataTable({
             "render": function(data, type, row) {
                 let condicion = row[9];
                 let idUsuario = row[0];
-                if (condicion === "en_regla") {
-                    return `<button class="btn btn-success  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="advertido">En regla</button>`;
-                } else if (condicion === "advertido") {
-                    return `<button class="btn btn-warning  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="penalizado">Advertido</button>`;
-                } else if (condicion === "penalizado") {
-                    return `<button class="btn btn-danger  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="en_regla">Penalizado</button>`;
+                if(usuarioActual["permisos"].includes(41)){ // Validación #41:  Permite alternar las diferentes condiciones de usuario (En regla, Advertido, Penalizado)
+                    if (condicion === "en_regla") {
+                        return `<button class="btn btn-success  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="advertido">En regla</button>`;
+                    } else if (condicion === "advertido") {
+                        return `<button class="btn btn-warning  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="penalizado">Advertido</button>`;
+                    } else if (condicion === "penalizado") {
+                        return `<button class="btn btn-danger  btnCambiarCondicionUsuario" idUsuario="${idUsuario}" condicionUsuario="en_regla">Penalizado</button>`;
+                    } else {
+                        return '';
+                    }
                 } else {
-                    return '';
+                    if (condicion === "en_regla") {
+                        return `<button class="btn btn-success  btnCambiarCondicionUsuario" disabled idUsuario="${idUsuario}" condicionUsuario="advertido">En regla</button>`;
+                    } else if (condicion === "advertido") {
+                        return `<button class="btn btn-warning  btnCambiarCondicionUsuario" disabled idUsuario="${idUsuario}" condicionUsuario="penalizado">Advertido</button>`;
+                    } else if (condicion === "penalizado") {
+                        return `<button class="btn btn-danger  btnCambiarCondicionUsuario" disabled idUsuario="${idUsuario}" condicionUsuario="en_regla">Penalizado</button>`;
+                    } else {
+                        return '';
+                    }
                 }
             }
         },
