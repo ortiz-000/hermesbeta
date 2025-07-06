@@ -87,15 +87,19 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
       // console.log("PRESTAMO :", respuesta);
       $("#numeroPrestamo").text(respuesta["id_prestamo"]);
       $("#userRol").text(respuesta["nombre_rol"]);
-      
+
       // Mostrar solo la fecha (yyyy-mm-dd), sin la hora
-      let fechaInicio = respuesta["fecha_inicio"] ? respuesta["fecha_inicio"].split(" ")[0] : "";
-      let fechaFin = respuesta["fecha_fin"] ? respuesta["fecha_fin"].split(" ")[0] : "";
+      let fechaInicio = respuesta["fecha_inicio"]
+        ? respuesta["fecha_inicio"].split(" ")[0]
+        : "";
+      let fechaFin = respuesta["fecha_fin"]
+        ? respuesta["fecha_fin"].split(" ")[0]
+        : "";
       $("#detalleFechaInicio").text(fechaInicio);
       $("#detalleFechaFin").text(fechaFin);
       $("#detalleMotivoPrestamo").text(respuesta["motivo"]);
       $("#estadoPrestamo").text(respuesta["estado_prestamo"]);
-      datosUsuario = new FormData();      
+      datosUsuario = new FormData();
       datosUsuario.append("idUsuario", respuesta["id_usuario"]);
       //traemos los datos del usuario
       $.ajax({
@@ -109,28 +113,33 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
         success: function (respuestaUsuario) {
           console.log("USUARIO :", respuestaUsuario);
           //colocamos los datos del usuario
-          $("#usuarioNombre").text(respuestaUsuario["nombre"]+" " + respuestaUsuario["apellido"]);          
-          $("#usuarioIdentificacion").text(respuestaUsuario["tipo_documento"] + " " + respuestaUsuario["numero_documento"]);
+          $("#usuarioNombre").text(
+            respuestaUsuario["nombre"] + " " + respuestaUsuario["apellido"]
+          );
+          $("#usuarioIdentificacion").text(
+            respuestaUsuario["tipo_documento"] +
+              " " +
+              respuestaUsuario["numero_documento"]
+          );
           $("#usuarioTelefono").text(respuestaUsuario["telefono"]);
           if (respuestaUsuario["nombre_rol"] == "Aprendiz") {
             $("#usuarioFicha").text(respuestaUsuario["codigo"]);
-          }else{
+          } else {
             $("#usuarioFicha").text("N/A");
           }
 
           //colocamos la imagen del usuario
           if (respuestaUsuario["foto"] != "") {
+            $("#imgUsuario").attr("src", respuestaUsuario["foto"]);
+          } else {
             $("#imgUsuario").attr(
               "src",
-              respuestaUsuario["foto"]
+              "vistas/img/usuarios/default/anonymous.png"
             );
-          } else {
-            $("#imgUsuario").attr("src", "vistas/img/usuarios/default/anonymous.png");
           }
-        }
+        },
       });
-      
-      
+
       datosDetalle = new FormData();
       datosDetalle.append("accion", "mostrarPrestamoDetalle");
       datosDetalle.append("idPrestamoDetalle", respuesta["id_prestamo"]);
@@ -157,9 +166,14 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
               { data: "ubicacion" },
             ],
             responsive: true,
+            lengthChange: true,
             autoWidth: false,
-            lengthChange: true,            
-            ordering: true,            
+            pagin: true,
+            searching: true,
+            ordering: true,
+            info: true,
+            scrollX: true,
+            scrollCollapse: true,            
             language: {
               sProcessing: "Procesando...",
               sLengthMenu: "Mostrar _MENU_ registros",
@@ -177,6 +191,7 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
                 previous: "Anterior",
               },
             },
+            pagelength: 5,
           });
         },
       });
