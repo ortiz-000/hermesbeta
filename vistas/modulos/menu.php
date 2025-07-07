@@ -50,6 +50,24 @@
 
 
         <?php
+        // Contar la cantidad de prestamos por cada estado_prestamo en la fecha actual
+        $hoy = date('Y-m-d');
+        $cantidadPrestamosPendientes = ControladorSolicitudes::ctrContarPrestamosPorEstado("Pendiente", $hoy);
+        $cantidadPrestamosAutorizados = ControladorSolicitudes::ctrContarPrestamosPorEstado("Autorizado", $hoy);
+        $cantidadPrestamosTramite = ControladorSolicitudes::ctrContarPrestamosPorEstado("Trámite", $hoy);
+        $cantidadPrestamosRechazados = ControladorSolicitudes::ctrContarPrestamosPorEstado("Rechazado", $hoy);
+        
+        $cantidadSalidasAutorizadas = ControladorSalidas::ctrContarSalidas("Autorizado");
+        $cantidadSalidasTramite = ControladorSalidas::ctrContarSalidas(null);
+
+        $cantidadDevoluciones = ControladorSolicitudes::ctrContarDevoluciones(null);
+        $cantidadDevolucionesVencidas = ControladorSolicitudes::ctrContarDevoluciones($hoy);
+
+        $cantidadMantenimientos = ControladorMantenimiento::ctrMostrarMantenimientos(null, null);
+
+
+
+
         echo '<li class="nav-item">
             <a href="inicio" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
@@ -223,7 +241,8 @@
               <li class="nav-item">
                 <a href="autorizaciones" class="nav-link">
                 <i class="nav-icon fas fa-check"></i>
-                <span class="badge badge-info right">4+</span>
+                <span class="badge badge-info right">'.$cantidadPrestamosPendientes.'+</span>
+                <span class="badge badge-primary right">'.$cantidadPrestamosTramite.'+</span>
                 <p>Autorizaciones</p>
                 </a>
               </li>
@@ -233,7 +252,8 @@
           echo '<li class="nav-item">
             <a href="salidas" class="nav-link">
               <i class="nav-icon fas fa-eye"></i>
-              <span class="badge badge-info right">3+</span>
+              <span class="badge badge-info right">'.$cantidadSalidasTramite.'+</span>
+              <span class="badge badge-success right">'.$cantidadSalidasAutorizadas.'+</span>
               <p>
               Salidas
               </p>
@@ -245,7 +265,8 @@
           echo '<li class="nav-item">
             <a href="devoluciones" class="nav-link">
               <i class="nav-icon fas fa-reply"></i>
-              <span class="badge badge-info right">6+</span>
+              <span class="badge badge-info right">'.$cantidadDevoluciones.'+</span>
+              <span class="badge badge-danger right">'.$cantidadDevolucionesVencidas.'+</span>
               <p>
               Devoluciones
               </p>
@@ -258,6 +279,7 @@
         echo '<li class="nav-item">
             <a href="Mantenimiento" class="nav-link">
               <i class="nav-icon fas fa-tools"></i>
+              <span class="badge badge-info right">'.count($cantidadMantenimientos).'+</span>
               <p>
                 Mantenimiento
               </p>
