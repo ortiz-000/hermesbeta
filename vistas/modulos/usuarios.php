@@ -54,30 +54,24 @@
 
       <!-- Default box -->
       <div class="card">
-
-
-
         <div class="card-body">
-          <table id="tblUsuarios" class="table table-bordered table-striped table-hover">
-
-            <thead class="bg-dark">
-              <tr>
-                <th>#</th>
-                <th>Tipo de documento</th>
-                <th>Numero de documento</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo</th>
-                <th>Rol</th>
-                <th>Ficha</th>
-                <th>Estado</th>
-                <th>Condición</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-
-          </table>
-
+            <table id="tblUsuarios" class="table table-bordered table-striped table-hover">
+              <thead class="bg-dark">
+                <tr>
+                  <th>#</th>
+                  <th>Tipo de documento</th>
+                  <th>Numero de documento</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Correo</th>
+                  <th>Rol</th>
+                  <th>Ficha</th>
+                  <th>Estado</th>
+                  <th>Condición</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+            </table>
         </div>
         <!-- /.card-body -->
 
