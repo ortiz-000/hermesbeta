@@ -156,8 +156,8 @@
                         </div>
                     </div>
                 </div>
-                </div>
-                </div>
+            </div>
+        </div>
             <div class="modal-footer">
                 <form method="POST">
                     <!-- creamos dos input oculos para enviar los datos al controlador -->
