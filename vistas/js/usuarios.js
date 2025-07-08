@@ -39,9 +39,9 @@ $('#tblUsuarios').DataTable({
                     }
                 } else {
                     if (data === "activo") {
-                        return "<button title='Inactivar usuario' class='btn btn-success btnActivarUsuario' disabled data-id='" + row[0] + "' data-estado='inactivo'>Activo</button>";
+                        return "<button title='Inactivar usuario' class='btn btn-success' disabled data-id='" + row[0] + "'>Activo</button>";
                     } else {
-                        return "<button title='Activar usuario' class='btn btn-danger btnActivarUsuario' disabled data-id='" + row[0] + "' data-estado='activo'>Inactivo</button>";                    
+                        return "<button title='Activar usuario' class='btn btn-danger' disabled data-id='" + row[0] + "'>Inactivo</button>";                    
                     }
                 }
             }
@@ -75,11 +75,11 @@ $('#tblUsuarios').DataTable({
                     }
                 } else {
                     if (condicion === "en_regla") {
-                        return `<button class="btn btn-success  btnCambiarCondicionUsuario" disabled idUsuario="${idUsuario}" condicionUsuario="advertido">En regla</button>`;
+                        return `<button class="btn btn-success" disabled idUsuario="${idUsuario}">En regla</button>`;
                     } else if (condicion === "advertido") {
-                        return `<button class="btn btn-warning  btnCambiarCondicionUsuario" disabled idUsuario="${idUsuario}" condicionUsuario="penalizado">Advertido</button>`;
+                        return `<button class="btn btn-warning" disabled idUsuario="${idUsuario}">Advertido</button>`;
                     } else if (condicion === "penalizado") {
-                        return `<button class="btn btn-danger  btnCambiarCondicionUsuario" disabled idUsuario="${idUsuario}" condicionUsuario="en_regla">Penalizado</button>`;
+                        return `<button class="btn btn-danger" disabled idUsuario="${idUsuario}">Penalizado</button>`;
                     } else {
                         return '';
                     }
