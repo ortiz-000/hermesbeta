@@ -33,9 +33,11 @@ session_start();
   <link rel="stylesheet" href="vistas/dist/css/adminlte.css">
   <!-- mi css -->
   <link rel="stylesheet" href="vistas/css/plantilla.css">
-   <!-- summernote -->
+  <!-- summernote -->
   <link rel="stylesheet" href="vistas/plugins/summernote/summernote-bs4.min.css">
 
+  <!-- Toastr -->
+  <link rel="stylesheet" href="vistas/plugins/toastr/toastr.min.css">
   <!-- ================================================================================================== -->
 
   <!-- jQuery -->
@@ -58,6 +60,8 @@ session_start();
   <script src="vistas/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
   <!-- Summernote -->
   <script src="vistas/plugins/summernote/summernote-bs4.min.js"></script>
+  <!-- Toastr -->
+  <script src="vistas/plugins/toastr/toastr.min.js"></script>
   <!-- InputMask -->
   <script src="vistas/plugins/moment/moment.min.js"></script>
   <script src="vistas/plugins/inputmask/jquery.inputmask.min.js"></script>

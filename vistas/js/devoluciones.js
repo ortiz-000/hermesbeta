@@ -127,12 +127,10 @@ $(document).ready(function() {
                 dataType: "json",
                 success: function(respuesta) {
                     if (respuesta && respuesta.success) { 
-                        Swal.fire({
+                        Toast.fire({
                             icon: "success",
                             title: respuesta.title || "¡Acción completada!",
-                            text: respuesta.message,
-                            showConfirmButton: false,
-                            timer: 2000
+                            text: respuesta.message
                         }).then(() => {
                             $buttonPressed.closest('tr').fadeOut(500, function() {
                                 $(this).remove();
@@ -233,12 +231,10 @@ $(document).ready(function() {
                 dataType: "json",
                 success: function(respuesta) {
                     if (respuesta && respuesta.success) {
-                        Swal.fire({
+                        Toast.fire({
                             icon: "success",
                             title: respuesta.title || "¡Acción completada!",
-                            text: respuesta.message,
-                            showConfirmButton: false,
-                            timer: 2000
+                            text: respuesta.message
                         }).then(() => {
                             $buttonPressed.closest('tr').fadeOut(500, function() {
                                 $(this).remove();
