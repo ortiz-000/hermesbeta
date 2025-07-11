@@ -32,7 +32,7 @@ $(document).ready(function() {
                     // Información de los equipos en una tabla
                     var equiposTableHtml = `
                         <table class="table table-bordered table-striped dt-responsive tablaDevolucionesEquipos" width="100%">
-                            <thead>
+                            <thead class="bg-dark">
                                 <tr>
                                     <th>Categoría</th>
                                     <th>Marca</th>
