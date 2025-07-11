@@ -22,7 +22,7 @@ $(document).ready(function() {
 
                     // Información del préstamo
                     $('#prestamoIdentificacion').text(datosPrestamo.numero_documento || 'No disponible');
-                    $('#prestamoTelefono').text(datosPrestamo.telefono || 'No disponible');
+                    $('#prestamoTelefono').text(datosPrestamo.telefono || '---');
                     $('#prestamoFicha').text(datosPrestamo.ficha_codigo || 'No asignada');
                     $('#prestamoTipo').text(datosPrestamo.tipo_prestamo || 'No especificado');
                     $('#prestamoFechaInicio').text(datosPrestamo.fecha_inicio || 'No especificada');
