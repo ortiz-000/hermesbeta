@@ -86,47 +86,55 @@
           </div>
         </div>
         <!-- <div class="col-sm-6"></div> -->
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header bg-dark">
-                <h3 class="card-title"><i class="fas fa-chart-line"></i> Préstamos Por Día</h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header bg-dark">
+              <h3 class="card-title"><i class="fas fa-chart-line"></i> Préstamos Por Día</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
               </div>
-        
-        <?php
+            </div>
 
-        $prestamos = ControladorInicio::ctrObtenerPrestamosPorDia();
+            <?php
+            $prestamos = ControladorInicio::ctrObtenerPrestamosPorDia();
+            $dias = [];
+            $cantidades = [];
 
-        $dias = [];
-        $cantidades = [];
+            foreach ($prestamos as $registro) {
+              $dias[] = $registro['dia'];
+              $cantidades[] = $registro['cantidad'];
+            }
 
-        foreach ($prestamos as $registro) {
-          $dias[] = $registro['dia'];
-          $cantidades[] = $registro['cantidad'];
-        }
-        ?>
-        <div class="card-body">
-          <canvas id="line-chart-prestamos"
-            style="min-height: 250px; height: 150px; background-color:rgba(88, 165, 216, 0.38);"></canvas>
+            ?>
+
+            <div class="card-body">
+              <center>
+                <button type="button" class="btn btn-sm btn-info" id="semana-actual">Semana Actual</button>
+                <button type="button" class="btn btn-sm btn-secondary" id="semana-anterior">Semana Anterior</button>
+              </center>
+            </div>
+
+            <div class="card-body">
+              <canvas id="line-chart-prestamos"
+                style="min-height: 250px; height: 150px; background-color:rgba(88, 165, 216, 0.38);"></canvas>
+            </div>
+          </div>
         </div>
+
+
+
+
       </div>
-    </div>
+    </div><!-- /.container-fluid -->
+  </section>
 
+  <!-- Main content -->
+  <section class="content">
 
-
-</div>
-</div><!-- /.container-fluid -->
-</section>
-
-<!-- Main content -->
-<section class="content">
-
-</section>
-<!-- /.content -->
+  </section>
+  <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
 
@@ -136,12 +144,11 @@
 
 
 
-<script>
+<!-- <script>
 
   const ctx = document.getElementById('line-chart-prestamos').getContext('2d');
 
-  const dias = <?php echo json_encode($dias); ?>;
-  const cantidades = <?php echo json_encode($cantidades); ?>;
+  
 
   new Chart(ctx, {
     type: 'line',
@@ -170,4 +177,55 @@
     }
   });
 
+</script> -->
+
+<script>
+  const ctx = document.getElementById('line-chart-prestamos').getContext('2d');
+
+  let chart;
+
+  function cargarGrafico(tipo = 'actual') {
+    fetch(`ajax/inicio.ajax.php?tipo=${tipo}`)
+      .then(res => res.json())
+      .then(data => {
+        const dias = data.map(d => d.dia);
+        const cantidades = data.map(d => d.cantidad);
+
+        if (chart) chart.destroy(); // limpiar gráfico anterior
+
+        chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dias,
+            datasets: [{
+              label: 'Préstamos por día',
+              data: cantidades,
+              borderColor: '#17a2b8',
+              backgroundColor: 'rgba(23, 162, 184, 0.2)',
+              fill: true,
+              tension: 0.4,
+              pointBackgroundColor: '#17a2b8'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#000' } }
+            },
+            scales: {
+              x: { ticks: { color: '#000' } },
+              y: { ticks: { color: '#000' } }
+            }
+          }
+        });
+      });
+  }
+
+  // Eventos para los botones
+  document.getElementById('semana-actual').addEventListener('click', () => cargarGrafico('actual'));
+  document.getElementById('semana-anterior').addEventListener('click', () => cargarGrafico('anterior'));
+
+  // Cargar gráfico por defecto
+  cargarGrafico();
 </script>
