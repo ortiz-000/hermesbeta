@@ -1,15 +1,18 @@
 <?php
 
 
-Class ControladorInicio {
+class ControladorInicio {
 
-    public static function ctrObtenerPrestamosPorDia() {
-    require_once "modelos/inicio.modelo.php"; 
+    public static function ctrObtenerPrestamosPorDia()
+     
+    {
+        
+        $modelo = new ModeloInicio();
+        $respuesta = $modelo->mdlobtenerPrestamosPorDia();
 
-    $modelo = new ModeloInicio();
-    $resultado = $modelo->mdlobtenerPrestamosPorDia();
-
-    return $resultado; 
+        return $respuesta; 
+    }
+    
 }
 
-}
+

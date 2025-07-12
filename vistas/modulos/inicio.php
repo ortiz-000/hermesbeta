@@ -85,7 +85,7 @@
             <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
-        
+        <!-- <div class="col-sm-6"></div> -->
           <div class="col-12">
             <div class="card">
               <div class="card-header bg-dark">
