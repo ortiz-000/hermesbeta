@@ -178,6 +178,7 @@ session_start();
   <script src="vistas/js/salidas.js"></script>
   <script src="vistas/js/mis-solicitudes.js"></script>
   <script src="vistas/js/notificaciones.js"></script>
+  <script src="vistas/js/inicio.js"></script>
 
   <!-- JS para evitar FOUC (Flash of Unstyled Content) -->
   <script>
