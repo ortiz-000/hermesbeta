@@ -85,64 +85,87 @@
             <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header bg-dark">
+                <h3 class="card-title"><i class="fas fa-chart-line"></i> Gráfico de Préstamos</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+        
+        <?php
 
-        <div class="box box-solid bg-teal-gradient">
-          <div class="box-header">
-            <i class="fa fa-th"></i>
-            <h3 class="box-title">Grafico de Prestamos</h3>
-          </div>
-          <div class="box-body border-radius-none nuevoGraficoPrestamo">
-            <canvas class="chart" id="line-chart-prestamos" style="height: 250px;"></canvas>
-          </div>
+        $prestamos = ControladorInicio::ctrObtenerPrestamosPorDia();
+
+        $dias = [];
+        $cantidades = [];
+
+        foreach ($prestamos as $registro) {
+          $dias[] = $registro['dia'];
+          $cantidades[] = $registro['cantidad'];
+        }
+        ?>
+        <div class="card-body">
+          <canvas id="line-chart-prestamos"
+            style="min-height: 250px; height: 150px; background-color:rgba(88, 165, 216, 0.38);"></canvas>
         </div>
-
-
       </div>
-    </div><!-- /.container-fluid -->
-  </section>
+    </div>
 
-  <!-- Main content -->
-  <section class="content">
 
-  </section>
-  <!-- /.content -->
+
+</div>
+</div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+</section>
+<!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+
+
+
+
+
 
 <script>
 
   const ctx = document.getElementById('line-chart-prestamos').getContext('2d');
+
+  const dias = <?php echo json_encode($dias); ?>;
+  const cantidades = <?php echo json_encode($cantidades); ?>;
+
   new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'],
+      labels: dias,
       datasets: [{
-        label: 'Prestamos',
-        data: [2666, 2778, 4912, 3767, 6810],
-        borderColor: '#httght',
-        backgroundColor: 'rgba(23, 50, 184, 0.2)',
+        label: 'Préstamos por día',
+        data: cantidades,
+        borderColor: '#17a2b8',
+        backgroundColor: 'rgba(23, 162, 184, 0.2)',
         fill: true,
         tension: 0.4,
-        pointBackgroundColor: '#httght'
+        pointBackgroundColor: '#17a2b8'
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: {
-          labels: { color: '#httght' }
-        }
+        legend: { labels: { color: '#000' } }
       },
       scales: {
-        x: {
-          ticks: { color: '#httght' },
-          grid: { color: 'rgba(243, 8, 8, 0.1)' }
-        },
-        y: {
-          ticks: { color: '#httght' },
-          grid: { color: 'rgba(244, 7, 7, 0.1)' }
-        }
+        x: { ticks: { color: '#000' } },
+        y: { ticks: { color: '#000' } }
       }
     }
   });
