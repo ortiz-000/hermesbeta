@@ -49,5 +49,16 @@ class ModeloInicio
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-}
+    public function mdlObtenerPrestamosPorEstado()
+        {
+            $sql = "SELECT 
+                    estado_prestamo,
+                    COUNT(*) AS cantidad
+                    FROM prestamos
+                    GROUP BY estado_prestamo";
+            
+            $stmt = Conexion::conectar()->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        }

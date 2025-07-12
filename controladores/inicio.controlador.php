@@ -4,24 +4,21 @@
 class ControladorInicio
 {
 
-    // public static function ctrObtenerPrestamosPorDia()
-
-
-    // {
-
-    //     $modelo = new ModeloInicio();
-    //     $respuesta = $modelo->mdlobtenerPrestamosPorDia();
-
-    //     return $respuesta; 
-    // }
-
     public static function ctrObtenerPrestamosPorDia($tipo = 'actual')
     {
         return ModeloInicio::mdlObtenerPrestamosPorDia($tipo);
-        
+
     }
 
 
+    public static function ctrObtenerPrestamosPorEstado()
+    {
+        require_once "modelos/inicio.modelo.php";
+
+        $modelo = new ModeloInicio();
+        $resultado = $modelo->mdlObtenerPrestamosPorEstado();
+
+        return $resultado;
+    }
+
 }
-
-
