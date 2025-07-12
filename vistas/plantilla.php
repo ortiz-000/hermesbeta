@@ -75,6 +75,9 @@ session_start();
 
   <!-- AdminLTE App -->
   <script src="vistas/dist/js/adminlte.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   
 
   <!-- CSS para evitar FOUC (Flash of Unstyled Content) -->
