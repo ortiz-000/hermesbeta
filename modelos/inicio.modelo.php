@@ -13,7 +13,7 @@ class ModeloInicio
                 WHERE WEEK(fecha_solicitud) = WEEK(CURDATE())
                  AND YEAR(fecha_solicitud) = YEAR(CURDATE())
                 GROUP BY dia
-                ORDER BY FIELD(dia, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes');";
+                ORDER BY FIELD('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes');";
 
         $stmt = Conexion::conectar()->prepare($sql);
         $stmt->execute();

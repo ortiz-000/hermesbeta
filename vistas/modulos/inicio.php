@@ -89,7 +89,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header bg-dark">
-                <h3 class="card-title"><i class="fas fa-chart-line"></i> Gráfico de Préstamos</h3>
+                <h3 class="card-title"><i class="fas fa-chart-line"></i> Préstamos Por Día</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
