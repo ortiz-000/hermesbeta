@@ -221,7 +221,7 @@
           </div>
           <div class="card-body">
             <table class="table table-bordered table-striped" id="tblDetallePrestamo" style="width:100%">
-              <thead>
+              <thead class="bg-dark">
                 <tr>
                   <th>ID</th>
                   <th>Categoría</th>
