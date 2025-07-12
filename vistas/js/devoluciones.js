@@ -32,7 +32,7 @@ $(document).ready(function() {
                     // Información de los equipos en una tabla
                     var equiposTableHtml = `
                         <table class="table table-bordered table-striped dt-responsive tablaDevolucionesEquipos" width="100%">
-                            <thead>
+                            <thead class="bg-dark">
                                 <tr>
                                     <th>Categoría</th>
                                     <th>Marca</th>
@@ -127,12 +127,114 @@ $(document).ready(function() {
                 dataType: "json",
                 success: function(respuesta) {
                     if (respuesta && respuesta.success) { 
-                        Swal.fire({
+                        Toast.fire({
                             icon: "success",
                             title: respuesta.title || "¡Acción completada!",
+                            text: respuesta.message
+                        }).then(() => {
+                            $buttonPressed.closest('tr').fadeOut(500, function() {
+                                $(this).remove();
+                                if ($('#equiposListContainer tbody tr').length === 0) {
+                                    $('#equiposListContainer').html('<p class="text-center">Todos los equipos de este préstamo han sido procesados.</p>');
+                                    if (respuesta.status === "ok_prestamo_actualizado") {
+                                        $('#modalVerDetallesPrestamo').modal('hide');
+                                        if (typeof tablaDevoluciones !== 'undefined') {
+                                            tablaDevoluciones.ajax.reload();
+                                        } else {
+                                            window.location.reload(); 
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error al marcar para mantenimiento",
+                            text: (respuesta && respuesta.message) || "Hubo un problema al procesar la solicitud."
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la petición AJAX:", error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error de comunicación",
+                        text: "No se pudo comunicar con el servidor."
+                    });
+                }
+            });
+        }
+        // 3. Caso para "Buen Estado" (Inmediato -> Disponible)
+        else if (estado === 'buen_estado') {
+            $.ajax({
+                url: "ajax/devoluciones.ajax.php",
+                method: "POST",
+                data: {
+                    accion: "marcarBuenEstado",
+                    idPrestamo: prestamoId,
+                    idEquipo: equipoId
+                },
+                dataType: "json",
+                success: function(respuesta) {
+                    if (respuesta && respuesta.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡Equipo devuelto!",
                             text: respuesta.message,
                             showConfirmButton: false,
                             timer: 2000
+                        }).then(() => {
+                            $buttonPressed.closest('tr').fadeOut(500, function() {
+                                $(this).remove();
+                                if ($('#equiposListContainer tbody tr').length === 0) {
+                                    $('#equiposListContainer').html('<p class="text-center">Todos los equipos de este préstamo han sido procesados.</p>');
+                                    if (respuesta.status === "ok_prestamo_actualizado") {
+                                        $('#modalVerDetallesPrestamo').modal('hide');
+                                        if (typeof tablaDevoluciones !== 'undefined') {
+                                            tablaDevoluciones.ajax.reload();
+                                        } else {
+                                            window.location.reload();
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error al devolver equipo",
+                            text: (respuesta && respuesta.message) || "Hubo un problema al procesar la solicitud."
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la petición AJAX:", error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error de comunicación",
+                        text: "No se pudo comunicar con el servidor."
+                    });
+                }
+            });
+        }
+        // 4. Caso para "Robado"
+        else if (estado === 'robado') {
+            $.ajax({
+                url: "ajax/devoluciones.ajax.php",
+                method: "POST",
+                data: {
+                    accion: "marcarEquipoRobado",
+                    idPrestamo: prestamoId,
+                    idEquipo: equipoId
+                },
+                dataType: "json",
+                success: function(respuesta) {
+                    if (respuesta && respuesta.success) {
+                        Toast.fire({
+                            icon: "success",
+                            title: respuesta.title || "¡Acción completada!",
+                            text: respuesta.message
                         }).then(() => {
                             $buttonPressed.closest('tr').fadeOut(500, function() {
                                 $(this).remove();
