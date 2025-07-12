@@ -103,69 +103,64 @@ if ($respuesta["estado"] == "inactivo") {
 
           <!-- Detalles del Préstamo -->
           <div class="col-md-8">
-            <div class="card card-outline card-info">
-              <div class="card-header">
-                <h3 class="card-title">Información del Préstamo</h3>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-info"><i class="fas fa-id-card"></i></span>
-                      <div class="info-box-content">
-                        <span class="info-box-text">Identificación</span>
-                        <span id="prestamoIdentificacion"></span>
-                      </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fas fa-id-card"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Identificación</span>
+                      <span id="prestamoIdentificacion"></span>
                     </div>
                   </div>
+                </div>
 
-                  <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-info"><i class="fas fa-phone"></i></span>
-                      <div class="info-box-content">
-                        <span class="info-box-text">Teléfono</span>
-                        <span id="prestamoTelefono"></span>
-                      </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fas fa-phone"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Teléfono</span>
+                      <span id="prestamoTelefono"></span>
                     </div>
                   </div>
+                </div>
 
-                  <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-info"><i class="fas fa-graduation-cap"></i></span>
-                      <div class="info-box-content">
-                        <span class="info-box-text">Ficha</span>
-                        <span id="prestamoFicha"></span>
-                      </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fas fa-graduation-cap"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Ficha</span>
+                      <span id="prestamoFicha"></span>
                     </div>
                   </div>
+                </div>
 
-                  <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-info"><i class="fas fa-id-card"></i></span>
-                      <div class="info-box-content">
-                        <span class="info-box-text">Tipo de Préstamo</span>
-                        <span id="prestamoTipo"></span>
-                      </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fas fa-id-card"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Tipo de Préstamo</span>
+                      <span id="prestamoTipo"></span>
                     </div>
                   </div>
+                </div>
 
-                  <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-info"><i class="fas fa-calendar-alt"></i></span>
-                      <div class="info-box-content">
-                        <span class="info-box-text">F. Inicio</span>
-                        <span id="prestamoFechaInicio"></span>
-                      </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fas fa-calendar-alt"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">F. Inicio</span>
+                      <span id="prestamoFechaInicio"></span>
                     </div>
                   </div>
+                </div>
 
-                  <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="info-box">
-                      <span class="info-box-icon bg-info"><i class="fas fa-calendar-check"></i></span>
-                      <div class="info-box-content">
-                        <span class="info-box-text">F. Devolución</span>
-                        <span id="prestamoFechaFin"></span>
-                      </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fas fa-calendar-check"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">F. Devolución</span>
+                      <span id="prestamoFechaFin"></span>
                     </div>
                   </div>
                 </div>
@@ -174,11 +169,17 @@ if ($respuesta["estado"] == "inactivo") {
             <!-- Detalles del Equipo -->
           </div>
         </div>
-        <div class="card card-header  card-success">
-          <h3 class="card-title">Equipos en Préstamo</h3>
-        </div>
-        <div id="equiposListContainer">
-          <!-- Aquí se cargarán los detalles de cada equipo individualmente con JavaScript -->
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Equipos en Préstamo</h5>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered table-striped" class="card-body" style="width:100%" >
+              <div id="equiposListContainer">
+                <!-- Aquí se cargarán los detalles de cada equipo individualmente con JavaScript -->
+              </div>
+            </table>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

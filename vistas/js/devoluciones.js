@@ -326,9 +326,6 @@ $(document).ready(function() {
             }
         });
     });
-
-    // El código para el modal de mal estado será eliminado.
-
 });
 
 /*=============================================            
