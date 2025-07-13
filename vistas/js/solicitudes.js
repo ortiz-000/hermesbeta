@@ -376,29 +376,11 @@ $("#idFormularioSolicitud").on("click", ".btnRemoverEquipo", function () {
 });
 
 // *******************************************************************************************************************
-
-$("#idFormularioSolicitud").on("submit", function (event) {
-
-  event.preventDefault();
-  //obtener datos del formulario
-  let idSolicitante = $("#idSolicitante").val();
-  let fechaInicio = $("#initialDate").val();
-  let fechaFin = $("#finalDate").val();
-  let motivo = $("#motivoSolicitud").val();
-
-  let equipos = [];
-  $(".equipoIdSolicitado").each(function () {
-    equipos.push($(this).val());
-  });
-
+// Función para enviar la solicitud
+function enviarSolicitud(idSolicitante, fechaInicio, fechaFin, motivo, equipos) {
+  // Función para enviar la solicitud
   //converitomos la lista de equipos en json
   equipos = JSON.stringify(equipos);
-
-
-  //detenemos la ejecucion para debuguear
-  // Debug: Stop execution here to inspect variables
-  // debugger;
-
 
   let datos = new FormData();
   datos.append("idSolicitante", idSolicitante);
@@ -407,7 +389,6 @@ $("#idFormularioSolicitud").on("submit", function (event) {
   datos.append("motivoSolicitud", motivo);
   datos.append("equipos", equipos);
   datos.append("accion", "guardarSolicitud");
-
 
   // Mostrar loading
   Swal.fire({
@@ -421,8 +402,6 @@ $("#idFormularioSolicitud").on("submit", function (event) {
     }
   });
 
-
-
   $.ajax({
     url: "ajax/solicitudes.ajax.php",
     method: "POST",
@@ -432,7 +411,7 @@ $("#idFormularioSolicitud").on("submit", function (event) {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      console.log("Respuesta recibida:", respuesta, "Tipo:", typeof respuesta);
+      // console.log("Respuesta recibida:", respuesta, "Tipo:", typeof respuesta);
       if (respuesta == "ok") {
         Swal.fire({
           icon: "success",
@@ -457,7 +436,58 @@ $("#idFormularioSolicitud").on("submit", function (event) {
       }
     }
   });
+}
+
+
+$("#idFormularioSolicitud").on("submit", function (event) {
+
+  event.preventDefault();
+  //obtener datos del formulario
+  let idSolicitante = $("#idSolicitante").val();
+  let fechaInicio = $("#initialDate").val();
+  let fechaFin = $("#finalDate").val();
+  let motivo = $("#motivoSolicitud").val();
+  let tipoPrestamo = "Reserva"
+
+  let equipos = [];
+  $(".equipoIdSolicitado").each(function () {
+    equipos.push($(this).val());
+  });
+  //sino hay equipos seleccionados, mostrar alerta
+  if (equipos.length === 0) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Debe seleccionar al menos un equipo para la solicitud'
+    });
+    return;
+  }
+  //si las fechas son iguales, adicionar la palabra "-inmediato-" al final del motivo para prevenir que este vacio
+  if (fechaInicio === fechaFin) {
+    tipoPrestamo = "Inmediato";
+  }
+
+  //generamos una alerta con informacion del prestamo para validar que los datos son correctos
+  Swal.fire({
+    title: `Prestamo ${tipoPrestamo}`,
+    html: `<p>Solicitante: <strong>${$("#nombreSolicitante").val()}</strong></p>
+           <p>Fecha Inicio: <strong>${fechaInicio}</strong></p>
+           <p>Fecha Fin: <strong>${fechaFin}</strong></p>
+           <p>Motivo: <strong>${motivo}</strong></p>
+           <p>Equipos solicitados: <strong>${equipos.length}</strong></p>`,
+    icon: 'info',
+    showCancelButton: true,
+    confirmButtonText: 'Confirmar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si el usuario confirma, proceder a enviar la solicitud
+      enviarSolicitud(idSolicitante, fechaInicio, fechaFin, motivo, equipos);
+    }
+  });
 });
+
+
 //##*****Historial de solicitudes
 $(document).on("click", ".btnHistorial", function () {
   let cedula = $("#NumeroIdSolicitante").val();
