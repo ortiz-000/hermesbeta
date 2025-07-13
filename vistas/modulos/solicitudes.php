@@ -240,7 +240,7 @@
 
 
                                     <!-- OBSERVACIONES  -->
-                                    <div class="form-group">
+                                    <div class="form-group d-none" id="divMotivoSolicitud">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <label>Observaciones</label>
