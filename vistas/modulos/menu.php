@@ -126,12 +126,12 @@
             </a>
           </li>';
 
-            echo '<li class="nav-item">
-            <a href="auditoria" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Auditoría</p>
-            </a>
-          </li>';
+          //   echo '<li class="nav-item">
+          //   <a href="auditoria" class="nav-link">
+          //     <i class="far fa-circle nav-icon"></i>
+          //     <p>Auditoría</p>
+          //   </a>
+          // </li>';
           }
 
           if (ControladorValidacion::validarPermisoSesion([29])) {
