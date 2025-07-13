@@ -49,7 +49,7 @@ $('#tblFichas').DataTable({
             "render": function(row) {
                 if (usuarioActual["permisos"].includes(14)) {
                     return "<div class='btn-group'>" +
-                        "<button title='Editar datos ficha' data-tooltip='tooltip' class='btn btn-default btn-xs idFicha='" + row[0] + "' data-toggle='modal' data-target='#modalEditFicha'>" +
+                        "<button title='Editar datos ficha' data-tooltip='tooltip' class='btn btn-default btn-xs btnEditarFicha' idFicha='" + row[0] + "' data-toggle='modal' data-target='#modalEditFicha'>" +
                         "<i class='fas fa-edit '></i>" +
                         "</button></div>";
                 }else {
@@ -86,6 +86,7 @@ $('#tblFichas').DataTable({
 $(document).on("click", ".btnEditarFicha", function() {
 // $(".btnEditarFicha").click(function() {
     var idFicha = $(this).attr("idFicha");
+    console.log("idFicha:", idFicha);
     var datos = new FormData();
     datos.append("idFicha", idFicha);
     $.ajax({
@@ -97,7 +98,7 @@ $(document).on("click", ".btnEditarFicha", function() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-            // console.log("Ficha", respuesta["nom"]);
+            console.log("ficha:",respuesta);
             $("#idEditFicha").val(respuesta["id_ficha"]);
             $("#editCodigoFicha").val(respuesta["codigo"]);
             $("#editDescripcionFicha").val(respuesta["descripcion"]);
