@@ -52,15 +52,30 @@ class ModeloInicio
     }
 
     public function mdlObtenerPrestamosPorEstado()
-        {
-            $sql = "SELECT 
+    {
+        $sql = "SELECT 
                     estado_prestamo,
                     COUNT(*) AS cantidad
                     FROM prestamos
                     GROUP BY estado_prestamo";
-            
-            $stmt = Conexion::conectar()->prepare($sql);
+
+        $stmt = Conexion::conectar()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function mdlObtenerEstadosEquipos($tabla)
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT es.estado, COUNT(*) as cantidad 
+                                                FROM $tabla eq
+                                                INNER JOIN estados es ON eq.id_estado = es.id_estado GROUP BY es.estado");
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $stmt = null;
         }
-        }
+    }
+}

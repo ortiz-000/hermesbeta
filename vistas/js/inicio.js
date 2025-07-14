@@ -58,6 +58,43 @@ cargarGrafico();
 
 // Fin de grafica
 
+  // Fin de grafica
+// Obtenniendo los datos de los equipos
+var datos = FormData();
+datos.append("datosGrafica", datosGraficas);
+
+$.ajax({
+  url: "ajax/inicio.ajax.php",
+  method: "POST",
+  data: datos,
+  cache: false,
+  contentType: false,
+  processData: false,
+  dataType: "json",
+  success: function (respuesta) {
+    console.log("respuesta", respuesta);
+    // Graficas de equipos por estado (Gràfica pastel)- David
+    const graficasPastelEquipos = new Chart(document.getElementById('pie-chart-equipos'), {
+      type: 'pie',
+      data: {
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#000' } }
+          }
+        },
+        labels: [],
+        datasets: [{
+          data: [],
+          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e']
+        }]
+      }
+    });
+  }
+})
+
+
 
 
 
