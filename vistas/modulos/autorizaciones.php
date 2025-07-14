@@ -25,27 +25,16 @@
                 <th>Solicitante</th>
                 <th>Fecha Inicio</th>
                 <th>Fecha Fin</th>
-                <th>Estado Préstamo</th>
+                <th>Estado Préstamo<br><select>
+                    <option value="">Todos</option>
+                  </select></th>
                 <th>Fecha Solicitud</th>
                 <th>Coo</th>
                 <th>Tic</th>
                 <th>Alm</th>
                 <th>Detalle</th>
               </tr>
-              <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th><select>
-                    <option value="">Todos</option>
-                  </select></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-              </tr>
+
             </thead>
             <tbody>
               <?php
@@ -211,7 +200,7 @@
             <!-- Estado -->
             <div class="row">
               <div class="col-12">
-                <div class="callout callout-success">
+                <div class="callout callout-success" id="estadoCallout">
                   <h5><i class="fas fa-check"></i> Estado:</h5>
                   <span class="badge badge-success badge-lg" id="estadoPrestamo">Autorizado</span>
                 </div>

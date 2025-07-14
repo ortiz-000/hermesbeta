@@ -53,7 +53,7 @@ $(document).on('click', '.btnVerDetalles', function () {
                         
                         break;
                     case "Tramite":
-                        $("#estadoCallout").addClass("callout-primary");
+                        $("#estadoCallout").addClass("callout-info");
                         
                         break;
                 }
