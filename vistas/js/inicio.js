@@ -58,7 +58,6 @@ cargarGrafico();
 
 // Fin de grafica
 
-<<<<<<< HEAD
   // Fin de grafica
 // Obtenniendo los datos de los equipos
 var datos = FormData();
@@ -96,8 +95,6 @@ $.ajax({
 })
 
 
-=======
->>>>>>> b6b92056af68e8fba49d7491e5c4fef9dab0adf4
 
 
 
