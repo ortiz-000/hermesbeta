@@ -47,26 +47,44 @@ $(document).on('click', '.btnVerDetalles', function() {
             }
 
 
-            // Cargar detalles de equipos
-            $.ajax({
+           $.ajax({
                 url: "ajax/solicitudes.ajax.php",
                 method: "POST",
-                data: { accion: "mostrarPrestamoDetalle", idPrestamoDetalle: respuesta["id_prestamo"] },
+                data: {
+                    accion: "mostrarPrestamoDetalle",
+                    idPrestamoDetalle: idPrestamo
+                },
                 dataType: "json",
-                success: function(detalles) {
-                    var tbody = $("#tblDetallePrestamo tbody");
+                success: function (detalles) {
+                    var tabla = $("#tblDetallePrestamo");
+
+                    // Destruir DataTable si ya está inicializado
+                    if ($.fn.DataTable.isDataTable(tabla)) {
+                        tabla.DataTable().clear().destroy();
+                    }
+
+                    var tbody = tabla.find("tbody");
                     tbody.empty();
-                    detalles.forEach(function(equipo) {
+
+                    // Agregar filas
+                    detalles.forEach(function (equipo) {
                         tbody.append(
                             "<tr>" +
-                            "<td>" + equipo.equipo_id + "</td>" +
-                            "<td>" + equipo.categoria + "</td>" +
-                            "<td>" + equipo.descripcion + "</td>" +
-                            "<td>" + equipo.etiqueta + "</td>" +
-                            "<td>" + equipo.numero_serie + "</td>" +
-                            "<td>" + equipo.ubicacion + "</td>" +
+                                "<td>" + equipo.equipo_id + "</td>" +
+                                "<td>" + equipo.categoria + "</td>" +
+                                "<td>" + equipo.descripcion + "</td>" +
+                                "<td>" + equipo.etiqueta + "</td>" +
+                                "<td>" + equipo.numero_serie + "</td>" +
+                                "<td>" + equipo.ubicacion + "</td>" +
                             "</tr>"
                         );
+                    });
+
+                    // Inicializar DataTable nuevamente
+                    tabla.DataTable({
+                        responsive: true
+                        
+                        
                     });
                 }
             });
