@@ -620,3 +620,8 @@ $(document).on("click", "#btnHistorialSolicitud", function () {
     });
   }
 });
+
+//clieck en el boton decancelar soliciud recarga la pagina
+$(document).on("click", ".btnCancelarSolicitud", function () {
+  window.location.reload();
+});
