@@ -1,3 +1,4 @@
+
 <?php
     $item = "id_modulo";
     $valor = 4;
@@ -158,16 +159,18 @@
                 </div>
             </div>
         </div>
-            <div class="modal-footer">
+        <div class="modal-footer">
                 <form method="POST">
                     <!-- creamos dos input oculos para enviar los datos al controlador -->
                     <input type="hidden" id="idUsuarioAutorizaSalida" name="idUsuarioAutorizaSalida" value="<?php echo $_SESSION['id_usuario'] ?>">
                     <input type="hidden" id="idPrestamoSalida" name="idPrestamoSalida" value="">
 
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-success" id="btnAceptarPrestamo">Aceptar</button>
-
                     <?php
+                    if (ControladorValidacion::validarPermisoSesion([16])) {
+                        echo '<button type="submit" class="btn btn-success" id="btnAceptarPrestamo">Aceptar</button>';
+                    }
+
                     $aceptarSalida = new Controladorsalidas();
                     $aceptarSalida->ctrAceptarSalida();
                     ?>
@@ -176,3 +179,4 @@
         </div>
     </div>
 </div>
+            
