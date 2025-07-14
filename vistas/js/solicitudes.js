@@ -562,6 +562,9 @@ $("#idFormularioSolicitud").on("submit", function (event) {
     });
     return;
   }
+  if (fechaInicio === fechaFin){
+    tipoPrestamo = "Inmediato";
+  }
 
   //generamos una alerta con informacion del prestamo para validar que los datos son correctos
   Swal.fire({
