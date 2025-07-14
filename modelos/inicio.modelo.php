@@ -71,7 +71,7 @@ class ModeloInicio
                                                 FROM $tabla eq
                                                 INNER JOIN estados es ON eq.id_estado = es.id_estado GROUP BY es.estado");
             $stmt->execute();
-            return $stmt->fetch();
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         } finally {

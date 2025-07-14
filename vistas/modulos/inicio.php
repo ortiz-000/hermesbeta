@@ -96,6 +96,29 @@
                 </div>
             </div>
 
+            <?php
+            $labelsEquipos = [];
+            $dataEquipos = [];
+            $coloresPorEstado = [
+              'Pendiente' => '#ffc107',
+              'Aprobado' => '#28a745',
+              'Rechazado' => '#dc3545',
+              'Devuelto' => '#17a2b8',
+              'Perdido' => '#673AB7',
+              'En préstamo' => '#007bff'
+            ];
+
+            $graficasEstadoEquipos = ControladorInicio::ctrObtenerEstadosEquipos();
+
+            foreach ($graficasEstadoEquipos as $key => $value) {
+                $labelsEquipos[] = $value["estado"];
+                $dataEquipos[] = $value["cantidad"];
+                var_dump($labelsEquipos);
+                error_log(print_r($labelsEquipos, true));
+            }
+            
+            ?>
+
             <!-- Tarjeta para Estados de Préstamos -->
             <div class="col-6">
                 <div class="card">
@@ -186,6 +209,7 @@
 </div>
 <!-- /.content-wrapper -->
 
+<!--// TODO: Script de estados de los préstamos -->
 <script>
   // Gráfica de Pie (Estados de Préstamos) - MODIFICADA CON COLORES Y PORCENTAJES
   const ctxPie = document.getElementById('pie-chart-estados').getContext('2d');
@@ -250,15 +274,16 @@
   });
 </script>
 
+<!-- // TODO: Script de los estados de los equipos -->
 <script>
-  // Gráfico de Estados de Equipos
+  //Gráfico de Estados de Equipos
   const pieChartEquipos = new Chart(document.getElementById('pie-chart-equipos'), {
     type: 'pie',
     data: {
       labels: <?= json_encode($labelsEquipos) ?>,
       datasets: [{
         data: <?= json_encode($dataEquipos) ?>,
-        backgroundColor: <?= json_encode($colorsEquipos) ?>
+        backgroundColor: <?= json_encode($coloresPorEstado) ?>
       }]
     },
 
