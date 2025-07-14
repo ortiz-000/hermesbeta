@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <canvas id="pie-chart-equipos"></canvas>
+                        <canvas id="pie-chart-equipos" width="200" height="200"></canvas>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
             foreach ($graficasEstadoEquipos as $key => $value) {
                 $labelsEquipos[] = $value["estado"];
                 $dataEquipos[] = $value["cantidad"];
-                var_dump($labelsEquipos);
+                //var_dump($labelsEquipos);
                 error_log(print_r($labelsEquipos, true));
             }
             
@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <canvas id="pie-chart-estados"></canvas>
+                        <canvas id="pie-chart-estados" width="200" height="200"></canvas>
                     </div>
                 </div>
             </div>
@@ -283,11 +283,21 @@
       labels: <?= json_encode($labelsEquipos) ?>,
       datasets: [{
         data: <?= json_encode($dataEquipos) ?>,
-        backgroundColor: <?= json_encode($coloresPorEstado) ?>
+        backgroundColor: [
+          '#ffc107',
+          '#28a745',
+          '#dc3545',
+          '#17a2b8',
+          '#673AB7',
+          '#007bff'
+        ],
+        borderColor: '#fff',
+        borderWidth: 2
       }]
     },
 
     options: {
+      responsive: true,
       plugins: {
         legend: {
           display: false
