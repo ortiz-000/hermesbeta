@@ -71,6 +71,31 @@ function initializeDataTableSimple(selector) {
   });
 }
 
+function initializeDataTableActivar(selector) {
+  $(selector).DataTable({
+    "responsive": true,
+    "autoWidth": false,
+    "lengthChange": false,
+    "info": true,
+
+    "language": {
+      "lengthMenu": "Mostrar _MENU_ registros",
+      "zeroRecords": "Seleccione una fecha o un rango",
+      "info": "Mostrando pagina _PAGE_ de _PAGES_",
+      "infoEmpty": "No hay registros disponibles",
+      "infoFiltered": "(filtrado de _MAX_ total registros)",
+      "search": "Buscar:",
+      "paginate": {
+        "first":      "Primero",
+        "last":       "Ultimo",
+        "next":       "Siguiente",
+        "previous":   "Anterior"
+      }
+    }   
+
+  })
+}
+
 var Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
