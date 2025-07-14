@@ -21,4 +21,9 @@ class ControladorInicio
         return $resultado;
     }
 
+    public static function ctrObtenerEstadosEquipos() {
+        $tabla = "equipos";
+        $respuesta = ModeloInicio::mdlObtenerEstadosEquipos($tabla);
+        return $respuesta;
+    }
 }

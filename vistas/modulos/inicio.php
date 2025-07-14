@@ -116,8 +116,22 @@
             ?>
 
             <div class="card-body">
-              <canvas id="pie-chart-estados"
-                style="min-height: 250px; height: 150px; background-color:rgba(255, 255, 255, 0.5);"></canvas>
+              <div class="row">
+                <div class="col-6">                
+                  <canvas id="pie-chart-estados">
+                  </canvas>
+                </div>
+                <div class="col-6">
+                  <?php
+                  //$item = null; $valor = null;
+                  $equiposGrafica = ControladorInicio::ctrObtenerEstadosEquipos();
+                  //error_log(print_r($equiposGrafica, true));
+                  ?>
+                  <canvas id="pie-chart-equipos">
+
+                  </canvas>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -162,24 +176,14 @@
                 style="min-height: 250px; height: 150px; background-color:rgba(88, 165, 216, 0.38);"></canvas>
             </div>
           </div>
-
-
-
         </div>
         <!-- fin grafico de estado de prestamo alonso -->
       </div><!-- /.row -->
 
   </section>
-
-
-
-
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
-
-
 
 <script>
 
@@ -242,4 +246,74 @@
       }
     }
   });
+</script>
+
+<script>
+  // Gráfico de Estados de Equipos
+const pieChartEquipos = new Chart(document.getElementById('pie-chart-equipos'), {
+  type: 'pie',
+  data: {
+    labels: <?= json_encode($labelsEquipos) ?>,
+    datasets: [{
+      data: <?= json_encode($dataEquipos) ?>,      
+      backgroundColor: <?= json_encode($colorsEquipos) ?>
+    }]
+  },
+  
+  options: {
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            let label = context.label || '';
+            let value = context.parsed || 0;
+            let total = context.dataset.data.reduce((a, b) => a + b, 0);
+            let percentage = ((value / total) * 100).toFixed(1) + '%';
+            return `${label}: ${value} (${percentage})`;
+          }
+        }
+      }
+    },
+    animation: {
+      duration: 2000
+    }
+  }
+});
+
+// Generar leyenda personalizada
+function generateLegendEquipos(chart, options) {
+  const ul = document.createElement('ul');
+  ul.classList.add('chart-legend');
+
+  chart.data.labels.forEach((label, i) => {
+    const li = document.createElement('li');
+    const spanColor = document.createElement('span');
+    const spanText = document.createElement('span');
+    
+    spanColor.style.backgroundColor = chart.data.datasets[0].backgroundColor[i];
+    spanColor.style.width = '20px';
+    spanColor.style.height = '20px';
+    spanColor.style.display = 'inline-block';
+    spanColor.style.marginRight = '5px';
+    spanColor.style.borderRadius = '50%';
+
+    const percentage = ((chart.data.datasets[0].data[i] / 
+      chart.data.datasets[0].data.reduce((a, b) => a + b, 0)) * 100).toFixed(1);
+
+    spanText.textContent = `${label}: ${chart.data.datasets[0].data[i]} (${percentage}%)`;
+
+    li.appendChild(spanColor);
+    li.appendChild(spanText);
+    ul.appendChild(li);
+  });
+
+  return ul;
+}
+
+document.querySelector('#leyenda-equipos').appendChild(
+  generateLegendEquipos(pieChartEquipos)
+);
 </script>
