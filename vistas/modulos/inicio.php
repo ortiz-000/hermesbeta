@@ -78,9 +78,9 @@
         </div>
 
         <!-- Contenedor principal -->
-        <div class="row col-sm-12">
+        <div class="row col-12">
             <!-- Tarjeta para Estados de Equipos -->
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-header bg-dark">
                         <h3 class="card-title"><i class="fas fa-chart-pie"></i> Estados de equipos</h3>
@@ -122,7 +122,7 @@
             ?>
 
             <!-- Tarjeta para Estados de Préstamos -->
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-header bg-dark">
                         <h3 class="card-title"><i class="fas fa-chart-pie"></i> Estados de préstamos</h3>
