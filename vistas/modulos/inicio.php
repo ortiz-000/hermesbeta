@@ -77,72 +77,73 @@
           </div>
         </div>
 
-        <!-- <div class="col-sm-6"></div> -->
-        <div class="col-12">
-          <div class="card">
-
-            <!-- grafico de estado de prestamo jack -->
-            <div class="card-header bg-dark">
-              <h3 class="card-title"><i class="fas fa-chart-pie"></i> Estados de Préstamos</h3>
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-              </div>
+        <!-- Contenedor principal -->
+        <div class="row col-sm-12">
+            <!-- Tarjeta para Estados de Equipos -->
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        <h3 class="card-title"><i class="fas fa-chart-pie"></i> Estados de equipos</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="pie-chart-equipos"></canvas>
+                    </div>
+                </div>
             </div>
 
-            <?php
-            $estadosPrestamos = ControladorInicio::ctrObtenerPrestamosPorEstado();
-
-            $labels = [];
-            $data = [];
-            $colors = [];
-
-            // Mapeo de estados a colores
-            $coloresPorEstado = [
-              'Pendiente' => '#ffc107',  // Amarillo
-              'Aprobado' => '#28a745',    // Verde
-              'Rechazado' => '#dc3545',   // Rojo
-              'Devuelto' => '#17a2b8',    // Azul claro
-              'Perdido' => '#673AB7',     // Gris
-              'En préstamo' => '#007bff' // Azul
-            ];
-
-            foreach ($estadosPrestamos as $estado) {
-              $labels[] = $estado['estado_prestamo'];
-              $data[] = $estado['cantidad'];
-              $colors[] = $coloresPorEstado[$estado['estado_prestamo']] ?? '#6c757d'; // Gris por defecto
-            }
-            ?>
-
-            <div class="card-body">
-              <div class="row">
-                <div class="col-6">                
-                  <canvas id="pie-chart-estados">
-                  </canvas>
+            <!-- Tarjeta para Estados de Préstamos -->
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        <h3 class="card-title"><i class="fas fa-chart-pie"></i> Estados de préstamos</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="pie-chart-estados"></canvas>
+                    </div>
                 </div>
-                <div class="col-6">
-                  <?php
-                  //$item = null; $valor = null;
-                  $equiposGrafica = ControladorInicio::ctrObtenerEstadosEquipos();
-                  //error_log(print_r($equiposGrafica, true));
-                  ?>
-                  <canvas id="pie-chart-equipos">
-
-                  </canvas>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
+
+        <?php
+        // Código PHP para obtener datos (mantenido fuera de las tarjetas)
+        $estadosPrestamos = ControladorInicio::ctrObtenerPrestamosPorEstado();
+
+        $labels = [];
+        $data = [];
+        $colors = [];
+
+        $coloresPorEstado = [
+            'Pendiente' => '#ffc107',
+            'Aprobado' => '#28a745',
+            'Rechazado' => '#dc3545',
+            'Devuelto' => '#17a2b8',
+            'Perdido' => '#673AB7',
+            'En préstamo' => '#007bff'
+        ];
+
+        foreach ($estadosPrestamos as $estado) {
+            $labels[] = $estado['estado_prestamo'];
+            $data[] = $estado['cantidad'];
+            $colors[] = $coloresPorEstado[$estado['estado_prestamo']] ?? '#6c757d';
+        }
+        ?>
+
         <!-- fin grafico de estado de prestamo jack -->
 
         <!--  grafico de prestamo por dia alonso -->
         <!-- <div class="col-sm-6"></div> -->
         <div class="col-12">
           <div class="card">
-
-
             <div class="card-header bg-dark">
               <h3 class="card-title"><i class="fas fa-chart-line"></i> Préstamos Por Día</h3>
               <div class="card-tools">
@@ -186,7 +187,6 @@
 <!-- /.content-wrapper -->
 
 <script>
-
   // Gráfica de Pie (Estados de Préstamos) - MODIFICADA CON COLORES Y PORCENTAJES
   const ctxPie = document.getElementById('pie-chart-estados').getContext('2d');
   const totalPrestamos = <?php echo array_sum($data); ?>; // Calcula el total para porcentajes
@@ -203,7 +203,7 @@
           '#FFCE56', // Rechazado (Amarillo)
           '#4BC0C0', // Devuelto (Turquesa)
           '#9966FF', // Perdido (Morado)
-          '#FF9F40'  // En préstamo (Naranja)
+          '#FF9F40' // En préstamo (Naranja)
         ],
         borderColor: '#fff',
         borderWidth: 2
@@ -217,8 +217,10 @@
           position: 'right',
           labels: {
             color: '#000',
-            font: { size: 12 },
-            generateLabels: function (chart) {
+            font: {
+              size: 12
+            },
+            generateLabels: function(chart) {
               const data = chart.data;
               return data.labels.map((label, i) => {
                 const value = data.datasets[0].data[i];
@@ -235,7 +237,7 @@
         },
         tooltip: {
           callbacks: {
-            label: function (context) {
+            label: function(context) {
               const label = context.label || '';
               const value = context.raw || 0;
               const percentage = totalPrestamos > 0 ? Math.round((value / totalPrestamos) * 100) : 0;
@@ -250,70 +252,70 @@
 
 <script>
   // Gráfico de Estados de Equipos
-const pieChartEquipos = new Chart(document.getElementById('pie-chart-equipos'), {
-  type: 'pie',
-  data: {
-    labels: <?= json_encode($labelsEquipos) ?>,
-    datasets: [{
-      data: <?= json_encode($dataEquipos) ?>,      
-      backgroundColor: <?= json_encode($colorsEquipos) ?>
-    }]
-  },
-  
-  options: {
-    plugins: {
-      legend: {
-        display: false
-      },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            let label = context.label || '';
-            let value = context.parsed || 0;
-            let total = context.dataset.data.reduce((a, b) => a + b, 0);
-            let percentage = ((value / total) * 100).toFixed(1) + '%';
-            return `${label}: ${value} (${percentage})`;
+  const pieChartEquipos = new Chart(document.getElementById('pie-chart-equipos'), {
+    type: 'pie',
+    data: {
+      labels: <?= json_encode($labelsEquipos) ?>,
+      datasets: [{
+        data: <?= json_encode($dataEquipos) ?>,
+        backgroundColor: <?= json_encode($colorsEquipos) ?>
+      }]
+    },
+
+    options: {
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let label = context.label || '';
+              let value = context.parsed || 0;
+              let total = context.dataset.data.reduce((a, b) => a + b, 0);
+              let percentage = ((value / total) * 100).toFixed(1) + '%';
+              return `${label}: ${value} (${percentage})`;
+            }
           }
         }
+      },
+      animation: {
+        duration: 2000
       }
-    },
-    animation: {
-      duration: 2000
     }
-  }
-});
-
-// Generar leyenda personalizada
-function generateLegendEquipos(chart, options) {
-  const ul = document.createElement('ul');
-  ul.classList.add('chart-legend');
-
-  chart.data.labels.forEach((label, i) => {
-    const li = document.createElement('li');
-    const spanColor = document.createElement('span');
-    const spanText = document.createElement('span');
-    
-    spanColor.style.backgroundColor = chart.data.datasets[0].backgroundColor[i];
-    spanColor.style.width = '20px';
-    spanColor.style.height = '20px';
-    spanColor.style.display = 'inline-block';
-    spanColor.style.marginRight = '5px';
-    spanColor.style.borderRadius = '50%';
-
-    const percentage = ((chart.data.datasets[0].data[i] / 
-      chart.data.datasets[0].data.reduce((a, b) => a + b, 0)) * 100).toFixed(1);
-
-    spanText.textContent = `${label}: ${chart.data.datasets[0].data[i]} (${percentage}%)`;
-
-    li.appendChild(spanColor);
-    li.appendChild(spanText);
-    ul.appendChild(li);
   });
 
-  return ul;
-}
+  // Generar leyenda personalizada
+  function generateLegendEquipos(chart, options) {
+    const ul = document.createElement('ul');
+    ul.classList.add('chart-legend');
 
-document.querySelector('#leyenda-equipos').appendChild(
-  generateLegendEquipos(pieChartEquipos)
-);
+    chart.data.labels.forEach((label, i) => {
+      const li = document.createElement('li');
+      const spanColor = document.createElement('span');
+      const spanText = document.createElement('span');
+
+      spanColor.style.backgroundColor = chart.data.datasets[0].backgroundColor[i];
+      spanColor.style.width = '20px';
+      spanColor.style.height = '20px';
+      spanColor.style.display = 'inline-block';
+      spanColor.style.marginRight = '5px';
+      spanColor.style.borderRadius = '50%';
+
+      const percentage = ((chart.data.datasets[0].data[i] /
+        chart.data.datasets[0].data.reduce((a, b) => a + b, 0)) * 100).toFixed(1);
+
+      spanText.textContent = `${label}: ${chart.data.datasets[0].data[i]} (${percentage}%)`;
+
+      li.appendChild(spanColor);
+      li.appendChild(spanText);
+      ul.appendChild(li);
+    });
+
+    return ul;
+  }
+
+  document.querySelector('#leyenda-equipos').appendChild(
+    generateLegendEquipos(pieChartEquipos)
+  );
 </script>
