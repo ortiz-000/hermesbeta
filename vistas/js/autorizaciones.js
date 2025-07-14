@@ -99,6 +99,47 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
       $("#detalleFechaFin").text(fechaFin);
       $("#detalleMotivoPrestamo").text(respuesta["motivo"]);
       $("#estadoPrestamo").text(respuesta["estado_prestamo"]);
+      $("#estadoCallout")
+            .removeClass("callout-success callout-warning callout-danger callout-primary");
+
+        // Agregar nueva clase según estado
+                switch (respuesta["estado_prestamo"]) {
+                    case "Autorizado":
+                        $("#estadoCallout").addClass("callout-success");
+                        
+                        break;
+                    case "Pendiente":
+                        $("#estadoCallout").addClass("callout-warning");
+                        
+                        break;
+                    case "Rechazado":
+                        $("#estadoCallout").addClass("callout-danger");
+                        
+                        break;
+                    case "Tramite":
+                        $("#estadoCallout").addClass("callout-info");
+                        
+                        break;
+                }
+                $("#estadoPrestamo")
+                .removeClass("badge-success badge-warning badge-danger badge-primary");
+
+            // Agregar clase según estado
+            switch (respuesta["estado_prestamo"]) {
+                case "Autorizado":
+                    $("#estadoPrestamo").addClass("badge-success");
+                    break;
+                case "Pendiente":
+                    $("#estadoPrestamo").addClass("badge-warning");
+                    break;
+                case "Rechazado":
+                    $("#estadoPrestamo").addClass("badge-danger");
+                    break;
+                case "Tramite":
+                    $("#estadoPrestamo").addClass("badge-primary");
+                    break;
+                 
+            }
       datosUsuario = new FormData();
       datosUsuario.append("idUsuario", respuesta["id_usuario"]);
       //traemos los datos del usuario
