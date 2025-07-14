@@ -116,6 +116,8 @@
                 //var_dump($labelsEquipos);
                 error_log(print_r($labelsEquipos, true));
             }
+
+            $totalEquipos = array_sum($dataEquipos);
             
             ?>
 
@@ -277,6 +279,8 @@
 <!-- // TODO: Script de los estados de los equipos -->
 <script>
   //Gráfico de Estados de Equipos
+  var totalEquipos = <?php echo array_sum($dataEquipos);?>; // Calcula el total para porcentajes
+  console.log("Cantidad total de equipos es: ", totalEquipos);
   const pieChartEquipos = new Chart(document.getElementById('pie-chart-equipos'), {
     type: 'pie',
     data: {
@@ -298,57 +302,43 @@
 
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
-          display: false
+          position: 'right',
+          labels: {
+            color: '#000',
+            font: {
+              size: 12
+            },
+            generateLabels: function(chart) {
+              const data = chart.data;
+              return data.labels.map((label, i) => {
+                const value = data.datasets[0].data[i];
+                const percentage = totalEquipos > 0 ? Math.round((value / totalEquipos) * 100) : 0;
+                return {
+                  text: `${label}: ${value} (${percentage}%)`, // Leyenda con porcentaje
+                  fillStyle: data.datasets[0].backgroundColor[i],
+                  hidden: false,
+                  index: i
+                };
+              });
+            }
+          }
         },
         tooltip: {
           callbacks: {
             label: function(context) {
-              let label = context.label || '';
-              let value = context.parsed || 0;
-              let total = context.dataset.data.reduce((a, b) => a + b, 0);
-              let percentage = ((value / total) * 100).toFixed(1) + '%';
-              return `${label}: ${value} (${percentage})`;
+              const label = context.label || '';
+              const value = context.raw || 0;
+              const percentage = totalEquipos > 0 ? Math.round((value / totalEquipos) * 100) : 0;
+              return `${label}: ${value} (${percentage}%)`; // Tooltip con porcentaje
             }
           }
         }
-      },
-      animation: {
-        duration: 2000
       }
     }
   });
-
-  // Generar leyenda personalizada
-  function generateLegendEquipos(chart, options) {
-    const ul = document.createElement('ul');
-    ul.classList.add('chart-legend');
-
-    chart.data.labels.forEach((label, i) => {
-      const li = document.createElement('li');
-      const spanColor = document.createElement('span');
-      const spanText = document.createElement('span');
-
-      spanColor.style.backgroundColor = chart.data.datasets[0].backgroundColor[i];
-      spanColor.style.width = '20px';
-      spanColor.style.height = '20px';
-      spanColor.style.display = 'inline-block';
-      spanColor.style.marginRight = '5px';
-      spanColor.style.borderRadius = '50%';
-
-      const percentage = ((chart.data.datasets[0].data[i] /
-        chart.data.datasets[0].data.reduce((a, b) => a + b, 0)) * 100).toFixed(1);
-
-      spanText.textContent = `${label}: ${chart.data.datasets[0].data[i]} (${percentage}%)`;
-
-      li.appendChild(spanColor);
-      li.appendChild(spanText);
-      ul.appendChild(li);
-    });
-
-    return ul;
-  }
 
   document.querySelector('#leyenda-equipos').appendChild(
     generateLegendEquipos(pieChartEquipos)
