@@ -52,9 +52,7 @@ $(document).on('click', '.btnVerDetalles', function () {
                 case "Tramite":
                     $("#estadoPrestamo").addClass("badge-primary");
                     break;
-                default:
-                    $("#estadoPrestamo").addClass("badge-secondary"); // fallback
-                    break;
+                 
             }
 
             // Datos del usuario (necesita otra consulta)
