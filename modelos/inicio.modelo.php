@@ -32,7 +32,8 @@ class ModeloInicio
                 WHERE WEEK(fecha_solicitud, 1) = WEEK(CURDATE(), 1) - 1
                   AND YEAR(fecha_solicitud) = YEAR(CURDATE())
                 GROUP BY dia
-                ORDER BY FIELD('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes')";
+                ORDER BY FIELD(dia, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo')";
+
         } else {
             $sql = "SELECT 
                     ELT(WEEKDAY(fecha_solicitud)+1, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo') AS dia,
@@ -41,7 +42,8 @@ class ModeloInicio
                 WHERE WEEK(fecha_solicitud, 1) = WEEK(CURDATE(), 1)
                   AND YEAR(fecha_solicitud) = YEAR(CURDATE())
                 GROUP BY dia
-                ORDER BY FIELD('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes')";
+                ORDER BY FIELD(dia, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo')";
+
         }
 
         $stmt = $conexion->prepare($sql);
