@@ -169,7 +169,7 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
             pagin: true,
             searching: true,
             ordering: true,
-            info: true,            
+            info: true,
             language: {
               sProcessing: "Procesando...",
               sLengthMenu: "Mostrar _MENU_ registros",
@@ -186,8 +186,7 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
                 next: "Siguiente",
                 previous: "Anterior",
               },
-            }
-            
+            },
           });
         },
       });
@@ -301,3 +300,62 @@ $(document).on("click", ".btnRechazar", function () {
 
 //tooltip
 $("[title]").tooltip();
+
+$(document).ready(function () {
+  var table = $("#tblAutorizaciones").DataTable({
+    responsive: true,
+    autoWidth: true,
+    lengthChange: true,
+    lengthMenu: [10, 25, 50, 100],
+    // orderCellsTop: true,
+    fixedHeader: true,
+    language:{
+      lengthMenu: "Mostrar _MENU_ registros",
+      zeroRecords: "No se encontraron resultados",
+      info: "Mostrando pagina _PAGE_ de _PAGES_",
+      infoEmpty: "No hay registros disponibles",
+      infoFiltered: "(filtrado de _MAX_ total registros)",
+      search: "Buscar:",
+      paginate: {
+        first: "Primero",
+        last: "Ultimo",
+        next: "Siguiente",
+        previous: "Anterior"
+      }
+    },
+    dom: "flBtip",
+    buttons: [
+      "csv", 
+      "excel",
+      "pdf"]
+  });
+
+  // Para cada columna, llena el select con los valores únicos
+  table.columns().every(function (colIdx) {
+    var column = this;
+    var select = $("thead tr:eq(1) th").eq(colIdx).find("select");
+    console.log("Columna:", colIdx, "Select:", select);
+    if (select.length) {
+      // Limpiar opciones excepto "Todos"
+      select.find("option:not(:first)").remove();
+      // Obtener valores únicos y agregarlos al select
+      column
+        .data()
+        .unique()
+        .sort()
+        .each(function (d) {
+          if (d && select.find('option[value="' + d + '"]').length === 0) {
+            // Elimina HTML si hay (por ejemplo, para los checkboxes)
+            var text = $("<div>").html(d).text().trim();
+            console.log("Agregando opción:", text);
+            select.append('<option value="' + text + '">' + text + "</option>");
+          }
+        });
+      // Evento para filtrar al cambiar el select
+      select.off("change").on("change", function () {
+        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+        column.search(val ? "^" + val + "$" : "", true, false).draw();
+      });
+    }
+  });
+});
