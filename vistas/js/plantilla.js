@@ -15,7 +15,9 @@ window.addEventListener('load', function() {
 window.addEventListener('load', function() {
   initializeDataTableSimple("#tblPerGestionEquipos");
   initializeDataTableSimple("#tblPerSolicitudesAutorizaciones");
-  // initializeDataTableActivar("#tblActivosSolicitar");
+  initializeDataTableSimple("#tblActivosSolicitar");
+  initializeDataTableSimple("#tblNotificaciones");
+
 });
 
 function initializeDataTable(selector) {
