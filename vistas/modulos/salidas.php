@@ -116,7 +116,7 @@
                     </div>
 
                     <!-- Detalles del préstamo -->
-                    <div class="col-md-8">
+                 <div class="col-md-8">
                         <div class="card card-outline card-info">
                             <div class="card-header py-2">
                                 <h6 class="card-title m-0">Información del Préstamo</h6>
@@ -134,31 +134,30 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">Equipos Solicitados</h5>
-                            </div>
-                            <div class="card-body p-10">
-                                <table class="table table-bordered table-striped " id="tblDetallePrestamo">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Categoría</th>
-                                            <th>Equipo</th>
-                                            <th>etiqueta</th>
-                                            <th>Serial</th>
-                                            <th>Ubicación</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Equipos Solicitados</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="tblDetallePrestamo" class="display nowrap" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Categoría</th>
+                                        <th>Equipo</th>
+                                        <th>Etiqueta</th>
+                                        <th>Serial</th>
+                                        <th>Ubicación</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
             <div class="modal-footer">
                 <form method="POST">
                     <!-- creamos dos input oculos para enviar los datos al controlador -->
