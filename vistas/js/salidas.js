@@ -35,7 +35,29 @@ $(document).on('click', '.btnVerDetalles', function () {
             $("#detalleFechaFin").text(respuesta["fecha_fin"].split(" ")[0]);
             $("#detalleMotivoPrestamo").text(respuesta["motivo"]);
             $("#estadoPrestamo").text(respuesta["estado_prestamo"]);
-            $("#estadoPrestamo")
+            $("#estadoCallout")
+            .removeClass("callout-success callout-warning callout-danger callout-primary");
+
+        // Agregar nueva clase según estado
+                switch (respuesta["estado_prestamo"]) {
+                    case "Autorizado":
+                        $("#estadoCallout").addClass("callout-success");
+                        
+                        break;
+                    case "Pendiente":
+                        $("#estadoCallout").addClass("callout-warning");
+                        
+                        break;
+                    case "Rechazado":
+                        $("#estadoCallout").addClass("callout-danger");
+                        
+                        break;
+                    case "Tramite":
+                        $("#estadoCallout").addClass("callout-primary");
+                        
+                        break;
+                }
+                $("#estadoPrestamo")
                 .removeClass("badge-success badge-warning badge-danger badge-primary");
 
             // Agregar clase según estado
@@ -54,7 +76,6 @@ $(document).on('click', '.btnVerDetalles', function () {
                     break;
                  
             }
-
             // Datos del usuario (necesita otra consulta)
             var datosUsuario = new FormData();
             datosUsuario.append("idUsuario", respuesta["id_usuario"]);
