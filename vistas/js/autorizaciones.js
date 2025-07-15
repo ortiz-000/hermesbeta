@@ -100,7 +100,7 @@ $(document).on("click", ".btnVerDetallePrestamo_Autorizar", function () {
       $("#detalleMotivoPrestamo").text(respuesta["motivo"]);
       $("#estadoPrestamo").text(respuesta["estado_prestamo"]);
       $("#estadoCallout")
-            .removeClass("callout-success callout-warning callout-danger callout-primary");
+            .removeClass("callout-success callout-warning callout-danger callout-info");
 
         // Agregar nueva clase según estado
                 switch (respuesta["estado_prestamo"]) {
