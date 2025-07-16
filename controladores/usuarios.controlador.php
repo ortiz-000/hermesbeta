@@ -94,15 +94,12 @@ class ControladorUsuarios
             $usuario = self::ctrMostrarUsuarios("id_usuario", $_POST["idUsuario"]);
             $numeroDocumento = $usuario["numero_documento"];
 
-            $huboCambios = false;
-
             /*=============================================
             VALIDAR IMAGEN
             =============================================*/
             $ruta = $usuario["foto"]; // Mantener foto actual
 
             if (isset($_FILES["editarFoto"]["tmp_name"]) && !empty($_FILES["editarFoto"]["tmp_name"])) {
-                 $huboCambios = true;
 
                 /*=============================================
                 VALIDAR TIPO DE ARCHIVO
@@ -162,41 +159,6 @@ class ControladorUsuarios
                     return;
                 }
             }
-            // VALIDAR CONTRASEÑA
-        if (!empty($_POST["nuevoPassword"])) {
-            if ($_POST["nuevoPassword"] != $usuario["numero_documento"]) {
-                $huboCambios = true;
-                $encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-            } else {
-                $encriptar = $usuario["clave"];
-            }
-        } else {
-            $encriptar = $usuario["clave"];
-        }
-
-        // VERIFICAR SI CAMBIÓ ALGÚN DATO
-        if (
-            $_POST["editarEmail"] != $usuario["correo_electronico"] ||
-            $_POST["editarTelefono"] != $usuario["telefono"] ||
-            $_POST["editarDireccion"] != $usuario["direccion"] ||
-            $_POST["editarGenero"] != $usuario["genero"]
-        ) {
-            $huboCambios = true;
-        }
-
-        // SI NO HUBO CAMBIOS, SALIR
-        if (!$huboCambios) {
-            echo '<script>
-                Swal.fire({
-                    icon: "info",
-                    title: "Sin cambios",
-                    text: "No realizaste ningún cambio.",
-                    confirmButtonText: "Cerrar"
-                });
-            </script>';
-            return;
-        }
-
 
             /*=============================================
             ACTUALIZAR BASE DE DATOS
