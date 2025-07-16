@@ -25,7 +25,7 @@
                 <th>Solicitante</th>
                 <th>Fecha Inicio</th>
                 <th>Fecha Fin</th>
-                <th>Estado Préstamo<br><select>
+                <th>Estado Préstamo<br><select id="selectEstadoPrestamo" class="form-control bg-dark text-white">
                     <option value="">Todos</option>
                   </select></th>
                 <th>Fecha Solicitud</th>
@@ -252,6 +252,8 @@
         <input type="hidden" id="id_UsuarioSesion" value="<?php echo $_SESSION['id_usuario'] ?>">
 
         <div class="alert alert-danger d-none" id="alertaRechazado" role="alert">El préstamo fue rechazado por otro usuario - <span id="usuarioNombreRechaza"></span></div>
+
+        <div class="alert alert-danger d-none" id="alertaVencido" role="alert">El préstamo se venció</div>
 
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 
