@@ -108,6 +108,8 @@
     </section>
 </div>
 
+
+<!-- Modal para mostrar el detalle del préstamo -->
 <div class="modal fade" id="modal-detalle">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
@@ -165,6 +167,8 @@
             </div>
           </div>
         </div> 
+
+
 
         <!-- 🔹 Tabla de Equipos Solicitados -->
         <div class="row">
