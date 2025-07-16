@@ -20,24 +20,94 @@ function cargarDetallesPrestamo(idPrestamo) {
         }
     });
 }
-$(document).on('click', '.btnVerDetalles', function() {
+$(document).on('click', '.btnVerDetalles', function () {
     var idPrestamo = $(this).data('id');
     $.ajax({
         url: "ajax/solicitudes.ajax.php",
         method: "POST",
         data: { accion: "mostrarPrestamo", idPrestamo: idPrestamo },
         dataType: "json",
-        success: function(respuesta) {
-            // Rellenar los campos de la modal
-            $("#numeroPrestamo, #numeroPrestamo").text(respuesta["id_prestamo"]);
+        success: function (respuesta) {
+            $("#numeroPrestamo").text(respuesta["id_prestamo"]);
             $("#idPrestamoSalida").val(respuesta["id_prestamo"]);
             $("#detalleTipoPrestamo").text(respuesta["estado_prestamo"]);
-            $("#detalleFechaInicio").text(respuesta["fecha_inicio"]);
-            $("#detalleFechaFin").text(respuesta["fecha_fin"]);
+            $("#detalleFechaInicio").text(respuesta["fecha_inicio"].split(" ")[0]);
+            $("#detalleFechaFin").text(respuesta["fecha_fin"].split(" ")[0]);
             $("#detalleMotivoPrestamo").text(respuesta["motivo"]);
-            $("#detalleUsuarioNombre").text(respuesta["nombre_usuario"]);
-            $("#detalleUsuarioRol").text(respuesta["nombre_rol"]);
-           
+            $("#estadoPrestamo").text(respuesta["estado_prestamo"]);
+            $("#estadoCallout")
+            .removeClass("callout-success callout-warning callout-danger callout-info");
+
+        // Agregar nueva clase según estado
+                switch (respuesta["estado_prestamo"]) {
+                    case "Autorizado":
+                        $("#estadoCallout").addClass("callout-success");
+                        
+                        break;
+                    case "Pendiente":
+                        $("#estadoCallout").addClass("callout-warning");
+                        
+                        break;
+                    case "Rechazado":
+                        $("#estadoCallout").addClass("callout-danger");
+                        
+                        break;
+                    case "Tramite":
+                        $("#estadoCallout").addClass("callout-info");
+                        
+                        break;
+                }
+                $("#estadoPrestamo")
+                .removeClass("badge-success badge-warning badge-danger badge-primary");
+
+            // Agregar clase según estado
+            switch (respuesta["estado_prestamo"]) {
+                case "Autorizado":
+                    $("#estadoPrestamo").addClass("badge-success");
+                    break;
+                case "Pendiente":
+                    $("#estadoPrestamo").addClass("badge-warning");
+                    break;
+                case "Rechazado":
+                    $("#estadoPrestamo").addClass("badge-danger");
+                    break;
+                case "Tramite":
+                    $("#estadoPrestamo").addClass("badge-primary");
+                    break;
+                 
+            }
+            // Datos del usuario (necesita otra consulta)
+            var datosUsuario = new FormData();
+            datosUsuario.append("idUsuario", respuesta["id_usuario"]);
+            $.ajax({
+                url: "ajax/usuarios.ajax.php",
+                method: "POST",
+                data: datosUsuario,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function (respuestaUsuario) {
+                    $("#usuarioNombre").text(respuestaUsuario["nombre"] + " " + respuestaUsuario["apellido"]);
+                    $("#userRol").text(respuestaUsuario["nombre_rol"]);
+                    $("#usuarioTelefono").text(respuestaUsuario["telefono"]);
+
+                    if (respuestaUsuario["nombre_rol"] == "Aprendiz") {
+                        $("#detalleUsuarioFicha").text(respuestaUsuario["codigo"]);
+                    } else {
+                        $("#detalleUsuarioFicha").text("N/A");
+                    }
+
+                    $("#usuarioIdentificacion").text(respuestaUsuario["tipo_documento"] + " " + respuestaUsuario["numero_documento"]
+);
+
+                    if (respuestaUsuario["foto"] != "") {
+                        $("#imgUsuario").attr("src", respuestaUsuario["foto"]);
+                    } else {
+                        $("#imgUsuario").attr("src", "vistas/img/usuarios/default/anonymous.png");
+                    }
+                }
+            });
 
             // Mostrar u ocultar el botón "Aceptar" según el estado
             if (respuesta["estado_prestamo"] === "Autorizado") {
@@ -86,6 +156,11 @@ $(document).on('click', '.btnVerDetalles', function() {
                         
                         
                     });
+<<<<<<< HEAD
+=======
+                    $("#modalDetallesPrestamo").modal("show");
+
+>>>>>>> 4f518659165f465b4d288df22b663b42acacdcca
                 }
             });
         }

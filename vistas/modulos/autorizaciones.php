@@ -25,22 +25,24 @@
                 <th>Solicitante</th>
                 <th>Fecha Inicio</th>
                 <th>Fecha Fin</th>
-                <th>Estado Préstamo</th>
+                <th>Estado Préstamo<br><select id="selectEstadoPrestamo" class="form-control bg-dark text-white">
+                    <option value="">Todos</option>
+                  </select></th>
                 <th>Fecha Solicitud</th>
                 <th>Coo</th>
                 <th>Tic</th>
                 <th>Alm</th>
                 <th>Detalle</th>
               </tr>
+
             </thead>
             <tbody>
               <?php
               $item = null;
               $valor = null;
               $prestamos = ControladorSolicitudes::ctrMostrarPrestamo($item, $valor);
-
               foreach ($prestamos as $key => $value) {
-                if ($value["tipo_prestamo"] == "Reservado") {
+                if ($value["tipo_prestamo"] == "Reservado" && $value["estado_prestamo"] != "Prestado" && $value["estado_prestamo"] != "Devuelto") {
                   $item = "id_prestamo";
                   $valor = $value["id_prestamo"];
                   $autorizaciones = ControladorAutorizaciones::ctrMostrarAutorizaciones($item, $valor);
@@ -52,7 +54,7 @@
                           <td>' . date('Y-m-d H:i', strtotime($value["fecha_inicio"])) . '</td>
                           <td>' . date('Y-m-d H:i', strtotime($value["fecha_fin"])) . '</td>';
                   if ($value["estado_prestamo"] == "Rechazado") {
-                    echo '<td> <p class="text-danger" title="Rechazado por ' . $autorizaciones["usuario_que_rechazo"] . '"> ' . $value["estado_prestamo"] . '</p></td>';
+                    echo '<td class="text-danger" title="Rechazado por ' . $autorizaciones["usuario_que_rechazo"] . '"> ' . $value["estado_prestamo"] . '</td>';
                   } else {
                     echo '<td>' . $value["estado_prestamo"] . '</td>';
                   };
@@ -198,7 +200,7 @@
             <!-- Estado -->
             <div class="row">
               <div class="col-12">
-                <div class="callout callout-success">
+                <div class="callout callout-success" id="estadoCallout">
                   <h5><i class="fas fa-check"></i> Estado:</h5>
                   <span class="badge badge-success badge-lg" id="estadoPrestamo">Autorizado</span>
                 </div>
@@ -221,7 +223,7 @@
           </div>
           <div class="card-body">
             <table class="table table-bordered table-striped" id="tblDetallePrestamo" style="width:100%">
-              <thead>
+              <thead class="bg-dark">
                 <tr>
                   <th>ID</th>
                   <th>Categoría</th>
@@ -251,47 +253,48 @@
 
         <div class="alert alert-danger d-none" id="alertaRechazado" role="alert">El préstamo fue rechazado por otro usuario - <span id="usuarioNombreRechaza"></span></div>
 
+        <div class="alert alert-danger d-none" id="alertaVencido" role="alert">El préstamo se venció</div>
+
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 
         <button type="button" class="btn btn-danger btnRechazar btnAccionFirma d-none" data-toggle="modal" data-target="#modalMotivoRechazo">Rechazar</button>
         <button type="button" class="btn btn-primary btnAutorizar btnAccionFirma d-none">Autorizar</button>
         <button type="button" class="btn btn-danger btnDesautorizar d-none">Desautorizar</button>
       </div>
-
     </div>
   </div>
 </div>
 
 
-  <!-- Modal para motivo de rechazo -->
-  <div class="modal fade" id="modalMotivoRechazo">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-danger">
-          <h4 class="modal-title">Motivo de Rechazo</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="" method="post">
-          <input type="hidden" id="numeroPrestamoRechazar" name="numeroPrestamoRechazar">
-          <input type="hidden" id="idUsuarioRechazar" name="idUsuarioRechazar" value="<?php echo $_SESSION['id_usuario'] ?>">
-          <input type="hidden" id="idRolRechazar" name="idRolRechazar" value="<?php echo $_SESSION['rol'] ?>">
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="motivoRechazo">Motivo de Rechazo:</label>
-              <textarea class="form-control" id="motivoRechazo" rows="4" name="motivoRechazoAutorizacion" required></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-danger btnRechazarConfirmar">Rechazar</button>
-          </div>
-          <?php
-          $rechazar = new ControladorAutorizaciones();
-          $rechazar->ctrRechazarPrestamo();
-          ?>
-        </form>
+<!-- Modal para motivo de rechazo -->
+<div class="modal fade" id="modalMotivoRechazo">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h4 class="modal-title">Motivo de Rechazo</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <form action="" method="post">
+        <input type="hidden" id="numeroPrestamoRechazar" name="numeroPrestamoRechazar">
+        <input type="hidden" id="idUsuarioRechazar" name="idUsuarioRechazar" value="<?php echo $_SESSION['id_usuario'] ?>">
+        <input type="hidden" id="idRolRechazar" name="idRolRechazar" value="<?php echo $_SESSION['rol'] ?>">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="motivoRechazo">Motivo de Rechazo:</label>
+            <textarea class="form-control" id="motivoRechazo" rows="4" name="motivoRechazoAutorizacion" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-danger btnRechazarConfirmar">Rechazar</button>
+        </div>
+        <?php
+        $rechazar = new ControladorAutorizaciones();
+        $rechazar->ctrRechazarPrestamo();
+        ?>
+      </form>
     </div>
   </div>
+</div>
