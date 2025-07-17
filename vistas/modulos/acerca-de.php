@@ -31,6 +31,19 @@
             object-fit: cover;
             object-position: center;
         }
+        
+        /* Estilo para el botón de GitHub */
+        .card-body .btn-primary {
+            margin-top: 10px;
+            border-radius: 20px;
+            padding: 5px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .card-body .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
     </style>
 
     <!-- Contenido principal -->
@@ -78,23 +91,23 @@
             <div class="row">
                 <?php
                 $desarrolladores = [
-                    ["nombre" => "German Ramirez Ramirez", "rol" => "Product Owner", "foto" => "vistas/img/desarrolladores/grr.jpg"],
-                    ["nombre" => "Cristian Camilo Gomez Gonzalez", "rol" => "Líder del módulo de Devoluciones", "foto" => "vistas/img/desarrolladores/ccgg.jpg"],
-                    ["nombre" => "Jhoan David Sinisterra Valencia", "rol" => "Líder del módulo de Equipos", "foto" => "vistas/img/desarrolladores/jdsv.jpg"],
-                    ["nombre" => "Juan Diego Millán Arango", "rol" => "Líder del módulo de Usuarios", "foto" => "vistas/img/desarrolladores/jdma.jpg"],
-                    ["nombre" => "Brayan Camilo Ospina Gonzalez", "rol" => "Líder del módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/bcog.jpg"],
-                    ["nombre" => "Alonso Arboleda Obando", "rol" => "Líder del módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/aao.jpg"],
-                    ["nombre" => "Jack Esteban Ortiz Vásquez", "rol" => "Módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/jeov.jpg"],
-                    ["nombre" => "Nicolás Manzano Muriel", "rol" => "Módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/nmm.jpg"],
-                    ["nombre" => "Alejandro Lozada Vera", "rol" => "Módulo de Usuarios", "foto" => "vistas/img/desarrolladores/alv.jpg"],
-                    ["nombre" => "Santiago Franco Flórez", "rol" => "Módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/sff.jpg"],
-                    ["nombre" => "David Satizábal", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/ds.jpg"],
-                    ["nombre" => "Juan Sebastián Velásquez Ortiz", "rol" => "Módulo de Salidas", "foto" => "vistas/img/desarrolladores/jsvo.jpg"],
-                    ["nombre" => "Jensen Ballén Banguera", "rol" => "Módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/jbb.jpg"],
-                    ["nombre" => "Juan Pablo Montaño Pérez", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/jpmp.jpg"],
-                    ["nombre" => "Karen Vanessa Valencia Grueso", "rol" => "Módulo de Salidas", "foto" => "vistas/img/desarrolladores/kvvg.jpg"],
-                    ["nombre" => "Jhon Edison Díaz Ruiz", "rol" => "Módulo de Mantenimiento", "foto" => "vistas/img/desarrolladores/jedr.jpg"],
-                    ["nombre" => "Cristian Camilo Restrepo Muriel", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/ccrm.jpg"]
+                    ["nombre" => "German Ramirez Ramirez", "rol" => "Product Owner", "foto" => "vistas/img/desarrolladores/grr.jpg", "github" => "https://github.com/GermanRz"],
+                    ["nombre" => "Cristian Camilo Gomez Gonzalez", "rol" => "Líder del módulo de Devoluciones", "foto" => "vistas/img/desarrolladores/ccgg.jpg", "github" => "https://github.com/PatoTaactico"],
+                    ["nombre" => "Jhoan David Sinisterra Valencia", "rol" => "Líder del módulo de Equipos", "foto" => "vistas/img/desarrolladores/jdsv.jpg", "github" => "https://github.com/Jediaz23"],
+                    ["nombre" => "Juan Diego Millán Arango", "rol" => "Líder del módulo de Usuarios", "foto" => "vistas/img/desarrolladores/jdma.jpg", "github" => ""],
+                    ["nombre" => "Brayan Camilo Ospina Gonzalez", "rol" => "Líder del módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/bcog.jpg", "github" => "https://github.com/Br4nnnn"],
+                    ["nombre" => "Alonso Arboleda Obando", "rol" => "Líder del módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/aao.jpg", "github" => "https://github.com/alojoarboleda2003"],
+                    ["nombre" => "Jack Esteban Ortiz Vásquez", "rol" => "Módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/jeov.jpg", "github" => "https://github.com/Estebjack-2004"],
+                    ["nombre" => "Nicolás Manzano Muriel", "rol" => "Módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/nmm.jpg", "github" => "https://github.com/Toizomo"],
+                    ["nombre" => "Alejandro Lozada Vera", "rol" => "Módulo de Usuarios", "foto" => "vistas/img/desarrolladores/alv.jpg", "github" => ""],
+                    ["nombre" => "Santiago Franco Flórez", "rol" => "Módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/sff.jpg", "github" => ""],
+                    ["nombre" => "David Satizábal", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/ds.jpg", "github" => ""],
+                    ["nombre" => "Juan Sebastián Velásquez Ortiz", "rol" => "Módulo de Salidas", "foto" => "vistas/img/desarrolladores/jsvo.jpg", "github" => ""],
+                    ["nombre" => "Jensen Ballén Banguera", "rol" => "Módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/jbb.jpg", "github" => ""],
+                    ["nombre" => "Juan Pablo Montaño Pérez", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/jpmp.jpg", "github" => ""],
+                    ["nombre" => "Karen Vanessa Valencia Grueso", "rol" => "Módulo de Salidas", "foto" => "vistas/img/desarrolladores/kvvg.jpg", "github" => ""],
+                    ["nombre" => "Jhon Edison Díaz Ruiz", "rol" => "Módulo de Mantenimiento", "foto" => "vistas/img/desarrolladores/jedr.jpg", "github" => "https://github.com/Jediaz23"],
+                    ["nombre" => "Cristian Camilo Restrepo Muriel", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/ccrm.jpg", "github" => "https://github.com/CamiloRestre"]
                 ];
 
                 foreach ($desarrolladores as $dev) {
@@ -102,6 +115,9 @@
                     $rutaRelativa = $dev["foto"];
                     $rutaAbsoluta = $_SERVER["DOCUMENT_ROOT"] . "/hermesbeta/" . $dev["foto"];
                     $foto = file_exists($rutaAbsoluta) ? $rutaRelativa : "vistas/img/usuarios/default/anonymous.jpg";
+                    
+                    // Verificamos si tiene enlace de GitHub
+                    $githubLink = isset($dev["github"]) ? $dev["github"] : "#";
 
                     echo '
                         <div class="col-md-4">
@@ -112,6 +128,9 @@
                                     </div>
                                     <h3 class="profile-username">' . $dev["nombre"] . '</h3>
                                     <p class="text-muted">' . $dev["rol"] . '</p>
+                                    <a href="' . $githubLink . '" target="_blank" class="btn btn-primary btn-sm">
+                                        <i class="fab fa-github"></i> GitHub
+                                    </a>
                                 </div>
                             </div>
                         </div>';
