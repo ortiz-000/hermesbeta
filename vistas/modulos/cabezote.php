@@ -1,23 +1,20 @@
 <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="inicio" class="nav-link">Inicio</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="acerca-de" class="nav-link">Acerca de</a>
-      </li>
-      <li>
-        <pre><?php 
-        // el usuario debe salir y volver a entrar para recargar todos los permisos
-        // print_r($_SESSION["permisos"]); 
-        ?></pre>
-      </li>
-    </ul>
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <!-- Left navbar links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+      <a href="acerca-de" class="nav-link">Acerca de</a>
+    </li>
+    <li>
+      <pre><?php
+            // el usuario debe salir y volver a entrar para recargar todos los permisos
+            // print_r($_SESSION["permisos"]); 
+            ?></pre>
+    </li>
+  </ul>
 
   <!-- Right navbar links -->
   <ul class="navbar-nav ml-auto">
