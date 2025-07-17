@@ -10,78 +10,64 @@
         </div>
     </section>
 
-    <!-- Estilos para las imágenes de desarrolladores -->
-    <style>
-        .developer-image-container {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
-            overflow: hidden;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f4f6f9;
-            border: 3px solid #3c8dbc;
-        }
-        
-        .developer-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-        
-        /* Estilo para el botón de GitHub */
-        .card-body .btn-primary {
-            margin-top: 10px;
-            border-radius: 20px;
-            padding: 5px 15px;
-            transition: all 0.3s ease;
-        }
-        
-        .card-body .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-    </style>
-
     <!-- Contenido principal -->
     <section class="content">
         <div class="container-fluid">
             <!-- Sobre el proyecto -->
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-info">
+                    <div class="card card-info card-outline">
                         <div class="card-header">
-                            <h3 class="card-title">¿Qué es HERMES?</h3>
+                            <h3 class="card-title"><i class="fas fa-info-circle mr-2"></i>¿Qué es HERMES?</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <p><strong>HERMES</strong> (Herramientas y Equipos Reservables para el Manejo Estratégico de Servicios) es un sistema interno diseñado para apoyar la formación en el <strong>SENA</strong>, facilitando el acceso organizado y responsable a los recursos necesarios en las prácticas formativas.</p>
+                            <div class="callout callout-info">
+                                <p><strong>HERMES</strong> (Herramientas y Equipos Reservables para el Manejo Estratégico de Servicios) es un sistema interno diseñado para apoyar la formación en el <strong>SENA</strong>, facilitando el acceso organizado y responsable a los recursos necesarios en las prácticas formativas.</p>
+                            </div>
 
                             <p>Permite gestionar el préstamo de herramientas, equipos y materiales utilizados en el desarrollo de actividades académicas, mostrando su disponibilidad, estado de préstamo y las normas de uso establecidas.</p>
 
-                            <p><strong>¿Quiénes pueden usarlo?</strong></p>
-                            <ul>
-                                <li>Instructores y aprendices activos del SENA</li>
-                                <li>Personal autorizado de cada área formativa</li>
-                                <li>Coordinadores de ambiente y logística</li>
-                            </ul>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="card card-primary">
+                                        <div class="card-header">
+                                            <h3 class="card-title"><i class="fas fa-users mr-2"></i>¿Quiénes pueden usarlo?</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item"><i class="fas fa-user-tie mr-2"></i>Instructores y aprendices activos del SENA</li>
+                                                <li class="list-group-item"><i class="fas fa-user-shield mr-2"></i>Personal autorizado de cada área formativa</li>
+                                                <li class="list-group-item"><i class="fas fa-user-cog mr-2"></i>Coordinadores de ambiente y logística</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card card-warning">
+                                        <div class="card-header">
+                                            <h3 class="card-title"><i class="fas fa-exclamation-circle mr-2"></i>Recomendaciones importantes</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item"><i class="fas fa-check-circle text-success mr-2"></i>Revisa el estado del equipo antes de llevártelo</li>
+                                                <li class="list-group-item"><i class="fas fa-check-circle text-success mr-2"></i>Entrega el material en la fecha y hora acordadas</li>
+                                                <li class="list-group-item"><i class="fas fa-check-circle text-success mr-2"></i>Reporta cualquier daño o novedad al instructor o coordinador</li>
+                                                <li class="list-group-item"><i class="fas fa-check-circle text-success mr-2"></i>El uso adecuado garantiza que más aprendices puedan beneficiarse</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <p><strong>Recomendaciones importantes</strong></p>
-                            <ul>
-                                <li>Revisa el estado del equipo antes de llevártelo.</li>
-                                <li>Entrega el material en la fecha y hora acordadas.</li>
-                                <li>Reporta cualquier daño o novedad al instructor o coordinador.</li>
-                                <li>El uso adecuado garantiza que más aprendices puedan beneficiarse.</li>
-                            </ul>
-
-                            <p><strong>Horarios de atención</strong><br>
-                                Lunes a viernes: 7:00 a.m. – 12:00 m. | 1:00 p.m. – 5:00 p.m.</p>
-
-                            <blockquote class="text-success">
-                                "El buen uso de las herramientas refleja tu compromiso con la formación técnica y profesional"
-                            </blockquote>
+                            <div class="alert alert-info mt-4">
+                                <h5><i class="icon fas fa-clock mr-2"></i>Horarios de atención</h5>
+                                <p class="mb-0">Lunes a viernes: 7:00 a.m. – 12:00 m. | 1:00 p.m. – 5:00 p.m.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,53 +75,74 @@
 
             <!-- Lista de Desarrolladores -->
             <div class="row">
-                <?php
-                $desarrolladores = [
-                    ["nombre" => "German Ramirez Ramirez", "rol" => "Product Owner", "foto" => "vistas/img/desarrolladores/grr.jpg", "github" => "https://github.com/GermanRz"],
-                    ["nombre" => "Cristian Camilo Gomez Gonzalez", "rol" => "Líder del módulo de Devoluciones", "foto" => "vistas/img/desarrolladores/ccgg.jpg", "github" => "https://github.com/PatoTaactico"],
-                    ["nombre" => "Jhoan David Sinisterra Valencia", "rol" => "Líder del módulo de Equipos", "foto" => "vistas/img/desarrolladores/jdsv.jpg", "github" => "https://github.com/Davidjdsv"],
-                    ["nombre" => "Juan Diego Millán Arango", "rol" => "Líder del módulo de Usuarios", "foto" => "vistas/img/desarrolladores/jdma.jpg", "github" => "https://github.com/JUANDMILLAN"],
-                    ["nombre" => "Brayan Camilo Ospina Gonzalez", "rol" => "Líder del módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/bcog.jpg", "github" => "https://github.com/Br4nnnn"],
-                    ["nombre" => "Alonso Arboleda Obando", "rol" => "Líder del módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/aao.jpg", "github" => "https://github.com/alojoarboleda2003"],
-                    ["nombre" => "Jack Esteban Ortiz Vásquez", "rol" => "Módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/jeov.jpg", "github" => "https://github.com/Estebjack-2004"],
-                    ["nombre" => "Nicolás Manzano Muriel", "rol" => "Módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/nmm.jpg", "github" => "https://github.com/Toizomo"],
-                    ["nombre" => "Alejandro Lozada Vera", "rol" => "Módulo de Usuarios", "foto" => "vistas/img/desarrolladores/alv.jpg", "github" => "https://github.com/alejandrovera14"],
-                    ["nombre" => "Santiago Franco Flórez", "rol" => "Módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/sff.jpg", "github" => "https://github.com/sanfranco2002"],
-                    ["nombre" => "David Satizábal", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/ds.jpg", "github" => "https://github.com/Davidsatizabal"],
-                    ["nombre" => "Juan Sebastián Velásquez Ortiz", "rol" => "Módulo de Salidas", "foto" => "vistas/img/desarrolladores/jsvo.jpg", "github" => "https://github.com/ortiz-000"],
-                    ["nombre" => "Jensen Ballén Banguera", "rol" => "Módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/jbb.jpg", "github" => "https://github.com/jensen-ballen"],
-                    ["nombre" => "Juan Pablo Montaño Pérez", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/jpmp.jpg", "github" => "https://github.com/JuanPablo-mp"],
-                    ["nombre" => "Karen Vanessa Valencia Grueso", "rol" => "Módulo de Salidas", "foto" => "vistas/img/desarrolladores/kvvg.jpg", "github" => "https://github.com/KARENVALENC"],
-                    ["nombre" => "Jhon Edison Díaz Ruiz", "rol" => "Módulo de Mantenimiento", "foto" => "vistas/img/desarrolladores/jedr.jpg", "github" => "https://github.com/Jediaz23"],
-                    ["nombre" => "Cristian Camilo Restrepo Muriel", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/ccrm.jpg", "github" => "https://github.com/CamiloRestre"]
-                ];
-
-                foreach ($desarrolladores as $dev) {
-                    // Verificamos si la imagen existe físicamente en el servidor
-                    $rutaRelativa = $dev["foto"];
-                    $rutaAbsoluta = $_SERVER["DOCUMENT_ROOT"] . "/hermesbeta/" . $dev["foto"];
-                    $foto = file_exists($rutaAbsoluta) ? $rutaRelativa : "vistas/img/usuarios/default/anonymous.jpg";
-                    
-                    // Verificamos si tiene enlace de GitHub
-                    $githubLink = isset($dev["github"]) ? $dev["github"] : "#";
-
-                    echo '
-                        <div class="col-md-4">
-                            <div class="card card-primary card-outline">
-                                <div class="card-body box-profile text-center">
-                                    <div class="developer-image-container">
-                                        <img class="profile-user-img img-fluid img-circle developer-image" src="' . $foto . '" alt="Foto de ' . $dev["nombre"] . '">
-                                    </div>
-                                    <h3 class="profile-username">' . $dev["nombre"] . '</h3>
-                                    <p class="text-muted">' . $dev["rol"] . '</p>
-                                    <a href="' . $githubLink . '" target="_blank" class="btn btn-primary btn-sm">
-                                        <i class="fab fa-github"></i> GitHub
-                                    </a>
-                                </div>
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-users-cog mr-2"></i>Equipo de Desarrollo</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
                             </div>
-                        </div>';
-                    }
-                ?>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <?php
+                                $desarrolladores = [
+                                    ["nombre" => "German Ramirez Ramirez", "rol" => "Product Owner", "foto" => "vistas/img/desarrolladores/grr.jpg", "github" => "https://github.com/GermanRz", "instagram" => "https://www.instagram.com/germanrzrz?igsh=MW56cngyNjNvNWw1NQ== "],
+                                    ["nombre" => "Cristian Camilo Gomez Gonzalez", "rol" => "Líder del módulo de Devoluciones", "foto" => "vistas/img/desarrolladores/ccgg.jpg", "github" => "https://github.com/PatoTaactico", "instagram" => "https://www.instagram.com/criz._.ggku/"],
+                                    ["nombre" => "Jhoan David Sinisterra Valencia", "rol" => "Líder del módulo de Equipos", "foto" => "vistas/img/desarrolladores/jdsv.jpg", "github" => "https://github.com/Davidjdsv", "instagram" => "https://www.instagram.com/davidjdsv_2509/"],
+                                    ["nombre" => "Juan Diego Millán Arango", "rol" => "Líder del módulo de Usuarios", "foto" => "vistas/img/desarrolladores/jdma.jpg", "github" => "https://github.com/JUANDMILLAN", "instagram" => ""],
+                                    ["nombre" => "Brayan Camilo Ospina Gonzalez", "rol" => "Líder del módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/bcog.jpg", "github" => "https://github.com/Br4nnnn", "instagram" => "https://www.instagram.com/bra.n_/"],
+                                    ["nombre" => "Alonso Arboleda Obando", "rol" => "Líder del módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/aao.jpg", "github" => "https://github.com/alojoarboleda2003", "instagram" => ""],
+                                    ["nombre" => "Jack Esteban Ortiz Vásquez", "rol" => "Módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/jeov.jpg", "github" => "https://github.com/Estebjack-2004", "instagram" => "https://www.instagram.com/jack_raccoon?igsh=NnR2c2kzYjJqbjE= "],
+                                    ["nombre" => "Nicolás Manzano Muriel", "rol" => "Módulo de Autorizaciones", "foto" => "vistas/img/desarrolladores/nmm.jpg", "github" => "https://github.com/Toizomo", "instagram" => "https://www.instagram.com/nic_romance/"],
+                                    ["nombre" => "Alejandro Lozada Vera", "rol" => "Módulo de Usuarios", "foto" => "vistas/img/desarrolladores/alv.jpg", "github" => "https://github.com/alejandrovera14", "instagram" => ""],
+                                    ["nombre" => "Santiago Franco Flórez", "rol" => "Módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/sff.jpg", "github" => "https://github.com/sanfranco2002", "instagram" => "https://www.instagram.com/santi_franco2002?igsh=aWloejBlNTNoMjEw "],
+                                    ["nombre" => "David Satizábal", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/ds.jpg", "github" => "https://github.com/Davidsatizabal", "instagram" => "https://www.instagram.com/david.satizabal?igsh=ZGtjbGFudmFjamwx "],
+                                    ["nombre" => "Juan Sebastián Velásquez Ortiz", "rol" => "Módulo de Salidas", "foto" => "vistas/img/desarrolladores/jsvo.jpg", "github" => "https://github.com/ortiz-000", "instagram" => ""],
+                                    ["nombre" => "Jensen Ballén Banguera", "rol" => "Módulo de Solicitudes", "foto" => "vistas/img/desarrolladores/jbb.jpg", "github" => "https://github.com/jensen-ballen", "instagram" => ""],
+                                    ["nombre" => "Juan Pablo Montaño Pérez", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/jpmp.jpg", "github" => "https://github.com/JuanPablo-mp", "instagram" => ""],
+                                    ["nombre" => "Karen Vanessa Valencia Grueso", "rol" => "Módulo de Salidas", "foto" => "vistas/img/desarrolladores/kvvg.jpg", "github" => "https://github.com/KARENVALENC", "instagram" => "https://www.instagram.com/karen_valenciakv?igsh=ZXRhNzd1cWNzZGUy "],
+                                    ["nombre" => "Jhon Edison Díaz Ruiz", "rol" => "Módulo de Mantenimiento", "foto" => "vistas/img/desarrolladores/jedr.jpg", "github" => "https://github.com/Jediaz23", "instagram" => ""],
+                                    ["nombre" => "Cristian Camilo Restrepo Muriel", "rol" => "Módulo de Equipos", "foto" => "vistas/img/desarrolladores/ccrm.jpg", "github" => "https://github.com/CamiloRestre", "instagram" => ""]
+                                ];
+
+                                foreach ($desarrolladores as $dev) {
+                                    // Verificamos si la imagen existe físicamente en el servidor
+                                    $rutaRelativa = $dev["foto"];
+                                    $rutaAbsoluta = $_SERVER["DOCUMENT_ROOT"] . "/hermesbeta/" . $dev["foto"];
+                                    $foto = file_exists($rutaAbsoluta) ? $rutaRelativa : "vistas/img/usuarios/default/anonymous.jpg";
+                                    
+                                    $githubLink = isset($dev["github"]) ? $dev["github"] : "#";
+                                    $instagramLink = isset($dev["instagram"]) ? $dev["instagram"] : "#";
+
+                                    echo '
+                                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <div class="user-avatar mb-3">
+                                                <img src="' . $foto . '" class="img-circle elevation-2" alt="User Image" style="width: 100px; height: 100px; object-fit: cover;">
+                                            </div>
+                                            <h4 class="mb-1">' . $dev["nombre"] . '</h4>
+                                            <p class="text-muted small mb-3">' . $dev["rol"] . '</p>
+                                            <div class="d-flex justify-content-center">
+                                                <a href="' . $githubLink . '" target="_blank" class="btn btn-sm btn-outline-dark mr-2">
+                                                    <i class="fab fa-github"></i>
+                                                </a>
+                                                <a href="' . $instagramLink . '" target="_blank" class="btn btn-sm btn-outline-danger">
+                                                    <i class="fab fa-instagram"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
