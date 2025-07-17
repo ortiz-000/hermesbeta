@@ -61,7 +61,7 @@ if ($respuesta["estado"] == "inactivo") {
                                     <?php
                                     // Función auxiliar para renderizar el estado del préstamo
                                     function renderizarEstadoPrestamo($estado) {
-                                        $estado = strtolower($estado);
+                                        //$estado = strtolower($estado);
                                         $clases = [
                                           'prestado' => 'btn-success',
                                           'pendiente' => 'btn-warning', 
